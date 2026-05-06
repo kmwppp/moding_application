@@ -41,7 +41,7 @@ final class SignupViewModelProvider
   }
 }
 
-String _$signupViewModelHash() => r'1c3747b6e55437c4714517817150f6747489252e';
+String _$signupViewModelHash() => r'cb7d1205d854fba90dd3cd0fc526f1463d6a696c';
 
 abstract class _$SignupViewModel extends $Notifier<SignupState> {
   SignupState build();

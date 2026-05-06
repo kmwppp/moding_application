@@ -1,72 +1,35 @@
-class SignupState {
-  // Step1
-  final String id;
-  final String password;
-  final String confirmPassword;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:moding_application/features/signup/domain/entities/business_type_model.dart';
 
-  final bool visibleSuccessCaptionId;
-  final bool visibleSuccessCaptionPw;
-  final bool visibleSuccessCaptionConfirmPw;
+part 'signup_state.freezed.dart';
 
-  final bool visibleWarningCaptionId;
-  final bool visibleWarningCaptionPw;
-  final bool visibleWarningCaptionConfirmPw;
+@freezed
+abstract class SignupState with _$SignupState {
+  const factory SignupState({
+    required String id,
+    required String password,
+    required String confirmPassword,
 
-  SignupState({
-    required this.id,
-    required this.password,
-    required this.confirmPassword,
+    required bool visibleSuccessCaptionId,
+    required bool visibleSuccessCaptionPw,
+    required bool visibleSuccessCaptionConfirmPw,
 
-    required this.visibleSuccessCaptionId,
-    required this.visibleSuccessCaptionPw,
-    required this.visibleSuccessCaptionConfirmPw,
+    required bool visibleWarningCaptionId,
+    required bool visibleWarningCaptionPw,
+    required bool visibleWarningCaptionConfirmPw,
+  }) = _SignupState;
 
-    required this.visibleWarningCaptionId,
-    required this.visibleWarningCaptionPw,
-    required this.visibleWarningCaptionConfirmPw,
-  });
+  factory SignupState.initial() => const SignupState(
+    id: "",
+    password: "",
+    confirmPassword: "",
 
-  SignupState copyWith({
-    String? id,
-    String? password,
-    String? confirmPassword,
-    bool? visibleSuccessCaptionId,
-    bool? visibleSuccessCaptionPw,
-    bool? visibleSuccessCaptionConfirmPw,
-    bool? visibleWarningCaptionId,
-    bool? visibleWarningCaptionPw,
-    bool? visibleWarningCaptionConfirmPw,
-  }) {
-    return SignupState(
-      id: id ?? this.id,
-      password: password ?? this.password,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-      visibleSuccessCaptionId:
-          visibleSuccessCaptionId ?? this.visibleSuccessCaptionId,
-      visibleSuccessCaptionPw:
-          visibleSuccessCaptionPw ?? this.visibleSuccessCaptionPw,
-      visibleSuccessCaptionConfirmPw:
-          visibleSuccessCaptionConfirmPw ?? this.visibleSuccessCaptionConfirmPw,
-      visibleWarningCaptionId:
-          visibleWarningCaptionId ?? this.visibleWarningCaptionId,
-      visibleWarningCaptionPw:
-          visibleWarningCaptionPw ?? this.visibleWarningCaptionPw,
-      visibleWarningCaptionConfirmPw:
-          visibleWarningCaptionConfirmPw ?? this.visibleWarningCaptionConfirmPw,
-    );
-  }
+    visibleSuccessCaptionId: false,
+    visibleSuccessCaptionPw: false,
+    visibleSuccessCaptionConfirmPw: false,
 
-  factory SignupState.initial() {
-    return SignupState(
-      id: "",
-      password: "",
-      confirmPassword: "",
-      visibleSuccessCaptionId: false,
-      visibleSuccessCaptionPw: false,
-      visibleSuccessCaptionConfirmPw: false,
-      visibleWarningCaptionId: false,
-      visibleWarningCaptionPw: false,
-      visibleWarningCaptionConfirmPw: false,
-    );
-  }
+    visibleWarningCaptionId: false,
+    visibleWarningCaptionPw: false,
+    visibleWarningCaptionConfirmPw: false,
+  );
 }

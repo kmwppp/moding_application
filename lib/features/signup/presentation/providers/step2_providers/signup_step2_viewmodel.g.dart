@@ -42,7 +42,7 @@ final class SignupStep2ViewModelProvider
 }
 
 String _$signupStep2ViewModelHash() =>
-    r'2419052edff7b6951e1826303244ca51b141186b';
+    r'8966717318a92914636620c7a97e7205cfa22262';
 
 abstract class _$SignupStep2ViewModel extends $Notifier<SignupStep2State> {
   SignupStep2State build();

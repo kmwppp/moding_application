@@ -22,7 +22,7 @@ class LoginViewModel extends _$LoginViewModel {
   }
 
   //실제 로그인 함수
-  Future<void> login() async {
+  Future<bool> login() async {
     try {
       final repository = ref.read(loginRepositoryProvider);
       final token = await repository.executeLogin(
@@ -30,16 +30,17 @@ class LoginViewModel extends _$LoginViewModel {
         state.userPassword,
       );
 
-      print("로그인 성공!");
-
       await ref
           .read(tokenStorageProvider)
           .saveTokens(
             accessToken: token.accessToken,
             refreshToken: token.refreshToken,
           );
+
+      return true;
     } catch (e) {
       print("❌ 에러: $e");
+      return false;
     }
   }
 }

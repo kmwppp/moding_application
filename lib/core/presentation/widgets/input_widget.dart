@@ -6,6 +6,7 @@ import 'package:moding_application/core/constants/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 
 class InputWidget extends ConsumerWidget {
+  final FocusNode? focusNode;
   final String inputTitle;
   final String inputHint;
   final String caption;
@@ -14,12 +15,14 @@ class InputWidget extends ConsumerWidget {
   final TextStyle titleTextStyle;
   final TextInputType inputType;
   final List<TextInputFormatter> inputFormatter;
+  final bool isPw;
 
   //실무기준으로 onChange를 받는다
   final ValueChanged<String> onChanged;
 
   const InputWidget({
     super.key,
+    this.focusNode,
     required this.inputTitle,
     required this.inputHint,
     this.caption = "",
@@ -28,6 +31,7 @@ class InputWidget extends ConsumerWidget {
     this.titleTextStyle = AppTextStyles.bodyLarge,
     this.inputType = TextInputType.text,
     this.inputFormatter = const [],
+    this.isPw = false,
 
     required this.onChanged,
   });
@@ -47,7 +51,7 @@ class InputWidget extends ConsumerWidget {
                 Column(
                   children: [
                     Text(inputTitle, style: titleTextStyle),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
               if (caption != "")
@@ -59,7 +63,7 @@ class InputWidget extends ConsumerWidget {
                         color: AppColors.hintTextColor,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                   ],
                 ),
             ],
@@ -72,28 +76,67 @@ class InputWidget extends ConsumerWidget {
   }
 
   Widget _inputUserInfo(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 40,
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.dividerGrey),
-        borderRadius: BorderRadius.all(Radius.circular(6)),
-      ),
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 14),
-      child: TextField(
-        onChanged: (value) {
-          onChanged(value);
-        },
-        keyboardType: inputType,
-        inputFormatters: inputFormatter,
-        decoration: InputDecoration(
-          isDense: true,
-          border: InputBorder.none,
-          hintText: inputHint,
-        ),
-        style: context.body,
-      ),
-    );
+    return !isPw
+        ? Container(
+            width: double.infinity,
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.dividerGrey),
+              borderRadius: BorderRadius.all(Radius.circular(6)),
+            ),
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 14),
+            child: TextField(
+              focusNode: focusNode,
+              obscureText: isPw,
+              onChanged: (value) {
+                onChanged(value);
+              },
+              keyboardType: inputType,
+              inputFormatters: inputFormatter,
+              decoration: InputDecoration(
+                isDense: true,
+                border: InputBorder.none,
+                hintText: inputHint,
+                hintStyle: context.body.copyWith(color: AppColors.darkGrey),
+              ),
+              style: context.body,
+            ),
+          )
+        // 비밀번호 입력일때
+        : Container(
+            width: double.infinity,
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.dividerGrey),
+              borderRadius: BorderRadius.all(Radius.circular(6)),
+            ),
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 14),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    obscureText: isPw,
+                    onChanged: (value) {
+                      onChanged(value);
+                    },
+                    keyboardType: inputType,
+                    inputFormatters: inputFormatter,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      border: InputBorder.none,
+                      hintText: inputHint,
+                      hintStyle: context.body.copyWith(
+                        color: AppColors.darkGrey,
+                      ),
+                    ),
+                    style: context.body,
+                  ),
+                ),
+                Icon(Icons.lock, size: 14, color: AppColors.darkGrey),
+              ],
+            ),
+          );
   }
 }

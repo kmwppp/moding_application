@@ -25,10 +25,9 @@ class LoginHelpArea extends StatelessWidget {
             Text(
               accentContent,
               style: context.caption.copyWith(
-                fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
                 decorationColor: Colors.black,
-                decorationThickness: 2,
+                decorationThickness: 1,
                 decorationStyle: TextDecorationStyle.solid,
               ),
             ),

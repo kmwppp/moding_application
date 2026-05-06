@@ -16,4 +16,18 @@ class AppBoxStyles {
       ),
     ],
   );
+
+  static BoxDecoration focusContainerDecoration({bool isError = false}) {
+    return BoxDecoration(
+      color: Colors.white, // 배경색이 필요할 경우 추가
+      borderRadius: BorderRadius.circular(8),
+      border: Border.all(
+        /// 에러 여부에 따라 테두리 색상 변경
+        color: isError ? Colors.red : AppColors.darkGrey,
+
+        /// 기본 두께는 1.0 (InputDecoration의 기본값과 동일)
+        width: 1.0,
+      ),
+    );
+  }
 }

@@ -1,73 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:moding_application/core/presentation/widgets/card_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moding_application/features/home/presentation/providers/home_viewmodel.dart';
+import 'package:moding_application/features/home/presentation/screens/widgets/auto_banner.dart';
 import 'package:moding_application/features/home/presentation/screens/widgets/home_appbar.dart';
+import 'package:moding_application/features/home/presentation/screens/widgets/sections/home_company_info_section.dart';
+import 'package:moding_application/features/home/presentation/screens/widgets/sections/home_sections_builder.dart';
 
-class HomePageMain extends StatelessWidget {
+class HomePageMain extends ConsumerWidget {
   const HomePageMain({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const String logoPath = "assets/images/logo.png";
-    double cardWidth = (MediaQuery.of(context).size.width / 2) - 70;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeViewModelProvider);
+
     return Scaffold(
-      appBar: HomeAppbar(),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(child: _buildSearchBar()),
-          SliverToBoxAdapter(
-            child: Container(
-              padding: EdgeInsets.only(left: 20),
-              child: Column(
-                children: [
-                  Row(
-                    spacing: 20,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CardItem(
-                        imageUrl: logoPath,
-                        title: '최근 본 식자재',
-                        contents: '모딩에서 파는 빵식이',
-                        isMain: true,
-                      ),
-                      CardItem(
-                        imageUrl: logoPath,
-                        title: '최근 본 식자재',
-                        contents: '모딩에서 파는 김치찌개',
-                        isMain: true,
-                      ),
-                    ],
-                  ),
-                ],
+          // 상단 앱바 영역
+          const HomeSliverAppbar(),
+
+          // 배너 영역
+          const SliverToBoxAdapter(child: AutoBanner()),
+          const SliverToBoxAdapter(child: SizedBox(height: 10)),
+
+          // 홈 페이지 구성 영역
+          state.when(
+            data: (homeState) => HomeSectionsBuilder(homeState: homeState),
+
+            loading: () => const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(40),
+                child: Center(child: CircularProgressIndicator()),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  // 서치바 위젯 분리
-  Widget _buildSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Container(
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(20), // 조금 더 현대적인 둥근 수치
-        ),
-        child: const TextField(
-          textAlignVertical: TextAlignVertical.center, // 텍스트 수직 중앙 정렬
-          decoration: InputDecoration(
-            hintText: "검색어를 입력하세요",
-            hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
-            prefixIcon: Icon(Icons.search, size: 22, color: Colors.grey),
-            border: InputBorder.none,
-            isDense: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 12),
+            error: (err, stack) =>
+                SliverToBoxAdapter(child: Text(err.toString())),
           ),
-        ),
+
+          const SliverToBoxAdapter(child: SizedBox(height: 50)),
+
+          const SliverToBoxAdapter(child: HomeCompanyInfoSection()),
+        ],
       ),
     );
   }

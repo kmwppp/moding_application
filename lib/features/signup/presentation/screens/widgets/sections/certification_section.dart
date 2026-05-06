@@ -30,7 +30,7 @@ class CertificationSection extends ConsumerWidget {
           if (!state.certifiSuccess)
             Column(
               children: [
-                SizedBox(height: 14),
+                const SizedBox(height: 14),
                 _inputAndButton(
                   context: context,
                   state: state,
@@ -52,7 +52,7 @@ class CertificationSection extends ConsumerWidget {
                   },
                   confirmText: AppStrings.request,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 if (state.phoneNumSuccess)
                   _inputAndButton(
                     context: context,
@@ -77,7 +77,26 @@ class CertificationSection extends ConsumerWidget {
           if (state.certifiSuccess)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: ConfirmButton(buttonTitle: AppStrings.successVerification),
+              child: Column(
+                spacing: 10,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.dividerGrey),
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                    ),
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.symmetric(horizontal: 14),
+                    child: Text(
+                      state.phoneNum,
+                      style: context.body.copyWith(color: AppColors.darkGrey),
+                    ),
+                  ),
+                  ConfirmButton(buttonTitle: AppStrings.successVerification),
+                ],
+              ),
             ),
           Text(
             AppStrings.needVerificationPhoneNumber,
