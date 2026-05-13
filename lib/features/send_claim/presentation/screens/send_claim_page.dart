@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/core/presentation/widgets/app_divider.dart';
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
+import 'package:moding_application/core/presentation/widgets/loading_indicator.dart';
 import 'package:moding_application/core/utils/toast.dart';
 import 'package:moding_application/features/send_claim/presentation/providers/send_claim_viewmodel.dart';
 import 'package:moding_application/features/send_claim/presentation/screens/sections/claim_photo_section.dart';
@@ -41,38 +42,60 @@ class _SendClaimPageState extends ConsumerState<SendClaimPage> {
     return Scaffold(
       bottomNavigationBar: SafeArea(
         top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 12),
-              child: GestureDetector(
-                onTap: state.isSubmitting ? null : () => _submitClaim(context),
-                child: CustomButton(
-                  title: state.isSubmitting ? "신청 중..." : "클레임 신청",
-                  boxColor: AppColors.pointColor,
-                  textColor: Colors.white,
-                  borderColor: AppColors.pointColor,
-                  paddingVertical: 10,
-                  textStyle: context.body.copyWith(fontWeight: FontWeight.w600),
-                ),
+            IgnorePointer(
+              ignoring: state.isSubmitting,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 12),
+                    child: GestureDetector(
+                      onTap: () => _submitClaim(context),
+                      child: CustomButton(
+                        title: "클레임 신청",
+                        boxColor: AppColors.pointColor,
+                        textColor: Colors.white,
+                        borderColor: AppColors.pointColor,
+                        paddingVertical: 10,
+                        textStyle: context.body.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
       ),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            const SendClaimSliverAppbar(),
-            const SliverToBoxAdapter(child: SelectProductInfo()),
-            const SliverToBoxAdapter(child: AppDivider()),
-            const SliverToBoxAdapter(child: ClaimReasonSection()),
-            const SliverToBoxAdapter(child: AppDivider()),
-            const SliverToBoxAdapter(child: ClaimPhotoSection()),
-            const SliverToBoxAdapter(child: SizedBox(height: 96)),
-          ],
-        ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: CustomScrollView(
+              slivers: [
+                const SendClaimSliverAppbar(),
+                const SliverToBoxAdapter(child: SelectProductInfo()),
+                const SliverToBoxAdapter(child: AppDivider()),
+                const SliverToBoxAdapter(child: ClaimReasonSection()),
+                const SliverToBoxAdapter(child: AppDivider()),
+                const SliverToBoxAdapter(child: ClaimPhotoSection()),
+                const SliverToBoxAdapter(child: SizedBox(height: 96)),
+              ],
+            ),
+          ),
+          if (state.isSubmitting)
+            Positioned.fill(
+              child: AbsorbPointer(
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.12),
+                  child: const Center(child: LoadingIndicator()),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

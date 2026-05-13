@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moding_application/features/category/presentation/providers/category_viewmodel.dart';
+import 'package:moding_application/features/main/domain/enums/MainTab.dart';
+import 'package:moding_application/features/main/presentation/providers/main_viewmodel.dart';
 
 import '../components/category_image_item.dart';
 
-class CategorySection extends StatelessWidget {
+class CategorySection extends ConsumerWidget {
   const CategorySection({super.key});
 
   static const categories = [
@@ -15,13 +19,11 @@ class CategorySection extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    // 1. 설정값 상수화
+  Widget build(BuildContext context, WidgetRef ref) {
     const double horizontalPadding = 10.0;
     const double spacing = 10.0;
-    const int crossAxisCount = 3; // 한 줄에 보여줄 개수
+    const int crossAxisCount = 3;
 
-    // 2. 가용 너비 계산 (전체 너비 - 좌우 패딩 - 아이템 사이 간격들)
     final double totalPadding =
         (horizontalPadding * 2) + (spacing * (crossAxisCount - 1));
     final double itemWidth =
@@ -34,17 +36,26 @@ class CategorySection extends StatelessWidget {
           horizontal: horizontalPadding,
         ),
         child: Wrap(
-          spacing: spacing, // 가로 간격
-          runSpacing: spacing, // 세로 간격
-          children: categories.map((c) {
+          spacing: spacing,
+          runSpacing: spacing,
+          children: categories.map((category) {
             return GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                final categoryNotifier = ref.read(
+                  categoryViewModelProvider.notifier,
+                );
+                await categoryNotifier.init();
+                await categoryNotifier.selectMainCategoryByName(category.$1);
+                ref
+                    .read(mainViewModelProvider.notifier)
+                    .changeTab(MainTab.category);
+              },
               child: SizedBox(
-                width: itemWidth, // 정확히 3등분된 너비 적용
+                width: itemWidth,
                 child: CategoryImageItem(
-                  title: c.$1,
-                  imagePath: c.$2,
-                  cardWidth: itemWidth, // 내부 이미지 크기도 동기화
+                  title: category.$1,
+                  imagePath: category.$2,
+                  cardWidth: itemWidth,
                 ),
               ),
             );

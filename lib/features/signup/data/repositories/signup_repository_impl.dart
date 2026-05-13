@@ -4,6 +4,7 @@ import 'package:moding_application/features/signup/domain/entities/category_requ
 import 'package:moding_application/features/signup/domain/entities/signup_info.dart';
 import 'package:moding_application/features/signup/domain/entities/signup_response_model.dart';
 import 'package:moding_application/features/signup/domain/repositories/signup_repository.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/entities/business_type_model.dart';
@@ -53,7 +54,7 @@ class SignupRepositoryImpl implements SignupRepository {
     final data = response['data'];
 
     final available = data['available'];
-    print("available: $available");
+    appLog("available: $available");
     return available;
   }
 

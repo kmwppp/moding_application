@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:moding_application/core/presentation/widgets/text_with_cehvron.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/theme/app_text_styles.dart';
@@ -20,14 +23,35 @@ class PaymentInfoSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(orderCheckViewModelProvider);
     final payment = state.orderDetail?.data.payment;
+    final receiptUrl = payment?.receiptUrl;
 
     return PaymentCompleteCommonBox(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "결제정보",
-            style: context.titleMedium.copyWith(fontWeight: FontWeight.w600),
+          Row(
+            children: [
+              Text(
+                "결제정보",
+                style: context.titleMedium.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Spacer(),
+              if ((receiptUrl ?? '').isNotEmpty)
+                InkWell(
+                  onTap: () {
+                    openUrl(receiptUrl!);
+                  },
+                  child: TextWithChevron(
+                    text: "영수증보기",
+                    style: context.bodySmall.copyWith(
+                      color: AppColors.darkGrey,
+                    ),
+                    iconSize: 10,
+                  ),
+                ),
+            ],
           ),
           const SizedBox(height: 14),
           if (state.isLoading)
@@ -108,7 +132,18 @@ class PaymentInfoSection extends ConsumerWidget {
       if (status == OrderPaymentStatus.pending) {
         rows.add(_PaymentInfoRow(label: '은행', value: payment.vbankName ?? '-'));
         rows.add(
-          _PaymentInfoRow(label: '가상계좌 번호', value: payment.vbankNumber ?? '-'),
+          GestureDetector(
+            onTap: () async {
+              await Clipboard.setData(
+                ClipboardData(text: payment.vbankNumber ?? ""),
+              );
+              // ToastUtil.show('클립보드에 복사되었습니다');
+            },
+            child: _PaymentInfoRow(
+              label: '계좌번호',
+              value: payment.vbankNumber ?? '-',
+            ),
+          ),
         );
         rows.add(
           _PaymentInfoRow(label: '예금주명', value: payment.vbankHolder ?? '-'),
@@ -178,6 +213,14 @@ class PaymentInfoSection extends ConsumerWidget {
   String _formatInterestFree(bool? isInterestFree) {
     if (isInterestFree == null) return '-';
     return isInterestFree ? '무이자' : '일반';
+  }
+
+  Future<void> openUrl(String receiptUrl) async {
+    final Uri url = Uri.parse(receiptUrl);
+
+    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+      throw Exception('URL 실행 실패');
+    }
   }
 }
 

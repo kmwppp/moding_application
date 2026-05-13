@@ -296,7 +296,7 @@ $CartOrderDataCopyWith<$Res> get data {
 /// @nodoc
 mixin _$CartOrderData {
 
- DeliveryAddress get deliveryAddress; int get totalProductAmount; int get totalDeliveryFee; int get totalJejuDeliveryFee; int get totalAmount; List<ProductDto> get products;
+ String? get tossCustomerKey; DeliveryAddress get deliveryAddress; int get totalProductAmount; int get totalDeliveryFee; int get totalJejuDeliveryFee; int get totalAmount; List<ProductDto> get products;
 /// Create a copy of CartOrderData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -309,16 +309,16 @@ $CartOrderDataCopyWith<CartOrderData> get copyWith => _$CartOrderDataCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartOrderData&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.totalProductAmount, totalProductAmount) || other.totalProductAmount == totalProductAmount)&&(identical(other.totalDeliveryFee, totalDeliveryFee) || other.totalDeliveryFee == totalDeliveryFee)&&(identical(other.totalJejuDeliveryFee, totalJejuDeliveryFee) || other.totalJejuDeliveryFee == totalJejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&const DeepCollectionEquality().equals(other.products, products));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartOrderData&&(identical(other.tossCustomerKey, tossCustomerKey) || other.tossCustomerKey == tossCustomerKey)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.totalProductAmount, totalProductAmount) || other.totalProductAmount == totalProductAmount)&&(identical(other.totalDeliveryFee, totalDeliveryFee) || other.totalDeliveryFee == totalDeliveryFee)&&(identical(other.totalJejuDeliveryFee, totalJejuDeliveryFee) || other.totalJejuDeliveryFee == totalJejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&const DeepCollectionEquality().equals(other.products, products));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,deliveryAddress,totalProductAmount,totalDeliveryFee,totalJejuDeliveryFee,totalAmount,const DeepCollectionEquality().hash(products));
+int get hashCode => Object.hash(runtimeType,tossCustomerKey,deliveryAddress,totalProductAmount,totalDeliveryFee,totalJejuDeliveryFee,totalAmount,const DeepCollectionEquality().hash(products));
 
 @override
 String toString() {
-  return 'CartOrderData(deliveryAddress: $deliveryAddress, totalProductAmount: $totalProductAmount, totalDeliveryFee: $totalDeliveryFee, totalJejuDeliveryFee: $totalJejuDeliveryFee, totalAmount: $totalAmount, products: $products)';
+  return 'CartOrderData(tossCustomerKey: $tossCustomerKey, deliveryAddress: $deliveryAddress, totalProductAmount: $totalProductAmount, totalDeliveryFee: $totalDeliveryFee, totalJejuDeliveryFee: $totalJejuDeliveryFee, totalAmount: $totalAmount, products: $products)';
 }
 
 
@@ -329,7 +329,7 @@ abstract mixin class $CartOrderDataCopyWith<$Res>  {
   factory $CartOrderDataCopyWith(CartOrderData value, $Res Function(CartOrderData) _then) = _$CartOrderDataCopyWithImpl;
 @useResult
 $Res call({
- DeliveryAddress deliveryAddress, int totalProductAmount, int totalDeliveryFee, int totalJejuDeliveryFee, int totalAmount, List<ProductDto> products
+ String? tossCustomerKey, DeliveryAddress deliveryAddress, int totalProductAmount, int totalDeliveryFee, int totalJejuDeliveryFee, int totalAmount, List<ProductDto> products
 });
 
 
@@ -346,9 +346,10 @@ class _$CartOrderDataCopyWithImpl<$Res>
 
 /// Create a copy of CartOrderData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? deliveryAddress = null,Object? totalProductAmount = null,Object? totalDeliveryFee = null,Object? totalJejuDeliveryFee = null,Object? totalAmount = null,Object? products = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? tossCustomerKey = freezed,Object? deliveryAddress = null,Object? totalProductAmount = null,Object? totalDeliveryFee = null,Object? totalJejuDeliveryFee = null,Object? totalAmount = null,Object? products = null,}) {
   return _then(_self.copyWith(
-deliveryAddress: null == deliveryAddress ? _self.deliveryAddress : deliveryAddress // ignore: cast_nullable_to_non_nullable
+tossCustomerKey: freezed == tossCustomerKey ? _self.tossCustomerKey : tossCustomerKey // ignore: cast_nullable_to_non_nullable
+as String?,deliveryAddress: null == deliveryAddress ? _self.deliveryAddress : deliveryAddress // ignore: cast_nullable_to_non_nullable
 as DeliveryAddress,totalProductAmount: null == totalProductAmount ? _self.totalProductAmount : totalProductAmount // ignore: cast_nullable_to_non_nullable
 as int,totalDeliveryFee: null == totalDeliveryFee ? _self.totalDeliveryFee : totalDeliveryFee // ignore: cast_nullable_to_non_nullable
 as int,totalJejuDeliveryFee: null == totalJejuDeliveryFee ? _self.totalJejuDeliveryFee : totalJejuDeliveryFee // ignore: cast_nullable_to_non_nullable
@@ -448,10 +449,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DeliveryAddress deliveryAddress,  int totalProductAmount,  int totalDeliveryFee,  int totalJejuDeliveryFee,  int totalAmount,  List<ProductDto> products)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? tossCustomerKey,  DeliveryAddress deliveryAddress,  int totalProductAmount,  int totalDeliveryFee,  int totalJejuDeliveryFee,  int totalAmount,  List<ProductDto> products)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CartOrderData() when $default != null:
-return $default(_that.deliveryAddress,_that.totalProductAmount,_that.totalDeliveryFee,_that.totalJejuDeliveryFee,_that.totalAmount,_that.products);case _:
+return $default(_that.tossCustomerKey,_that.deliveryAddress,_that.totalProductAmount,_that.totalDeliveryFee,_that.totalJejuDeliveryFee,_that.totalAmount,_that.products);case _:
   return orElse();
 
 }
@@ -469,10 +470,10 @@ return $default(_that.deliveryAddress,_that.totalProductAmount,_that.totalDelive
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DeliveryAddress deliveryAddress,  int totalProductAmount,  int totalDeliveryFee,  int totalJejuDeliveryFee,  int totalAmount,  List<ProductDto> products)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? tossCustomerKey,  DeliveryAddress deliveryAddress,  int totalProductAmount,  int totalDeliveryFee,  int totalJejuDeliveryFee,  int totalAmount,  List<ProductDto> products)  $default,) {final _that = this;
 switch (_that) {
 case _CartOrderData():
-return $default(_that.deliveryAddress,_that.totalProductAmount,_that.totalDeliveryFee,_that.totalJejuDeliveryFee,_that.totalAmount,_that.products);case _:
+return $default(_that.tossCustomerKey,_that.deliveryAddress,_that.totalProductAmount,_that.totalDeliveryFee,_that.totalJejuDeliveryFee,_that.totalAmount,_that.products);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -489,10 +490,10 @@ return $default(_that.deliveryAddress,_that.totalProductAmount,_that.totalDelive
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DeliveryAddress deliveryAddress,  int totalProductAmount,  int totalDeliveryFee,  int totalJejuDeliveryFee,  int totalAmount,  List<ProductDto> products)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? tossCustomerKey,  DeliveryAddress deliveryAddress,  int totalProductAmount,  int totalDeliveryFee,  int totalJejuDeliveryFee,  int totalAmount,  List<ProductDto> products)?  $default,) {final _that = this;
 switch (_that) {
 case _CartOrderData() when $default != null:
-return $default(_that.deliveryAddress,_that.totalProductAmount,_that.totalDeliveryFee,_that.totalJejuDeliveryFee,_that.totalAmount,_that.products);case _:
+return $default(_that.tossCustomerKey,_that.deliveryAddress,_that.totalProductAmount,_that.totalDeliveryFee,_that.totalJejuDeliveryFee,_that.totalAmount,_that.products);case _:
   return null;
 
 }
@@ -504,9 +505,10 @@ return $default(_that.deliveryAddress,_that.totalProductAmount,_that.totalDelive
 @JsonSerializable()
 
 class _CartOrderData implements CartOrderData {
-  const _CartOrderData({required this.deliveryAddress, required this.totalProductAmount, required this.totalDeliveryFee, required this.totalJejuDeliveryFee, required this.totalAmount, required final  List<ProductDto> products}): _products = products;
+  const _CartOrderData({this.tossCustomerKey, required this.deliveryAddress, required this.totalProductAmount, required this.totalDeliveryFee, required this.totalJejuDeliveryFee, required this.totalAmount, required final  List<ProductDto> products}): _products = products;
   factory _CartOrderData.fromJson(Map<String, dynamic> json) => _$CartOrderDataFromJson(json);
 
+@override final  String? tossCustomerKey;
 @override final  DeliveryAddress deliveryAddress;
 @override final  int totalProductAmount;
 @override final  int totalDeliveryFee;
@@ -533,16 +535,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CartOrderData&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.totalProductAmount, totalProductAmount) || other.totalProductAmount == totalProductAmount)&&(identical(other.totalDeliveryFee, totalDeliveryFee) || other.totalDeliveryFee == totalDeliveryFee)&&(identical(other.totalJejuDeliveryFee, totalJejuDeliveryFee) || other.totalJejuDeliveryFee == totalJejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&const DeepCollectionEquality().equals(other._products, _products));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CartOrderData&&(identical(other.tossCustomerKey, tossCustomerKey) || other.tossCustomerKey == tossCustomerKey)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.totalProductAmount, totalProductAmount) || other.totalProductAmount == totalProductAmount)&&(identical(other.totalDeliveryFee, totalDeliveryFee) || other.totalDeliveryFee == totalDeliveryFee)&&(identical(other.totalJejuDeliveryFee, totalJejuDeliveryFee) || other.totalJejuDeliveryFee == totalJejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&const DeepCollectionEquality().equals(other._products, _products));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,deliveryAddress,totalProductAmount,totalDeliveryFee,totalJejuDeliveryFee,totalAmount,const DeepCollectionEquality().hash(_products));
+int get hashCode => Object.hash(runtimeType,tossCustomerKey,deliveryAddress,totalProductAmount,totalDeliveryFee,totalJejuDeliveryFee,totalAmount,const DeepCollectionEquality().hash(_products));
 
 @override
 String toString() {
-  return 'CartOrderData(deliveryAddress: $deliveryAddress, totalProductAmount: $totalProductAmount, totalDeliveryFee: $totalDeliveryFee, totalJejuDeliveryFee: $totalJejuDeliveryFee, totalAmount: $totalAmount, products: $products)';
+  return 'CartOrderData(tossCustomerKey: $tossCustomerKey, deliveryAddress: $deliveryAddress, totalProductAmount: $totalProductAmount, totalDeliveryFee: $totalDeliveryFee, totalJejuDeliveryFee: $totalJejuDeliveryFee, totalAmount: $totalAmount, products: $products)';
 }
 
 
@@ -553,7 +555,7 @@ abstract mixin class _$CartOrderDataCopyWith<$Res> implements $CartOrderDataCopy
   factory _$CartOrderDataCopyWith(_CartOrderData value, $Res Function(_CartOrderData) _then) = __$CartOrderDataCopyWithImpl;
 @override @useResult
 $Res call({
- DeliveryAddress deliveryAddress, int totalProductAmount, int totalDeliveryFee, int totalJejuDeliveryFee, int totalAmount, List<ProductDto> products
+ String? tossCustomerKey, DeliveryAddress deliveryAddress, int totalProductAmount, int totalDeliveryFee, int totalJejuDeliveryFee, int totalAmount, List<ProductDto> products
 });
 
 
@@ -570,9 +572,10 @@ class __$CartOrderDataCopyWithImpl<$Res>
 
 /// Create a copy of CartOrderData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? deliveryAddress = null,Object? totalProductAmount = null,Object? totalDeliveryFee = null,Object? totalJejuDeliveryFee = null,Object? totalAmount = null,Object? products = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? tossCustomerKey = freezed,Object? deliveryAddress = null,Object? totalProductAmount = null,Object? totalDeliveryFee = null,Object? totalJejuDeliveryFee = null,Object? totalAmount = null,Object? products = null,}) {
   return _then(_CartOrderData(
-deliveryAddress: null == deliveryAddress ? _self.deliveryAddress : deliveryAddress // ignore: cast_nullable_to_non_nullable
+tossCustomerKey: freezed == tossCustomerKey ? _self.tossCustomerKey : tossCustomerKey // ignore: cast_nullable_to_non_nullable
+as String?,deliveryAddress: null == deliveryAddress ? _self.deliveryAddress : deliveryAddress // ignore: cast_nullable_to_non_nullable
 as DeliveryAddress,totalProductAmount: null == totalProductAmount ? _self.totalProductAmount : totalProductAmount // ignore: cast_nullable_to_non_nullable
 as int,totalDeliveryFee: null == totalDeliveryFee ? _self.totalDeliveryFee : totalDeliveryFee // ignore: cast_nullable_to_non_nullable
 as int,totalJejuDeliveryFee: null == totalJejuDeliveryFee ? _self.totalJejuDeliveryFee : totalJejuDeliveryFee // ignore: cast_nullable_to_non_nullable

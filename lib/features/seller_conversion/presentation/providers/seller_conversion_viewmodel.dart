@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
+import 'package:moding_application/features/meta/domain/entities/meta_option_dto.dart';
 import 'package:moding_application/features/seller_conversion/data/repositories/seller_conversion_repository_impl.dart';
 import 'package:moding_application/features/seller_conversion/domain/entities/category_permits_dto.dart';
 import 'package:moding_application/features/seller_conversion/domain/entities/seller_conversion_request.dart';
@@ -60,8 +61,8 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
     state = state.copyWith(taxType: value);
   }
 
-  void selectBankName(String bankName) {
-    state = state.copyWith(bankName: bankName);
+  void selectBank(MetaOptionDto bank) {
+    state = state.copyWith(selectedBank: bank);
   }
 
   void updateBankAccountNumber(String value) {
@@ -76,6 +77,14 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
     return _pickSingleImage(
       source: source,
       onSelected: (path) => state = state.copyWith(bankbookImagePath: path),
+    );
+  }
+
+  Future<void> pickBusinessLicenseImage(ImageSource source) {
+    return _pickSingleImage(
+      source: source,
+      onSelected: (path) =>
+          state = state.copyWith(businessLicenseImagePath: path),
     );
   }
 
@@ -124,6 +133,10 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
     state = state.copyWith(bankbookImagePath: null);
   }
 
+  void removeBusinessLicenseImage() {
+    state = state.copyWith(businessLicenseImagePath: null);
+  }
+
   void removeBusinessPermitImage() {
     state = state.copyWith(businessPermitImagePath: null);
   }
@@ -145,10 +158,11 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
       taxInvoiceEmail: state.taxInvoiceEmail.trim(),
       taxType: state.taxType!,
       permitCategoryIds: [state.selectedSubPermit!.id],
-      bankName: state.bankName!,
+      bankCode: state.selectedBank!.value,
       bankAccountNumber: state.bankAccountNumber.trim(),
       bankAccountHolder: state.bankAccountHolder.trim(),
       bankbookImagePath: state.bankbookImagePath!,
+      businessLicenseImagePath: state.businessLicenseImagePath!,
       businessPermitImagePath: state.businessPermitImagePath!,
       salesPermitImagePath: state.salesPermitImagePath!,
       otherFilePaths: state.otherFilePaths,

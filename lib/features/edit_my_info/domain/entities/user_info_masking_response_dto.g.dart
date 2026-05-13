@@ -61,6 +61,8 @@ _BusinessProfileDto _$BusinessProfileDtoFromJson(Map<String, dynamic> json) =>
       parentCategoryName: json['parentCategoryName'] as String,
       businessCategoryName: json['businessCategoryName'] as String,
       businessPhone: json['businessPhone'] as String?,
+      industry: json['industry'] as String?,
+      industryClass: json['industryClass'] as String?,
     );
 
 Map<String, dynamic> _$BusinessProfileDtoToJson(_BusinessProfileDto instance) =>
@@ -74,6 +76,8 @@ Map<String, dynamic> _$BusinessProfileDtoToJson(_BusinessProfileDto instance) =>
       'parentCategoryName': instance.parentCategoryName,
       'businessCategoryName': instance.businessCategoryName,
       'businessPhone': instance.businessPhone,
+      'industry': instance.industry,
+      'industryClass': instance.industryClass,
     };
 
 _RefundAccountDto _$RefundAccountDtoFromJson(Map<String, dynamic> json) =>

@@ -1,4 +1,5 @@
 import 'package:moding_application/core/network/entities/response_model.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/home/domain/entities/home_basic_item_model.dart';
 import 'package:moding_application/features/product/domain/entities/product_dto.dart';
 import 'package:moding_application/features/product/domain/entities/product_recommand_dto.dart';
@@ -44,7 +45,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
     final data = response['data']['content'] as List<dynamic>;
 
-    print(data);
+    appLog(data);
     return data
         .map<ReviewDto>(
           (item) => ReviewDto.fromJson(item as Map<String, dynamic>),
@@ -58,7 +59,7 @@ class ProductRepositoryImpl implements ProductRepository {
 
     final data = response['data'] as List<dynamic>;
 
-    print(data);
+    appLog(data);
     return data
         .map<HomeBasicItemModel>(
           (item) => HomeBasicItemModel.fromJson(item as Map<String, dynamic>),

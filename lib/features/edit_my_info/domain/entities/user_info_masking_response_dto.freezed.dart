@@ -625,7 +625,7 @@ $RefundAccountDtoCopyWith<$Res>? get refundAccount {
 /// @nodoc
 mixin _$BusinessProfileDto {
 
- String get businessName; String get zipCode; String get address; String? get addressDetail; String get businessNumber; String get ownerName; String get parentCategoryName; String get businessCategoryName; String? get businessPhone;
+ String get businessName; String get zipCode; String get address; String? get addressDetail; String get businessNumber; String get ownerName; String get parentCategoryName; String get businessCategoryName; String? get businessPhone; String? get industry; String? get industryClass;
 /// Create a copy of BusinessProfileDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -638,16 +638,16 @@ $BusinessProfileDtoCopyWith<BusinessProfileDto> get copyWith => _$BusinessProfil
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BusinessProfileDto&&(identical(other.businessName, businessName) || other.businessName == businessName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.businessNumber, businessNumber) || other.businessNumber == businessNumber)&&(identical(other.ownerName, ownerName) || other.ownerName == ownerName)&&(identical(other.parentCategoryName, parentCategoryName) || other.parentCategoryName == parentCategoryName)&&(identical(other.businessCategoryName, businessCategoryName) || other.businessCategoryName == businessCategoryName)&&(identical(other.businessPhone, businessPhone) || other.businessPhone == businessPhone));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BusinessProfileDto&&(identical(other.businessName, businessName) || other.businessName == businessName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.businessNumber, businessNumber) || other.businessNumber == businessNumber)&&(identical(other.ownerName, ownerName) || other.ownerName == ownerName)&&(identical(other.parentCategoryName, parentCategoryName) || other.parentCategoryName == parentCategoryName)&&(identical(other.businessCategoryName, businessCategoryName) || other.businessCategoryName == businessCategoryName)&&(identical(other.businessPhone, businessPhone) || other.businessPhone == businessPhone)&&(identical(other.industry, industry) || other.industry == industry)&&(identical(other.industryClass, industryClass) || other.industryClass == industryClass));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,businessName,zipCode,address,addressDetail,businessNumber,ownerName,parentCategoryName,businessCategoryName,businessPhone);
+int get hashCode => Object.hash(runtimeType,businessName,zipCode,address,addressDetail,businessNumber,ownerName,parentCategoryName,businessCategoryName,businessPhone,industry,industryClass);
 
 @override
 String toString() {
-  return 'BusinessProfileDto(businessName: $businessName, zipCode: $zipCode, address: $address, addressDetail: $addressDetail, businessNumber: $businessNumber, ownerName: $ownerName, parentCategoryName: $parentCategoryName, businessCategoryName: $businessCategoryName, businessPhone: $businessPhone)';
+  return 'BusinessProfileDto(businessName: $businessName, zipCode: $zipCode, address: $address, addressDetail: $addressDetail, businessNumber: $businessNumber, ownerName: $ownerName, parentCategoryName: $parentCategoryName, businessCategoryName: $businessCategoryName, businessPhone: $businessPhone, industry: $industry, industryClass: $industryClass)';
 }
 
 
@@ -658,7 +658,7 @@ abstract mixin class $BusinessProfileDtoCopyWith<$Res>  {
   factory $BusinessProfileDtoCopyWith(BusinessProfileDto value, $Res Function(BusinessProfileDto) _then) = _$BusinessProfileDtoCopyWithImpl;
 @useResult
 $Res call({
- String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String parentCategoryName, String businessCategoryName, String? businessPhone
+ String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String parentCategoryName, String businessCategoryName, String? businessPhone, String? industry, String? industryClass
 });
 
 
@@ -675,7 +675,7 @@ class _$BusinessProfileDtoCopyWithImpl<$Res>
 
 /// Create a copy of BusinessProfileDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = null,Object? businessCategoryName = null,Object? businessPhone = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = null,Object? businessCategoryName = null,Object? businessPhone = freezed,Object? industry = freezed,Object? industryClass = freezed,}) {
   return _then(_self.copyWith(
 businessName: null == businessName ? _self.businessName : businessName // ignore: cast_nullable_to_non_nullable
 as String,zipCode: null == zipCode ? _self.zipCode : zipCode // ignore: cast_nullable_to_non_nullable
@@ -686,6 +686,8 @@ as String,ownerName: null == ownerName ? _self.ownerName : ownerName // ignore: 
 as String,parentCategoryName: null == parentCategoryName ? _self.parentCategoryName : parentCategoryName // ignore: cast_nullable_to_non_nullable
 as String,businessCategoryName: null == businessCategoryName ? _self.businessCategoryName : businessCategoryName // ignore: cast_nullable_to_non_nullable
 as String,businessPhone: freezed == businessPhone ? _self.businessPhone : businessPhone // ignore: cast_nullable_to_non_nullable
+as String?,industry: freezed == industry ? _self.industry : industry // ignore: cast_nullable_to_non_nullable
+as String?,industryClass: freezed == industryClass ? _self.industryClass : industryClass // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -771,10 +773,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BusinessProfileDto() when $default != null:
-return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone);case _:
+return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone,_that.industry,_that.industryClass);case _:
   return orElse();
 
 }
@@ -792,10 +794,10 @@ return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDeta
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)  $default,) {final _that = this;
 switch (_that) {
 case _BusinessProfileDto():
-return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone);case _:
+return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone,_that.industry,_that.industryClass);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -812,10 +814,10 @@ return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDeta
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)?  $default,) {final _that = this;
 switch (_that) {
 case _BusinessProfileDto() when $default != null:
-return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone);case _:
+return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone,_that.industry,_that.industryClass);case _:
   return null;
 
 }
@@ -827,7 +829,7 @@ return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDeta
 @JsonSerializable()
 
 class _BusinessProfileDto implements BusinessProfileDto {
-  const _BusinessProfileDto({required this.businessName, required this.zipCode, required this.address, this.addressDetail, required this.businessNumber, required this.ownerName, required this.parentCategoryName, required this.businessCategoryName, this.businessPhone});
+  const _BusinessProfileDto({required this.businessName, required this.zipCode, required this.address, this.addressDetail, required this.businessNumber, required this.ownerName, required this.parentCategoryName, required this.businessCategoryName, this.businessPhone, this.industry, this.industryClass});
   factory _BusinessProfileDto.fromJson(Map<String, dynamic> json) => _$BusinessProfileDtoFromJson(json);
 
 @override final  String businessName;
@@ -839,6 +841,8 @@ class _BusinessProfileDto implements BusinessProfileDto {
 @override final  String parentCategoryName;
 @override final  String businessCategoryName;
 @override final  String? businessPhone;
+@override final  String? industry;
+@override final  String? industryClass;
 
 /// Create a copy of BusinessProfileDto
 /// with the given fields replaced by the non-null parameter values.
@@ -853,16 +857,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BusinessProfileDto&&(identical(other.businessName, businessName) || other.businessName == businessName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.businessNumber, businessNumber) || other.businessNumber == businessNumber)&&(identical(other.ownerName, ownerName) || other.ownerName == ownerName)&&(identical(other.parentCategoryName, parentCategoryName) || other.parentCategoryName == parentCategoryName)&&(identical(other.businessCategoryName, businessCategoryName) || other.businessCategoryName == businessCategoryName)&&(identical(other.businessPhone, businessPhone) || other.businessPhone == businessPhone));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BusinessProfileDto&&(identical(other.businessName, businessName) || other.businessName == businessName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.businessNumber, businessNumber) || other.businessNumber == businessNumber)&&(identical(other.ownerName, ownerName) || other.ownerName == ownerName)&&(identical(other.parentCategoryName, parentCategoryName) || other.parentCategoryName == parentCategoryName)&&(identical(other.businessCategoryName, businessCategoryName) || other.businessCategoryName == businessCategoryName)&&(identical(other.businessPhone, businessPhone) || other.businessPhone == businessPhone)&&(identical(other.industry, industry) || other.industry == industry)&&(identical(other.industryClass, industryClass) || other.industryClass == industryClass));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,businessName,zipCode,address,addressDetail,businessNumber,ownerName,parentCategoryName,businessCategoryName,businessPhone);
+int get hashCode => Object.hash(runtimeType,businessName,zipCode,address,addressDetail,businessNumber,ownerName,parentCategoryName,businessCategoryName,businessPhone,industry,industryClass);
 
 @override
 String toString() {
-  return 'BusinessProfileDto(businessName: $businessName, zipCode: $zipCode, address: $address, addressDetail: $addressDetail, businessNumber: $businessNumber, ownerName: $ownerName, parentCategoryName: $parentCategoryName, businessCategoryName: $businessCategoryName, businessPhone: $businessPhone)';
+  return 'BusinessProfileDto(businessName: $businessName, zipCode: $zipCode, address: $address, addressDetail: $addressDetail, businessNumber: $businessNumber, ownerName: $ownerName, parentCategoryName: $parentCategoryName, businessCategoryName: $businessCategoryName, businessPhone: $businessPhone, industry: $industry, industryClass: $industryClass)';
 }
 
 
@@ -873,7 +877,7 @@ abstract mixin class _$BusinessProfileDtoCopyWith<$Res> implements $BusinessProf
   factory _$BusinessProfileDtoCopyWith(_BusinessProfileDto value, $Res Function(_BusinessProfileDto) _then) = __$BusinessProfileDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String parentCategoryName, String businessCategoryName, String? businessPhone
+ String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String parentCategoryName, String businessCategoryName, String? businessPhone, String? industry, String? industryClass
 });
 
 
@@ -890,7 +894,7 @@ class __$BusinessProfileDtoCopyWithImpl<$Res>
 
 /// Create a copy of BusinessProfileDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = null,Object? businessCategoryName = null,Object? businessPhone = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = null,Object? businessCategoryName = null,Object? businessPhone = freezed,Object? industry = freezed,Object? industryClass = freezed,}) {
   return _then(_BusinessProfileDto(
 businessName: null == businessName ? _self.businessName : businessName // ignore: cast_nullable_to_non_nullable
 as String,zipCode: null == zipCode ? _self.zipCode : zipCode // ignore: cast_nullable_to_non_nullable
@@ -901,6 +905,8 @@ as String,ownerName: null == ownerName ? _self.ownerName : ownerName // ignore: 
 as String,parentCategoryName: null == parentCategoryName ? _self.parentCategoryName : parentCategoryName // ignore: cast_nullable_to_non_nullable
 as String,businessCategoryName: null == businessCategoryName ? _self.businessCategoryName : businessCategoryName // ignore: cast_nullable_to_non_nullable
 as String,businessPhone: freezed == businessPhone ? _self.businessPhone : businessPhone // ignore: cast_nullable_to_non_nullable
+as String?,industry: freezed == industry ? _self.industry : industry // ignore: cast_nullable_to_non_nullable
+as String?,industryClass: freezed == industryClass ? _self.industryClass : industryClass // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

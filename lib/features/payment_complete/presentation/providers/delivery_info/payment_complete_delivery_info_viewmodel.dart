@@ -1,3 +1,4 @@
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/payment_complete/presentation/providers/delivery_info/payment_complete_delivery_info_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -53,7 +54,7 @@ class PaymentCompleteDeliveryInfoViewModel
       final response = await repository.changeDeliveryAddress(orderId, request);
       return response;
     } catch (e) {
-      print(e);
+      appLog(e);
       return ResponseModel(success: false, message: "알 수 없는 오류가 발생했습니다.");
     }
   }

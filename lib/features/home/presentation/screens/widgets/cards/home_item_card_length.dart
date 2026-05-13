@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -26,33 +24,25 @@ class HomeItemCardLength extends StatelessWidget {
     required this.reviewCount,
   });
 
-  Color _getMainColor() {
-    return CardStyle.cardColors[(index + randomStartIndex) %
-        CardStyle.cardColors.length];
-  }
+  Color get _resolvedColor =>
+      CardStyle.colorByIndex(index, offset: randomStartIndex);
 
   @override
   Widget build(BuildContext context) {
     final cardWidth = (MediaQuery.of(context).size.width / 2) - 50;
-
-    final mainColor = _getMainColor();
-
-    final gradientList =
-        CardStyle.gradientMapping[mainColor] ?? [mainColor, mainColor];
-
-    final textColor = CardStyle.textColorMapping[mainColor] ?? Colors.black;
+    final gradientList = CardStyle.gradientFor(_resolvedColor);
+    final textColor = CardStyle.textColorFor(_resolvedColor);
 
     return Container(
       width: cardWidth,
       decoration: BoxDecoration(
-        color: mainColor,
+        color: _resolvedColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _imageBox(cardWidth, gradientList),
-
           _content(context, cardWidth, textColor),
         ],
       ),
@@ -70,7 +60,6 @@ class HomeItemCardLength extends StatelessWidget {
             width: double.infinity,
             fit: BoxFit.cover,
           ),
-
           Positioned(
             bottom: 0,
             left: 0,
@@ -100,68 +89,63 @@ class HomeItemCardLength extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      "assets/images/icons/views.png",
-                      width: 14,
-                      color: textColor == Colors.white
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    const SizedBox(width: 4),
-
-                    /// 조회수
-                    Text(
-                      "$viewCount",
-                      style: context
-                          .lengthCardContentDynamic(cardWidth)
-                          .copyWith(
-                            color: textColor == Colors.white
-                                ? Colors.white
-                                : Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                    ),
-
-                    const SizedBox(width: 4),
-
-                    Image.asset(
-                      "assets/images/icons/review.png",
-                      width: 14,
-                      color: textColor == Colors.white
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-
-                    const SizedBox(width: 4),
-
-                    /// 리뷰수
-                    Text(
-                      "$reviewCount",
-                      style: context
-                          .lengthCardContentDynamic(cardWidth)
-                          .copyWith(
-                            color: textColor == Colors.white
-                                ? Colors.white
-                                : Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                    ),
-                  ],
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.22),
+                borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.12),
+                  width: 0.5,
                 ),
               ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    "assets/images/icons/views.png",
+                    width: 14,
+                    color: textColor == Colors.white
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    "$viewCount",
+                    style: context
+                        .lengthCardContentDynamic(cardWidth)
+                        .copyWith(
+                          color: textColor == Colors.white
+                              ? Colors.white
+                              : Colors.black,
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                  const SizedBox(width: 4),
+                  Image.asset(
+                    "assets/images/icons/review.png",
+                    width: 14,
+                    color: textColor == Colors.white
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    "$reviewCount",
+                    style: context
+                        .lengthCardContentDynamic(cardWidth)
+                        .copyWith(
+                          color: textColor == Colors.white
+                              ? Colors.white
+                              : Colors.black,
+                          fontWeight: FontWeight.w400,
+                        ),
+                  ),
+                ],
+              ),
             ),
-
             const SizedBox(height: 4),
-
-            /// 제목
             Text(
               name,
               style: context

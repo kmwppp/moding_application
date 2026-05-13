@@ -24,14 +24,14 @@ class PaymentRatioRow extends StatelessWidget {
           flex: 1,
           child: Text(
             title,
-            style: context.body.copyWith(color: AppColors.darkGrey),
+            style: context.bodySmall.copyWith(color: AppColors.darkGrey),
           ),
         ),
         Expanded(
           flex: 2,
           child: Text(
             content,
-            style: context.body.copyWith(
+            style: context.bodySmall.copyWith(
               color: isContentPoint ? AppColors.pointColor : Colors.black,
             ),
           ),

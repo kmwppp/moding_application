@@ -634,7 +634,7 @@ as DateTime,
 /// @nodoc
 mixin _$PaymentOrderDto {
 
- int get orderId; String get orderCode; String get status; String? get sellerBusinessName; int get productAmount; int get deliveryFee; int get jejuDeliveryFee; int get totalAmount; int? get shippingLeadTime; String? get shippingCutoffTime; int? get deliveryDays; PaymentDeliveryAddressDto get deliveryAddress; String get deliveryRequest; List<PaymentOrderItemDto> get items; bool get isSameDayShipping; bool get isWeekendShipping;
+ int get orderId; String get orderCode; String get status; int get sellerProfileId; String? get sellerBusinessName; int get productAmount; int get deliveryFee; int get jejuDeliveryFee; int get totalAmount; int? get shippingLeadTime; String? get shippingCutoffTime; int? get deliveryDays; PaymentDeliveryAddressDto get deliveryAddress; String get deliveryRequest; List<PaymentOrderItemDto> get items; bool get isSameDayShipping; bool get isWeekendShipping;
 /// Create a copy of PaymentOrderDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -647,16 +647,16 @@ $PaymentOrderDtoCopyWith<PaymentOrderDto> get copyWith => _$PaymentOrderDtoCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentOrderDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.status, status) || other.status == status)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentOrderDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.status, status) || other.status == status)&&(identical(other.sellerProfileId, sellerProfileId) || other.sellerProfileId == sellerProfileId)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderId,orderCode,status,sellerBusinessName,productAmount,deliveryFee,jejuDeliveryFee,totalAmount,shippingLeadTime,shippingCutoffTime,deliveryDays,deliveryAddress,deliveryRequest,const DeepCollectionEquality().hash(items),isSameDayShipping,isWeekendShipping);
+int get hashCode => Object.hash(runtimeType,orderId,orderCode,status,sellerProfileId,sellerBusinessName,productAmount,deliveryFee,jejuDeliveryFee,totalAmount,shippingLeadTime,shippingCutoffTime,deliveryDays,deliveryAddress,deliveryRequest,const DeepCollectionEquality().hash(items),isSameDayShipping,isWeekendShipping);
 
 @override
 String toString() {
-  return 'PaymentOrderDto(orderId: $orderId, orderCode: $orderCode, status: $status, sellerBusinessName: $sellerBusinessName, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, shippingLeadTime: $shippingLeadTime, shippingCutoffTime: $shippingCutoffTime, deliveryDays: $deliveryDays, deliveryAddress: $deliveryAddress, deliveryRequest: $deliveryRequest, items: $items, isSameDayShipping: $isSameDayShipping, isWeekendShipping: $isWeekendShipping)';
+  return 'PaymentOrderDto(orderId: $orderId, orderCode: $orderCode, status: $status, sellerProfileId: $sellerProfileId, sellerBusinessName: $sellerBusinessName, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, shippingLeadTime: $shippingLeadTime, shippingCutoffTime: $shippingCutoffTime, deliveryDays: $deliveryDays, deliveryAddress: $deliveryAddress, deliveryRequest: $deliveryRequest, items: $items, isSameDayShipping: $isSameDayShipping, isWeekendShipping: $isWeekendShipping)';
 }
 
 
@@ -667,7 +667,7 @@ abstract mixin class $PaymentOrderDtoCopyWith<$Res>  {
   factory $PaymentOrderDtoCopyWith(PaymentOrderDto value, $Res Function(PaymentOrderDto) _then) = _$PaymentOrderDtoCopyWithImpl;
 @useResult
 $Res call({
- int orderId, String orderCode, String status, String? sellerBusinessName, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, int? shippingLeadTime, String? shippingCutoffTime, int? deliveryDays, PaymentDeliveryAddressDto deliveryAddress, String deliveryRequest, List<PaymentOrderItemDto> items, bool isSameDayShipping, bool isWeekendShipping
+ int orderId, String orderCode, String status, int sellerProfileId, String? sellerBusinessName, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, int? shippingLeadTime, String? shippingCutoffTime, int? deliveryDays, PaymentDeliveryAddressDto deliveryAddress, String deliveryRequest, List<PaymentOrderItemDto> items, bool isSameDayShipping, bool isWeekendShipping
 });
 
 
@@ -684,12 +684,13 @@ class _$PaymentOrderDtoCopyWithImpl<$Res>
 
 /// Create a copy of PaymentOrderDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? orderCode = null,Object? status = null,Object? sellerBusinessName = freezed,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? shippingLeadTime = freezed,Object? shippingCutoffTime = freezed,Object? deliveryDays = freezed,Object? deliveryAddress = null,Object? deliveryRequest = null,Object? items = null,Object? isSameDayShipping = null,Object? isWeekendShipping = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? orderId = null,Object? orderCode = null,Object? status = null,Object? sellerProfileId = null,Object? sellerBusinessName = freezed,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? shippingLeadTime = freezed,Object? shippingCutoffTime = freezed,Object? deliveryDays = freezed,Object? deliveryAddress = null,Object? deliveryRequest = null,Object? items = null,Object? isSameDayShipping = null,Object? isWeekendShipping = null,}) {
   return _then(_self.copyWith(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as int,orderCode: null == orderCode ? _self.orderCode : orderCode // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,sellerBusinessName: freezed == sellerBusinessName ? _self.sellerBusinessName : sellerBusinessName // ignore: cast_nullable_to_non_nullable
+as String,sellerProfileId: null == sellerProfileId ? _self.sellerProfileId : sellerProfileId // ignore: cast_nullable_to_non_nullable
+as int,sellerBusinessName: freezed == sellerBusinessName ? _self.sellerBusinessName : sellerBusinessName // ignore: cast_nullable_to_non_nullable
 as String?,productAmount: null == productAmount ? _self.productAmount : productAmount // ignore: cast_nullable_to_non_nullable
 as int,deliveryFee: null == deliveryFee ? _self.deliveryFee : deliveryFee // ignore: cast_nullable_to_non_nullable
 as int,jejuDeliveryFee: null == jejuDeliveryFee ? _self.jejuDeliveryFee : jejuDeliveryFee // ignore: cast_nullable_to_non_nullable
@@ -796,10 +797,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int orderId,  String orderCode,  String status,  String? sellerBusinessName,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  int? shippingLeadTime,  String? shippingCutoffTime,  int? deliveryDays,  PaymentDeliveryAddressDto deliveryAddress,  String deliveryRequest,  List<PaymentOrderItemDto> items,  bool isSameDayShipping,  bool isWeekendShipping)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int orderId,  String orderCode,  String status,  int sellerProfileId,  String? sellerBusinessName,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  int? shippingLeadTime,  String? shippingCutoffTime,  int? deliveryDays,  PaymentDeliveryAddressDto deliveryAddress,  String deliveryRequest,  List<PaymentOrderItemDto> items,  bool isSameDayShipping,  bool isWeekendShipping)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaymentOrderDto() when $default != null:
-return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerBusinessName,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.shippingLeadTime,_that.shippingCutoffTime,_that.deliveryDays,_that.deliveryAddress,_that.deliveryRequest,_that.items,_that.isSameDayShipping,_that.isWeekendShipping);case _:
+return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerProfileId,_that.sellerBusinessName,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.shippingLeadTime,_that.shippingCutoffTime,_that.deliveryDays,_that.deliveryAddress,_that.deliveryRequest,_that.items,_that.isSameDayShipping,_that.isWeekendShipping);case _:
   return orElse();
 
 }
@@ -817,10 +818,10 @@ return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerBusinessN
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int orderId,  String orderCode,  String status,  String? sellerBusinessName,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  int? shippingLeadTime,  String? shippingCutoffTime,  int? deliveryDays,  PaymentDeliveryAddressDto deliveryAddress,  String deliveryRequest,  List<PaymentOrderItemDto> items,  bool isSameDayShipping,  bool isWeekendShipping)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int orderId,  String orderCode,  String status,  int sellerProfileId,  String? sellerBusinessName,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  int? shippingLeadTime,  String? shippingCutoffTime,  int? deliveryDays,  PaymentDeliveryAddressDto deliveryAddress,  String deliveryRequest,  List<PaymentOrderItemDto> items,  bool isSameDayShipping,  bool isWeekendShipping)  $default,) {final _that = this;
 switch (_that) {
 case _PaymentOrderDto():
-return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerBusinessName,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.shippingLeadTime,_that.shippingCutoffTime,_that.deliveryDays,_that.deliveryAddress,_that.deliveryRequest,_that.items,_that.isSameDayShipping,_that.isWeekendShipping);case _:
+return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerProfileId,_that.sellerBusinessName,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.shippingLeadTime,_that.shippingCutoffTime,_that.deliveryDays,_that.deliveryAddress,_that.deliveryRequest,_that.items,_that.isSameDayShipping,_that.isWeekendShipping);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -837,10 +838,10 @@ return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerBusinessN
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int orderId,  String orderCode,  String status,  String? sellerBusinessName,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  int? shippingLeadTime,  String? shippingCutoffTime,  int? deliveryDays,  PaymentDeliveryAddressDto deliveryAddress,  String deliveryRequest,  List<PaymentOrderItemDto> items,  bool isSameDayShipping,  bool isWeekendShipping)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int orderId,  String orderCode,  String status,  int sellerProfileId,  String? sellerBusinessName,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  int? shippingLeadTime,  String? shippingCutoffTime,  int? deliveryDays,  PaymentDeliveryAddressDto deliveryAddress,  String deliveryRequest,  List<PaymentOrderItemDto> items,  bool isSameDayShipping,  bool isWeekendShipping)?  $default,) {final _that = this;
 switch (_that) {
 case _PaymentOrderDto() when $default != null:
-return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerBusinessName,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.shippingLeadTime,_that.shippingCutoffTime,_that.deliveryDays,_that.deliveryAddress,_that.deliveryRequest,_that.items,_that.isSameDayShipping,_that.isWeekendShipping);case _:
+return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerProfileId,_that.sellerBusinessName,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.shippingLeadTime,_that.shippingCutoffTime,_that.deliveryDays,_that.deliveryAddress,_that.deliveryRequest,_that.items,_that.isSameDayShipping,_that.isWeekendShipping);case _:
   return null;
 
 }
@@ -852,12 +853,13 @@ return $default(_that.orderId,_that.orderCode,_that.status,_that.sellerBusinessN
 @JsonSerializable()
 
 class _PaymentOrderDto implements PaymentOrderDto {
-  const _PaymentOrderDto({required this.orderId, required this.orderCode, required this.status, this.sellerBusinessName, required this.productAmount, required this.deliveryFee, required this.jejuDeliveryFee, required this.totalAmount, this.shippingLeadTime, this.shippingCutoffTime, this.deliveryDays, required this.deliveryAddress, required this.deliveryRequest, required final  List<PaymentOrderItemDto> items, required this.isSameDayShipping, required this.isWeekendShipping}): _items = items;
+  const _PaymentOrderDto({required this.orderId, required this.orderCode, required this.status, required this.sellerProfileId, this.sellerBusinessName, required this.productAmount, required this.deliveryFee, required this.jejuDeliveryFee, required this.totalAmount, this.shippingLeadTime, this.shippingCutoffTime, this.deliveryDays, required this.deliveryAddress, required this.deliveryRequest, required final  List<PaymentOrderItemDto> items, required this.isSameDayShipping, required this.isWeekendShipping}): _items = items;
   factory _PaymentOrderDto.fromJson(Map<String, dynamic> json) => _$PaymentOrderDtoFromJson(json);
 
 @override final  int orderId;
 @override final  String orderCode;
 @override final  String status;
+@override final  int sellerProfileId;
 @override final  String? sellerBusinessName;
 @override final  int productAmount;
 @override final  int deliveryFee;
@@ -891,16 +893,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentOrderDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.status, status) || other.status == status)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentOrderDto&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.status, status) || other.status == status)&&(identical(other.sellerProfileId, sellerProfileId) || other.sellerProfileId == sellerProfileId)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderId,orderCode,status,sellerBusinessName,productAmount,deliveryFee,jejuDeliveryFee,totalAmount,shippingLeadTime,shippingCutoffTime,deliveryDays,deliveryAddress,deliveryRequest,const DeepCollectionEquality().hash(_items),isSameDayShipping,isWeekendShipping);
+int get hashCode => Object.hash(runtimeType,orderId,orderCode,status,sellerProfileId,sellerBusinessName,productAmount,deliveryFee,jejuDeliveryFee,totalAmount,shippingLeadTime,shippingCutoffTime,deliveryDays,deliveryAddress,deliveryRequest,const DeepCollectionEquality().hash(_items),isSameDayShipping,isWeekendShipping);
 
 @override
 String toString() {
-  return 'PaymentOrderDto(orderId: $orderId, orderCode: $orderCode, status: $status, sellerBusinessName: $sellerBusinessName, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, shippingLeadTime: $shippingLeadTime, shippingCutoffTime: $shippingCutoffTime, deliveryDays: $deliveryDays, deliveryAddress: $deliveryAddress, deliveryRequest: $deliveryRequest, items: $items, isSameDayShipping: $isSameDayShipping, isWeekendShipping: $isWeekendShipping)';
+  return 'PaymentOrderDto(orderId: $orderId, orderCode: $orderCode, status: $status, sellerProfileId: $sellerProfileId, sellerBusinessName: $sellerBusinessName, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, shippingLeadTime: $shippingLeadTime, shippingCutoffTime: $shippingCutoffTime, deliveryDays: $deliveryDays, deliveryAddress: $deliveryAddress, deliveryRequest: $deliveryRequest, items: $items, isSameDayShipping: $isSameDayShipping, isWeekendShipping: $isWeekendShipping)';
 }
 
 
@@ -911,7 +913,7 @@ abstract mixin class _$PaymentOrderDtoCopyWith<$Res> implements $PaymentOrderDto
   factory _$PaymentOrderDtoCopyWith(_PaymentOrderDto value, $Res Function(_PaymentOrderDto) _then) = __$PaymentOrderDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int orderId, String orderCode, String status, String? sellerBusinessName, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, int? shippingLeadTime, String? shippingCutoffTime, int? deliveryDays, PaymentDeliveryAddressDto deliveryAddress, String deliveryRequest, List<PaymentOrderItemDto> items, bool isSameDayShipping, bool isWeekendShipping
+ int orderId, String orderCode, String status, int sellerProfileId, String? sellerBusinessName, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, int? shippingLeadTime, String? shippingCutoffTime, int? deliveryDays, PaymentDeliveryAddressDto deliveryAddress, String deliveryRequest, List<PaymentOrderItemDto> items, bool isSameDayShipping, bool isWeekendShipping
 });
 
 
@@ -928,12 +930,13 @@ class __$PaymentOrderDtoCopyWithImpl<$Res>
 
 /// Create a copy of PaymentOrderDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? orderCode = null,Object? status = null,Object? sellerBusinessName = freezed,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? shippingLeadTime = freezed,Object? shippingCutoffTime = freezed,Object? deliveryDays = freezed,Object? deliveryAddress = null,Object? deliveryRequest = null,Object? items = null,Object? isSameDayShipping = null,Object? isWeekendShipping = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? orderId = null,Object? orderCode = null,Object? status = null,Object? sellerProfileId = null,Object? sellerBusinessName = freezed,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? shippingLeadTime = freezed,Object? shippingCutoffTime = freezed,Object? deliveryDays = freezed,Object? deliveryAddress = null,Object? deliveryRequest = null,Object? items = null,Object? isSameDayShipping = null,Object? isWeekendShipping = null,}) {
   return _then(_PaymentOrderDto(
 orderId: null == orderId ? _self.orderId : orderId // ignore: cast_nullable_to_non_nullable
 as int,orderCode: null == orderCode ? _self.orderCode : orderCode // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,sellerBusinessName: freezed == sellerBusinessName ? _self.sellerBusinessName : sellerBusinessName // ignore: cast_nullable_to_non_nullable
+as String,sellerProfileId: null == sellerProfileId ? _self.sellerProfileId : sellerProfileId // ignore: cast_nullable_to_non_nullable
+as int,sellerBusinessName: freezed == sellerBusinessName ? _self.sellerBusinessName : sellerBusinessName // ignore: cast_nullable_to_non_nullable
 as String?,productAmount: null == productAmount ? _self.productAmount : productAmount // ignore: cast_nullable_to_non_nullable
 as int,deliveryFee: null == deliveryFee ? _self.deliveryFee : deliveryFee // ignore: cast_nullable_to_non_nullable
 as int,jejuDeliveryFee: null == jejuDeliveryFee ? _self.jejuDeliveryFee : jejuDeliveryFee // ignore: cast_nullable_to_non_nullable

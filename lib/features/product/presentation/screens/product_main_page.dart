@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moding_application/core/presentation/widgets/app_badge_icon.dart';
-import 'package:moding_application/features/product/domain/entities/seller_info_dto.dart';
+import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/features/product/presentation/providers/product_viewmodel.dart';
 import 'package:moding_application/features/product/presentation/screens/widgets/product_bottom_bar.dart';
 import 'package:moding_application/features/product/presentation/screens/widgets/sections/price_info_section.dart';
@@ -14,12 +14,13 @@ import 'package:moding_application/features/product/presentation/screens/widgets
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/presentation/widgets/loading_indicator.dart';
-import '../../../../core/presentation/widgets/modal/app_bottom_sheet.dart';
 import '../../../../core/presentation/widgets/text_with_cehvron.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../cart/presentation/providers/cart/cart_viewmodel.dart';
 import '../../../search/presentation/screens/widgets/search_masonry_list.dart';
 import '../../domain/enums/product_recommand_type.dart';
+import '../../../seller_info/data/repositories/seller_info_repository_impl.dart';
+import '../../../seller_info/presentation/widgets/seller_info_bottom_sheet.dart';
 
 class ProductMainPage extends ConsumerStatefulWidget {
   const ProductMainPage({super.key, required this.id});
@@ -79,7 +80,6 @@ class _ProductMainPageState extends ConsumerState<ProductMainPage> {
   Widget build(BuildContext context) {
     final cardWidth = MediaQuery.sizeOf(context).width;
     final state = ref.watch(productViewModelProvider(widget.id));
-    final notifier = ref.read(productViewModelProvider(widget.id).notifier);
 
     ref.listen(productViewModelProvider(widget.id), (prev, next) {
       // 👉 옵션 선택 감지
@@ -272,10 +272,33 @@ class _ProductMainPageState extends ConsumerState<ProductMainPage> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              await notifier.getSellerProfileInfo(
-                                state.productInfo!.sellerProfileId!,
-                              );
-                              _showSellerInfo(state.sellerInfo!);
+                              final sellerProfileId =
+                                  state.productInfo?.sellerProfileId;
+                              if (sellerProfileId == null) {
+                                CommonDialog.show(
+                                  context,
+                                  title: "오류",
+                                  isSuccess: false,
+                                  message: "판매자 정보를 확인할 수 없습니다.",
+                                );
+                                return;
+                              }
+
+                              try {
+                                final sellerInfo = await ref
+                                    .read(sellerInfoRepositoryProvider)
+                                    .getSellerInfo(sellerProfileId);
+                                if (!context.mounted) return;
+                                showSellerInfoBottomSheet(context, sellerInfo);
+                              } catch (_) {
+                                if (!context.mounted) return;
+                                CommonDialog.show(
+                                  context,
+                                  title: "오류",
+                                  isSuccess: false,
+                                  message: "판매자 정보를 불러오지 못했습니다.",
+                                );
+                              }
                             },
                             child: TextWithChevron(
                               text: "판매자 정보 보기",
@@ -375,32 +398,6 @@ class _ProductMainPageState extends ConsumerState<ProductMainPage> {
         ),
         const SizedBox(width: 20),
       ],
-    );
-  }
-
-  void _showSellerInfo(SellerInfoDto sellerInfo) {
-    AppBottomSheet.show(
-      context: context,
-      title: "판매자 정보",
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("상호: ${sellerInfo.businessName}", style: context.bodySmall),
-              Text("대표자: ${sellerInfo.ownerName}", style: context.bodySmall),
-              Text(
-                "사업자번호: ${sellerInfo.businessNumber}",
-                style: context.bodySmall,
-              ),
-              Text("주소: ${sellerInfo.address}", style: context.bodySmall),
-              Text("연락처: ${sellerInfo.phone}", style: context.bodySmall),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

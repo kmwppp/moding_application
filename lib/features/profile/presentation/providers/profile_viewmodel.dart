@@ -1,5 +1,6 @@
 import 'package:moding_application/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:moding_application/features/profile/presentation/providers/profile_state.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'profile_viewmodel.g.dart';
@@ -22,7 +23,7 @@ class ProfileViewModel extends _$ProfileViewModel {
       final profileSummary = await repository.getProfileSummary();
       state = state.copyWith(profileSummary: profileSummary);
     } catch (e) {
-      print(e);
+      appLog(e);
     }
   }
 }

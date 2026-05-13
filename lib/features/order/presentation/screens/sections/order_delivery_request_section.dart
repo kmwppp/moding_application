@@ -24,7 +24,12 @@ class OrderDeliveryRequestSection extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("배송 요청사항", style: context.titleMedium),
+                Text(
+                  "배송 요청사항",
+                  style: context.titleMedium.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 const SizedBox(height: 6),
 
                 DropdownButtonFormField<DeliveryRequestType>(

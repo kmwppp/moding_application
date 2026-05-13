@@ -33,7 +33,12 @@ class OrderAddressSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("배송지", style: context.titleMedium),
+                      Text(
+                        "배송지",
+                        style: context.titleMedium.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                       VerticalDivider(
                         color: AppColors.mediumGrey,
                         thickness: 2,
@@ -41,7 +46,12 @@ class OrderAddressSection extends StatelessWidget {
                         indent: 4,
                         endIndent: 4,
                       ),
-                      Text(name, style: context.titleMedium),
+                      Text(
+                        name,
+                        style: context.titleMedium.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ],
                   ),
                 ),

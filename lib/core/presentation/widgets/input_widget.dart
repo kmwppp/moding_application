@@ -5,7 +5,7 @@ import 'package:moding_application/core/constants/app_colors.dart';
 
 import '../../theme/app_text_styles.dart';
 
-class InputWidget extends ConsumerWidget {
+class InputWidget extends ConsumerStatefulWidget {
   final FocusNode? focusNode;
   final String inputTitle;
   final String inputHint;
@@ -37,9 +37,25 @@ class InputWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<InputWidget> createState() => _InputWidgetState();
+}
+
+class _InputWidgetState extends ConsumerState<InputWidget> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPw;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: paddingV, horizontal: paddingH),
+      padding: EdgeInsets.symmetric(
+        vertical: widget.paddingV,
+        horizontal: widget.paddingH,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,18 +63,18 @@ class InputWidget extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             spacing: 6,
             children: [
-              if (inputTitle != "")
+              if (widget.inputTitle != "")
                 Column(
                   children: [
-                    Text(inputTitle, style: titleTextStyle),
+                    Text(widget.inputTitle, style: widget.titleTextStyle),
                     const SizedBox(height: 10),
                   ],
                 ),
-              if (caption != "")
+              if (widget.caption != "")
                 Column(
                   children: [
                     Text(
-                      caption,
+                      widget.caption,
                       style: context.caption.copyWith(
                         color: AppColors.hintTextColor,
                       ),
@@ -76,7 +92,7 @@ class InputWidget extends ConsumerWidget {
   }
 
   Widget _inputUserInfo(BuildContext context) {
-    return !isPw
+    return !widget.isPw
         ? Container(
             width: double.infinity,
             height: 40,
@@ -87,17 +103,17 @@ class InputWidget extends ConsumerWidget {
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(horizontal: 14),
             child: TextField(
-              focusNode: focusNode,
-              obscureText: isPw,
+              focusNode: widget.focusNode,
+              obscureText: _obscureText,
               onChanged: (value) {
-                onChanged(value);
+                widget.onChanged(value);
               },
-              keyboardType: inputType,
-              inputFormatters: inputFormatter,
+              keyboardType: widget.inputType,
+              inputFormatters: widget.inputFormatter,
               decoration: InputDecoration(
                 isDense: true,
                 border: InputBorder.none,
-                hintText: inputHint,
+                hintText: widget.inputHint,
                 hintStyle: context.body.copyWith(color: AppColors.darkGrey),
               ),
               style: context.body,
@@ -117,16 +133,16 @@ class InputWidget extends ConsumerWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    obscureText: isPw,
+                    obscureText: _obscureText,
                     onChanged: (value) {
-                      onChanged(value);
+                      widget.onChanged(value);
                     },
-                    keyboardType: inputType,
-                    inputFormatters: inputFormatter,
+                    keyboardType: widget.inputType,
+                    inputFormatters: widget.inputFormatter,
                     decoration: InputDecoration(
                       isDense: true,
                       border: InputBorder.none,
-                      hintText: inputHint,
+                      hintText: widget.inputHint,
                       hintStyle: context.body.copyWith(
                         color: AppColors.darkGrey,
                       ),
@@ -134,7 +150,20 @@ class InputWidget extends ConsumerWidget {
                     style: context.body,
                   ),
                 ),
-                Icon(Icons.lock, size: 14, color: AppColors.darkGrey),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  child: Icon(
+                    _obscureText
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    size: 18,
+                    color: AppColors.darkGrey,
+                  ),
+                ),
               ],
             ),
           );

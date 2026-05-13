@@ -1,3 +1,4 @@
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/product_recommend_list/presentation/providers/product_list_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -61,7 +62,7 @@ class ProductListViewModel extends _$ProductListViewModel {
       );
     } catch (e) {
       state = state.copyWith(isFetchingMore: false, isLoading: false);
-      print(e);
+      appLog(e);
     }
   }
 

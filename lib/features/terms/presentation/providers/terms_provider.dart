@@ -28,4 +28,7 @@ class TermsNotifier extends _$TermsNotifier {
 
   List<TermsItemDto> get orderTerms =>
       getByTypes([TermsType.service, TermsType.privacyPolicy]);
+
+  /// 회원가입용
+  List<TermsItemDto> get signupTerms => getByTypes([TermsType.buyer]);
 }

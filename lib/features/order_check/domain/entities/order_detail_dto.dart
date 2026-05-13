@@ -106,6 +106,7 @@ abstract class OrderDetailDeliveryDto with _$OrderDetailDeliveryDto {
 @freezed
 abstract class OrderDetailPaymentDto with _$OrderDetailPaymentDto {
   const factory OrderDetailPaymentDto({
+    required int paymentId,
     required String paymentCode,
     @JsonKey(
       fromJson: OrderPaymentMethod.fromJson,

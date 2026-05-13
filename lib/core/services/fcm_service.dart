@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 
 Future<void> requestPermission() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -10,10 +11,10 @@ Future<void> requestPermission() async {
   );
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print('사용자가 알림 허용');
+    appLog('사용자가 알림 허용');
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    print('임시 허용');
+    appLog('임시 허용');
   } else {
-    print('알림 거부됨');
+    appLog('알림 거부됨');
   }
 }

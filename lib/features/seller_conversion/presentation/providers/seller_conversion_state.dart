@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:moding_application/features/meta/domain/entities/meta_option_dto.dart';
 import 'package:moding_application/features/seller_conversion/domain/entities/category_permits_dto.dart';
 import 'package:moding_application/features/seller_conversion/domain/enums/seller_tax_type.dart';
 
@@ -15,10 +16,11 @@ abstract class SellerConversionState with _$SellerConversionState {
     @Default([]) List<CategoryPermitsDto> subPermits,
     CategoryPermitsDto? selectedMainPermit,
     CategoryPermitsDto? selectedSubPermit,
-    String? bankName,
+    MetaOptionDto? selectedBank,
     @Default('') String bankAccountNumber,
     @Default('') String bankAccountHolder,
     String? bankbookImagePath,
+    String? businessLicenseImagePath,
     String? businessPermitImagePath,
     String? salesPermitImagePath,
     @Default([]) List<String> otherFilePaths,

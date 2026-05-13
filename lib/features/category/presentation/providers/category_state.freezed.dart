@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CategoryState {
 
- bool get isLoading; MainCategoryResponseDto? get mainCategory; int get isMainCategorySelectedIndex; bool get isOpenSubCategoryView; MainCategoryResponseDto? get subCategory; MainCategoryDto? get selectedCategory; ProductRecommandDto? get productList; int get page; bool get hasNext; bool get isFetchingMore;
+ bool get isLoading; MainCategoryResponseDto? get mainCategory; int get isMainCategorySelectedIndex; bool get isOpenSubCategoryView; MainCategoryResponseDto? get subCategory; MainCategoryDto? get selectedCategory; int get selectedSubCategoryIndex; ProductRecommandDto? get productList; int get page; bool get hasNext; bool get isFetchingMore;
 /// Create a copy of CategoryState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CategoryStateCopyWith<CategoryState> get copyWith => _$CategoryStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.mainCategory, mainCategory) || other.mainCategory == mainCategory)&&(identical(other.isMainCategorySelectedIndex, isMainCategorySelectedIndex) || other.isMainCategorySelectedIndex == isMainCategorySelectedIndex)&&(identical(other.isOpenSubCategoryView, isOpenSubCategoryView) || other.isOpenSubCategoryView == isOpenSubCategoryView)&&(identical(other.subCategory, subCategory) || other.subCategory == subCategory)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory)&&(identical(other.productList, productList) || other.productList == productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.mainCategory, mainCategory) || other.mainCategory == mainCategory)&&(identical(other.isMainCategorySelectedIndex, isMainCategorySelectedIndex) || other.isMainCategorySelectedIndex == isMainCategorySelectedIndex)&&(identical(other.isOpenSubCategoryView, isOpenSubCategoryView) || other.isOpenSubCategoryView == isOpenSubCategoryView)&&(identical(other.subCategory, subCategory) || other.subCategory == subCategory)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory)&&(identical(other.selectedSubCategoryIndex, selectedSubCategoryIndex) || other.selectedSubCategoryIndex == selectedSubCategoryIndex)&&(identical(other.productList, productList) || other.productList == productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,mainCategory,isMainCategorySelectedIndex,isOpenSubCategoryView,subCategory,selectedCategory,productList,page,hasNext,isFetchingMore);
+int get hashCode => Object.hash(runtimeType,isLoading,mainCategory,isMainCategorySelectedIndex,isOpenSubCategoryView,subCategory,selectedCategory,selectedSubCategoryIndex,productList,page,hasNext,isFetchingMore);
 
 @override
 String toString() {
-  return 'CategoryState(isLoading: $isLoading, mainCategory: $mainCategory, isMainCategorySelectedIndex: $isMainCategorySelectedIndex, isOpenSubCategoryView: $isOpenSubCategoryView, subCategory: $subCategory, selectedCategory: $selectedCategory, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore)';
+  return 'CategoryState(isLoading: $isLoading, mainCategory: $mainCategory, isMainCategorySelectedIndex: $isMainCategorySelectedIndex, isOpenSubCategoryView: $isOpenSubCategoryView, subCategory: $subCategory, selectedCategory: $selectedCategory, selectedSubCategoryIndex: $selectedSubCategoryIndex, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CategoryStateCopyWith<$Res>  {
   factory $CategoryStateCopyWith(CategoryState value, $Res Function(CategoryState) _then) = _$CategoryStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, MainCategoryResponseDto? mainCategory, int isMainCategorySelectedIndex, bool isOpenSubCategoryView, MainCategoryResponseDto? subCategory, MainCategoryDto? selectedCategory, ProductRecommandDto? productList, int page, bool hasNext, bool isFetchingMore
+ bool isLoading, MainCategoryResponseDto? mainCategory, int isMainCategorySelectedIndex, bool isOpenSubCategoryView, MainCategoryResponseDto? subCategory, MainCategoryDto? selectedCategory, int selectedSubCategoryIndex, ProductRecommandDto? productList, int page, bool hasNext, bool isFetchingMore
 });
 
 
@@ -62,7 +62,7 @@ class _$CategoryStateCopyWithImpl<$Res>
 
 /// Create a copy of CategoryState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? mainCategory = freezed,Object? isMainCategorySelectedIndex = null,Object? isOpenSubCategoryView = null,Object? subCategory = freezed,Object? selectedCategory = freezed,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? mainCategory = freezed,Object? isMainCategorySelectedIndex = null,Object? isOpenSubCategoryView = null,Object? subCategory = freezed,Object? selectedCategory = freezed,Object? selectedSubCategoryIndex = null,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,mainCategory: freezed == mainCategory ? _self.mainCategory : mainCategory // ignore: cast_nullable_to_non_nullable
@@ -70,7 +70,8 @@ as MainCategoryResponseDto?,isMainCategorySelectedIndex: null == isMainCategoryS
 as int,isOpenSubCategoryView: null == isOpenSubCategoryView ? _self.isOpenSubCategoryView : isOpenSubCategoryView // ignore: cast_nullable_to_non_nullable
 as bool,subCategory: freezed == subCategory ? _self.subCategory : subCategory // ignore: cast_nullable_to_non_nullable
 as MainCategoryResponseDto?,selectedCategory: freezed == selectedCategory ? _self.selectedCategory : selectedCategory // ignore: cast_nullable_to_non_nullable
-as MainCategoryDto?,productList: freezed == productList ? _self.productList : productList // ignore: cast_nullable_to_non_nullable
+as MainCategoryDto?,selectedSubCategoryIndex: null == selectedSubCategoryIndex ? _self.selectedSubCategoryIndex : selectedSubCategoryIndex // ignore: cast_nullable_to_non_nullable
+as int,productList: freezed == productList ? _self.productList : productList // ignore: cast_nullable_to_non_nullable
 as ProductRecommandDto?,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
 as int,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
 as bool,isFetchingMore: null == isFetchingMore ? _self.isFetchingMore : isFetchingMore // ignore: cast_nullable_to_non_nullable
@@ -207,10 +208,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  MainCategoryResponseDto? mainCategory,  int isMainCategorySelectedIndex,  bool isOpenSubCategoryView,  MainCategoryResponseDto? subCategory,  MainCategoryDto? selectedCategory,  ProductRecommandDto? productList,  int page,  bool hasNext,  bool isFetchingMore)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  MainCategoryResponseDto? mainCategory,  int isMainCategorySelectedIndex,  bool isOpenSubCategoryView,  MainCategoryResponseDto? subCategory,  MainCategoryDto? selectedCategory,  int selectedSubCategoryIndex,  ProductRecommandDto? productList,  int page,  bool hasNext,  bool isFetchingMore)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CategoryState() when $default != null:
-return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedIndex,_that.isOpenSubCategoryView,_that.subCategory,_that.selectedCategory,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore);case _:
+return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedIndex,_that.isOpenSubCategoryView,_that.subCategory,_that.selectedCategory,_that.selectedSubCategoryIndex,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore);case _:
   return orElse();
 
 }
@@ -228,10 +229,10 @@ return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedI
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  MainCategoryResponseDto? mainCategory,  int isMainCategorySelectedIndex,  bool isOpenSubCategoryView,  MainCategoryResponseDto? subCategory,  MainCategoryDto? selectedCategory,  ProductRecommandDto? productList,  int page,  bool hasNext,  bool isFetchingMore)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  MainCategoryResponseDto? mainCategory,  int isMainCategorySelectedIndex,  bool isOpenSubCategoryView,  MainCategoryResponseDto? subCategory,  MainCategoryDto? selectedCategory,  int selectedSubCategoryIndex,  ProductRecommandDto? productList,  int page,  bool hasNext,  bool isFetchingMore)  $default,) {final _that = this;
 switch (_that) {
 case _CategoryState():
-return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedIndex,_that.isOpenSubCategoryView,_that.subCategory,_that.selectedCategory,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore);case _:
+return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedIndex,_that.isOpenSubCategoryView,_that.subCategory,_that.selectedCategory,_that.selectedSubCategoryIndex,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -248,10 +249,10 @@ return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedI
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  MainCategoryResponseDto? mainCategory,  int isMainCategorySelectedIndex,  bool isOpenSubCategoryView,  MainCategoryResponseDto? subCategory,  MainCategoryDto? selectedCategory,  ProductRecommandDto? productList,  int page,  bool hasNext,  bool isFetchingMore)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  MainCategoryResponseDto? mainCategory,  int isMainCategorySelectedIndex,  bool isOpenSubCategoryView,  MainCategoryResponseDto? subCategory,  MainCategoryDto? selectedCategory,  int selectedSubCategoryIndex,  ProductRecommandDto? productList,  int page,  bool hasNext,  bool isFetchingMore)?  $default,) {final _that = this;
 switch (_that) {
 case _CategoryState() when $default != null:
-return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedIndex,_that.isOpenSubCategoryView,_that.subCategory,_that.selectedCategory,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore);case _:
+return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedIndex,_that.isOpenSubCategoryView,_that.subCategory,_that.selectedCategory,_that.selectedSubCategoryIndex,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore);case _:
   return null;
 
 }
@@ -263,7 +264,7 @@ return $default(_that.isLoading,_that.mainCategory,_that.isMainCategorySelectedI
 
 
 class _CategoryState extends CategoryState {
-  const _CategoryState({required this.isLoading, required this.mainCategory, required this.isMainCategorySelectedIndex, required this.isOpenSubCategoryView, required this.subCategory, required this.selectedCategory, required this.productList, this.page = 0, this.hasNext = true, this.isFetchingMore = false}): super._();
+  const _CategoryState({required this.isLoading, required this.mainCategory, required this.isMainCategorySelectedIndex, required this.isOpenSubCategoryView, required this.subCategory, required this.selectedCategory, required this.selectedSubCategoryIndex, required this.productList, this.page = 0, this.hasNext = true, this.isFetchingMore = false}): super._();
   
 
 @override final  bool isLoading;
@@ -272,6 +273,7 @@ class _CategoryState extends CategoryState {
 @override final  bool isOpenSubCategoryView;
 @override final  MainCategoryResponseDto? subCategory;
 @override final  MainCategoryDto? selectedCategory;
+@override final  int selectedSubCategoryIndex;
 @override final  ProductRecommandDto? productList;
 @override@JsonKey() final  int page;
 @override@JsonKey() final  bool hasNext;
@@ -287,16 +289,16 @@ _$CategoryStateCopyWith<_CategoryState> get copyWith => __$CategoryStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CategoryState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.mainCategory, mainCategory) || other.mainCategory == mainCategory)&&(identical(other.isMainCategorySelectedIndex, isMainCategorySelectedIndex) || other.isMainCategorySelectedIndex == isMainCategorySelectedIndex)&&(identical(other.isOpenSubCategoryView, isOpenSubCategoryView) || other.isOpenSubCategoryView == isOpenSubCategoryView)&&(identical(other.subCategory, subCategory) || other.subCategory == subCategory)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory)&&(identical(other.productList, productList) || other.productList == productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CategoryState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.mainCategory, mainCategory) || other.mainCategory == mainCategory)&&(identical(other.isMainCategorySelectedIndex, isMainCategorySelectedIndex) || other.isMainCategorySelectedIndex == isMainCategorySelectedIndex)&&(identical(other.isOpenSubCategoryView, isOpenSubCategoryView) || other.isOpenSubCategoryView == isOpenSubCategoryView)&&(identical(other.subCategory, subCategory) || other.subCategory == subCategory)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory)&&(identical(other.selectedSubCategoryIndex, selectedSubCategoryIndex) || other.selectedSubCategoryIndex == selectedSubCategoryIndex)&&(identical(other.productList, productList) || other.productList == productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,mainCategory,isMainCategorySelectedIndex,isOpenSubCategoryView,subCategory,selectedCategory,productList,page,hasNext,isFetchingMore);
+int get hashCode => Object.hash(runtimeType,isLoading,mainCategory,isMainCategorySelectedIndex,isOpenSubCategoryView,subCategory,selectedCategory,selectedSubCategoryIndex,productList,page,hasNext,isFetchingMore);
 
 @override
 String toString() {
-  return 'CategoryState(isLoading: $isLoading, mainCategory: $mainCategory, isMainCategorySelectedIndex: $isMainCategorySelectedIndex, isOpenSubCategoryView: $isOpenSubCategoryView, subCategory: $subCategory, selectedCategory: $selectedCategory, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore)';
+  return 'CategoryState(isLoading: $isLoading, mainCategory: $mainCategory, isMainCategorySelectedIndex: $isMainCategorySelectedIndex, isOpenSubCategoryView: $isOpenSubCategoryView, subCategory: $subCategory, selectedCategory: $selectedCategory, selectedSubCategoryIndex: $selectedSubCategoryIndex, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore)';
 }
 
 
@@ -307,7 +309,7 @@ abstract mixin class _$CategoryStateCopyWith<$Res> implements $CategoryStateCopy
   factory _$CategoryStateCopyWith(_CategoryState value, $Res Function(_CategoryState) _then) = __$CategoryStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, MainCategoryResponseDto? mainCategory, int isMainCategorySelectedIndex, bool isOpenSubCategoryView, MainCategoryResponseDto? subCategory, MainCategoryDto? selectedCategory, ProductRecommandDto? productList, int page, bool hasNext, bool isFetchingMore
+ bool isLoading, MainCategoryResponseDto? mainCategory, int isMainCategorySelectedIndex, bool isOpenSubCategoryView, MainCategoryResponseDto? subCategory, MainCategoryDto? selectedCategory, int selectedSubCategoryIndex, ProductRecommandDto? productList, int page, bool hasNext, bool isFetchingMore
 });
 
 
@@ -324,7 +326,7 @@ class __$CategoryStateCopyWithImpl<$Res>
 
 /// Create a copy of CategoryState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? mainCategory = freezed,Object? isMainCategorySelectedIndex = null,Object? isOpenSubCategoryView = null,Object? subCategory = freezed,Object? selectedCategory = freezed,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? mainCategory = freezed,Object? isMainCategorySelectedIndex = null,Object? isOpenSubCategoryView = null,Object? subCategory = freezed,Object? selectedCategory = freezed,Object? selectedSubCategoryIndex = null,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,}) {
   return _then(_CategoryState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,mainCategory: freezed == mainCategory ? _self.mainCategory : mainCategory // ignore: cast_nullable_to_non_nullable
@@ -332,7 +334,8 @@ as MainCategoryResponseDto?,isMainCategorySelectedIndex: null == isMainCategoryS
 as int,isOpenSubCategoryView: null == isOpenSubCategoryView ? _self.isOpenSubCategoryView : isOpenSubCategoryView // ignore: cast_nullable_to_non_nullable
 as bool,subCategory: freezed == subCategory ? _self.subCategory : subCategory // ignore: cast_nullable_to_non_nullable
 as MainCategoryResponseDto?,selectedCategory: freezed == selectedCategory ? _self.selectedCategory : selectedCategory // ignore: cast_nullable_to_non_nullable
-as MainCategoryDto?,productList: freezed == productList ? _self.productList : productList // ignore: cast_nullable_to_non_nullable
+as MainCategoryDto?,selectedSubCategoryIndex: null == selectedSubCategoryIndex ? _self.selectedSubCategoryIndex : selectedSubCategoryIndex // ignore: cast_nullable_to_non_nullable
+as int,productList: freezed == productList ? _self.productList : productList // ignore: cast_nullable_to_non_nullable
 as ProductRecommandDto?,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
 as int,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullable_to_non_nullable
 as bool,isFetchingMore: null == isFetchingMore ? _self.isFetchingMore : isFetchingMore // ignore: cast_nullable_to_non_nullable

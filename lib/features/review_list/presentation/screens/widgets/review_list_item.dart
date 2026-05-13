@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/core/presentation/widgets/modal/app_bottom_sheet.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/widgets/text_with_cehvron.dart';
-import '../../../../../core/theme/app_box_styles.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../domain/entities/review_list_response_dto.dart';
 import '../../providers/review_list_viewmodel.dart';
@@ -144,69 +144,73 @@ class ReviewListItem extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Container(
-          width: double.infinity,
-          decoration: AppBoxStyles.borderBox,
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(item.content, style: context.bodySmall),
-              if (item.photos.isNotEmpty) ...[
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 60,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: item.photos.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 10),
-                    itemBuilder: (context, index) {
-                      final photo = item.photos[index];
-                      return GestureDetector(
-                        onTap: () => _showImagePreview(
-                          context,
-                          imageUrl: photo.photoUrl,
-                        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(item.content, style: context.bodySmall),
+            if (item.photos.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 60,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: item.photos.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 10),
+                  itemBuilder: (context, index) {
+                    final photo = item.photos[index];
+                    return GestureDetector(
+                      onTap: () => _showImagePreview(
+                        context,
+                        photos: item.photos,
+                        initialIndex: index,
+                      ),
+                      child: SizedBox(
+                        width: 60,
+                        height: 60,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            photo.photoUrl,
-                            width: 60,
-                            height: 60,
-                            cacheWidth: thumbnailCacheSize,
-                            cacheHeight: thumbnailCacheSize,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return const SizedBox(
-                                width: 60,
-                                height: 60,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+                          child: CachedNetworkImage(
+                            imageUrl: photo.photoUrl,
+                            memCacheWidth: thumbnailCacheSize,
+                            memCacheHeight: thumbnailCacheSize,
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.center,
                                   ),
                                 ),
                               );
                             },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                width: 60,
-                                height: 60,
-                                color: Colors.grey.shade200,
-                                child: const Icon(Icons.broken_image),
-                              );
-                            },
+                            placeholder: (context, url) => Container(
+                              color: Colors.grey.shade200,
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              color: Colors.grey.shade200,
+                              child: const Center(
+                                child: Icon(Icons.broken_image),
+                              ),
+                            ),
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
-              ],
+              ),
             ],
-          ),
+          ],
         ),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -221,8 +225,10 @@ class ReviewListItem extends ConsumerWidget {
 
   Future<void> _showImagePreview(
     BuildContext context, {
-    required String imageUrl,
+    required List<ReviewPhotoDto> photos,
+    required int initialIndex,
   }) {
+    final pageController = PageController(initialPage: initialIndex);
     return showGeneralDialog(
       context: context,
       barrierLabel: 'review_image_preview',
@@ -235,32 +241,38 @@ class ReviewListItem extends ConsumerWidget {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: InteractiveViewer(
-                    minScale: 1,
-                    maxScale: 4,
-                    child: Center(
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.contain,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          );
-                        },
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Center(
-                            child: Icon(
-                              Icons.broken_image,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                  child: PageView.builder(
+                    controller: pageController,
+                    itemCount: photos.length,
+                    itemBuilder: (context, index) {
+                      return InteractiveViewer(
+                        minScale: 1,
+                        maxScale: 4,
+                        child: Center(
+                          child: Image.network(
+                            photos[index].photoUrl,
+                            fit: BoxFit.contain,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                child: Icon(
+                                  Icons.broken_image,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Positioned(
@@ -272,7 +284,7 @@ class ReviewListItem extends ConsumerWidget {
                       width: 36,
                       height: 36,
                       decoration: const BoxDecoration(
-                        color: Colors.white24,
+                        color: Colors.black45,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(

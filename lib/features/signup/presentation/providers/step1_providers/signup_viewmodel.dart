@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/signup/data/repositories/signup_repository_impl.dart';
 import 'package:moding_application/features/signup/presentation/providers/step1_providers/signup_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -64,7 +65,7 @@ class SignupViewModel extends _$SignupViewModel {
       final repository = ref.read(signupRepositoryProvider);
       return await repository.executeDuplicate(userId);
     } catch (e) {
-      print("❌ 에러: $e");
+      appLog("❌ 에러: $e");
       return false;
     }
   }

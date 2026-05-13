@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OrderResponseDto {
 
- int get productId; String get productName; String get thumbnailImageUrl; List<OrderItemDto> get items; int get productAmount; int get deliveryFee; int get jejuDeliveryFee; int get totalAmount; bool get isWeekendShipping; int get deliveryDays; int get shippingLeadTime; bool get isSameDayShipping; String get shippingCutoffTime; AddressDto get deliveryAddress;
+ String? get tossCustomerKey; int get productId; String get productName; String get thumbnailImageUrl; List<OrderItemDto> get items; int get productAmount; int get deliveryFee; int get jejuDeliveryFee; int get totalAmount; bool get isWeekendShipping; int get deliveryDays; int get shippingLeadTime; bool get isSameDayShipping; String get shippingCutoffTime; AddressDto get deliveryAddress;
 /// Create a copy of OrderResponseDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $OrderResponseDtoCopyWith<OrderResponseDto> get copyWith => _$OrderResponseDtoCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderResponseDto&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderResponseDto&&(identical(other.tossCustomerKey, tossCustomerKey) || other.tossCustomerKey == tossCustomerKey)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,productName,thumbnailImageUrl,const DeepCollectionEquality().hash(items),productAmount,deliveryFee,jejuDeliveryFee,totalAmount,isWeekendShipping,deliveryDays,shippingLeadTime,isSameDayShipping,shippingCutoffTime,deliveryAddress);
+int get hashCode => Object.hash(runtimeType,tossCustomerKey,productId,productName,thumbnailImageUrl,const DeepCollectionEquality().hash(items),productAmount,deliveryFee,jejuDeliveryFee,totalAmount,isWeekendShipping,deliveryDays,shippingLeadTime,isSameDayShipping,shippingCutoffTime,deliveryAddress);
 
 @override
 String toString() {
-  return 'OrderResponseDto(productId: $productId, productName: $productName, thumbnailImageUrl: $thumbnailImageUrl, items: $items, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, isWeekendShipping: $isWeekendShipping, deliveryDays: $deliveryDays, shippingLeadTime: $shippingLeadTime, isSameDayShipping: $isSameDayShipping, shippingCutoffTime: $shippingCutoffTime, deliveryAddress: $deliveryAddress)';
+  return 'OrderResponseDto(tossCustomerKey: $tossCustomerKey, productId: $productId, productName: $productName, thumbnailImageUrl: $thumbnailImageUrl, items: $items, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, isWeekendShipping: $isWeekendShipping, deliveryDays: $deliveryDays, shippingLeadTime: $shippingLeadTime, isSameDayShipping: $isSameDayShipping, shippingCutoffTime: $shippingCutoffTime, deliveryAddress: $deliveryAddress)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $OrderResponseDtoCopyWith<$Res>  {
   factory $OrderResponseDtoCopyWith(OrderResponseDto value, $Res Function(OrderResponseDto) _then) = _$OrderResponseDtoCopyWithImpl;
 @useResult
 $Res call({
- int productId, String productName, String thumbnailImageUrl, List<OrderItemDto> items, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, bool isWeekendShipping, int deliveryDays, int shippingLeadTime, bool isSameDayShipping, String shippingCutoffTime, AddressDto deliveryAddress
+ String? tossCustomerKey, int productId, String productName, String thumbnailImageUrl, List<OrderItemDto> items, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, bool isWeekendShipping, int deliveryDays, int shippingLeadTime, bool isSameDayShipping, String shippingCutoffTime, AddressDto deliveryAddress
 });
 
 
@@ -65,9 +65,10 @@ class _$OrderResponseDtoCopyWithImpl<$Res>
 
 /// Create a copy of OrderResponseDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productId = null,Object? productName = null,Object? thumbnailImageUrl = null,Object? items = null,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? isWeekendShipping = null,Object? deliveryDays = null,Object? shippingLeadTime = null,Object? isSameDayShipping = null,Object? shippingCutoffTime = null,Object? deliveryAddress = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? tossCustomerKey = freezed,Object? productId = null,Object? productName = null,Object? thumbnailImageUrl = null,Object? items = null,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? isWeekendShipping = null,Object? deliveryDays = null,Object? shippingLeadTime = null,Object? isSameDayShipping = null,Object? shippingCutoffTime = null,Object? deliveryAddress = null,}) {
   return _then(_self.copyWith(
-productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+tossCustomerKey: freezed == tossCustomerKey ? _self.tossCustomerKey : tossCustomerKey // ignore: cast_nullable_to_non_nullable
+as String?,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int,productName: null == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String,thumbnailImageUrl: null == thumbnailImageUrl ? _self.thumbnailImageUrl : thumbnailImageUrl // ignore: cast_nullable_to_non_nullable
 as String,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
@@ -175,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int productId,  String productName,  String thumbnailImageUrl,  List<OrderItemDto> items,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  bool isWeekendShipping,  int deliveryDays,  int shippingLeadTime,  bool isSameDayShipping,  String shippingCutoffTime,  AddressDto deliveryAddress)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? tossCustomerKey,  int productId,  String productName,  String thumbnailImageUrl,  List<OrderItemDto> items,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  bool isWeekendShipping,  int deliveryDays,  int shippingLeadTime,  bool isSameDayShipping,  String shippingCutoffTime,  AddressDto deliveryAddress)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderResponseDto() when $default != null:
-return $default(_that.productId,_that.productName,_that.thumbnailImageUrl,_that.items,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.isWeekendShipping,_that.deliveryDays,_that.shippingLeadTime,_that.isSameDayShipping,_that.shippingCutoffTime,_that.deliveryAddress);case _:
+return $default(_that.tossCustomerKey,_that.productId,_that.productName,_that.thumbnailImageUrl,_that.items,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.isWeekendShipping,_that.deliveryDays,_that.shippingLeadTime,_that.isSameDayShipping,_that.shippingCutoffTime,_that.deliveryAddress);case _:
   return orElse();
 
 }
@@ -196,10 +197,10 @@ return $default(_that.productId,_that.productName,_that.thumbnailImageUrl,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int productId,  String productName,  String thumbnailImageUrl,  List<OrderItemDto> items,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  bool isWeekendShipping,  int deliveryDays,  int shippingLeadTime,  bool isSameDayShipping,  String shippingCutoffTime,  AddressDto deliveryAddress)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? tossCustomerKey,  int productId,  String productName,  String thumbnailImageUrl,  List<OrderItemDto> items,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  bool isWeekendShipping,  int deliveryDays,  int shippingLeadTime,  bool isSameDayShipping,  String shippingCutoffTime,  AddressDto deliveryAddress)  $default,) {final _that = this;
 switch (_that) {
 case _OrderResponseDto():
-return $default(_that.productId,_that.productName,_that.thumbnailImageUrl,_that.items,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.isWeekendShipping,_that.deliveryDays,_that.shippingLeadTime,_that.isSameDayShipping,_that.shippingCutoffTime,_that.deliveryAddress);case _:
+return $default(_that.tossCustomerKey,_that.productId,_that.productName,_that.thumbnailImageUrl,_that.items,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.isWeekendShipping,_that.deliveryDays,_that.shippingLeadTime,_that.isSameDayShipping,_that.shippingCutoffTime,_that.deliveryAddress);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -216,10 +217,10 @@ return $default(_that.productId,_that.productName,_that.thumbnailImageUrl,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int productId,  String productName,  String thumbnailImageUrl,  List<OrderItemDto> items,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  bool isWeekendShipping,  int deliveryDays,  int shippingLeadTime,  bool isSameDayShipping,  String shippingCutoffTime,  AddressDto deliveryAddress)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? tossCustomerKey,  int productId,  String productName,  String thumbnailImageUrl,  List<OrderItemDto> items,  int productAmount,  int deliveryFee,  int jejuDeliveryFee,  int totalAmount,  bool isWeekendShipping,  int deliveryDays,  int shippingLeadTime,  bool isSameDayShipping,  String shippingCutoffTime,  AddressDto deliveryAddress)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderResponseDto() when $default != null:
-return $default(_that.productId,_that.productName,_that.thumbnailImageUrl,_that.items,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.isWeekendShipping,_that.deliveryDays,_that.shippingLeadTime,_that.isSameDayShipping,_that.shippingCutoffTime,_that.deliveryAddress);case _:
+return $default(_that.tossCustomerKey,_that.productId,_that.productName,_that.thumbnailImageUrl,_that.items,_that.productAmount,_that.deliveryFee,_that.jejuDeliveryFee,_that.totalAmount,_that.isWeekendShipping,_that.deliveryDays,_that.shippingLeadTime,_that.isSameDayShipping,_that.shippingCutoffTime,_that.deliveryAddress);case _:
   return null;
 
 }
@@ -231,9 +232,10 @@ return $default(_that.productId,_that.productName,_that.thumbnailImageUrl,_that.
 @JsonSerializable()
 
 class _OrderResponseDto implements OrderResponseDto {
-  const _OrderResponseDto({required this.productId, required this.productName, required this.thumbnailImageUrl, required final  List<OrderItemDto> items, required this.productAmount, required this.deliveryFee, required this.jejuDeliveryFee, required this.totalAmount, required this.isWeekendShipping, required this.deliveryDays, required this.shippingLeadTime, required this.isSameDayShipping, required this.shippingCutoffTime, required this.deliveryAddress}): _items = items;
+  const _OrderResponseDto({this.tossCustomerKey, required this.productId, required this.productName, required this.thumbnailImageUrl, required final  List<OrderItemDto> items, required this.productAmount, required this.deliveryFee, required this.jejuDeliveryFee, required this.totalAmount, required this.isWeekendShipping, required this.deliveryDays, required this.shippingLeadTime, required this.isSameDayShipping, required this.shippingCutoffTime, required this.deliveryAddress}): _items = items;
   factory _OrderResponseDto.fromJson(Map<String, dynamic> json) => _$OrderResponseDtoFromJson(json);
 
+@override final  String? tossCustomerKey;
 @override final  int productId;
 @override final  String productName;
 @override final  String thumbnailImageUrl;
@@ -268,16 +270,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderResponseDto&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderResponseDto&&(identical(other.tossCustomerKey, tossCustomerKey) || other.tossCustomerKey == tossCustomerKey)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.productAmount, productAmount) || other.productAmount == productAmount)&&(identical(other.deliveryFee, deliveryFee) || other.deliveryFee == deliveryFee)&&(identical(other.jejuDeliveryFee, jejuDeliveryFee) || other.jejuDeliveryFee == jejuDeliveryFee)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.isWeekendShipping, isWeekendShipping) || other.isWeekendShipping == isWeekendShipping)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingLeadTime, shippingLeadTime) || other.shippingLeadTime == shippingLeadTime)&&(identical(other.isSameDayShipping, isSameDayShipping) || other.isSameDayShipping == isSameDayShipping)&&(identical(other.shippingCutoffTime, shippingCutoffTime) || other.shippingCutoffTime == shippingCutoffTime)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productId,productName,thumbnailImageUrl,const DeepCollectionEquality().hash(_items),productAmount,deliveryFee,jejuDeliveryFee,totalAmount,isWeekendShipping,deliveryDays,shippingLeadTime,isSameDayShipping,shippingCutoffTime,deliveryAddress);
+int get hashCode => Object.hash(runtimeType,tossCustomerKey,productId,productName,thumbnailImageUrl,const DeepCollectionEquality().hash(_items),productAmount,deliveryFee,jejuDeliveryFee,totalAmount,isWeekendShipping,deliveryDays,shippingLeadTime,isSameDayShipping,shippingCutoffTime,deliveryAddress);
 
 @override
 String toString() {
-  return 'OrderResponseDto(productId: $productId, productName: $productName, thumbnailImageUrl: $thumbnailImageUrl, items: $items, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, isWeekendShipping: $isWeekendShipping, deliveryDays: $deliveryDays, shippingLeadTime: $shippingLeadTime, isSameDayShipping: $isSameDayShipping, shippingCutoffTime: $shippingCutoffTime, deliveryAddress: $deliveryAddress)';
+  return 'OrderResponseDto(tossCustomerKey: $tossCustomerKey, productId: $productId, productName: $productName, thumbnailImageUrl: $thumbnailImageUrl, items: $items, productAmount: $productAmount, deliveryFee: $deliveryFee, jejuDeliveryFee: $jejuDeliveryFee, totalAmount: $totalAmount, isWeekendShipping: $isWeekendShipping, deliveryDays: $deliveryDays, shippingLeadTime: $shippingLeadTime, isSameDayShipping: $isSameDayShipping, shippingCutoffTime: $shippingCutoffTime, deliveryAddress: $deliveryAddress)';
 }
 
 
@@ -288,7 +290,7 @@ abstract mixin class _$OrderResponseDtoCopyWith<$Res> implements $OrderResponseD
   factory _$OrderResponseDtoCopyWith(_OrderResponseDto value, $Res Function(_OrderResponseDto) _then) = __$OrderResponseDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int productId, String productName, String thumbnailImageUrl, List<OrderItemDto> items, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, bool isWeekendShipping, int deliveryDays, int shippingLeadTime, bool isSameDayShipping, String shippingCutoffTime, AddressDto deliveryAddress
+ String? tossCustomerKey, int productId, String productName, String thumbnailImageUrl, List<OrderItemDto> items, int productAmount, int deliveryFee, int jejuDeliveryFee, int totalAmount, bool isWeekendShipping, int deliveryDays, int shippingLeadTime, bool isSameDayShipping, String shippingCutoffTime, AddressDto deliveryAddress
 });
 
 
@@ -305,9 +307,10 @@ class __$OrderResponseDtoCopyWithImpl<$Res>
 
 /// Create a copy of OrderResponseDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productId = null,Object? productName = null,Object? thumbnailImageUrl = null,Object? items = null,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? isWeekendShipping = null,Object? deliveryDays = null,Object? shippingLeadTime = null,Object? isSameDayShipping = null,Object? shippingCutoffTime = null,Object? deliveryAddress = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? tossCustomerKey = freezed,Object? productId = null,Object? productName = null,Object? thumbnailImageUrl = null,Object? items = null,Object? productAmount = null,Object? deliveryFee = null,Object? jejuDeliveryFee = null,Object? totalAmount = null,Object? isWeekendShipping = null,Object? deliveryDays = null,Object? shippingLeadTime = null,Object? isSameDayShipping = null,Object? shippingCutoffTime = null,Object? deliveryAddress = null,}) {
   return _then(_OrderResponseDto(
-productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+tossCustomerKey: freezed == tossCustomerKey ? _self.tossCustomerKey : tossCustomerKey // ignore: cast_nullable_to_non_nullable
+as String?,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int,productName: null == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String,thumbnailImageUrl: null == thumbnailImageUrl ? _self.thumbnailImageUrl : thumbnailImageUrl // ignore: cast_nullable_to_non_nullable
 as String,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable

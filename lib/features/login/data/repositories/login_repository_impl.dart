@@ -1,3 +1,4 @@
+import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/login/data/data_source/login_remote_data_source.dart';
 import 'package:moding_application/features/login/domain/repositories/login_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -28,5 +29,11 @@ class LoginRepositoryImpl implements LoginRepository {
       refreshToken: data['refreshToken'],
       role: data['role'],
     );
+  }
+
+  @override
+  Future<ResponseModel> patchFcmToken(String token) async {
+    final response = await _dataSource.patchFcmToken(token);
+    return ResponseModel.fromJson(response);
   }
 }

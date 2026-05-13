@@ -67,6 +67,7 @@ abstract class PaymentOrderDto with _$PaymentOrderDto {
     required String orderCode,
     required String status,
 
+    required int sellerProfileId,
     String? sellerBusinessName,
 
     required int productAmount,

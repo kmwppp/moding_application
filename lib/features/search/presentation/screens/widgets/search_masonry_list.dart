@@ -1,14 +1,29 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/widgets/card/card_item_length.dart';
+import '../../../../../core/presentation/widgets/styles/card_style.dart';
 
-class SearchMasonrySliver<T> extends StatelessWidget {
+class SearchMasonrySliver<T> extends StatefulWidget {
   final List<T> items;
 
   const SearchMasonrySliver({super.key, required this.items});
+
+  @override
+  State<SearchMasonrySliver<T>> createState() => _SearchMasonrySliverState<T>();
+}
+
+class _SearchMasonrySliverState<T> extends State<SearchMasonrySliver<T>> {
+  late final int _colorStartIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _colorStartIndex = Random().nextInt(CardStyle.cardColors.length);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +33,14 @@ class SearchMasonrySliver<T> extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 5,
         crossAxisSpacing: 4,
-        childCount: items.length,
+        childCount: widget.items.length,
         itemBuilder: (context, index) {
-          final item = items[index];
-          return _ItemCard(item: item);
+          final item = widget.items[index];
+          return _ItemCard(
+            item: item,
+            index: index,
+            colorStartIndex: _colorStartIndex,
+          );
         },
       ),
     );
@@ -30,8 +49,14 @@ class SearchMasonrySliver<T> extends StatelessWidget {
 
 class _ItemCard extends StatelessWidget {
   final dynamic item;
+  final int index;
+  final int colorStartIndex;
 
-  const _ItemCard({required this.item});
+  const _ItemCard({
+    required this.item,
+    required this.index,
+    required this.colorStartIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,28 +68,10 @@ class _ItemCard extends StatelessWidget {
         imageUrl: item.thumbnailImageUrl,
         title: item.name,
         isMain: false,
-        mainColor: _getColorById(item.id),
+        mainColor: CardStyle.colorByIndex(index, offset: colorStartIndex),
         tags: item.tags,
+        colorSelectionSeed: index,
       ),
     );
-  }
-
-  Color _getColorById(int id) {
-    const colors = [
-      AppColors.cardColor1,
-      AppColors.cardColor2,
-      AppColors.cardColor3,
-      AppColors.cardColor4,
-      AppColors.cardColor5,
-      AppColors.cardColor6,
-      AppColors.cardColor7,
-      AppColors.cardColor8,
-      AppColors.cardColor9,
-      AppColors.cardColor10,
-      AppColors.cardColor11,
-      AppColors.cardColor12,
-    ];
-
-    return colors[id % colors.length];
   }
 }

@@ -6,6 +6,7 @@ import 'package:moding_application/features/profile/presentation/providers/profi
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/widgets/custom_button.dart';
 import '../../../../../core/theme/app_text_styles.dart';
+import '../../../../seller_web/presentation/utils/open_seller_web_page.dart';
 import '../../../domain/enums/approval_status.dart';
 import '../../../domain/enums/role.dart';
 
@@ -47,7 +48,7 @@ class TopProfileSection extends ConsumerWidget {
                 if (role == null) return;
 
                 if (role == Role.SELLER) {
-                  context.go('/seller_page');
+                  await openSellerWebPage(context: context, ref: ref);
                   return;
                 }
 
@@ -64,18 +65,10 @@ class TopProfileSection extends ConsumerWidget {
                     break;
                   case ApprovalStatus.PENDING:
                   case ApprovalStatus.REJECTED:
-                    // context.push('/seller_conversion_check');
-                    final result = await context.push<bool>(
-                      '/seller_conversion',
-                    );
-                    if (result == true) {
-                      ref
-                          .read(profileViewModelProvider.notifier)
-                          .getProfileSummary();
-                    }
+                    context.push('/seller_conversion_check');
                     break;
                   case ApprovalStatus.APPROVED:
-                    context.go('/seller_page');
+                    await openSellerWebPage(context: context, ref: ref);
                     break;
                 }
               },
@@ -145,7 +138,7 @@ class TopProfileSection extends ConsumerWidget {
         return '판매자 전환 신청하기';
       case ApprovalStatus.PENDING:
       case ApprovalStatus.REJECTED:
-        return '판매자 신청 현황 보기';
+        return '판매자 신청 현황';
       case ApprovalStatus.APPROVED:
         return '판매자 페이지로 이동하기';
     }

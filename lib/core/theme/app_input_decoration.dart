@@ -7,6 +7,7 @@ class AppInputDecoration {
   static InputDecoration inputDecoration = InputDecoration(
     isDense: true,
     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    hintStyle: AppTextStyles.bodySmall.copyWith(color: AppColors.darkGrey),
 
     /// 기본
     enabledBorder: OutlineInputBorder(

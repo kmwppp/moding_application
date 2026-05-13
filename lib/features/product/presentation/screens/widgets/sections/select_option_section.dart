@@ -120,7 +120,7 @@ class SelectOptionSection extends ConsumerWidget {
                   children: [
                     Text(
                       optionName,
-                      style: context.bodyLarge.copyWith(
+                      style: context.body.copyWith(
                         fontWeight: FontWeight.w600,
                         color: isSelected ? Colors.white : Colors.black,
                       ),
@@ -128,9 +128,8 @@ class SelectOptionSection extends ConsumerWidget {
                     const SizedBox(width: 8),
                     Text(
                       "${StringUtil.formatCurrency(sellingPrice)}원",
-                      style: context.bodyLarge.copyWith(
+                      style: context.body.copyWith(
                         fontWeight: FontWeight.w600,
-                        fontSize: 18,
                         color: isSelected ? Colors.white : Colors.black,
                       ),
                     ),
@@ -187,19 +186,11 @@ class SelectOptionSection extends ConsumerWidget {
                 if (caption2 != null && caption2.isNotEmpty)
                   Text(
                     caption2,
-                    style: context.body.copyWith(
+                    style: context.bodySmall.copyWith(
                       fontWeight: FontWeight.w500,
                       color: isSelected ? Colors.white : AppColors.pointColor,
                     ),
                   ),
-                // if (!(caption2 != null && caption2.isNotEmpty))
-                //   Text(
-                //     "-",
-                //     style: context.body.copyWith(
-                //       fontWeight: FontWeight.w500,
-                //       color: isSelected ? Colors.white : Colors.black,
-                //     ),
-                //   ),
               ],
             ),
           ),

@@ -41,7 +41,7 @@ final class CategoryViewModelProvider
   }
 }
 
-String _$categoryViewModelHash() => r'165a2dc6f6005cb203b50430299a221afb87e33d';
+String _$categoryViewModelHash() => r'eddd759cabef313e8a3d1ccb1e4a0134c3c10793';
 
 abstract class _$CategoryViewModel extends $Notifier<CategoryState> {
   CategoryState build();

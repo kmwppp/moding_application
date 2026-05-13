@@ -15,16 +15,6 @@ class EditMyInfoDataSource {
 
   EditMyInfoDataSource(this._dio);
 
-  Future<Map<String, dynamic>> getMyInfo() async {
-    final response = await _dio.get(AppHttpUrl.getMyInfo);
-    return response.data;
-  }
-
-  Future<Map<String, dynamic>> getMyStoreInfo() async {
-    final response = await _dio.get(AppHttpUrl.getMyStoreInfo);
-    return response.data;
-  }
-
   Future<Map<String, dynamic>> getMaskingMyInfo() async {
     final response = await _dio.get(AppHttpUrl.getMaskingMyInfo);
     return response.data;
@@ -37,6 +27,11 @@ class EditMyInfoDataSource {
       AppHttpUrl.patchNotificationSettings,
       data: {'notificationEnabled': notificationEnabled},
     );
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> deleteUser() async {
+    final response = await _dio.delete(AppHttpUrl.getMyAccountInfo);
     return response.data;
   }
 }

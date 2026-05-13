@@ -14,6 +14,7 @@ import '../../../../order_list/domain/enums/order_list_page_params.dart';
 import '../../../../order_list/domain/enums/order_list_search_type.dart';
 import '../../../../payment_complete/domain/entities/payment_complete_response_dto.dart';
 import '../../../../payment_complete/presentation/screens/delivery_info/payment_complete_delivery_info_page.dart';
+import '../../../../identity_verification/domain/entities/identity_verification_page_params.dart';
 
 class MyInfoManagementSection extends ConsumerWidget {
   const MyInfoManagementSection({super.key});
@@ -36,9 +37,14 @@ class MyInfoManagementSection extends ConsumerWidget {
           SizedBox(height: 10),
           buildSettingRow(
             context: context,
-            buttonText1: "우리매장 정보수정",
+            buttonText1: "우리매장 정보 관리",
             buttonOnTap1: () {
-              context.push('/edit_my_info');
+              context.push(
+                '/identity_verification',
+                extra: const IdentityVerificationPageParams(
+                  successRoute: '/edit_my_info',
+                ),
+              );
             },
             buttonText2: "배송지 관리",
             buttonOnTap2: () {

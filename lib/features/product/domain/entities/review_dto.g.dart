@@ -9,6 +9,7 @@ part of 'review_dto.dart';
 _ReviewDto _$ReviewDtoFromJson(Map<String, dynamic> json) => _ReviewDto(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
+  orderItemOptionName: json['orderItemOptionName'] as String,
   content: json['content'] as String,
   photos: _photosFromJson(json['photos'] as List),
   createdAt: const LocalDateTimeConverter().fromJson(
@@ -20,6 +21,7 @@ Map<String, dynamic> _$ReviewDtoToJson(_ReviewDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'orderItemOptionName': instance.orderItemOptionName,
       'content': instance.content,
       'photos': instance.photos,
       'createdAt': const LocalDateTimeConverter().toJson(instance.createdAt),

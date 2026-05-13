@@ -1,3 +1,4 @@
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/cart/data/repositories/wish_list/wish_list_repository_impl.dart';
 import 'package:moding_application/features/cart/presentation/providers/wish_list/wish_list_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -45,7 +46,7 @@ class WishListModel extends _$WishListModel {
       );
     } catch (e) {
       state = state.copyWith(isLoading: false);
-      print(e);
+      appLog(e);
     }
   }
 

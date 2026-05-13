@@ -19,4 +19,9 @@ class ProfileDataSource {
     final response = await _dio.get(AppHttpUrl.getProfileSummary);
     return response.data;
   }
+
+  Future<Map<String, dynamic>> postWebViewTokens() async {
+    final response = await _dio.post(AppHttpUrl.postWebViewTokens);
+    return response.data;
+  }
 }

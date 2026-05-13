@@ -44,6 +44,8 @@ abstract class BusinessProfileDto with _$BusinessProfileDto {
     required String parentCategoryName,
     required String businessCategoryName,
     String? businessPhone,
+    String? industry,
+    String? industryClass,
   }) = _BusinessProfileDto;
 
   factory BusinessProfileDto.fromJson(Map<String, dynamic> json) =>

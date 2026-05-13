@@ -58,4 +58,14 @@ class EditMyInfoViewModel extends _$EditMyInfoViewModel {
       return const ResponseModel(success: false, message: '알림 설정 변경에 실패했습니다.');
     }
   }
+
+  Future<ResponseModel> deleteUser() async {
+    try {
+      final repository = ref.read(editMyInfoRepositoryProvider);
+      return await repository.deleteUser();
+    } catch (e) {
+      debugPrint(e.toString());
+      return const ResponseModel(success: false, message: '회원탈퇴에 실패했습니다.');
+    }
+  }
 }

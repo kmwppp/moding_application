@@ -1,4 +1,5 @@
 import 'package:moding_application/core/network/entities/response_model.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/payment_complete/presentation/providers/payment_complete_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,7 +26,7 @@ class PaymentCompleteViewModel extends _$PaymentCompleteViewModel {
       final info = await repository.getPaymentCompleteInfo(paymentId);
       state = state.copyWith(paymentInfo: info, isLoading: false);
     } catch (e) {
-      print(e);
+      appLog(e);
     }
   }
 }

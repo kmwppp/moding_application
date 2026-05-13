@@ -3,6 +3,9 @@ import 'package:moding_application/features/order/domain/entities/address_dto.da
 import 'package:moding_application/features/order/domain/entities/address_request_dto.dart';
 import 'package:moding_application/features/order/domain/entities/create_order_request_dto.dart';
 import 'package:moding_application/features/order/domain/entities/order_response_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_request_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_response_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_fail_request_dto.dart';
 
 import '../entities/order_request_dto.dart';
 
@@ -22,4 +25,10 @@ abstract class OrderRepository {
   Future<CreateOrderResponseWrapper> postCreateOrder(
     CreateOrderRequestDto request,
   );
+
+  Future<PaymentsConfirmResponseWrapper> postPaymentsConfirm(
+    PaymentsConfirmRequestDto request,
+  );
+
+  Future<ResponseModel> postPaymentsFail(PaymentsFailRequestDto request);
 }

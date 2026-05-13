@@ -1262,7 +1262,7 @@ as DateTime?,
 /// @nodoc
 mixin _$OrderDetailPaymentDto {
 
- String get paymentCode;@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod get paymentMethod;@JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) OrderPaymentStatus get status;@NullableLocalDateTimeConverter() DateTime? get paidAt; int? get cancelledAmount; int? get netAmount; String? get receiptUrl; String? get approvalNumber; String? get cardType; String? get cardName; String? get cardNum; int? get cardQuota; bool? get isInterestFree; String? get vbankNumber; String? get vbankName;@NullableLocalDateTimeConverter() DateTime? get vbankExpDate; String? get vbankHolder;
+ int get paymentId; String get paymentCode;@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod get paymentMethod;@JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) OrderPaymentStatus get status;@NullableLocalDateTimeConverter() DateTime? get paidAt; int? get cancelledAmount; int? get netAmount; String? get receiptUrl; String? get approvalNumber; String? get cardType; String? get cardName; String? get cardNum; int? get cardQuota; bool? get isInterestFree; String? get vbankNumber; String? get vbankName;@NullableLocalDateTimeConverter() DateTime? get vbankExpDate; String? get vbankHolder;
 /// Create a copy of OrderDetailPaymentDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1275,16 +1275,16 @@ $OrderDetailPaymentDtoCopyWith<OrderDetailPaymentDto> get copyWith => _$OrderDet
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderDetailPaymentDto&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.cardType, cardType) || other.cardType == cardType)&&(identical(other.cardName, cardName) || other.cardName == cardName)&&(identical(other.cardNum, cardNum) || other.cardNum == cardNum)&&(identical(other.cardQuota, cardQuota) || other.cardQuota == cardQuota)&&(identical(other.isInterestFree, isInterestFree) || other.isInterestFree == isInterestFree)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderDetailPaymentDto&&(identical(other.paymentId, paymentId) || other.paymentId == paymentId)&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.cardType, cardType) || other.cardType == cardType)&&(identical(other.cardName, cardName) || other.cardName == cardName)&&(identical(other.cardNum, cardNum) || other.cardNum == cardNum)&&(identical(other.cardQuota, cardQuota) || other.cardQuota == cardQuota)&&(identical(other.isInterestFree, isInterestFree) || other.isInterestFree == isInterestFree)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,paymentCode,paymentMethod,status,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,cardType,cardName,cardNum,cardQuota,isInterestFree,vbankNumber,vbankName,vbankExpDate,vbankHolder);
+int get hashCode => Object.hash(runtimeType,paymentId,paymentCode,paymentMethod,status,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,cardType,cardName,cardNum,cardQuota,isInterestFree,vbankNumber,vbankName,vbankExpDate,vbankHolder);
 
 @override
 String toString() {
-  return 'OrderDetailPaymentDto(paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, cardType: $cardType, cardName: $cardName, cardNum: $cardNum, cardQuota: $cardQuota, isInterestFree: $isInterestFree, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
+  return 'OrderDetailPaymentDto(paymentId: $paymentId, paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, cardType: $cardType, cardName: $cardName, cardNum: $cardNum, cardQuota: $cardQuota, isInterestFree: $isInterestFree, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
 }
 
 
@@ -1295,7 +1295,7 @@ abstract mixin class $OrderDetailPaymentDtoCopyWith<$Res>  {
   factory $OrderDetailPaymentDtoCopyWith(OrderDetailPaymentDto value, $Res Function(OrderDetailPaymentDto) _then) = _$OrderDetailPaymentDtoCopyWithImpl;
 @useResult
 $Res call({
- String paymentCode,@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod paymentMethod,@JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) OrderPaymentStatus status,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? cardType, String? cardName, String? cardNum, int? cardQuota, bool? isInterestFree, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
+ int paymentId, String paymentCode,@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod paymentMethod,@JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) OrderPaymentStatus status,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? cardType, String? cardName, String? cardNum, int? cardQuota, bool? isInterestFree, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
 });
 
 
@@ -1312,9 +1312,10 @@ class _$OrderDetailPaymentDtoCopyWithImpl<$Res>
 
 /// Create a copy of OrderDetailPaymentDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? paymentCode = null,Object? paymentMethod = null,Object? status = null,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? cardType = freezed,Object? cardName = freezed,Object? cardNum = freezed,Object? cardQuota = freezed,Object? isInterestFree = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? paymentId = null,Object? paymentCode = null,Object? paymentMethod = null,Object? status = null,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? cardType = freezed,Object? cardName = freezed,Object? cardNum = freezed,Object? cardQuota = freezed,Object? isInterestFree = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
   return _then(_self.copyWith(
-paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
+paymentId: null == paymentId ? _self.paymentId : paymentId // ignore: cast_nullable_to_non_nullable
+as int,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String,paymentMethod: null == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
 as OrderPaymentMethod,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as OrderPaymentStatus,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
@@ -1416,10 +1417,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson)  OrderPaymentStatus status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? cardType,  String? cardName,  String? cardNum,  int? cardQuota,  bool? isInterestFree,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int paymentId,  String paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson)  OrderPaymentStatus status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? cardType,  String? cardName,  String? cardNum,  int? cardQuota,  bool? isInterestFree,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderDetailPaymentDto() when $default != null:
-return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.cardType,_that.cardName,_that.cardNum,_that.cardQuota,_that.isInterestFree,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
+return $default(_that.paymentId,_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.cardType,_that.cardName,_that.cardNum,_that.cardQuota,_that.isInterestFree,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
   return orElse();
 
 }
@@ -1437,10 +1438,10 @@ return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson)  OrderPaymentStatus status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? cardType,  String? cardName,  String? cardNum,  int? cardQuota,  bool? isInterestFree,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int paymentId,  String paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson)  OrderPaymentStatus status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? cardType,  String? cardName,  String? cardNum,  int? cardQuota,  bool? isInterestFree,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)  $default,) {final _that = this;
 switch (_that) {
 case _OrderDetailPaymentDto():
-return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.cardType,_that.cardName,_that.cardNum,_that.cardQuota,_that.isInterestFree,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
+return $default(_that.paymentId,_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.cardType,_that.cardName,_that.cardNum,_that.cardQuota,_that.isInterestFree,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1457,10 +1458,10 @@ return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson)  OrderPaymentStatus status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? cardType,  String? cardName,  String? cardNum,  int? cardQuota,  bool? isInterestFree,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int paymentId,  String paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson)  OrderPaymentStatus status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? cardType,  String? cardName,  String? cardNum,  int? cardQuota,  bool? isInterestFree,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderDetailPaymentDto() when $default != null:
-return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.cardType,_that.cardName,_that.cardNum,_that.cardQuota,_that.isInterestFree,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
+return $default(_that.paymentId,_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.cardType,_that.cardName,_that.cardNum,_that.cardQuota,_that.isInterestFree,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
   return null;
 
 }
@@ -1472,9 +1473,10 @@ return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,
 @JsonSerializable()
 
 class _OrderDetailPaymentDto implements OrderDetailPaymentDto {
-  const _OrderDetailPaymentDto({required this.paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) required this.paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) required this.status, @NullableLocalDateTimeConverter() this.paidAt, this.cancelledAmount, this.netAmount, this.receiptUrl, this.approvalNumber, this.cardType, this.cardName, this.cardNum, this.cardQuota, this.isInterestFree, this.vbankNumber, this.vbankName, @NullableLocalDateTimeConverter() this.vbankExpDate, this.vbankHolder});
+  const _OrderDetailPaymentDto({required this.paymentId, required this.paymentCode, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) required this.paymentMethod, @JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) required this.status, @NullableLocalDateTimeConverter() this.paidAt, this.cancelledAmount, this.netAmount, this.receiptUrl, this.approvalNumber, this.cardType, this.cardName, this.cardNum, this.cardQuota, this.isInterestFree, this.vbankNumber, this.vbankName, @NullableLocalDateTimeConverter() this.vbankExpDate, this.vbankHolder});
   factory _OrderDetailPaymentDto.fromJson(Map<String, dynamic> json) => _$OrderDetailPaymentDtoFromJson(json);
 
+@override final  int paymentId;
 @override final  String paymentCode;
 @override@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) final  OrderPaymentMethod paymentMethod;
 @override@JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) final  OrderPaymentStatus status;
@@ -1506,16 +1508,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderDetailPaymentDto&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.cardType, cardType) || other.cardType == cardType)&&(identical(other.cardName, cardName) || other.cardName == cardName)&&(identical(other.cardNum, cardNum) || other.cardNum == cardNum)&&(identical(other.cardQuota, cardQuota) || other.cardQuota == cardQuota)&&(identical(other.isInterestFree, isInterestFree) || other.isInterestFree == isInterestFree)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderDetailPaymentDto&&(identical(other.paymentId, paymentId) || other.paymentId == paymentId)&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.cardType, cardType) || other.cardType == cardType)&&(identical(other.cardName, cardName) || other.cardName == cardName)&&(identical(other.cardNum, cardNum) || other.cardNum == cardNum)&&(identical(other.cardQuota, cardQuota) || other.cardQuota == cardQuota)&&(identical(other.isInterestFree, isInterestFree) || other.isInterestFree == isInterestFree)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,paymentCode,paymentMethod,status,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,cardType,cardName,cardNum,cardQuota,isInterestFree,vbankNumber,vbankName,vbankExpDate,vbankHolder);
+int get hashCode => Object.hash(runtimeType,paymentId,paymentCode,paymentMethod,status,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,cardType,cardName,cardNum,cardQuota,isInterestFree,vbankNumber,vbankName,vbankExpDate,vbankHolder);
 
 @override
 String toString() {
-  return 'OrderDetailPaymentDto(paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, cardType: $cardType, cardName: $cardName, cardNum: $cardNum, cardQuota: $cardQuota, isInterestFree: $isInterestFree, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
+  return 'OrderDetailPaymentDto(paymentId: $paymentId, paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, cardType: $cardType, cardName: $cardName, cardNum: $cardNum, cardQuota: $cardQuota, isInterestFree: $isInterestFree, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
 }
 
 
@@ -1526,7 +1528,7 @@ abstract mixin class _$OrderDetailPaymentDtoCopyWith<$Res> implements $OrderDeta
   factory _$OrderDetailPaymentDtoCopyWith(_OrderDetailPaymentDto value, $Res Function(_OrderDetailPaymentDto) _then) = __$OrderDetailPaymentDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String paymentCode,@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod paymentMethod,@JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) OrderPaymentStatus status,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? cardType, String? cardName, String? cardNum, int? cardQuota, bool? isInterestFree, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
+ int paymentId, String paymentCode,@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod paymentMethod,@JsonKey(fromJson: OrderPaymentStatus.fromJson, toJson: OrderPaymentStatus.toJson) OrderPaymentStatus status,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? cardType, String? cardName, String? cardNum, int? cardQuota, bool? isInterestFree, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
 });
 
 
@@ -1543,9 +1545,10 @@ class __$OrderDetailPaymentDtoCopyWithImpl<$Res>
 
 /// Create a copy of OrderDetailPaymentDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? paymentCode = null,Object? paymentMethod = null,Object? status = null,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? cardType = freezed,Object? cardName = freezed,Object? cardNum = freezed,Object? cardQuota = freezed,Object? isInterestFree = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? paymentId = null,Object? paymentCode = null,Object? paymentMethod = null,Object? status = null,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? cardType = freezed,Object? cardName = freezed,Object? cardNum = freezed,Object? cardQuota = freezed,Object? isInterestFree = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
   return _then(_OrderDetailPaymentDto(
-paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
+paymentId: null == paymentId ? _self.paymentId : paymentId // ignore: cast_nullable_to_non_nullable
+as int,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String,paymentMethod: null == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
 as OrderPaymentMethod,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as OrderPaymentStatus,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable

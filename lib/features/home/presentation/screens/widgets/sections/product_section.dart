@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 
 import '../../../../../../core/constants/app_colors.dart';
 import '../../../../../../core/presentation/widgets/styles/card_style.dart';
@@ -37,7 +40,7 @@ class ProductSection extends StatelessWidget {
                 Spacer(),
                 GestureDetector(
                   onTap: () {
-                    print(section.type);
+                    appLog(section.type);
                     context.push(
                       '/product_list_page',
                       extra: ProductListPageParams(type: section.type),
@@ -87,7 +90,7 @@ class ProductSection extends StatelessWidget {
   }
 }
 
-class ProductHorizontalList extends StatelessWidget {
+class ProductHorizontalList extends StatefulWidget {
   const ProductHorizontalList({
     super.key,
     required this.products,
@@ -100,19 +103,27 @@ class ProductHorizontalList extends StatelessWidget {
   final int sectionId;
 
   @override
-  Widget build(BuildContext context) {
-    final colorPaletteLength = CardStyle.cardColors.length;
-    final colorStartIndex =
-        (sectionId % colorPaletteLength + colorPaletteLength) %
-        colorPaletteLength;
+  State<ProductHorizontalList> createState() => _ProductHorizontalListState();
+}
 
+class _ProductHorizontalListState extends State<ProductHorizontalList> {
+  late final int _colorStartIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _colorStartIndex = Random().nextInt(CardStyle.cardColors.length);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
 
       child: Row(
         children: [
-          ...products.asMap().entries.map((entry) {
+          ...widget.products.asMap().entries.map((entry) {
             final index = entry.key;
             final product = entry.value;
 
@@ -125,8 +136,8 @@ class ProductHorizontalList extends StatelessWidget {
                 child: ProductCardBuilder(
                   index: index,
                   product: product,
-                  sectionType: sectionType,
-                  randomStartIndex: colorStartIndex,
+                  sectionType: widget.sectionType,
+                  randomStartIndex: _colorStartIndex,
                 ),
               ),
             );
@@ -135,35 +146,6 @@ class ProductHorizontalList extends StatelessWidget {
           /// 🔥 여기 추가
           // _MoreButton(sectionType: sectionType),
         ],
-      ),
-    );
-  }
-}
-
-class _MoreButton extends StatelessWidget {
-  final ProductRecommendType sectionType;
-
-  const _MoreButton({required this.sectionType});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.push('/product_list_page', extra: sectionType); // 👉 라우팅 맞게 수정
-      },
-      child: Container(
-        width: 120,
-        margin: const EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.grey.shade100,
-        ),
-        child: const Center(
-          child: Text(
-            "상품 더보기 →",
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-        ),
       ),
     );
   }

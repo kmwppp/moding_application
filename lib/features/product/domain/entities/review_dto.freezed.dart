@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ReviewDto {
 
- int get id; String get name; String get content;@JsonKey(fromJson: _photosFromJson) List<ReviewPhotoDto> get photos;@LocalDateTimeConverter() DateTime get createdAt;
+ int get id; String get name; String get orderItemOptionName; String get content;@JsonKey(fromJson: _photosFromJson) List<ReviewPhotoDto> get photos;@LocalDateTimeConverter() DateTime get createdAt;
 /// Create a copy of ReviewDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ReviewDtoCopyWith<ReviewDto> get copyWith => _$ReviewDtoCopyWithImpl<ReviewDto>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.photos, photos)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.orderItemOptionName, orderItemOptionName) || other.orderItemOptionName == orderItemOptionName)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.photos, photos)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,content,const DeepCollectionEquality().hash(photos),createdAt);
+int get hashCode => Object.hash(runtimeType,id,name,orderItemOptionName,content,const DeepCollectionEquality().hash(photos),createdAt);
 
 @override
 String toString() {
-  return 'ReviewDto(id: $id, name: $name, content: $content, photos: $photos, createdAt: $createdAt)';
+  return 'ReviewDto(id: $id, name: $name, orderItemOptionName: $orderItemOptionName, content: $content, photos: $photos, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ReviewDtoCopyWith<$Res>  {
   factory $ReviewDtoCopyWith(ReviewDto value, $Res Function(ReviewDto) _then) = _$ReviewDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String content,@JsonKey(fromJson: _photosFromJson) List<ReviewPhotoDto> photos,@LocalDateTimeConverter() DateTime createdAt
+ int id, String name, String orderItemOptionName, String content,@JsonKey(fromJson: _photosFromJson) List<ReviewPhotoDto> photos,@LocalDateTimeConverter() DateTime createdAt
 });
 
 
@@ -65,10 +65,11 @@ class _$ReviewDtoCopyWithImpl<$Res>
 
 /// Create a copy of ReviewDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? content = null,Object? photos = null,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? orderItemOptionName = null,Object? content = null,Object? photos = null,Object? createdAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,orderItemOptionName: null == orderItemOptionName ? _self.orderItemOptionName : orderItemOptionName // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,photos: null == photos ? _self.photos : photos // ignore: cast_nullable_to_non_nullable
 as List<ReviewPhotoDto>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String content, @JsonKey(fromJson: _photosFromJson)  List<ReviewPhotoDto> photos, @LocalDateTimeConverter()  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String orderItemOptionName,  String content, @JsonKey(fromJson: _photosFromJson)  List<ReviewPhotoDto> photos, @LocalDateTimeConverter()  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReviewDto() when $default != null:
-return $default(_that.id,_that.name,_that.content,_that.photos,_that.createdAt);case _:
+return $default(_that.id,_that.name,_that.orderItemOptionName,_that.content,_that.photos,_that.createdAt);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.id,_that.name,_that.content,_that.photos,_that.createdAt);
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String content, @JsonKey(fromJson: _photosFromJson)  List<ReviewPhotoDto> photos, @LocalDateTimeConverter()  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String orderItemOptionName,  String content, @JsonKey(fromJson: _photosFromJson)  List<ReviewPhotoDto> photos, @LocalDateTimeConverter()  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _ReviewDto():
-return $default(_that.id,_that.name,_that.content,_that.photos,_that.createdAt);case _:
+return $default(_that.id,_that.name,_that.orderItemOptionName,_that.content,_that.photos,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return $default(_that.id,_that.name,_that.content,_that.photos,_that.createdAt);
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String content, @JsonKey(fromJson: _photosFromJson)  List<ReviewPhotoDto> photos, @LocalDateTimeConverter()  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String orderItemOptionName,  String content, @JsonKey(fromJson: _photosFromJson)  List<ReviewPhotoDto> photos, @LocalDateTimeConverter()  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ReviewDto() when $default != null:
-return $default(_that.id,_that.name,_that.content,_that.photos,_that.createdAt);case _:
+return $default(_that.id,_that.name,_that.orderItemOptionName,_that.content,_that.photos,_that.createdAt);case _:
   return null;
 
 }
@@ -213,11 +214,12 @@ return $default(_that.id,_that.name,_that.content,_that.photos,_that.createdAt);
 @JsonSerializable()
 
 class _ReviewDto implements ReviewDto {
-  const _ReviewDto({required this.id, required this.name, required this.content, @JsonKey(fromJson: _photosFromJson) required final  List<ReviewPhotoDto> photos, @LocalDateTimeConverter() required this.createdAt}): _photos = photos;
+  const _ReviewDto({required this.id, required this.name, required this.orderItemOptionName, required this.content, @JsonKey(fromJson: _photosFromJson) required final  List<ReviewPhotoDto> photos, @LocalDateTimeConverter() required this.createdAt}): _photos = photos;
   factory _ReviewDto.fromJson(Map<String, dynamic> json) => _$ReviewDtoFromJson(json);
 
 @override final  int id;
 @override final  String name;
+@override final  String orderItemOptionName;
 @override final  String content;
  final  List<ReviewPhotoDto> _photos;
 @override@JsonKey(fromJson: _photosFromJson) List<ReviewPhotoDto> get photos {
@@ -241,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._photos, _photos)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.orderItemOptionName, orderItemOptionName) || other.orderItemOptionName == orderItemOptionName)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._photos, _photos)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,content,const DeepCollectionEquality().hash(_photos),createdAt);
+int get hashCode => Object.hash(runtimeType,id,name,orderItemOptionName,content,const DeepCollectionEquality().hash(_photos),createdAt);
 
 @override
 String toString() {
-  return 'ReviewDto(id: $id, name: $name, content: $content, photos: $photos, createdAt: $createdAt)';
+  return 'ReviewDto(id: $id, name: $name, orderItemOptionName: $orderItemOptionName, content: $content, photos: $photos, createdAt: $createdAt)';
 }
 
 
@@ -261,7 +263,7 @@ abstract mixin class _$ReviewDtoCopyWith<$Res> implements $ReviewDtoCopyWith<$Re
   factory _$ReviewDtoCopyWith(_ReviewDto value, $Res Function(_ReviewDto) _then) = __$ReviewDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String content,@JsonKey(fromJson: _photosFromJson) List<ReviewPhotoDto> photos,@LocalDateTimeConverter() DateTime createdAt
+ int id, String name, String orderItemOptionName, String content,@JsonKey(fromJson: _photosFromJson) List<ReviewPhotoDto> photos,@LocalDateTimeConverter() DateTime createdAt
 });
 
 
@@ -278,10 +280,11 @@ class __$ReviewDtoCopyWithImpl<$Res>
 
 /// Create a copy of ReviewDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? content = null,Object? photos = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? orderItemOptionName = null,Object? content = null,Object? photos = null,Object? createdAt = null,}) {
   return _then(_ReviewDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,orderItemOptionName: null == orderItemOptionName ? _self.orderItemOptionName : orderItemOptionName // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,photos: null == photos ? _self._photos : photos // ignore: cast_nullable_to_non_nullable
 as List<ReviewPhotoDto>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable

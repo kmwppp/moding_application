@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moding_application/features/order_check/presentation/providers/order_check_viewmodel.dart';
 
 import '../../../../../core/constants/app_colors.dart';
@@ -37,36 +38,41 @@ class ProductInfoSection extends ConsumerWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              item.thumbnailImageUrl,
-                              width: 80,
-                              height: 80,
-                              cacheWidth: thumbnailCacheSize,
-                              cacheHeight: thumbnailCacheSize,
-                              fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return const SizedBox(
-                                      width: 80,
-                                      height: 80,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
+                          GestureDetector(
+                            onTap: () {
+                              context.push("/product/${item.productId}");
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                item.thumbnailImageUrl,
+                                width: 80,
+                                height: 80,
+                                cacheWidth: thumbnailCacheSize,
+                                cacheHeight: thumbnailCacheSize,
+                                fit: BoxFit.cover,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return const SizedBox(
+                                        width: 80,
+                                        height: 80,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  width: 80,
-                                  height: 80,
-                                  color: Colors.grey.shade200,
-                                  child: const Icon(Icons.broken_image),
-                                );
-                              },
+                                      );
+                                    },
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 80,
+                                    height: 80,
+                                    color: Colors.grey.shade200,
+                                    child: const Icon(Icons.broken_image),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(width: 10),

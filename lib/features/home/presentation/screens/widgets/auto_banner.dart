@@ -1,15 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/services/token_storage.dart';
+import 'package:moding_application/features/main/domain/enums/MainTab.dart';
+import 'package:moding_application/features/main/presentation/providers/main_viewmodel.dart';
+import 'package:moding_application/features/product/domain/enums/product_recommand_type.dart';
+import 'package:moding_application/features/profile/domain/enums/approval_status.dart';
+import 'package:moding_application/features/profile/domain/enums/role.dart';
+import 'package:moding_application/features/profile/presentation/providers/profile_viewmodel.dart';
+import 'package:moding_application/features/seller_web/presentation/utils/open_seller_web_page.dart';
+import 'package:moding_application/router/entities/product_list_page_params.dart';
 
-class AutoBanner extends StatefulWidget {
+class AutoBanner extends ConsumerStatefulWidget {
   const AutoBanner({super.key});
 
   @override
-  State<AutoBanner> createState() => _AutoBannerState();
+  ConsumerState<AutoBanner> createState() => _AutoBannerState();
 }
 
-class _AutoBannerState extends State<AutoBanner> {
+class _AutoBannerState extends ConsumerState<AutoBanner> {
   final PageController _controller = PageController();
   int currentIndex = 0;
   Timer? timer;
@@ -18,8 +29,6 @@ class _AutoBannerState extends State<AutoBanner> {
     "assets/images/banners/main_banner1.png",
     "assets/images/banners/main_banner2.png",
     "assets/images/banners/main_banner3.png",
-    "assets/images/banners/main_banner4.png",
-    "assets/images/banners/main_banner5.png",
   ];
 
   @override
@@ -50,10 +59,91 @@ class _AutoBannerState extends State<AutoBanner> {
     super.dispose();
   }
 
+  Future<void> _handleBannerTap(int index) async {
+    switch (index) {
+      case 0:
+        await _handleFirstBannerTap();
+        return;
+      case 1:
+        await _handleSecondBannerTap();
+        return;
+      case 2:
+        _handleThirdBannerTap();
+        return;
+    }
+  }
+
+  Future<bool> _isLoggedIn() async {
+    final accessToken = await ref.read(tokenStorageProvider).getAccessToken();
+    return accessToken != null && accessToken.trim().isNotEmpty;
+  }
+
+  Future<void> _handleFirstBannerTap() async {
+    final loggedIn = await _isLoggedIn();
+    if (!mounted) return;
+
+    if (!loggedIn) {
+      context.push('/signup_new');
+      return;
+    }
+
+    ref.read(mainViewModelProvider.notifier).changeTab(MainTab.profile);
+  }
+
+  Future<void> _handleSecondBannerTap() async {
+    final loggedIn = await _isLoggedIn();
+    if (!mounted) return;
+
+    if (!loggedIn) {
+      context.push('/signup_new');
+      return;
+    }
+
+    ref.read(mainViewModelProvider.notifier).changeTab(MainTab.profile);
+
+    var profile = ref.read(profileViewModelProvider).profileSummary?.data;
+    if (profile == null) {
+      await ref.read(profileViewModelProvider.notifier).getProfileSummary();
+      if (!mounted) return;
+      profile = ref.read(profileViewModelProvider).profileSummary?.data;
+    }
+
+    final role = profile?.role;
+    final approvalStatus = profile?.approvalStatus;
+
+    if (role == Role.SELLER) {
+      await openSellerWebPage(context: context, ref: ref);
+      return;
+    }
+
+    switch (approvalStatus) {
+      case null:
+        final result = await context.push<bool>('/seller_conversion');
+        if (result == true) {
+          await ref.read(profileViewModelProvider.notifier).getProfileSummary();
+        }
+        break;
+      case ApprovalStatus.PENDING:
+      case ApprovalStatus.REJECTED:
+        context.push('/seller_conversion_check');
+        break;
+      case ApprovalStatus.APPROVED:
+        await openSellerWebPage(context: context, ref: ref);
+        break;
+    }
+  }
+
+  void _handleThirdBannerTap() {
+    context.push(
+      '/product_list_page',
+      extra: ProductListPageParams(type: ProductRecommendType.newProduct),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = width / 2.5; // ⭐ 3:1 비율
+    final height = width / 2.5;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -72,15 +162,11 @@ class _AutoBannerState extends State<AutoBanner> {
               },
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {
-                    // context.push('/payment_complete/34');
-                  },
+                  onTap: () => _handleBannerTap(index),
                   child: Image.asset(banners[index], fit: BoxFit.cover),
                 );
               },
             ),
-
-            /// 인디케이터
             Positioned(
               bottom: 8,
               left: 0,

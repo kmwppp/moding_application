@@ -126,17 +126,23 @@ class _OrderAddressAddPageState extends ConsumerState<OrderAddressAddPage> {
                       child: Column(
                         children: [
                           _buildInputRow(
-                            "배송지명",
-                            "배송지 명을 입력해주세요.",
-                            _placeNameController,
-                            (val) => notifier.updatePlaceName(val),
+                            label: "배송지명",
+                            hint: "배송지 명을 입력해주세요.",
+                            controller: _placeNameController,
+                            inputType: TextInputType.text,
+                            onChanged: (String val) {
+                              notifier.updatePlaceName(val);
+                            },
                           ),
                           const Divider(height: 0),
                           _buildInputRow(
-                            "수령인",
-                            "이름을 입력해주세요.",
-                            _recipientController,
-                            (val) => notifier.updateRecipientName(val),
+                            label: "수령인",
+                            hint: "이름을 입력해주세요.",
+                            controller: _recipientController,
+                            inputType: TextInputType.text,
+                            onChanged: (String val) {
+                              notifier.updateRecipientName(val);
+                            },
                           ),
                           const Divider(height: 0),
 
@@ -144,17 +150,23 @@ class _OrderAddressAddPageState extends ConsumerState<OrderAddressAddPage> {
                           _buildAddressRow(detail?.address, notifier),
 
                           _buildInputRow(
-                            "",
-                            "상세 주소를 입력해주세요.",
-                            _detailAddressController,
-                            (val) => notifier.updateAddressDetail(val),
+                            label: "",
+                            hint: "상세 주소를 입력해주세요.",
+                            controller: _detailAddressController,
+                            inputType: TextInputType.text,
+                            onChanged: (String val) {
+                              notifier.updateAddressDetail(val);
+                            },
                           ),
                           const Divider(height: 0),
                           _buildInputRow(
-                            "연락처",
-                            "010-0000-0000",
-                            _phoneController,
-                            (val) => notifier.updatePhone(val),
+                            label: "연락처",
+                            hint: "010-0000-0000",
+                            controller: _phoneController,
+                            inputType: TextInputType.phone,
+                            onChanged: (String val) {
+                              notifier.updatePhone(val);
+                            },
                           ),
 
                           /// 기본 배송지 체크박스
@@ -174,12 +186,13 @@ class _OrderAddressAddPageState extends ConsumerState<OrderAddressAddPage> {
   }
 
   // 입력 행 빌더
-  Widget _buildInputRow(
-    String label,
-    String hint,
-    TextEditingController controller,
-    Function(String) onChanged,
-  ) {
+  Widget _buildInputRow({
+    required String label,
+    required String hint,
+    required TextEditingController controller,
+    required TextInputType inputType,
+    required Function(String) onChanged,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Row(
@@ -193,7 +206,7 @@ class _OrderAddressAddPageState extends ConsumerState<OrderAddressAddPage> {
               controller: controller,
               onChanged: onChanged,
               style: context.bodySmall,
-              keyboardType: TextInputType.phone,
+              keyboardType: inputType,
               // 👍 추가
               inputFormatters: label == "연락처" ? [PhoneNumberFormatter()] : [],
               decoration: AppInputDecoration.focusDecoration(hint),

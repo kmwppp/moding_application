@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/widgets/text_with_cehvron.dart';
 import '../../../../../core/theme/app_text_styles.dart';
+import '../../../../identity_verification/domain/entities/identity_verification_page_params.dart';
 import '../../../../payment_complete/presentation/screens/widgets/payment_complete_common_box.dart';
 import '../../providers/edit_my_info_viewmodel.dart';
 import '../widgets/edit_my_info_row.dart';
@@ -28,7 +29,12 @@ class RefundAccountInfoSection extends ConsumerWidget {
               Spacer(),
               InkWell(
                 onTap: () {
-                  context.push('/account_management');
+                  context.push(
+                    '/identity_verification',
+                    extra: const IdentityVerificationPageParams(
+                      successRoute: '/account_management',
+                    ),
+                  );
                 },
                 child: TextWithChevron(
                   text: "계좌 관리",

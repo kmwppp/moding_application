@@ -25,4 +25,12 @@ class LoginRemoteDataSource {
 
     return response.data;
   }
+
+  Future<Map<String, dynamic>> patchFcmToken(String token) async {
+    final response = await _dio.patch(
+      AppHttpUrl.patchFcmToken,
+      data: {"fcmToken": token},
+    );
+    return response.data;
+  }
 }

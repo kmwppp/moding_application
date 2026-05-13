@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:moding_application/features/order_check/data/repositories/order_check_repository_impl.dart';
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'order_check_state.dart';

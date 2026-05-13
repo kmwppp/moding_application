@@ -92,7 +92,24 @@ class _ClaimProductItem extends ConsumerWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Container(width: 80, height: 80, color: Colors.black),
+            child: SizedBox(
+              width: 80,
+              height: 80,
+              child: Image.network(
+                item.thumbnailImageUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[200],
+                    child: const Center(child: Icon(Icons.broken_image)),
+                  );
+                },
+              ),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(

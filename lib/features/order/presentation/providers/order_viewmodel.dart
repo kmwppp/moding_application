@@ -4,6 +4,9 @@ import 'package:moding_application/features/order/data/repositories/order_reposi
 import 'package:moding_application/features/order/domain/entities/address_dto.dart';
 import 'package:moding_application/features/order/domain/entities/create_order_request_dto.dart';
 import 'package:moding_application/features/order/domain/entities/order_request_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_request_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_response_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_fail_request_dto.dart';
 import 'package:moding_application/features/order/presentation/providers/order_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -159,20 +162,7 @@ class OrderViewModel extends _$OrderViewModel {
       final result = await repository.putAddress(addressId, requestDto);
 
       if (result.success) {
-        final currentList = state.addressList;
-        if (currentList != null) {
-          // 1. map을 순회하며 ID가 같은 항목만 수정된 데이터로 교체
-          final updatedData = currentList.data.map((address) {
-            return address.id == addressId
-                ? state.selectedAddress! // 현재 상세 정보(수정본)로 교체
-                : address; // 나머지는 그대로 유지
-          }).toList();
-
-          // 2. 새로운 리스트로 상태 업데이트
-          state = state.copyWith(
-            addressList: currentList.copyWith(data: updatedData),
-          );
-        }
+        await getAddressList();
       }
       return result;
     } catch (e) {
@@ -263,6 +253,46 @@ class OrderViewModel extends _$OrderViewModel {
     } catch (e) {
       debugPrint('$e');
       return CreateOrderResponseWrapper(success: false, data: null);
+    }
+  }
+
+  Future<PaymentsConfirmResponseWrapper?> postPaymentsConfirm({
+    required String paymentKey,
+    required String paymentCode,
+    required int amount,
+  }) async {
+    try {
+      final repository = ref.read(orderRepositoryProvider);
+      return await repository.postPaymentsConfirm(
+        PaymentsConfirmRequestDto(
+          paymentKey: paymentKey,
+          paymentCode: paymentCode,
+          amount: amount,
+        ),
+      );
+    } catch (e) {
+      debugPrint('$e');
+      return null;
+    }
+  }
+
+  Future<ResponseModel> postPaymentsFail({
+    required String paymentCode,
+    required String errorCode,
+    required String errorMessage,
+  }) async {
+    try {
+      final repository = ref.read(orderRepositoryProvider);
+      return await repository.postPaymentsFail(
+        PaymentsFailRequestDto(
+          paymentCode: paymentCode,
+          errorCode: errorCode,
+          errorMessage: errorMessage,
+        ),
+      );
+    } catch (e) {
+      debugPrint('$e');
+      return const ResponseModel(success: false, message: '결제 실패 처리에 실패했습니다.');
     }
   }
 

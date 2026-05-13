@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/dialog/common_dialog.dart';
 import '../../../../../core/presentation/widgets/custom_button.dart';
+import '../../../../../core/presentation/widgets/loading_indicator.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../providers/review_list_viewmodel.dart';
 
@@ -37,6 +38,7 @@ class _CreateReviewBottomSheetState
   late final TextEditingController _contentController;
   final List<String> _localPhotoPaths = [];
   int _contentLength = 0;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -54,119 +56,135 @@ class _CreateReviewBottomSheetState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(widget.productName, style: context.titleSmall),
-          if (widget.optionName.isNotEmpty) ...[
-            const SizedBox(height: 4),
-            Text(
-              widget.optionName,
-              style: context.bodySmall.copyWith(color: AppColors.darkGrey),
-            ),
-          ],
-          const SizedBox(height: 16),
-          TextField(
-            controller: _contentController,
-            maxLines: 5,
-            inputFormatters: [LengthLimitingTextInputFormatter(20)],
-            decoration: InputDecoration(
-              hintText: '리뷰 내용을 입력해주세요.',
-              filled: true,
-              fillColor: AppColors.lightGrey,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Text(
-                  '리뷰 내용은 10자 이상 20자 이하로 입력해주세요.',
-                  style: context.caption.copyWith(color: AppColors.darkGrey),
+              Text(widget.productName, style: context.titleSmall),
+              if (widget.optionName.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Text(
+                  widget.optionName,
+                  style: context.bodySmall.copyWith(color: AppColors.darkGrey),
+                ),
+              ],
+              const SizedBox(height: 16),
+              TextField(
+                controller: _contentController,
+                maxLines: 5,
+                inputFormatters: [LengthLimitingTextInputFormatter(20)],
+                decoration: InputDecoration(
+                  hintText: '리뷰 내용을 입력해주세요.',
+                  filled: true,
+                  fillColor: AppColors.lightGrey,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '리뷰 내용은 10자 이상 20자 이하로 입력해주세요.',
+                      style: context.caption.copyWith(
+                        color: AppColors.darkGrey,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    '$_contentLength/20',
+                    style: context.caption.copyWith(color: AppColors.darkGrey),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: _pickPhotosFromGallery,
+                      child: CustomButton(
+                        title: '사진 선택',
+                        boxColor: AppColors.primary,
+                        textColor: Colors.white,
+                        paddingVertical: 6,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: _pickPhotoFromCamera,
+                      child: CustomButton(
+                        title: '사진 촬영',
+                        boxColor: AppColors.pointColor,
+                        textColor: Colors.white,
+                        paddingVertical: 6,
+                        borderColor: AppColors.pointColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
               Text(
-                '$_contentLength/20',
+                '사진은 최대 3장까지 첨부할 수 있으며 없어도 됩니다.',
                 style: context.caption.copyWith(color: AppColors.darkGrey),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: _pickPhotosFromGallery,
-                  child: CustomButton(
-                    title: '사진 선택',
-                    boxColor: AppColors.primary,
-                    textColor: Colors.white,
-                    paddingVertical: 6,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: GestureDetector(
-                  onTap: _pickPhotoFromCamera,
-                  child: CustomButton(
-                    title: '사진 촬영',
-                    boxColor: AppColors.pointColor,
-                    textColor: Colors.white,
-                    paddingVertical: 6,
-                    borderColor: AppColors.pointColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '사진은 최대 3장까지 첨부할 수 있으며 없어도 됩니다.',
-            style: context.caption.copyWith(color: AppColors.darkGrey),
-          ),
-          if (_localPhotoPaths.isNotEmpty) ...[
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 88,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: _localPhotoPaths.length,
-                separatorBuilder: (context, index) => const SizedBox(width: 10),
-                itemBuilder: (context, index) {
-                  final imagePath = _localPhotoPaths[index];
-                  return _CreateReviewPhotoThumbnail(
-                    imagePath: imagePath,
-                    onDelete: () {
-                      setState(() {
-                        _localPhotoPaths.removeAt(index);
-                      });
+              if (_localPhotoPaths.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 88,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _localPhotoPaths.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 10),
+                    itemBuilder: (context, index) {
+                      final imagePath = _localPhotoPaths[index];
+                      return _CreateReviewPhotoThumbnail(
+                        imagePath: imagePath,
+                        onDelete: () {
+                          setState(() {
+                            _localPhotoPaths.removeAt(index);
+                          });
+                        },
+                        onTap: () =>
+                            _showImagePreview(context, imagePath: imagePath),
+                      );
                     },
-                    onTap: () =>
-                        _showImagePreview(context, imagePath: imagePath),
-                  );
-                },
+                  ),
+                ),
+              ],
+              const SizedBox(height: 20),
+              GestureDetector(
+                onTap: _isSubmitting ? null : _submitReviewCreate,
+                child: CustomButton(
+                  title: '리뷰 작성',
+                  boxColor: AppColors.primary,
+                  textColor: Colors.white,
+                  paddingVertical: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (_isSubmitting)
+          Positioned.fill(
+            child: AbsorbPointer(
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.12),
+                child: const Center(child: LoadingIndicator()),
               ),
             ),
-          ],
-          const SizedBox(height: 20),
-          GestureDetector(
-            onTap: _submitReviewCreate,
-            child: CustomButton(
-              title: '리뷰 작성',
-              boxColor: AppColors.primary,
-              textColor: Colors.white,
-              paddingVertical: 12,
-            ),
           ),
-        ],
-      ),
+      ],
     );
   }
 
@@ -271,6 +289,11 @@ class _CreateReviewBottomSheetState
       isSuccess: false,
       message: '리뷰를 작성하시겠습니까?',
       onPressed: () async {
+        if (mounted) {
+          setState(() {
+            _isSubmitting = true;
+          });
+        }
         final result = await ref
             .read(reviewListViewModelProvider.notifier)
             .postCreateReview(
@@ -280,6 +303,9 @@ class _CreateReviewBottomSheetState
             );
 
         if (!mounted) return;
+        setState(() {
+          _isSubmitting = false;
+        });
 
         if (result.success) {
           widget.onCreated?.call();

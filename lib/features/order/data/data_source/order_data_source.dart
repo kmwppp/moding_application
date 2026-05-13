@@ -3,6 +3,8 @@ import 'package:moding_application/core/constants/app_http_url.dart';
 import 'package:moding_application/core/network/dio_client.dart';
 import 'package:moding_application/features/order/domain/entities/address_request_dto.dart';
 import 'package:moding_application/features/order/domain/entities/create_order_request_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_request_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_fail_request_dto.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain/entities/order_request_dto.dart';
@@ -54,10 +56,10 @@ class OrderDataSource {
         response = await _dio.put(
           AppHttpUrl.getAddressDetailControl(addressId),
           data: AddressRequestDto(
-            name: request!.name ?? "",
-            address: request.address ?? "",
-            addressDetail: request.addressDetail ?? "",
-            phone: request.phone ?? "",
+            name: request!.name,
+            address: request.address,
+            addressDetail: request.addressDetail,
+            phone: request.phone,
             isDefault: request.isDefault,
             recipientName: request.recipientName,
             zipCode: request.zipCode,
@@ -76,15 +78,15 @@ class OrderDataSource {
 
   /// 배송지 등록
   Future<Map<String, dynamic>> postAddAddress({
-    required AddressRequestDto? request,
+    required AddressRequestDto request,
   }) async {
     final response = await _dio.post(
       AppHttpUrl.postAddAddress(),
       data: AddressRequestDto(
-        name: request!.name ?? "",
-        address: request.address ?? "",
-        addressDetail: request.addressDetail ?? "",
-        phone: request.phone ?? "",
+        name: request.name,
+        address: request.address,
+        addressDetail: request.addressDetail,
+        phone: request.phone,
         isDefault: request.isDefault,
         recipientName: request.recipientName,
         zipCode: request.zipCode,
@@ -102,6 +104,26 @@ class OrderDataSource {
       data: createOrderRequestDto.toJson(),
     );
 
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> postPaymentConfirm({
+    required PaymentsConfirmRequestDto request,
+  }) async {
+    final response = await _dio.post(
+      AppHttpUrl.postPaymentsConfirm,
+      data: request.toJson(),
+    );
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> postPaymentFail({
+    required PaymentsFailRequestDto request,
+  }) async {
+    final response = await _dio.post(
+      AppHttpUrl.postPaymentsFail,
+      data: request.toJson(),
+    );
     return response.data;
   }
 }

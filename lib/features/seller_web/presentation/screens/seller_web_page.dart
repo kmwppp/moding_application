@@ -8,7 +8,9 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class SellerWebPage extends StatefulWidget {
-  const SellerWebPage({super.key});
+  const SellerWebPage({super.key, required this.webViewToken});
+
+  final String webViewToken;
 
   @override
   State<SellerWebPage> createState() => _SellerWebPageState();
@@ -81,7 +83,14 @@ class _SellerWebPageState extends State<SellerWebPage> {
       );
     }
 
-    _controller.loadRequest(Uri.parse(AppHttpUrl.sellerPageUrl));
+    final sellerUri = Uri.parse(AppHttpUrl.sellerPageUrl).replace(
+      queryParameters: {
+        if (widget.webViewToken.trim().isNotEmpty)
+          'webViewToken': widget.webViewToken.trim(),
+      },
+    );
+
+    _controller.loadRequest(sellerUri);
   }
 
   @override

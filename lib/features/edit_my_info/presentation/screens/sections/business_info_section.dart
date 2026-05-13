@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moding_application/features/edit_my_info/presentation/providers/edit_my_info_viewmodel.dart';
 
 import '../../../../../core/constants/app_colors.dart';
@@ -27,10 +28,15 @@ class BusinessInfoSection extends ConsumerWidget {
                 style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold),
               ),
               Spacer(),
-              TextWithChevron(
-                text: "변경신청",
-                style: context.bodySmall.copyWith(color: AppColors.darkGrey),
-                iconSize: 10,
+              InkWell(
+                onTap: () {
+                  context.push("/business_profile");
+                },
+                child: TextWithChevron(
+                  text: "사업자 정보 관리",
+                  style: context.bodySmall.copyWith(color: AppColors.darkGrey),
+                  iconSize: 10,
+                ),
               ),
             ],
           ),
@@ -57,10 +63,8 @@ class BusinessInfoSection extends ConsumerWidget {
             content: businessProfile?.ownerName ?? '-',
           ),
           SizedBox(height: 2),
-          EditMyInfoRow(title: "이메일", content: myInfo?.email ?? '-'),
-          SizedBox(height: 2),
           EditMyInfoRow(
-            title: "업태/종목",
+            title: "업종 대/소분류",
             content:
                 [
                       businessProfile?.parentCategoryName,
@@ -68,6 +72,13 @@ class BusinessInfoSection extends ConsumerWidget {
                     ]
                     .where((value) => value != null && value.trim().isNotEmpty)
                     .join(' / '),
+          ),
+          SizedBox(height: 2),
+          EditMyInfoRow(
+            title: "업태/종목",
+            content: [businessProfile?.industry, businessProfile?.industryClass]
+                .where((value) => value != null && value.trim().isNotEmpty)
+                .join(' / '),
           ),
           SizedBox(height: 2),
           EditMyInfoRow(

@@ -45,7 +45,7 @@ class ClaimStatusSection extends ConsumerWidget {
       case ClaimStatus.requested:
         return [
           Text(
-            '제조사에서 확인중입니다.',
+            '판매자가 확인중입니다.',
             style: context.body.copyWith(fontWeight: FontWeight.w500),
           ),
         ];

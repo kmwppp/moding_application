@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/edit_my_info/data/data_source/edit_my_info_data_source.dart';
-import 'package:moding_application/features/edit_my_info/domain/entities/get_my_info_response_dto.dart';
-import 'package:moding_application/features/edit_my_info/domain/entities/get_my_store_info_response_dto.dart';
 import 'package:moding_application/features/edit_my_info/domain/entities/user_info_masking_response_dto.dart';
 import 'package:moding_application/features/edit_my_info/domain/repositories/edit_my_info_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,18 +17,6 @@ class EditMyInfoRepositoryImpl implements EditMyInfoRepository {
   final EditMyInfoDataSource _dataSource;
 
   EditMyInfoRepositoryImpl(this._dataSource);
-
-  @override
-  Future<GetMyInfoResponseWrapper> getMyInfo() async {
-    final response = await _dataSource.getMyInfo();
-    return GetMyInfoResponseWrapper.fromJson(response);
-  }
-
-  @override
-  Future<GetMyStoreInfoResponseWrapper> getMyStoreInfo() async {
-    final response = await _dataSource.getMyStoreInfo();
-    return GetMyStoreInfoResponseWrapper.fromJson(response);
-  }
 
   @override
   Future<UserInfoMaskingResponseWrapper> getMaskingMyInfo() async {
@@ -59,5 +45,11 @@ class EditMyInfoRepositoryImpl implements EditMyInfoRepository {
     } catch (_) {
       return const ResponseModel(success: false, message: '알림 설정 변경에 실패했습니다.');
     }
+  }
+
+  @override
+  Future<ResponseModel> deleteUser() async {
+    final response = await _dataSource.deleteUser();
+    return ResponseModel.fromJson(response);
   }
 }

@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/navigation/app_navigator.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 
 class FCMInitializer extends StatefulWidget {
   final Widget child;
@@ -47,7 +52,14 @@ class _FCMInitializerState extends State<FCMInitializer> {
       iOS: iosSettings,
     );
 
-    await _localNotifications.initialize(settings: initializationSettings);
+    await _localNotifications.initialize(
+      settings: initializationSettings,
+      onDidReceiveNotificationResponse: (response) {
+        final payload = response.payload;
+        if (payload == null || payload.isEmpty) return;
+        _openFcmTestPage(payload);
+      },
+    );
 
     await _localNotifications
         .resolvePlatformSpecificImplementation<
@@ -66,28 +78,30 @@ class _FCMInitializerState extends State<FCMInitializer> {
   /// 🔔 권한 요청
   Future<void> _requestPermission() async {
     final settings = await FirebaseMessaging.instance.requestPermission();
-    print('권한 상태: ${settings.authorizationStatus}');
+    appLog('권한 상태: ${settings.authorizationStatus}');
   }
 
   /// 🔑 토큰
   Future<void> _getToken() async {
     final token = await FirebaseMessaging.instance.getToken();
-    print("FCM Token: $token");
+    appLog("FCM Token: $token");
   }
 
   /// 📩 foreground 메시지
   void _setupForegroundListener() {
     FirebaseMessaging.onMessage.listen((message) async {
-      print("Foreground 메시지");
-      print(message.notification?.title);
+      appLog("Foreground 메시지");
+      appLog(message.notification?.title);
 
       final notification = message.notification;
       if (notification == null) return;
+      final payload = _buildPayloadText(message);
 
       await _localNotifications.show(
         id: notification.hashCode,
         title: notification.title,
         body: notification.body,
+        payload: payload,
         notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(
             'high_importance_channel',
@@ -110,8 +124,33 @@ class _FCMInitializerState extends State<FCMInitializer> {
   /// 👆 알림 클릭
   void _setupClickListener() {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print("알림 클릭됨");
+      appLog("알림 클릭됨");
+      _openFcmTestPage(_buildPayloadText(message));
     });
+
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message == null) return;
+      _openFcmTestPage(_buildPayloadText(message));
+    });
+  }
+
+  String _buildPayloadText(RemoteMessage message) {
+    final payload = <String, dynamic>{
+      'data': message.data,
+      'notification': {
+        'title': message.notification?.title,
+        'body': message.notification?.body,
+      },
+    };
+
+    return const JsonEncoder.withIndent('  ').convert(payload);
+  }
+
+  void _openFcmTestPage(String payloadText) {
+    final context = rootNavigatorKey.currentContext;
+    if (context == null || !context.mounted) return;
+
+    GoRouter.of(context).push('/fcm_test', extra: payloadText);
   }
 
   @override

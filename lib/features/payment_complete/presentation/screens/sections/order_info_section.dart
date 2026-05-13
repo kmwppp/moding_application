@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moding_application/core/utils/date_time_util.dart';
 import 'package:moding_application/core/utils/string_util.dart';
@@ -34,7 +35,10 @@ class OrderInfoSection extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("결제정보", style: context.titleMedium),
+              Text(
+                "결제정보",
+                style: context.bodyLarge.copyWith(fontWeight: FontWeight.w600),
+              ),
 
               if (state.paymentInfo?.data.paymentMethod ==
                   PaymentCompleteMethod.card) ...[
@@ -114,9 +118,19 @@ class OrderInfoSection extends ConsumerWidget {
                         title: "은행",
                         content: state.paymentInfo?.data.vbankName ?? "",
                       ),
-                      PaymentRatioRow(
-                        title: "계좌번호",
-                        content: state.paymentInfo?.data.vbankNumber ?? "",
+                      GestureDetector(
+                        onTap: () async {
+                          await Clipboard.setData(
+                            ClipboardData(
+                              text: state.paymentInfo?.data.vbankNumber ?? "",
+                            ),
+                          );
+                          // ToastUtil.show('클립보드에 복사되었습니다');
+                        },
+                        child: PaymentRatioRow(
+                          title: "계좌번호",
+                          content: state.paymentInfo?.data.vbankNumber ?? "",
+                        ),
                       ),
                       PaymentRatioRow(
                         title: "예금주",

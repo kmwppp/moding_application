@@ -85,5 +85,5 @@ class AppStrings {
   static final String close = "닫기";
   static final String watch = "보기";
   static final String search = "검색";
-  static final String manufacturingCompany = "제조사";
+  static final String manufacturingCompany = "판매자";
 }

@@ -120,79 +120,45 @@ class ProductDetailInfoSection extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Text(
-                  "보관 방법",
-                  style: context.body.copyWith(color: AppColors.darkGrey),
-                ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Text(
-                  state.productInfo?.storageMethod!.label ?? "",
-                  style: context.body,
-                ),
-              ),
-            ],
+          _buildRow(
+            context,
+            title: '보관 방법',
+            content: state.productInfo?.storageMethod!.label ?? "",
           ),
           const SizedBox(height: 6),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Text(
-                  "배송 방식",
-                  style: context.body.copyWith(color: AppColors.darkGrey),
-                ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Text(
-                  state.productInfo?.deliveryMethods?.label ?? "",
-                  style: context.body,
-                ),
-              ),
-            ],
+          _buildRow(
+            context,
+            title: '배송 방식',
+            content: state.productInfo?.deliveryMethods?.label ?? "",
           ),
           const SizedBox(height: 6),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Text(
-                  "출고소요일",
-                  style: context.body.copyWith(color: AppColors.darkGrey),
-                ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Text(deliveryText.subText, style: context.body),
-              ),
-            ],
-          ),
+          _buildRow(context, title: '출고소요일', content: deliveryText.subText),
+
           const SizedBox(height: 6),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Text(
-                  "배송 기간",
-                  style: context.body.copyWith(color: AppColors.darkGrey),
-                ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Text(deliveryText.title, style: context.body),
-              ),
-            ],
-          ),
+          _buildRow(context, title: '배송 기간', content: deliveryText.title),
 
           const SizedBox(height: 10),
         ],
       ),
+    );
+  }
+
+  Row _buildRow(
+    BuildContext context, {
+    required String title,
+    required String content,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Text(
+            title,
+            style: context.bodySmall.copyWith(color: AppColors.darkGrey),
+          ),
+        ),
+        Expanded(flex: 6, child: Text(content, style: context.bodySmall)),
+      ],
     );
   }
 }

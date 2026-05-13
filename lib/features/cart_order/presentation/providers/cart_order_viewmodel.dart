@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/cart_order/domain/entities/cart_create_order_request_dto.dart';
 import 'package:moding_application/features/cart_order/domain/entities/cart_create_order_response_dto.dart';
 import 'package:moding_application/features/cart_order/presentation/providers/cart_order_state.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_request_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_response_dto.dart';
+import 'package:moding_application/features/order/domain/entities/payments/payments_fail_request_dto.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/network/entities/response_model.dart';
 import '../../../order/data/repositories/order_repository_impl.dart';
 import '../../../order/domain/entities/address_dto.dart';
 import '../../../order/domain/entities/address_request_dto.dart';
@@ -278,6 +281,46 @@ class CartOrderViewModel extends _$CartOrderViewModel {
       debugPrint('$e');
 
       return CartCreateOrderResponseWrapper(success: false, data: null);
+    }
+  }
+
+  Future<PaymentsConfirmResponseWrapper?> postPaymentsConfirm({
+    required String paymentKey,
+    required String paymentCode,
+    required int amount,
+  }) async {
+    try {
+      final repository = ref.read(orderRepositoryProvider);
+      return await repository.postPaymentsConfirm(
+        PaymentsConfirmRequestDto(
+          paymentKey: paymentKey,
+          paymentCode: paymentCode,
+          amount: amount,
+        ),
+      );
+    } catch (e) {
+      debugPrint('$e');
+      return null;
+    }
+  }
+
+  Future<ResponseModel> postPaymentsFail({
+    required String paymentCode,
+    required String errorCode,
+    required String errorMessage,
+  }) async {
+    try {
+      final repository = ref.read(orderRepositoryProvider);
+      return await repository.postPaymentsFail(
+        PaymentsFailRequestDto(
+          paymentCode: paymentCode,
+          errorCode: errorCode,
+          errorMessage: errorMessage,
+        ),
+      );
+    } catch (e) {
+      debugPrint('$e');
+      return const ResponseModel(success: false, message: '결제 실패 처리에 실패했습니다.');
     }
   }
 

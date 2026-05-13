@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
 import 'core/services/storage_service.dart';
+import 'core/utils/log_util.dart';
 
 const FirebaseOptions _androidFirebaseOptions = FirebaseOptions(
   apiKey: 'AIzaSyCiLqO9a2wDMSHV_KtYWRLyadgUL5keAPc',
@@ -31,7 +32,7 @@ FirebaseOptions? _firebaseOptionsForCurrentPlatform() {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final options = _firebaseOptionsForCurrentPlatform();
   await Firebase.initializeApp(options: options);
-  print("백그라운드 메시지: ${message.messageId}");
+  appLog("백그라운드 메시지: ${message.messageId}");
 }
 
 void main() async {
@@ -64,18 +65,18 @@ void main() async {
 
   // 토큰 추출
   String? token = await FirebaseMessaging.instance.getToken();
-  print("FCM Token: $token");
+  appLog("FCM Token: $token");
 
   runApp(const ProviderScope(child: App()));
 }
 
 Future<void> testNetwork() async {
-  print('URL = http://moding.iiiii.info:8081');
+  appLog('URL = http://moding.iiiii.info:8081');
 
   try {
     final result = await InternetAddress.lookup('moding.iiiii.info');
-    print('DNS OK: $result');
+    appLog('DNS OK: $result');
   } catch (e) {
-    print('DNS FAIL: $e');
+    appLog('DNS FAIL: $e');
   }
 }

@@ -8,6 +8,7 @@ part of 'order_response_dto.dart';
 
 _OrderResponseDto _$OrderResponseDtoFromJson(Map<String, dynamic> json) =>
     _OrderResponseDto(
+      tossCustomerKey: json['tossCustomerKey'] as String?,
       productId: (json['productId'] as num).toInt(),
       productName: json['productName'] as String,
       thumbnailImageUrl: json['thumbnailImageUrl'] as String,
@@ -30,6 +31,7 @@ _OrderResponseDto _$OrderResponseDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$OrderResponseDtoToJson(_OrderResponseDto instance) =>
     <String, dynamic>{
+      'tossCustomerKey': instance.tossCustomerKey,
       'productId': instance.productId,
       'productName': instance.productName,
       'thumbnailImageUrl': instance.thumbnailImageUrl,

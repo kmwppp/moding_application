@@ -1,4 +1,4 @@
-
+import 'package:moding_application/core/utils/log_util.dart';
 
 class StringUtil {
   static String formatCurrency(int? n) {
@@ -37,7 +37,7 @@ class StringUtil {
           "${dateTime.hour.toString().padLeft(2, '0')}:"
           "${dateTime.minute.toString().padLeft(2, '0')}";
     } catch (e) {
-      print('날짜 파싱 실패: $raw / error: $e');
+      appLog('날짜 파싱 실패: $raw / error: $e');
       return raw;
     }
   }

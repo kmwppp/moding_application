@@ -11,46 +11,14 @@ import 'package:moding_application/core/presentation/widgets/app_divider.dart';
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/core/theme/app_input_decoration.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
+import 'package:moding_application/features/meta/domain/entities/meta_option_dto.dart';
+import 'package:moding_application/features/meta/presentation/providers/meta_provider.dart';
 import 'package:moding_application/features/seller_conversion/domain/enums/seller_tax_type.dart';
 import 'package:moding_application/features/seller_conversion/presentation/providers/seller_conversion_viewmodel.dart';
 import 'package:moding_application/features/seller_conversion/presentation/screens/widgets/seller_conversion_sliver_appbar.dart';
 
 class SellerConversionPage extends ConsumerStatefulWidget {
   const SellerConversionPage({super.key});
-
-  static const List<String> _bankNames = [
-    'KB국민은행',
-    '신한은행',
-    '하나은행',
-    '우리은행',
-    'NH농협은행',
-    'IBK기업은행',
-    'SC제일은행',
-    '한국씨티은행',
-    '수협은행',
-    'KDB산업은행',
-    '부산은행',
-    '대구은행',
-    '광주은행',
-    '전북은행',
-    '경남은행',
-    '제주은행',
-    '새마을금고',
-    '신협',
-    '우체국예금보험',
-    '산림조합',
-    '저축은행',
-    '케이뱅크',
-    '카카오뱅크',
-    '토스뱅크',
-    'HSBC',
-    '도이치은행',
-    '중국공상은행',
-    '중국은행',
-    'JP모간체이스은행',
-    'BNP파리바은행',
-    'BOA은행',
-  ];
 
   @override
   ConsumerState<SellerConversionPage> createState() =>
@@ -69,6 +37,8 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(sellerConversionViewModelProvider);
+    final bankCodes =
+        ref.watch(bankCodesProvider).value ?? const <MetaOptionDto>[];
     final notifier = ref.read(sellerConversionViewModelProvider.notifier);
 
     return Scaffold(
@@ -140,9 +110,10 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
                       const AppDivider(height: 4),
                       _SectionTitle(title: '은행명'),
                       _SelectField(
-                        value: state.bankName,
+                        value: state.selectedBank?.label,
                         hintText: '은행을 선택해주세요.',
-                        onTap: () => _showBankBottomSheet(context, notifier),
+                        onTap: () =>
+                            _showBankBottomSheet(context, notifier, bankCodes),
                       ),
                       _SectionTitle(title: '계좌번호'),
                       _TextInputField(
@@ -171,6 +142,21 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
                               notifier.pickBankbookImage(ImageSource.camera),
                         ),
                         onRemoveTap: notifier.removeBankbookImage,
+                      ),
+                      const AppDivider(height: 4),
+                      _SingleImageSection(
+                        title: '사업자 등록증',
+                        imagePath: state.businessLicenseImagePath,
+                        onAddTap: () => _showSingleImageSourceSheet(
+                          context,
+                          onGalleryTap: () => notifier.pickBusinessLicenseImage(
+                            ImageSource.gallery,
+                          ),
+                          onCameraTap: () => notifier.pickBusinessLicenseImage(
+                            ImageSource.camera,
+                          ),
+                        ),
+                        onRemoveTap: notifier.removeBusinessLicenseImage,
                       ),
                       const AppDivider(height: 4),
                       _SingleImageSection(
@@ -293,7 +279,7 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
       return;
     }
 
-    if (state.bankName == null || state.bankName!.trim().isEmpty) {
+    if (state.selectedBank == null) {
       await CommonDialog.show(
         context,
         title: '확인',
@@ -329,6 +315,16 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
         title: '확인',
         isSuccess: false,
         message: '통장사본 이미지를 첨부해주세요.',
+      );
+      return;
+    }
+
+    if (state.businessLicenseImagePath == null) {
+      await CommonDialog.show(
+        context,
+        title: '확인',
+        isSuccess: false,
+        message: '사업자 등록증 이미지를 첨부해주세요.',
       );
       return;
     }
@@ -391,6 +387,7 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
   Future<void> _showBankBottomSheet(
     BuildContext context,
     SellerConversionViewModel notifier,
+    List<MetaOptionDto> banks,
   ) {
     return showModalBottomSheet(
       context: context,
@@ -399,16 +396,16 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
         return SafeArea(
           child: ListView.separated(
             shrinkWrap: true,
-            itemCount: SellerConversionPage._bankNames.length,
+            itemCount: banks.length,
             separatorBuilder: (context, index) =>
                 Container(height: 1, color: AppColors.lightGrey),
             itemBuilder: (context, index) {
-              final bankName = SellerConversionPage._bankNames[index];
+              final bank = banks[index];
               return ListTile(
-                title: Text(bankName, style: context.body),
+                title: Text(bank.label, style: context.body),
                 onTap: () {
                   Navigator.of(context).pop();
-                  notifier.selectBankName(bankName);
+                  notifier.selectBank(bank);
                 },
               );
             },
@@ -602,7 +599,10 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-      child: Text(title, style: context.titleMedium),
+      child: Text(
+        title,
+        style: context.bodyLarge.copyWith(fontWeight: FontWeight.w600),
+      ),
     );
   }
 }
@@ -688,7 +688,10 @@ class _SingleImageSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: context.titleMedium),
+          Text(
+            title,
+            style: context.bodyLarge.copyWith(fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 10),
           if (imagePath == null)
             _UploadCard(onTap: onAddTap, title: '사진 업로드')
@@ -724,7 +727,10 @@ class _MultiImageSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: context.titleMedium),
+          Text(
+            title,
+            style: context.bodyLarge.copyWith(fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 10),
           SizedBox(
             height: 120,

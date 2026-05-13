@@ -1,5 +1,6 @@
 import 'package:moding_application/features/profile/data/data_source/profile_data_source.dart';
 import 'package:moding_application/features/profile/domain/entities/profile_summary_dto.dart';
+import 'package:moding_application/features/profile/domain/entities/webview_tokens_response_dto.dart';
 import 'package:moding_application/features/profile/domain/repositories/profile_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,5 +21,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<ProfileSummaryWrapper> getProfileSummary() async {
     final response = await _dataSource.getProfileSummary();
     return ProfileSummaryWrapper.fromJson(response);
+  }
+
+  @override
+  Future<WebviewTokensResponseWrapper> postWebViewTokens() async {
+    final response = await _dataSource.postWebViewTokens();
+    return WebviewTokensResponseWrapper.fromJson(response);
   }
 }

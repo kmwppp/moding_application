@@ -7,10 +7,11 @@ class SellerConversionRequest {
     required this.taxInvoiceEmail,
     required this.taxType,
     required this.permitCategoryIds,
-    required this.bankName,
+    required this.bankCode,
     required this.bankAccountNumber,
     required this.bankAccountHolder,
     required this.bankbookImagePath,
+    required this.businessLicenseImagePath,
     required this.businessPermitImagePath,
     required this.salesPermitImagePath,
     required this.otherFilePaths,
@@ -19,10 +20,11 @@ class SellerConversionRequest {
   final String taxInvoiceEmail;
   final SellerTaxType taxType;
   final List<int> permitCategoryIds;
-  final String bankName;
+  final String bankCode;
   final String bankAccountNumber;
   final String bankAccountHolder;
   final String bankbookImagePath;
+  final String businessLicenseImagePath;
   final String businessPermitImagePath;
   final String salesPermitImagePath;
   final List<String> otherFilePaths;
@@ -32,10 +34,11 @@ class SellerConversionRequest {
       'taxInvoiceEmail': taxInvoiceEmail,
       'taxType': taxType.code,
       'permitCategoryIds': permitCategoryIds,
-      'bankName': bankName,
+      'bankCode': bankCode,
       'bankAccountNumber': bankAccountNumber,
       'bankAccountHolder': bankAccountHolder,
       'bankbook': await _toMultipartFile(bankbookImagePath),
+      'businessLicenseFile': await _toMultipartFile(businessLicenseImagePath),
       'businessPermit': await _toMultipartFile(businessPermitImagePath),
       'salesPermit': await _toMultipartFile(salesPermitImagePath),
       if (otherFilePaths.isNotEmpty)

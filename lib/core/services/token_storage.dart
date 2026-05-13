@@ -25,6 +25,13 @@ class TokenStorage {
 
   Future<String?> getRefreshToken() => _storage.read(key: 'refresh_token');
 
+  Future<void> saveReauthKey(String reauthKey) =>
+      _storage.write(key: 'reauth_key', value: reauthKey);
+
+  Future<String?> getReauthKey() => _storage.read(key: 'reauth_key');
+
+  Future<void> deleteReauthKey() => _storage.delete(key: 'reauth_key');
+
   // 로그아웃 시 토큰 삭제
   Future<void> deleteAll() => _storage.deleteAll();
 }

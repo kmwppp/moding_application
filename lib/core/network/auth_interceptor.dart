@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moding_application/core/constants/app_http_url.dart';
+import 'package:moding_application/core/network/reauth_required_handler.dart';
 import 'package:moding_application/core/network/session_expired_handler.dart';
 
 import '../services/token_storage.dart';
@@ -22,9 +23,16 @@ class AuthInterceptor extends Interceptor {
     }
 
     final accessToken = await _tokenStorage.getAccessToken();
+    final reauthKey = await _tokenStorage.getReauthKey();
 
     if (accessToken != null && accessToken.trim().isNotEmpty) {
       options.headers['Authorization'] = 'Bearer ${accessToken.trim()}';
+    }
+
+    if (_requiresReauthHeader(options.path) &&
+        reauthKey != null &&
+        reauthKey.trim().isNotEmpty) {
+      options.headers['X-Reauth-Key'] = reauthKey.trim();
     }
 
     return handler.next(options);
@@ -32,7 +40,19 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (_shouldSkipAuth(err.requestOptions)) {
+    if (_shouldSkipAuth(err.requestOptions) ||
+        _isReAuthEndpoint(err.requestOptions.path)) {
+      return handler.next(err);
+    }
+
+    if (err.response?.statusCode == 401 &&
+        err.requestOptions.extra['ignore401Logout'] == true) {
+      return handler.next(err);
+    }
+
+    if (err.response?.statusCode == 403 &&
+        _requiresReauthHeader(err.requestOptions.path)) {
+      await ReauthRequiredHandler.showIdentityVerificationPage();
       return handler.next(err);
     }
 
@@ -80,11 +100,34 @@ class AuthInterceptor extends Interceptor {
   bool _shouldSkipAuth(RequestOptions options) {
     return options.extra['skipAuth'] == true ||
         options.extra['SkipAuth'] == true ||
-        _isAuthEndpoint(options.path);
+        _isLoginEndpoint(options.path) ||
+        _isRefreshEndpoint(options.path);
   }
 
   bool _isAuthEndpoint(String path) {
-    return path.contains(AppHttpUrl.login) || path.contains(AppHttpUrl.refresh);
+    return _isLoginEndpoint(path) ||
+        _isRefreshEndpoint(path) ||
+        _isReAuthEndpoint(path);
+  }
+
+  bool _isLoginEndpoint(String path) {
+    return path.contains(AppHttpUrl.login);
+  }
+
+  bool _isRefreshEndpoint(String path) {
+    return path.contains(AppHttpUrl.refresh);
+  }
+
+  bool _isReAuthEndpoint(String path) {
+    return path.contains(AppHttpUrl.reAuth);
+  }
+
+  bool _requiresReauthHeader(String path) {
+    final normalizedPath = path.split('?').first;
+    return normalizedPath == AppHttpUrl.getMyAccountInfo ||
+        normalizedPath == AppHttpUrl.getMaskingMyInfo ||
+        normalizedPath == AppHttpUrl.getRefundAccountInfo ||
+        normalizedPath == AppHttpUrl.getMyBusinessProfileInfo;
   }
 
   Future<String?> _refreshAccessToken() {

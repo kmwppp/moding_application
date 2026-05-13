@@ -9,6 +9,7 @@ abstract class ReviewDto with _$ReviewDto {
   const factory ReviewDto({
     required int id,
     required String name,
+    required String orderItemOptionName,
     required String content,
     @JsonKey(fromJson: _photosFromJson) required List<ReviewPhotoDto> photos,
     @LocalDateTimeConverter() required DateTime createdAt,

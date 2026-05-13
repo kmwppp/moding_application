@@ -10,6 +10,7 @@ import 'package:moding_application/features/login/presentation/providers/login_v
 import 'package:moding_application/features/login/presentation/screens/widgets/login_help_area.dart';
 
 import '../../../../core/presentation/widgets/appbar_profile.dart';
+import '../../../../core/presentation/widgets/loading_indicator.dart';
 
 class LoginPageMain extends ConsumerWidget {
   const LoginPageMain({super.key});
@@ -18,27 +19,41 @@ class LoginPageMain extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const String logoPath = "assets/images/logo4.png";
     final notifier = ref.read(loginViewModelProvider.notifier);
+    final state = ref.watch(loginViewModelProvider);
 
     return Scaffold(
       appBar: AppBarProfile(title: "로그인"),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 60),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 60),
 
-            /// 로고
-            Center(child: Image.asset(logoPath, width: 100, height: 100)),
+                /// 로고
+                Center(child: Image.asset(logoPath, width: 100, height: 100)),
 
-            const SizedBox(height: 40),
+                const SizedBox(height: 40),
 
-            /// 입력 영역
-            Expanded(
-              child: SingleChildScrollView(
-                child: _loginInputSection(context, ref, notifier),
+                /// 입력 영역
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: _loginInputSection(context, ref, notifier),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (state.isSubmitting)
+            Positioned.fill(
+              child: AbsorbPointer(
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.12),
+                  child: const Center(child: LoadingIndicator()),
+                ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -93,7 +108,7 @@ class LoginPageMain extends ConsumerWidget {
         ),
         GestureDetector(
           onTap: () {
-            context.push('/signup/step1');
+            context.push('/signup_new');
           },
           child: ConfirmButton(buttonTitle: "회원가입", paddingH: 20),
         ),
@@ -113,7 +128,11 @@ class LoginPageMain extends ConsumerWidget {
             width: double.infinity,
             height: 1,
           ),
-          LoginHelpArea(content: "회원정보가 기억나지 않나요?", accentContent: "회원정보 찾기"),
+          LoginHelpArea(
+            content: "회원정보가 기억나지 않나요?",
+            accentContent1: "아이디 찾기",
+            accentContent2: "비밀번호 찾기",
+          ),
         ],
       ),
     );

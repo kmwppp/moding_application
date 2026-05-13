@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:moding_application/core/constants/app_keys.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/order/domain/enums/nice_payments_method.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -79,7 +80,7 @@ class _OrderPaymentWebviewPageState extends State<OrderPaymentWebviewPage> {
         'PaymentBridge',
         onMessageReceived: (JavaScriptMessage message) {
           final paymentId = message.message;
-          print("paymentId 수신: $paymentId");
+          appLog("paymentId 수신: $paymentId");
           if (paymentId == "-1") {
             CommonDialog.show(
               context,

@@ -205,16 +205,14 @@ class PriceInfoSection extends ConsumerWidget {
                   flex: 3,
                   child: Text(
                     "리뷰",
-                    style: context.bodyLarge.copyWith(
-                      color: AppColors.darkGrey,
-                    ),
+                    style: context.body.copyWith(color: AppColors.darkGrey),
                   ),
                 ),
                 Expanded(
                   flex: 8,
                   child: Text(
                     "총 ${StringUtil.formatCurrency(state.productInfo?.reviewCount ?? 0)}개",
-                    style: context.bodyLarge.copyWith(),
+                    style: context.body.copyWith(),
                   ),
                 ),
                 Expanded(
@@ -236,7 +234,7 @@ class PriceInfoSection extends ConsumerWidget {
                 flex: 3,
                 child: Text(
                   "배송일정",
-                  style: context.bodyLarge.copyWith(color: AppColors.darkGrey),
+                  style: context.body.copyWith(color: AppColors.darkGrey),
                 ),
               ),
               Expanded(
@@ -244,16 +242,16 @@ class PriceInfoSection extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(info.title, style: context.bodyLarge.copyWith()),
+                    Text(info.title, style: context.body.copyWith()),
                     if (info.subText.isNotEmpty)
                       RichText(
                         text: TextSpan(
                           text: '${info.subText} ',
-                          style: context.bodyLarge.copyWith(),
+                          style: context.body.copyWith(),
                           children: <TextSpan>[
                             TextSpan(
                               text: '(${info.remain} 내 주문 시)',
-                              style: context.bodyLarge.copyWith(
+                              style: context.body.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.pointColor,
                               ),

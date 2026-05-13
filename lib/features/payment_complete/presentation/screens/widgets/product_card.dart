@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/core/utils/string_util.dart';
 import 'package:moding_application/features/payment_complete/domain/entities/payment_complete_response_dto.dart';
 import 'package:moding_application/features/payment_complete/presentation/providers/payment_complete_viewmodel.dart';
+import 'package:moding_application/features/seller_info/data/repositories/seller_info_repository_impl.dart';
+import 'package:moding_application/features/seller_info/presentation/widgets/seller_info_bottom_sheet.dart';
 
 import '../../../../../core/constants/app_colors.dart';
-import '../../../../../core/presentation/widgets/modal/app_bottom_sheet.dart';
 import '../../../../../core/presentation/widgets/text_with_cehvron.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../../../core/utils/delivery_util.dart';
@@ -133,8 +135,34 @@ class ProductCard extends ConsumerWidget {
               ),
               Spacer(),
               GestureDetector(
-                onTap: () {
-                  _showSellerInfo(context);
+                onTap: () async {
+                  final sellerProfileId =
+                      state.paymentInfo?.data.orders[index].sellerProfileId;
+                  if (sellerProfileId == null) {
+                    CommonDialog.show(
+                      context,
+                      title: "오류",
+                      isSuccess: false,
+                      message: "판매자 정보를 확인할 수 없습니다.",
+                    );
+                    return;
+                  }
+
+                  try {
+                    final sellerInfo = await ref
+                        .read(sellerInfoRepositoryProvider)
+                        .getSellerInfo(sellerProfileId);
+                    if (!context.mounted) return;
+                    showSellerInfoBottomSheet(context, sellerInfo);
+                  } catch (_) {
+                    if (!context.mounted) return;
+                    CommonDialog.show(
+                      context,
+                      title: "오류",
+                      isSuccess: false,
+                      message: "판매자 정보를 불러오지 못했습니다.",
+                    );
+                  }
                 },
                 child: TextWithChevron(
                   text: "판매자 정보 보기",
@@ -225,29 +253,6 @@ class ProductCard extends ConsumerWidget {
                 .toList(),
           ),
         ],
-      ),
-    );
-  }
-
-  void _showSellerInfo(BuildContext context) {
-    AppBottomSheet.show(
-      context: context,
-      title: "판매자 정보",
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("상호: ", style: context.body),
-              Text("대표자: ", style: context.body),
-              Text("사업자번호: ", style: context.body),
-              Text("주소: ", style: context.body),
-              Text("연락처: ", style: context.body),
-            ],
-          ),
-        ),
       ),
     );
   }

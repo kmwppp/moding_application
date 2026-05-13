@@ -6,8 +6,9 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 
 class AppSliverAppbar extends StatelessWidget {
-  const AppSliverAppbar({super.key, required this.title});
+  const AppSliverAppbar({super.key, required this.title, this.isMain = false});
 
+  final bool isMain;
   final String title;
 
   @override
@@ -29,10 +30,12 @@ class AppSliverAppbar extends StatelessWidget {
           height: 1.0,
         ),
       ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: AppColors.darkGrey),
-        onPressed: () => context.pop(true),
-      ),
+      leading: !isMain
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back, color: AppColors.darkGrey),
+              onPressed: () => context.pop(true),
+            )
+          : null,
 
       /// ⭐ 상태바 스타일
       systemOverlayStyle: const SystemUiOverlayStyle(

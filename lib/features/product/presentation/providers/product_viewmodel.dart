@@ -119,7 +119,7 @@ class ProductViewModel extends _$ProductViewModel {
   //     final similarList = await repository.getProductListSimilar(productId);
   //     state = state.copyWith(similarList: similarList);
   //   } catch (e) {
-  //     print(e);
+  //     debugPrint('$e');
   //   }
   // }
 
@@ -140,7 +140,7 @@ class ProductViewModel extends _$ProductViewModel {
   //     final recentlyList = await repository.getProductRecentlyList();
   //     state = state.copyWith(recentlyList: recentlyList);
   //   } catch (e) {
-  //     print(e);
+  //     debugPrint('$e');
   //   }
   // }
   //
@@ -153,7 +153,7 @@ class ProductViewModel extends _$ProductViewModel {
   //       isLoading: false,
   //     );
   //   } catch (e) {
-  //     print(e);
+  //     debugPrint('$e');
   //   }
   // }
 

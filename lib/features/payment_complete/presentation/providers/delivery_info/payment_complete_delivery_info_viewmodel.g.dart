@@ -51,7 +51,7 @@ final class PaymentCompleteDeliveryInfoViewModelProvider
 }
 
 String _$paymentCompleteDeliveryInfoViewModelHash() =>
-    r'2a96db32452a9848838eb7ed05e65418ba2248ec';
+    r'e4828ef31b0fdbb340f47725e4f07a3bcbcb3b3a';
 
 abstract class _$PaymentCompleteDeliveryInfoViewModel
     extends $Notifier<PaymentCompleteDeliveryInfoState> {

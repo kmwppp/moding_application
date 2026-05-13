@@ -210,8 +210,8 @@ class _OrderCheckActionButton extends ConsumerWidget {
     OrderDetailDto order,
     WidgetRef ref,
   ) async {
-    final paymentId = int.tryParse(order.payment?.paymentCode ?? '');
-    if (paymentId == null) {
+    final paymentId = order.payment!.paymentId;
+    if (paymentId == 0) {
       CommonDialog.show(
         context,
         title: "오류",
@@ -300,6 +300,7 @@ class _OrderCheckActionButton extends ConsumerWidget {
         orderId: order.id,
         productName: firstItem?.productName ?? '상품명',
         optionName: _optionText(order.items),
+        onCreated: onRefreshRequested,
       ),
     );
   }
@@ -324,111 +325,115 @@ class _OrderCheckActionButton extends ConsumerWidget {
     AppBottomSheet.show(
       context: context,
       title: "주문 취소",
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("주문을 취소하시겠습니까?", style: context.titleMedium),
-              const SizedBox(height: 30),
-              Container(
-                width: double.infinity,
-                decoration: AppBoxStyles.borderBox,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      child: _OrderCheckCancelSheet(
+        contentBuilder: (context, setSubmitting) => SafeArea(
+          child: Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("주문을 취소하시겠습니까?", style: context.titleMedium),
+                const SizedBox(height: 30),
+                Container(
+                  width: double.infinity,
+                  decoration: AppBoxStyles.borderBox,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      Text(
+                        "입금전 상품은 함께 취소되며, 결제 금액은 환불됩니다.",
+                        style: context.bodySmall,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "취소한 상품은 장바구니에서 다시 확인하실 수 있습니다.",
+                        style: context.bodySmall,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        "환불은 영업일 기준 1~2일 소요될 수 있습니다.",
+                        style: context.caption.copyWith(color: Colors.red),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+                if (wrapper.data.orders.length > 1) ...[
+                  const SizedBox(height: 20),
+                  Text(
+                    "함께 취소되는 상품",
+                    style: context.bodyLarge.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  _PendingCancelProductPager(orders: wrapper.data.orders),
+                  const SizedBox(height: 50),
+                ] else
+                  const SizedBox(height: 50),
+                Row(
                   children: [
-                    const SizedBox(height: 20),
-                    Text(
-                      "입금전 상품은 함께 취소되며, 결제 금액은 환불됩니다.",
-                      style: context.bodySmall,
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          setSubmitting(true);
+                          final result = await ref
+                              .read(orderListViewModelProvider.notifier)
+                              .deletePaymentInfo(paymentId);
+                          if (!context.mounted) return;
+                          setSubmitting(false);
+
+                          if (result.success) {
+                            CommonDialog.show(
+                              context,
+                              title: "주문 취소",
+                              isSuccess: false,
+                              message: "주문을 취소하였습니다.",
+                              onPressed: () {
+                                context.pop();
+                                onRefreshRequested();
+                              },
+                            );
+                          } else {
+                            CommonDialog.show(
+                              context,
+                              title: "오류",
+                              isSuccess: false,
+                              message: "일시적인 오류로 다시 요청해주세요.",
+                            );
+                          }
+                        },
+                        child: CustomButton(
+                          title: "주문 취소하기",
+                          boxColor: AppColors.pointColor,
+                          textColor: Colors.white,
+                          paddingVertical: 10,
+                          borderColor: AppColors.pointColor,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "취소한 상품은 장바구니에서 다시 확인하실 수 있습니다.",
-                      style: context.bodySmall,
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: CustomButton(
+                          title: "닫기",
+                          boxColor: AppColors.primary,
+                          textColor: Colors.white,
+                          paddingVertical: 10,
+                          borderColor: AppColors.primary,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      "환불은 영업일 기준 1~2일 소요될 수 있습니다.",
-                      style: context.caption.copyWith(color: Colors.red),
-                    ),
-                    const SizedBox(height: 20),
                   ],
                 ),
-              ),
-              if (wrapper.data.orders.length > 1) ...[
-                const SizedBox(height: 20),
-                Text(
-                  "함께 취소되는 상품",
-                  style: context.bodyLarge.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                _PendingCancelProductPager(orders: wrapper.data.orders),
-                const SizedBox(height: 50),
-              ] else
-                const SizedBox(height: 50),
-              Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () async {
-                        final result = await ref
-                            .read(orderListViewModelProvider.notifier)
-                            .deletePaymentInfo(paymentId);
-                        if (!context.mounted) return;
-
-                        if (result.success) {
-                          CommonDialog.show(
-                            context,
-                            title: "주문 취소",
-                            isSuccess: false,
-                            message: "주문을 취소하였습니다.",
-                            onPressed: () {
-                              context.pop();
-                              onRefreshRequested();
-                            },
-                          );
-                        } else {
-                          CommonDialog.show(
-                            context,
-                            title: "오류",
-                            isSuccess: false,
-                            message: "일시적인 오류로 다시 요청해주세요.",
-                          );
-                        }
-                      },
-                      child: CustomButton(
-                        title: "주문 취소하기",
-                        boxColor: AppColors.pointColor,
-                        textColor: Colors.white,
-                        paddingVertical: 10,
-                        borderColor: AppColors.pointColor,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.pop();
-                      },
-                      child: CustomButton(
-                        title: "닫기",
-                        boxColor: AppColors.primary,
-                        textColor: Colors.white,
-                        paddingVertical: 10,
-                        borderColor: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -443,93 +448,97 @@ class _OrderCheckActionButton extends ConsumerWidget {
     AppBottomSheet.show(
       context: context,
       title: "주문 취소",
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("주문을 취소하시겠습니까?", style: context.titleMedium),
-              const SizedBox(height: 30),
-              Container(
-                width: double.infinity,
-                decoration: AppBoxStyles.borderBox,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      child: _OrderCheckCancelSheet(
+        contentBuilder: (context, setSubmitting) => SafeArea(
+          child: Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("주문을 취소하시겠습니까?", style: context.titleMedium),
+                const SizedBox(height: 30),
+                Container(
+                  width: double.infinity,
+                  decoration: AppBoxStyles.borderBox,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      Text("배송이 시작되면 취소가 불가능하며,", style: context.body),
+                      const SizedBox(height: 4),
+                      Text("취소 시 결제 금액은 환불됩니다.", style: context.body),
+                      const SizedBox(height: 20),
+                      Text(
+                        "환불은 영업일 기준 1~2일 소요될 수 있습니다.",
+                        style: context.caption.copyWith(color: Colors.red),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 50),
+                Row(
                   children: [
-                    const SizedBox(height: 20),
-                    Text("배송이 시작되면 취소가 불가능하며,", style: context.body),
-                    const SizedBox(height: 4),
-                    Text("취소 시 결제 금액은 환불됩니다.", style: context.body),
-                    const SizedBox(height: 20),
-                    Text(
-                      "환불은 영업일 기준 1~2일 소요될 수 있습니다.",
-                      style: context.caption.copyWith(color: Colors.red),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          setSubmitting(true);
+                          final result = await ref
+                              .read(orderListViewModelProvider.notifier)
+                              .deleteOrderInfo(orderId);
+                          if (!context.mounted) return;
+                          setSubmitting(false);
+
+                          if (result.success) {
+                            CommonDialog.show(
+                              context,
+                              title: "주문 취소",
+                              isSuccess: false,
+                              message: "주문을 취소하였습니다.",
+                              onPressed: () {
+                                context.pop();
+                                onRefreshRequested();
+                              },
+                            );
+                          } else {
+                            CommonDialog.show(
+                              context,
+                              title: "오류",
+                              isSuccess: false,
+                              message: "일시적인 오류로 다시 요청해주세요.",
+                            );
+                          }
+                        },
+                        child: CustomButton(
+                          title: "주문 취소하기",
+                          boxColor: AppColors.pointColor,
+                          textColor: Colors.white,
+                          paddingVertical: 10,
+                          borderColor: AppColors.pointColor,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: CustomButton(
+                          title: "닫기",
+                          boxColor: AppColors.primary,
+                          textColor: Colors.white,
+                          paddingVertical: 10,
+                          borderColor: AppColors.primary,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 50),
-              Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () async {
-                        final result = await ref
-                            .read(orderListViewModelProvider.notifier)
-                            .deleteOrderInfo(orderId);
-                        if (!context.mounted) return;
-
-                        if (result.success) {
-                          CommonDialog.show(
-                            context,
-                            title: "주문 취소",
-                            isSuccess: false,
-                            message: "주문을 취소하였습니다.",
-                            onPressed: () {
-                              context.pop();
-                              onRefreshRequested();
-                            },
-                          );
-                        } else {
-                          CommonDialog.show(
-                            context,
-                            title: "오류",
-                            isSuccess: false,
-                            message: "일시적인 오류로 다시 요청해주세요.",
-                          );
-                        }
-                      },
-                      child: CustomButton(
-                        title: "주문 취소하기",
-                        boxColor: AppColors.pointColor,
-                        textColor: Colors.white,
-                        paddingVertical: 10,
-                        borderColor: AppColors.pointColor,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.pop();
-                      },
-                      child: CustomButton(
-                        title: "닫기",
-                        boxColor: AppColors.primary,
-                        textColor: Colors.white,
-                        paddingVertical: 10,
-                        borderColor: AppColors.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -672,7 +681,7 @@ class _OrderCheckActionUi {
           ),
           if (isReviewable)
             const _OrderCheckActionUi(
-              title: '리뷰작성',
+              title: '리뷰 작성',
               color: AppColors.primary,
               type: _OrderCheckActionType.createReview,
             ),
@@ -694,7 +703,7 @@ class _OrderCheckActionUi {
           ),
           if (isReviewable)
             const _OrderCheckActionUi(
-              title: '리뷰작성',
+              title: '리뷰 작성',
               color: AppColors.primary,
               type: _OrderCheckActionType.createReview,
             ),
@@ -724,6 +733,48 @@ class _PendingCancelProductPager extends StatefulWidget {
   @override
   State<_PendingCancelProductPager> createState() =>
       _PendingCancelProductPagerState();
+}
+
+class _OrderCheckCancelSheet extends StatefulWidget {
+  const _OrderCheckCancelSheet({required this.contentBuilder});
+
+  final Widget Function(
+    BuildContext context,
+    void Function(bool isSubmitting) setSubmitting,
+  )
+  contentBuilder;
+
+  @override
+  State<_OrderCheckCancelSheet> createState() => _OrderCheckCancelSheetState();
+}
+
+class _OrderCheckCancelSheetState extends State<_OrderCheckCancelSheet> {
+  bool _isSubmitting = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        widget.contentBuilder(context, (isSubmitting) {
+          if (!mounted) return;
+          setState(() {
+            _isSubmitting = isSubmitting;
+          });
+        }),
+        if (_isSubmitting)
+          Positioned.fill(
+            child: AbsorbPointer(
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.12),
+                child: const Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 }
 
 class _PendingCancelProductPagerState
@@ -774,19 +825,38 @@ class _PendingCancelProductPagerState
                 padding: const EdgeInsets.all(16),
                 decoration: AppBoxStyles.borderBox,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Container(
+                      child: SizedBox(
                         width: 80,
                         height: 80,
-                        color: Colors.black,
+                        child: Image.network(
+                          item!.thumbnailUrl ?? "",
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey[200],
+                              child: const Center(
+                                child: Icon(Icons.broken_image),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(

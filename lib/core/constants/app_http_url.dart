@@ -1,13 +1,15 @@
 class AppHttpUrl {
   /// API 메인 주소
-  static final mainServerUrl = "http://moding.iiiii.info:8081";
+  static final mainServerUrl = "http://moding.iiiii.info:80";
 
   /// 판매자 사이트 메인 주소
-  static final sellerPageUrl = "http://moding.iiiii.info:8001";
+  static final sellerPageUrl = "http://moding.iiiii.info:8000";
 
   /// Login
   static final login = "/api/v1/auth/login";
   static final refresh = "/api/v1/auth/refresh";
+
+  static final reAuth = "/api/v1/auth/reauth";
 
   ///Sign-Up
   static final idDuplicateCheck = "/api/v1/users/login-id/availability";
@@ -20,6 +22,14 @@ class AppHttpUrl {
 
   static final getTerms = "/api/v1/terms";
 
+  /// 웹뷰 토큰 발급
+  static final postWebViewTokens = "/api/v1/auth/webview-tokens";
+
+  /// 앱 버전 체크
+  static String getAppVersion(String platform) {
+    return "/api/v1/app/versions/$platform";
+  }
+
   /// Home
   static final getHomeSectionList = "/api/v1/main/sections";
 
@@ -29,6 +39,7 @@ class AppHttpUrl {
 
   ///Meta
   static final getBusinessTypeList = "/api/v1/meta/business-types";
+  static final getBankCodes = "/api/v1/meta/bank-codes";
 
   /// product
   static String getProductDetailInfo(int productId) {
@@ -99,6 +110,9 @@ class AppHttpUrl {
     return "/api/v1/seller-profiles/$sellerProfileId";
   }
 
+  /// 내 사업자 정보 조회 / 변경 신청
+  static String putMyBusinessProfileInfo = "/api/v1/business-profiles/me";
+
   /// 판매자 조회
   static String getWishList(int page) {
     return "/api/v1/wishlist?page=$page";
@@ -125,6 +139,12 @@ class AppHttpUrl {
   static String getPaymentInfo(int paymentId) {
     return "/api/v1/payments/$paymentId";
   }
+
+  /// 결제 승인
+  static String postPaymentsConfirm = "/api/v1/payments/confirm";
+
+  /// 결제 실패
+  static String postPaymentsFail = "/api/v1/payments/fail";
 
   /// 메인 카테고리 조회
   static String getMainCategoryList = "/api/v1/categories/products";
@@ -230,10 +250,10 @@ class AppHttpUrl {
   }
 
   /// 내 정보 조회
-  static String getMyInfo = "/api/v1/users/me";
+  static String getMyAccountInfo = "/api/v1/users/me";
 
   /// 내 사업자 프로필 조회
-  static String getMyStoreInfo = "/api/v1/business-profiles/me";
+  static String getMyBusinessProfileInfo = "/api/v1/business-profiles/me";
 
   /// 마이페이지 통합 조회
   static String getMaskingMyInfo = "/api/v1/users/me/profile";
@@ -244,4 +264,14 @@ class AppHttpUrl {
 
   /// 환불계좌 조회, 등록 및 수정
   static String getRefundAccountInfo = "/api/v1/refund-accounts/me";
+
+  /// 내 사업자 프로필 변경 신청 상세 조회
+  static String getChangeRequestBusinessProfile =
+      "/api/v1/business-profiles/me/change-request";
+
+  /// 비밀번호 변경
+  static String patchChangePassword = "/api/v1/users/me/password";
+
+  /// FCM 토큰 등록/갱신
+  static String patchFcmToken = "/api/v1/users/me/fcm-token";
 }

@@ -15,6 +15,7 @@ abstract class CartOrderResponseDto with _$CartOrderResponseDto {
 @freezed
 abstract class CartOrderData with _$CartOrderData {
   const factory CartOrderData({
+    String? tossCustomerKey,
     required DeliveryAddress deliveryAddress,
     required int totalProductAmount,
     required int totalDeliveryFee,

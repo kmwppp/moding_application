@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/features/edit_my_info/presentation/providers/edit_my_info_viewmodel.dart';
 
 import '../../../../../core/constants/app_colors.dart';
@@ -26,10 +28,22 @@ class AccountInfoSection extends ConsumerWidget {
                 style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold),
               ),
               Spacer(),
-              TextWithChevron(
-                text: "비밀번호 변경",
-                style: context.bodySmall.copyWith(color: AppColors.darkGrey),
-                iconSize: 10,
+              InkWell(
+                onTap: () async {
+                  final result = await context.push<bool>(
+                    '/change_account_information',
+                  );
+                  if (result == true) {
+                    await ref
+                        .read(editMyInfoViewModelProvider.notifier)
+                        .getMaskingMyInfo();
+                  }
+                },
+                child: TextWithChevron(
+                  text: "계정 정보 관리",
+                  style: context.bodySmall.copyWith(color: AppColors.darkGrey),
+                  iconSize: 10,
+                ),
               ),
             ],
           ),
@@ -39,6 +53,22 @@ class AccountInfoSection extends ConsumerWidget {
           EditMyInfoRow(title: "사업자명", content: myInfo?.name ?? '-'),
           SizedBox(height: 2),
           EditMyInfoRow(title: "전화번호", content: myInfo?.phone ?? '-'),
+          SizedBox(height: 2),
+          EditMyInfoRow(title: "이메일", content: myInfo?.email ?? '-'),
+          SizedBox(height: 10),
+          InkWell(
+            onTap: () {
+              context.push('/change_password');
+            },
+            child: CustomButton(
+              title: "비밀번호 변경",
+              boxColor: AppColors.pointColor,
+              textColor: Colors.white,
+              borderColor: AppColors.pointColor,
+              textStyle: context.bodySmall,
+              paddingVertical: 4,
+            ),
+          ),
         ],
       ),
     );

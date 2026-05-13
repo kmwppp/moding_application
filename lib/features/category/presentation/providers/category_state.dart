@@ -16,6 +16,7 @@ abstract class CategoryState with _$CategoryState {
     required bool isOpenSubCategoryView,
     required MainCategoryResponseDto? subCategory,
     required MainCategoryDto? selectedCategory,
+    required int selectedSubCategoryIndex,
 
     required ProductRecommandDto? productList,
 
@@ -31,6 +32,7 @@ abstract class CategoryState with _$CategoryState {
     isOpenSubCategoryView: false,
     subCategory: null,
     selectedCategory: null,
+    selectedSubCategoryIndex: -1,
     productList: null,
   );
 }

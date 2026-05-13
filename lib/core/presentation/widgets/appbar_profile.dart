@@ -23,7 +23,7 @@ class AppBarProfile extends ConsumerWidget implements PreferredSizeWidget {
       ),
       title: Text(
         title,
-        style: context.bodyLarge.copyWith(color: Colors.black),
+        style: context.title.copyWith(fontWeight: FontWeight.w600),
       ),
     );
   }

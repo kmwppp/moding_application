@@ -153,6 +153,7 @@ Map<String, dynamic> _$OrderDetailDeliveryDtoToJson(
 _OrderDetailPaymentDto _$OrderDetailPaymentDtoFromJson(
   Map<String, dynamic> json,
 ) => _OrderDetailPaymentDto(
+  paymentId: (json['paymentId'] as num).toInt(),
   paymentCode: json['paymentCode'] as String,
   paymentMethod: OrderPaymentMethod.fromJson(json['paymentMethod'] as String),
   status: OrderPaymentStatus.fromJson(json['status'] as String),
@@ -179,6 +180,7 @@ _OrderDetailPaymentDto _$OrderDetailPaymentDtoFromJson(
 Map<String, dynamic> _$OrderDetailPaymentDtoToJson(
   _OrderDetailPaymentDto instance,
 ) => <String, dynamic>{
+  'paymentId': instance.paymentId,
   'paymentCode': instance.paymentCode,
   'paymentMethod': OrderPaymentMethod.toJson(instance.paymentMethod),
   'status': OrderPaymentStatus.toJson(instance.status),
