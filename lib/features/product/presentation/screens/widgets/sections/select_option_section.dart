@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moding_application/core/theme/app_box_styles.dart';
@@ -24,9 +22,9 @@ class SelectOptionSection extends ConsumerWidget {
     final state = ref.watch(productViewModelProvider(productId));
     final options = state.productInfo?.options ?? [];
     return Container(
-      color: AppColors.lightGrey,
+      color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Column(
@@ -199,11 +197,10 @@ class SelectOptionSection extends ConsumerWidget {
         /// 🔥 품절 처리
         if (isSoldOut) ...[
           Positioned.fill(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                child: Container(color: Colors.black.withOpacity(0.3)),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black.withValues(alpha: 0.3),
               ),
             ),
           ),

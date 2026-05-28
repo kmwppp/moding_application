@@ -13,20 +13,20 @@ import 'package:moding_application/features/change_password/presentation/provide
 import 'package:moding_application/features/payment_complete/presentation/screens/widgets/payment_complete_common_box.dart';
 
 class ChangePasswordPage extends ConsumerStatefulWidget {
-  const ChangePasswordPage({super.key});
+  const ChangePasswordPage({super.key, this.identityKey});
+
+  final String? identityKey;
 
   @override
   ConsumerState<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
 class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
-  final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    _currentPasswordController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -74,12 +74,6 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _PasswordField(
-                          title: '현재 비밀번호',
-                          controller: _currentPasswordController,
-                          hintText: '현재 비밀번호를 입력해주세요.',
-                        ),
-                        const SizedBox(height: 16),
-                        _PasswordField(
                           title: '변경 비밀번호',
                           controller: _newPasswordController,
                           hintText: '변경 비밀번호를 입력해주세요.',
@@ -112,19 +106,8 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
   }
 
   Future<void> _showConfirmDialog(BuildContext context) async {
-    final currentPassword = _currentPasswordController.text.trim();
     final newPassword = _newPasswordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
-
-    if (currentPassword.isEmpty) {
-      await CommonDialog.show(
-        context,
-        title: '확인',
-        isSuccess: false,
-        message: '현재 비밀번호를 입력해주세요.',
-      );
-      return;
-    }
 
     if (newPassword.isEmpty) {
       await CommonDialog.show(
@@ -202,10 +185,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                       child: GestureDetector(
                         onTap: () async {
                           Navigator.of(dialogContext).pop();
-                          await _submitChangePassword(
-                            currentPassword: currentPassword,
-                            newPassword: newPassword,
-                          );
+                          await _submitChangePassword(newPassword: newPassword);
                         },
                         child: CustomButton(
                           title: '변경',
@@ -226,14 +206,11 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
     );
   }
 
-  Future<void> _submitChangePassword({
-    required String currentPassword,
-    required String newPassword,
-  }) async {
+  Future<void> _submitChangePassword({required String newPassword}) async {
     final response = await ref
         .read(changePasswordViewModelProvider.notifier)
         .patchChangePassword(
-          currentPassword: currentPassword,
+          identityKey: widget.identityKey ?? '',
           newPassword: newPassword,
         );
 

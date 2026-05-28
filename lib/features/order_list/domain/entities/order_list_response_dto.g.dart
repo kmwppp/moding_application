@@ -51,11 +51,14 @@ _OrderListItemDto _$OrderListItemDtoFromJson(
   totalAmount: (json['totalAmount'] as num).toInt(),
   rejectionReason: json['rejectionReason'] as String?,
   claimId: (json['claimId'] as num?)?.toInt(),
-  paymentId: (json['paymentId'] as num?)?.toInt(),
   isReviewable: json['isReviewable'] as bool?,
   items: (json['items'] as List<dynamic>)
       .map((e) => OrderListProductItemDto.fromJson(e as Map<String, dynamic>))
       .toList(),
+  isTaxInvoiceIssued: json['isTaxInvoiceIssued'] as bool?,
+  payment: json['payment'] == null
+      ? null
+      : PaymentDto.fromJson(json['payment'] as Map<String, dynamic>),
   createdAt: const LocalDateTimeConverter().fromJson(
     json['createdAt'] as String,
   ),
@@ -73,10 +76,22 @@ Map<String, dynamic> _$OrderListItemDtoToJson(_OrderListItemDto instance) =>
       'totalAmount': instance.totalAmount,
       'rejectionReason': instance.rejectionReason,
       'claimId': instance.claimId,
-      'paymentId': instance.paymentId,
       'isReviewable': instance.isReviewable,
       'items': instance.items,
+      'isTaxInvoiceIssued': instance.isTaxInvoiceIssued,
+      'payment': instance.payment,
       'createdAt': const LocalDateTimeConverter().toJson(instance.createdAt),
+    };
+
+_PaymentDto _$PaymentDtoFromJson(Map<String, dynamic> json) => _PaymentDto(
+  paymentId: (json['paymentId'] as num).toInt(),
+  paymentMethod: OrderPaymentMethod.fromJson(json['paymentMethod'] as String),
+);
+
+Map<String, dynamic> _$PaymentDtoToJson(_PaymentDto instance) =>
+    <String, dynamic>{
+      'paymentId': instance.paymentId,
+      'paymentMethod': OrderPaymentMethod.toJson(instance.paymentMethod),
     };
 
 _OrderListProductItemDto _$OrderListProductItemDtoFromJson(

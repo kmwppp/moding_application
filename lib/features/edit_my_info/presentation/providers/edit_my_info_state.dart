@@ -9,9 +9,16 @@ abstract class EditMyInfoState with _$EditMyInfoState {
 
   const factory EditMyInfoState({
     required bool isLoading,
+    @Default(false) bool isNotificationLoading,
+    bool? notificationEnabled,
     UserInfoMaskingResponseWrapper? maskingMyInfo,
   }) = _EditMyInfoState;
 
   factory EditMyInfoState.initial() =>
-      const EditMyInfoState(isLoading: true, maskingMyInfo: null);
+      const EditMyInfoState(
+        isLoading: true,
+        isNotificationLoading: false,
+        notificationEnabled: null,
+        maskingMyInfo: null,
+      );
 }

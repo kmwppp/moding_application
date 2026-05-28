@@ -127,7 +127,8 @@ class AuthInterceptor extends Interceptor {
     return normalizedPath == AppHttpUrl.getMyAccountInfo ||
         normalizedPath == AppHttpUrl.getMaskingMyInfo ||
         normalizedPath == AppHttpUrl.getRefundAccountInfo ||
-        normalizedPath == AppHttpUrl.getMyBusinessProfileInfo;
+        normalizedPath == AppHttpUrl.getMyBusinessProfileInfo ||
+        normalizedPath == AppHttpUrl.patchChangePassword;
   }
 
   Future<String?> _refreshAccessToken() {

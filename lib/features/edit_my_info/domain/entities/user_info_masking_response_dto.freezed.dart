@@ -296,7 +296,7 @@ $UserInfoMaskingResponseDtoCopyWith<$Res> get data {
 /// @nodoc
 mixin _$UserInfoMaskingResponseDto {
 
- String get loginId; String get name; String get email; String get phone; BusinessProfileDto? get businessProfile; RefundAccountDto? get refundAccount; bool get isNotificationEnabled;
+ String get loginId; String get name; String get email; String get phone; BusinessProfileDto? get businessProfile; RefundAccountDto? get refundAccount;
 /// Create a copy of UserInfoMaskingResponseDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -309,16 +309,16 @@ $UserInfoMaskingResponseDtoCopyWith<UserInfoMaskingResponseDto> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserInfoMaskingResponseDto&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.refundAccount, refundAccount) || other.refundAccount == refundAccount)&&(identical(other.isNotificationEnabled, isNotificationEnabled) || other.isNotificationEnabled == isNotificationEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserInfoMaskingResponseDto&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.refundAccount, refundAccount) || other.refundAccount == refundAccount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,loginId,name,email,phone,businessProfile,refundAccount,isNotificationEnabled);
+int get hashCode => Object.hash(runtimeType,loginId,name,email,phone,businessProfile,refundAccount);
 
 @override
 String toString() {
-  return 'UserInfoMaskingResponseDto(loginId: $loginId, name: $name, email: $email, phone: $phone, businessProfile: $businessProfile, refundAccount: $refundAccount, isNotificationEnabled: $isNotificationEnabled)';
+  return 'UserInfoMaskingResponseDto(loginId: $loginId, name: $name, email: $email, phone: $phone, businessProfile: $businessProfile, refundAccount: $refundAccount)';
 }
 
 
@@ -329,7 +329,7 @@ abstract mixin class $UserInfoMaskingResponseDtoCopyWith<$Res>  {
   factory $UserInfoMaskingResponseDtoCopyWith(UserInfoMaskingResponseDto value, $Res Function(UserInfoMaskingResponseDto) _then) = _$UserInfoMaskingResponseDtoCopyWithImpl;
 @useResult
 $Res call({
- String loginId, String name, String email, String phone, BusinessProfileDto? businessProfile, RefundAccountDto? refundAccount, bool isNotificationEnabled
+ String loginId, String name, String email, String phone, BusinessProfileDto? businessProfile, RefundAccountDto? refundAccount
 });
 
 
@@ -346,7 +346,7 @@ class _$UserInfoMaskingResponseDtoCopyWithImpl<$Res>
 
 /// Create a copy of UserInfoMaskingResponseDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loginId = null,Object? name = null,Object? email = null,Object? phone = null,Object? businessProfile = freezed,Object? refundAccount = freezed,Object? isNotificationEnabled = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loginId = null,Object? name = null,Object? email = null,Object? phone = null,Object? businessProfile = freezed,Object? refundAccount = freezed,}) {
   return _then(_self.copyWith(
 loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -354,8 +354,7 @@ as String,email: null == email ? _self.email : email // ignore: cast_nullable_to
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,businessProfile: freezed == businessProfile ? _self.businessProfile : businessProfile // ignore: cast_nullable_to_non_nullable
 as BusinessProfileDto?,refundAccount: freezed == refundAccount ? _self.refundAccount : refundAccount // ignore: cast_nullable_to_non_nullable
-as RefundAccountDto?,isNotificationEnabled: null == isNotificationEnabled ? _self.isNotificationEnabled : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as RefundAccountDto?,
   ));
 }
 /// Create a copy of UserInfoMaskingResponseDto
@@ -464,10 +463,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String loginId,  String name,  String email,  String phone,  BusinessProfileDto? businessProfile,  RefundAccountDto? refundAccount,  bool isNotificationEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String loginId,  String name,  String email,  String phone,  BusinessProfileDto? businessProfile,  RefundAccountDto? refundAccount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserInfoMaskingResponseDto() when $default != null:
-return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessProfile,_that.refundAccount,_that.isNotificationEnabled);case _:
+return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessProfile,_that.refundAccount);case _:
   return orElse();
 
 }
@@ -485,10 +484,10 @@ return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessP
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String loginId,  String name,  String email,  String phone,  BusinessProfileDto? businessProfile,  RefundAccountDto? refundAccount,  bool isNotificationEnabled)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String loginId,  String name,  String email,  String phone,  BusinessProfileDto? businessProfile,  RefundAccountDto? refundAccount)  $default,) {final _that = this;
 switch (_that) {
 case _UserInfoMaskingResponseDto():
-return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessProfile,_that.refundAccount,_that.isNotificationEnabled);case _:
+return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessProfile,_that.refundAccount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -505,10 +504,10 @@ return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessP
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String loginId,  String name,  String email,  String phone,  BusinessProfileDto? businessProfile,  RefundAccountDto? refundAccount,  bool isNotificationEnabled)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String loginId,  String name,  String email,  String phone,  BusinessProfileDto? businessProfile,  RefundAccountDto? refundAccount)?  $default,) {final _that = this;
 switch (_that) {
 case _UserInfoMaskingResponseDto() when $default != null:
-return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessProfile,_that.refundAccount,_that.isNotificationEnabled);case _:
+return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessProfile,_that.refundAccount);case _:
   return null;
 
 }
@@ -520,7 +519,7 @@ return $default(_that.loginId,_that.name,_that.email,_that.phone,_that.businessP
 @JsonSerializable()
 
 class _UserInfoMaskingResponseDto implements UserInfoMaskingResponseDto {
-  const _UserInfoMaskingResponseDto({required this.loginId, required this.name, required this.email, required this.phone, this.businessProfile, this.refundAccount, required this.isNotificationEnabled});
+  const _UserInfoMaskingResponseDto({required this.loginId, required this.name, required this.email, required this.phone, this.businessProfile, this.refundAccount});
   factory _UserInfoMaskingResponseDto.fromJson(Map<String, dynamic> json) => _$UserInfoMaskingResponseDtoFromJson(json);
 
 @override final  String loginId;
@@ -529,7 +528,6 @@ class _UserInfoMaskingResponseDto implements UserInfoMaskingResponseDto {
 @override final  String phone;
 @override final  BusinessProfileDto? businessProfile;
 @override final  RefundAccountDto? refundAccount;
-@override final  bool isNotificationEnabled;
 
 /// Create a copy of UserInfoMaskingResponseDto
 /// with the given fields replaced by the non-null parameter values.
@@ -544,16 +542,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserInfoMaskingResponseDto&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.refundAccount, refundAccount) || other.refundAccount == refundAccount)&&(identical(other.isNotificationEnabled, isNotificationEnabled) || other.isNotificationEnabled == isNotificationEnabled));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserInfoMaskingResponseDto&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.refundAccount, refundAccount) || other.refundAccount == refundAccount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,loginId,name,email,phone,businessProfile,refundAccount,isNotificationEnabled);
+int get hashCode => Object.hash(runtimeType,loginId,name,email,phone,businessProfile,refundAccount);
 
 @override
 String toString() {
-  return 'UserInfoMaskingResponseDto(loginId: $loginId, name: $name, email: $email, phone: $phone, businessProfile: $businessProfile, refundAccount: $refundAccount, isNotificationEnabled: $isNotificationEnabled)';
+  return 'UserInfoMaskingResponseDto(loginId: $loginId, name: $name, email: $email, phone: $phone, businessProfile: $businessProfile, refundAccount: $refundAccount)';
 }
 
 
@@ -564,7 +562,7 @@ abstract mixin class _$UserInfoMaskingResponseDtoCopyWith<$Res> implements $User
   factory _$UserInfoMaskingResponseDtoCopyWith(_UserInfoMaskingResponseDto value, $Res Function(_UserInfoMaskingResponseDto) _then) = __$UserInfoMaskingResponseDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String loginId, String name, String email, String phone, BusinessProfileDto? businessProfile, RefundAccountDto? refundAccount, bool isNotificationEnabled
+ String loginId, String name, String email, String phone, BusinessProfileDto? businessProfile, RefundAccountDto? refundAccount
 });
 
 
@@ -581,7 +579,7 @@ class __$UserInfoMaskingResponseDtoCopyWithImpl<$Res>
 
 /// Create a copy of UserInfoMaskingResponseDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loginId = null,Object? name = null,Object? email = null,Object? phone = null,Object? businessProfile = freezed,Object? refundAccount = freezed,Object? isNotificationEnabled = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loginId = null,Object? name = null,Object? email = null,Object? phone = null,Object? businessProfile = freezed,Object? refundAccount = freezed,}) {
   return _then(_UserInfoMaskingResponseDto(
 loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -589,8 +587,7 @@ as String,email: null == email ? _self.email : email // ignore: cast_nullable_to
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,businessProfile: freezed == businessProfile ? _self.businessProfile : businessProfile // ignore: cast_nullable_to_non_nullable
 as BusinessProfileDto?,refundAccount: freezed == refundAccount ? _self.refundAccount : refundAccount // ignore: cast_nullable_to_non_nullable
-as RefundAccountDto?,isNotificationEnabled: null == isNotificationEnabled ? _self.isNotificationEnabled : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
-as bool,
+as RefundAccountDto?,
   ));
 }
 
@@ -625,7 +622,7 @@ $RefundAccountDtoCopyWith<$Res>? get refundAccount {
 /// @nodoc
 mixin _$BusinessProfileDto {
 
- String get businessName; String get zipCode; String get address; String? get addressDetail; String get businessNumber; String get ownerName; String get parentCategoryName; String get businessCategoryName; String? get businessPhone; String? get industry; String? get industryClass;
+ String get businessName; String get zipCode; String get address; String? get addressDetail; String get businessNumber; String get ownerName; String? get parentCategoryName; String? get businessCategoryName; String? get businessPhone; String? get industry; String? get industryClass;
 /// Create a copy of BusinessProfileDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -658,7 +655,7 @@ abstract mixin class $BusinessProfileDtoCopyWith<$Res>  {
   factory $BusinessProfileDtoCopyWith(BusinessProfileDto value, $Res Function(BusinessProfileDto) _then) = _$BusinessProfileDtoCopyWithImpl;
 @useResult
 $Res call({
- String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String parentCategoryName, String businessCategoryName, String? businessPhone, String? industry, String? industryClass
+ String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String? parentCategoryName, String? businessCategoryName, String? businessPhone, String? industry, String? industryClass
 });
 
 
@@ -675,7 +672,7 @@ class _$BusinessProfileDtoCopyWithImpl<$Res>
 
 /// Create a copy of BusinessProfileDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = null,Object? businessCategoryName = null,Object? businessPhone = freezed,Object? industry = freezed,Object? industryClass = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = freezed,Object? businessCategoryName = freezed,Object? businessPhone = freezed,Object? industry = freezed,Object? industryClass = freezed,}) {
   return _then(_self.copyWith(
 businessName: null == businessName ? _self.businessName : businessName // ignore: cast_nullable_to_non_nullable
 as String,zipCode: null == zipCode ? _self.zipCode : zipCode // ignore: cast_nullable_to_non_nullable
@@ -683,9 +680,9 @@ as String,address: null == address ? _self.address : address // ignore: cast_nul
 as String,addressDetail: freezed == addressDetail ? _self.addressDetail : addressDetail // ignore: cast_nullable_to_non_nullable
 as String?,businessNumber: null == businessNumber ? _self.businessNumber : businessNumber // ignore: cast_nullable_to_non_nullable
 as String,ownerName: null == ownerName ? _self.ownerName : ownerName // ignore: cast_nullable_to_non_nullable
-as String,parentCategoryName: null == parentCategoryName ? _self.parentCategoryName : parentCategoryName // ignore: cast_nullable_to_non_nullable
-as String,businessCategoryName: null == businessCategoryName ? _self.businessCategoryName : businessCategoryName // ignore: cast_nullable_to_non_nullable
-as String,businessPhone: freezed == businessPhone ? _self.businessPhone : businessPhone // ignore: cast_nullable_to_non_nullable
+as String,parentCategoryName: freezed == parentCategoryName ? _self.parentCategoryName : parentCategoryName // ignore: cast_nullable_to_non_nullable
+as String?,businessCategoryName: freezed == businessCategoryName ? _self.businessCategoryName : businessCategoryName // ignore: cast_nullable_to_non_nullable
+as String?,businessPhone: freezed == businessPhone ? _self.businessPhone : businessPhone // ignore: cast_nullable_to_non_nullable
 as String?,industry: freezed == industry ? _self.industry : industry // ignore: cast_nullable_to_non_nullable
 as String?,industryClass: freezed == industryClass ? _self.industryClass : industryClass // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -773,7 +770,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String? parentCategoryName,  String? businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BusinessProfileDto() when $default != null:
 return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone,_that.industry,_that.industryClass);case _:
@@ -794,7 +791,7 @@ return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDeta
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String? parentCategoryName,  String? businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)  $default,) {final _that = this;
 switch (_that) {
 case _BusinessProfileDto():
 return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone,_that.industry,_that.industryClass);case _:
@@ -814,7 +811,7 @@ return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDeta
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String parentCategoryName,  String businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String businessName,  String zipCode,  String address,  String? addressDetail,  String businessNumber,  String ownerName,  String? parentCategoryName,  String? businessCategoryName,  String? businessPhone,  String? industry,  String? industryClass)?  $default,) {final _that = this;
 switch (_that) {
 case _BusinessProfileDto() when $default != null:
 return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDetail,_that.businessNumber,_that.ownerName,_that.parentCategoryName,_that.businessCategoryName,_that.businessPhone,_that.industry,_that.industryClass);case _:
@@ -829,7 +826,7 @@ return $default(_that.businessName,_that.zipCode,_that.address,_that.addressDeta
 @JsonSerializable()
 
 class _BusinessProfileDto implements BusinessProfileDto {
-  const _BusinessProfileDto({required this.businessName, required this.zipCode, required this.address, this.addressDetail, required this.businessNumber, required this.ownerName, required this.parentCategoryName, required this.businessCategoryName, this.businessPhone, this.industry, this.industryClass});
+  const _BusinessProfileDto({required this.businessName, required this.zipCode, required this.address, this.addressDetail, required this.businessNumber, required this.ownerName, this.parentCategoryName, this.businessCategoryName, this.businessPhone, this.industry, this.industryClass});
   factory _BusinessProfileDto.fromJson(Map<String, dynamic> json) => _$BusinessProfileDtoFromJson(json);
 
 @override final  String businessName;
@@ -838,8 +835,8 @@ class _BusinessProfileDto implements BusinessProfileDto {
 @override final  String? addressDetail;
 @override final  String businessNumber;
 @override final  String ownerName;
-@override final  String parentCategoryName;
-@override final  String businessCategoryName;
+@override final  String? parentCategoryName;
+@override final  String? businessCategoryName;
 @override final  String? businessPhone;
 @override final  String? industry;
 @override final  String? industryClass;
@@ -877,7 +874,7 @@ abstract mixin class _$BusinessProfileDtoCopyWith<$Res> implements $BusinessProf
   factory _$BusinessProfileDtoCopyWith(_BusinessProfileDto value, $Res Function(_BusinessProfileDto) _then) = __$BusinessProfileDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String parentCategoryName, String businessCategoryName, String? businessPhone, String? industry, String? industryClass
+ String businessName, String zipCode, String address, String? addressDetail, String businessNumber, String ownerName, String? parentCategoryName, String? businessCategoryName, String? businessPhone, String? industry, String? industryClass
 });
 
 
@@ -894,7 +891,7 @@ class __$BusinessProfileDtoCopyWithImpl<$Res>
 
 /// Create a copy of BusinessProfileDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = null,Object? businessCategoryName = null,Object? businessPhone = freezed,Object? industry = freezed,Object? industryClass = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? businessName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = freezed,Object? businessNumber = null,Object? ownerName = null,Object? parentCategoryName = freezed,Object? businessCategoryName = freezed,Object? businessPhone = freezed,Object? industry = freezed,Object? industryClass = freezed,}) {
   return _then(_BusinessProfileDto(
 businessName: null == businessName ? _self.businessName : businessName // ignore: cast_nullable_to_non_nullable
 as String,zipCode: null == zipCode ? _self.zipCode : zipCode // ignore: cast_nullable_to_non_nullable
@@ -902,9 +899,9 @@ as String,address: null == address ? _self.address : address // ignore: cast_nul
 as String,addressDetail: freezed == addressDetail ? _self.addressDetail : addressDetail // ignore: cast_nullable_to_non_nullable
 as String?,businessNumber: null == businessNumber ? _self.businessNumber : businessNumber // ignore: cast_nullable_to_non_nullable
 as String,ownerName: null == ownerName ? _self.ownerName : ownerName // ignore: cast_nullable_to_non_nullable
-as String,parentCategoryName: null == parentCategoryName ? _self.parentCategoryName : parentCategoryName // ignore: cast_nullable_to_non_nullable
-as String,businessCategoryName: null == businessCategoryName ? _self.businessCategoryName : businessCategoryName // ignore: cast_nullable_to_non_nullable
-as String,businessPhone: freezed == businessPhone ? _self.businessPhone : businessPhone // ignore: cast_nullable_to_non_nullable
+as String,parentCategoryName: freezed == parentCategoryName ? _self.parentCategoryName : parentCategoryName // ignore: cast_nullable_to_non_nullable
+as String?,businessCategoryName: freezed == businessCategoryName ? _self.businessCategoryName : businessCategoryName // ignore: cast_nullable_to_non_nullable
+as String?,businessPhone: freezed == businessPhone ? _self.businessPhone : businessPhone // ignore: cast_nullable_to_non_nullable
 as String?,industry: freezed == industry ? _self.industry : industry // ignore: cast_nullable_to_non_nullable
 as String?,industryClass: freezed == industryClass ? _self.industryClass : industryClass // ignore: cast_nullable_to_non_nullable
 as String?,

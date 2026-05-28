@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/widgets/text_with_cehvron.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../../payment_complete/presentation/screens/widgets/payment_complete_common_box.dart';
+import '../../../domain/entities/order_delivery_tracking_dto.dart';
 import '../../../domain/enums/order_status.dart';
 import '../../providers/order_check_viewmodel.dart';
 
@@ -27,10 +29,7 @@ class DeliveryInfoSection extends ConsumerWidget {
               Text("배송정보", style: context.titleSmall),
               Spacer(),
               InkWell(
-                onTap: () => _showTrackingDialog(
-                  context,
-                  trackingNumber: order?.delivery?.trackingNumber ?? "-",
-                ),
+                onTap: () => _onTrackingPressed(context, ref, order?.id),
                 child: TextWithChevron(
                   text: "자세히보기",
                   style: context.bodySmall,
@@ -105,27 +104,46 @@ class DeliveryInfoSection extends ConsumerWidget {
     );
   }
 
+  Future<void> _onTrackingPressed(
+    BuildContext context,
+    WidgetRef ref,
+    int? orderId,
+  ) async {
+    if (orderId == null) {
+      await CommonDialog.show(
+        context,
+        title: '오류',
+        isSuccess: false,
+        message: '배송 정보를 확인할 수 없습니다.',
+      );
+      return;
+    }
+
+    final response = await ref
+        .read(orderCheckViewModelProvider.notifier)
+        .getOrderDeliveryDetail(orderId);
+    if (!context.mounted) return;
+
+    if (response == null || !response.success) {
+      await CommonDialog.show(
+        context,
+        title: '오류',
+        isSuccess: false,
+        message: response?.message.isNotEmpty == true
+            ? response!.message
+            : '배송 정보를 불러오지 못했습니다.',
+      );
+      return;
+    }
+
+    await _showTrackingDialog(context, tracking: response.data);
+  }
+
   Future<void> _showTrackingDialog(
     BuildContext context, {
-    required String trackingNumber,
+    required OrderDeliveryTrackingDto tracking,
   }) {
-    const items = [
-      _TrackingDummyItem(
-        time: '2026.04.28 09:10',
-        location: '대구 북구 물류센터',
-        status: '상품 준비중',
-      ),
-      _TrackingDummyItem(
-        time: '2026.04.28 13:40',
-        location: '대구 북구 배송캠프',
-        status: '배송중',
-      ),
-      _TrackingDummyItem(
-        time: '2026.04.28 18:20',
-        location: '수령지 인근',
-        status: '배송완료',
-      ),
-    ];
+    final items = tracking.trackingEvents;
 
     return showDialog(
       context: context,
@@ -143,7 +161,7 @@ class DeliveryInfoSection extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      trackingNumber,
+                      tracking.trackingNumber ?? '-',
                       style: context.titleMedium.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -198,44 +216,69 @@ class DeliveryInfoSection extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                for (int index = 0; index < items.length; index++) ...[
+                if (items.isEmpty)
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            items[index].time,
-                            style: context.caption.copyWith(
-                              color: AppColors.darkGrey,
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Center(
+                      child: Text(
+                        '배송 추적 정보가 없습니다.',
+                        style: context.bodySmall.copyWith(
+                          color: AppColors.darkGrey,
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          for (
+                            int index = 0;
+                            index < items.length;
+                            index++
+                          ) ...[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      items[index].timeString,
+                                      style: context.caption.copyWith(
+                                        color: AppColors.darkGrey,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      items[index].where,
+                                      style: context.caption,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      items[index].kind,
+                                      style: context.caption.copyWith(
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            items[index].location,
-                            style: context.caption,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            items[index].status,
-                            style: context.caption.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
+                            if (index != items.length - 1)
+                              Container(height: 1, color: AppColors.lightGrey),
+                          ],
+                        ],
+                      ),
                     ),
                   ),
-                  if (index != items.length - 1)
-                    Container(height: 1, color: AppColors.lightGrey),
-                ],
               ],
             ),
           ),
@@ -296,18 +339,6 @@ class DeliveryInfoSection extends ConsumerWidget {
       ],
     );
   }
-}
-
-class _TrackingDummyItem {
-  const _TrackingDummyItem({
-    required this.time,
-    required this.location,
-    required this.status,
-  });
-
-  final String time;
-  final String location;
-  final String status;
 }
 
 enum _DeliveryStep { preparing, shipping, completed }

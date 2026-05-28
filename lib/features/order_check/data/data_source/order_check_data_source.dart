@@ -19,4 +19,14 @@ class OrderCheckDataSource {
     final response = await _dio.get(AppHttpUrl.getOrderDetail(orderId));
     return response.data;
   }
+
+  Future<Map<String, dynamic>> getOrderDeliveryDetail(int orderId) async {
+    final response = await _dio.get(AppHttpUrl.getOrderDeliveryDetail(orderId));
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> getOrderTaxInvoiceUrl(int orderId) async {
+    final response = await _dio.get(AppHttpUrl.getOrderTaxInvoiceUrl(orderId));
+    return response.data;
+  }
 }

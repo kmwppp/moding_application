@@ -577,7 +577,7 @@ as int,
 /// @nodoc
 mixin _$OrderListItemDto {
 
- int get id; String get orderCode; String get deliveryAddressName; String get deliveryAddressRecipientName; String get deliveryAddressPhone; String get deliveryAddressFull; String get status; int get totalAmount; String? get rejectionReason; int? get claimId; int? get paymentId; bool? get isReviewable; List<OrderListProductItemDto> get items;@LocalDateTimeConverter() DateTime get createdAt;
+ int get id; String get orderCode; String get deliveryAddressName; String get deliveryAddressRecipientName; String get deliveryAddressPhone; String get deliveryAddressFull; String get status; int get totalAmount; String? get rejectionReason; int? get claimId; bool? get isReviewable; List<OrderListProductItemDto> get items; bool? get isTaxInvoiceIssued; PaymentDto? get payment;@LocalDateTimeConverter() DateTime get createdAt;
 /// Create a copy of OrderListItemDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -590,16 +590,16 @@ $OrderListItemDtoCopyWith<OrderListItemDto> get copyWith => _$OrderListItemDtoCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderListItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.deliveryAddressName, deliveryAddressName) || other.deliveryAddressName == deliveryAddressName)&&(identical(other.deliveryAddressRecipientName, deliveryAddressRecipientName) || other.deliveryAddressRecipientName == deliveryAddressRecipientName)&&(identical(other.deliveryAddressPhone, deliveryAddressPhone) || other.deliveryAddressPhone == deliveryAddressPhone)&&(identical(other.deliveryAddressFull, deliveryAddressFull) || other.deliveryAddressFull == deliveryAddressFull)&&(identical(other.status, status) || other.status == status)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&(identical(other.claimId, claimId) || other.claimId == claimId)&&(identical(other.paymentId, paymentId) || other.paymentId == paymentId)&&(identical(other.isReviewable, isReviewable) || other.isReviewable == isReviewable)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderListItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.deliveryAddressName, deliveryAddressName) || other.deliveryAddressName == deliveryAddressName)&&(identical(other.deliveryAddressRecipientName, deliveryAddressRecipientName) || other.deliveryAddressRecipientName == deliveryAddressRecipientName)&&(identical(other.deliveryAddressPhone, deliveryAddressPhone) || other.deliveryAddressPhone == deliveryAddressPhone)&&(identical(other.deliveryAddressFull, deliveryAddressFull) || other.deliveryAddressFull == deliveryAddressFull)&&(identical(other.status, status) || other.status == status)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&(identical(other.claimId, claimId) || other.claimId == claimId)&&(identical(other.isReviewable, isReviewable) || other.isReviewable == isReviewable)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.isTaxInvoiceIssued, isTaxInvoiceIssued) || other.isTaxInvoiceIssued == isTaxInvoiceIssued)&&(identical(other.payment, payment) || other.payment == payment)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,orderCode,deliveryAddressName,deliveryAddressRecipientName,deliveryAddressPhone,deliveryAddressFull,status,totalAmount,rejectionReason,claimId,paymentId,isReviewable,const DeepCollectionEquality().hash(items),createdAt);
+int get hashCode => Object.hash(runtimeType,id,orderCode,deliveryAddressName,deliveryAddressRecipientName,deliveryAddressPhone,deliveryAddressFull,status,totalAmount,rejectionReason,claimId,isReviewable,const DeepCollectionEquality().hash(items),isTaxInvoiceIssued,payment,createdAt);
 
 @override
 String toString() {
-  return 'OrderListItemDto(id: $id, orderCode: $orderCode, deliveryAddressName: $deliveryAddressName, deliveryAddressRecipientName: $deliveryAddressRecipientName, deliveryAddressPhone: $deliveryAddressPhone, deliveryAddressFull: $deliveryAddressFull, status: $status, totalAmount: $totalAmount, rejectionReason: $rejectionReason, claimId: $claimId, paymentId: $paymentId, isReviewable: $isReviewable, items: $items, createdAt: $createdAt)';
+  return 'OrderListItemDto(id: $id, orderCode: $orderCode, deliveryAddressName: $deliveryAddressName, deliveryAddressRecipientName: $deliveryAddressRecipientName, deliveryAddressPhone: $deliveryAddressPhone, deliveryAddressFull: $deliveryAddressFull, status: $status, totalAmount: $totalAmount, rejectionReason: $rejectionReason, claimId: $claimId, isReviewable: $isReviewable, items: $items, isTaxInvoiceIssued: $isTaxInvoiceIssued, payment: $payment, createdAt: $createdAt)';
 }
 
 
@@ -610,11 +610,11 @@ abstract mixin class $OrderListItemDtoCopyWith<$Res>  {
   factory $OrderListItemDtoCopyWith(OrderListItemDto value, $Res Function(OrderListItemDto) _then) = _$OrderListItemDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String orderCode, String deliveryAddressName, String deliveryAddressRecipientName, String deliveryAddressPhone, String deliveryAddressFull, String status, int totalAmount, String? rejectionReason, int? claimId, int? paymentId, bool? isReviewable, List<OrderListProductItemDto> items,@LocalDateTimeConverter() DateTime createdAt
+ int id, String orderCode, String deliveryAddressName, String deliveryAddressRecipientName, String deliveryAddressPhone, String deliveryAddressFull, String status, int totalAmount, String? rejectionReason, int? claimId, bool? isReviewable, List<OrderListProductItemDto> items, bool? isTaxInvoiceIssued, PaymentDto? payment,@LocalDateTimeConverter() DateTime createdAt
 });
 
 
-
+$PaymentDtoCopyWith<$Res>? get payment;
 
 }
 /// @nodoc
@@ -627,7 +627,7 @@ class _$OrderListItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of OrderListItemDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? orderCode = null,Object? deliveryAddressName = null,Object? deliveryAddressRecipientName = null,Object? deliveryAddressPhone = null,Object? deliveryAddressFull = null,Object? status = null,Object? totalAmount = null,Object? rejectionReason = freezed,Object? claimId = freezed,Object? paymentId = freezed,Object? isReviewable = freezed,Object? items = null,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? orderCode = null,Object? deliveryAddressName = null,Object? deliveryAddressRecipientName = null,Object? deliveryAddressPhone = null,Object? deliveryAddressFull = null,Object? status = null,Object? totalAmount = null,Object? rejectionReason = freezed,Object? claimId = freezed,Object? isReviewable = freezed,Object? items = null,Object? isTaxInvoiceIssued = freezed,Object? payment = freezed,Object? createdAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,orderCode: null == orderCode ? _self.orderCode : orderCode // ignore: cast_nullable_to_non_nullable
@@ -639,14 +639,27 @@ as String,status: null == status ? _self.status : status // ignore: cast_nullabl
 as String,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as int,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
 as String?,claimId: freezed == claimId ? _self.claimId : claimId // ignore: cast_nullable_to_non_nullable
-as int?,paymentId: freezed == paymentId ? _self.paymentId : paymentId // ignore: cast_nullable_to_non_nullable
 as int?,isReviewable: freezed == isReviewable ? _self.isReviewable : isReviewable // ignore: cast_nullable_to_non_nullable
 as bool?,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
-as List<OrderListProductItemDto>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as List<OrderListProductItemDto>,isTaxInvoiceIssued: freezed == isTaxInvoiceIssued ? _self.isTaxInvoiceIssued : isTaxInvoiceIssued // ignore: cast_nullable_to_non_nullable
+as bool?,payment: freezed == payment ? _self.payment : payment // ignore: cast_nullable_to_non_nullable
+as PaymentDto?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
 }
+/// Create a copy of OrderListItemDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaymentDtoCopyWith<$Res>? get payment {
+    if (_self.payment == null) {
+    return null;
+  }
 
+  return $PaymentDtoCopyWith<$Res>(_self.payment!, (value) {
+    return _then(_self.copyWith(payment: value));
+  });
+}
 }
 
 
@@ -728,10 +741,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String orderCode,  String deliveryAddressName,  String deliveryAddressRecipientName,  String deliveryAddressPhone,  String deliveryAddressFull,  String status,  int totalAmount,  String? rejectionReason,  int? claimId,  int? paymentId,  bool? isReviewable,  List<OrderListProductItemDto> items, @LocalDateTimeConverter()  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String orderCode,  String deliveryAddressName,  String deliveryAddressRecipientName,  String deliveryAddressPhone,  String deliveryAddressFull,  String status,  int totalAmount,  String? rejectionReason,  int? claimId,  bool? isReviewable,  List<OrderListProductItemDto> items,  bool? isTaxInvoiceIssued,  PaymentDto? payment, @LocalDateTimeConverter()  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderListItemDto() when $default != null:
-return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliveryAddressRecipientName,_that.deliveryAddressPhone,_that.deliveryAddressFull,_that.status,_that.totalAmount,_that.rejectionReason,_that.claimId,_that.paymentId,_that.isReviewable,_that.items,_that.createdAt);case _:
+return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliveryAddressRecipientName,_that.deliveryAddressPhone,_that.deliveryAddressFull,_that.status,_that.totalAmount,_that.rejectionReason,_that.claimId,_that.isReviewable,_that.items,_that.isTaxInvoiceIssued,_that.payment,_that.createdAt);case _:
   return orElse();
 
 }
@@ -749,10 +762,10 @@ return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliver
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String orderCode,  String deliveryAddressName,  String deliveryAddressRecipientName,  String deliveryAddressPhone,  String deliveryAddressFull,  String status,  int totalAmount,  String? rejectionReason,  int? claimId,  int? paymentId,  bool? isReviewable,  List<OrderListProductItemDto> items, @LocalDateTimeConverter()  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String orderCode,  String deliveryAddressName,  String deliveryAddressRecipientName,  String deliveryAddressPhone,  String deliveryAddressFull,  String status,  int totalAmount,  String? rejectionReason,  int? claimId,  bool? isReviewable,  List<OrderListProductItemDto> items,  bool? isTaxInvoiceIssued,  PaymentDto? payment, @LocalDateTimeConverter()  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _OrderListItemDto():
-return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliveryAddressRecipientName,_that.deliveryAddressPhone,_that.deliveryAddressFull,_that.status,_that.totalAmount,_that.rejectionReason,_that.claimId,_that.paymentId,_that.isReviewable,_that.items,_that.createdAt);case _:
+return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliveryAddressRecipientName,_that.deliveryAddressPhone,_that.deliveryAddressFull,_that.status,_that.totalAmount,_that.rejectionReason,_that.claimId,_that.isReviewable,_that.items,_that.isTaxInvoiceIssued,_that.payment,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -769,10 +782,10 @@ return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliver
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String orderCode,  String deliveryAddressName,  String deliveryAddressRecipientName,  String deliveryAddressPhone,  String deliveryAddressFull,  String status,  int totalAmount,  String? rejectionReason,  int? claimId,  int? paymentId,  bool? isReviewable,  List<OrderListProductItemDto> items, @LocalDateTimeConverter()  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String orderCode,  String deliveryAddressName,  String deliveryAddressRecipientName,  String deliveryAddressPhone,  String deliveryAddressFull,  String status,  int totalAmount,  String? rejectionReason,  int? claimId,  bool? isReviewable,  List<OrderListProductItemDto> items,  bool? isTaxInvoiceIssued,  PaymentDto? payment, @LocalDateTimeConverter()  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderListItemDto() when $default != null:
-return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliveryAddressRecipientName,_that.deliveryAddressPhone,_that.deliveryAddressFull,_that.status,_that.totalAmount,_that.rejectionReason,_that.claimId,_that.paymentId,_that.isReviewable,_that.items,_that.createdAt);case _:
+return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliveryAddressRecipientName,_that.deliveryAddressPhone,_that.deliveryAddressFull,_that.status,_that.totalAmount,_that.rejectionReason,_that.claimId,_that.isReviewable,_that.items,_that.isTaxInvoiceIssued,_that.payment,_that.createdAt);case _:
   return null;
 
 }
@@ -784,7 +797,7 @@ return $default(_that.id,_that.orderCode,_that.deliveryAddressName,_that.deliver
 @JsonSerializable()
 
 class _OrderListItemDto implements OrderListItemDto {
-  const _OrderListItemDto({required this.id, required this.orderCode, required this.deliveryAddressName, required this.deliveryAddressRecipientName, required this.deliveryAddressPhone, required this.deliveryAddressFull, required this.status, required this.totalAmount, this.rejectionReason, this.claimId, this.paymentId, this.isReviewable, required final  List<OrderListProductItemDto> items, @LocalDateTimeConverter() required this.createdAt}): _items = items;
+  const _OrderListItemDto({required this.id, required this.orderCode, required this.deliveryAddressName, required this.deliveryAddressRecipientName, required this.deliveryAddressPhone, required this.deliveryAddressFull, required this.status, required this.totalAmount, this.rejectionReason, this.claimId, this.isReviewable, required final  List<OrderListProductItemDto> items, this.isTaxInvoiceIssued, this.payment, @LocalDateTimeConverter() required this.createdAt}): _items = items;
   factory _OrderListItemDto.fromJson(Map<String, dynamic> json) => _$OrderListItemDtoFromJson(json);
 
 @override final  int id;
@@ -797,7 +810,6 @@ class _OrderListItemDto implements OrderListItemDto {
 @override final  int totalAmount;
 @override final  String? rejectionReason;
 @override final  int? claimId;
-@override final  int? paymentId;
 @override final  bool? isReviewable;
  final  List<OrderListProductItemDto> _items;
 @override List<OrderListProductItemDto> get items {
@@ -806,6 +818,8 @@ class _OrderListItemDto implements OrderListItemDto {
   return EqualUnmodifiableListView(_items);
 }
 
+@override final  bool? isTaxInvoiceIssued;
+@override final  PaymentDto? payment;
 @override@LocalDateTimeConverter() final  DateTime createdAt;
 
 /// Create a copy of OrderListItemDto
@@ -821,16 +835,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderListItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.deliveryAddressName, deliveryAddressName) || other.deliveryAddressName == deliveryAddressName)&&(identical(other.deliveryAddressRecipientName, deliveryAddressRecipientName) || other.deliveryAddressRecipientName == deliveryAddressRecipientName)&&(identical(other.deliveryAddressPhone, deliveryAddressPhone) || other.deliveryAddressPhone == deliveryAddressPhone)&&(identical(other.deliveryAddressFull, deliveryAddressFull) || other.deliveryAddressFull == deliveryAddressFull)&&(identical(other.status, status) || other.status == status)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&(identical(other.claimId, claimId) || other.claimId == claimId)&&(identical(other.paymentId, paymentId) || other.paymentId == paymentId)&&(identical(other.isReviewable, isReviewable) || other.isReviewable == isReviewable)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderListItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.deliveryAddressName, deliveryAddressName) || other.deliveryAddressName == deliveryAddressName)&&(identical(other.deliveryAddressRecipientName, deliveryAddressRecipientName) || other.deliveryAddressRecipientName == deliveryAddressRecipientName)&&(identical(other.deliveryAddressPhone, deliveryAddressPhone) || other.deliveryAddressPhone == deliveryAddressPhone)&&(identical(other.deliveryAddressFull, deliveryAddressFull) || other.deliveryAddressFull == deliveryAddressFull)&&(identical(other.status, status) || other.status == status)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.rejectionReason, rejectionReason) || other.rejectionReason == rejectionReason)&&(identical(other.claimId, claimId) || other.claimId == claimId)&&(identical(other.isReviewable, isReviewable) || other.isReviewable == isReviewable)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.isTaxInvoiceIssued, isTaxInvoiceIssued) || other.isTaxInvoiceIssued == isTaxInvoiceIssued)&&(identical(other.payment, payment) || other.payment == payment)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,orderCode,deliveryAddressName,deliveryAddressRecipientName,deliveryAddressPhone,deliveryAddressFull,status,totalAmount,rejectionReason,claimId,paymentId,isReviewable,const DeepCollectionEquality().hash(_items),createdAt);
+int get hashCode => Object.hash(runtimeType,id,orderCode,deliveryAddressName,deliveryAddressRecipientName,deliveryAddressPhone,deliveryAddressFull,status,totalAmount,rejectionReason,claimId,isReviewable,const DeepCollectionEquality().hash(_items),isTaxInvoiceIssued,payment,createdAt);
 
 @override
 String toString() {
-  return 'OrderListItemDto(id: $id, orderCode: $orderCode, deliveryAddressName: $deliveryAddressName, deliveryAddressRecipientName: $deliveryAddressRecipientName, deliveryAddressPhone: $deliveryAddressPhone, deliveryAddressFull: $deliveryAddressFull, status: $status, totalAmount: $totalAmount, rejectionReason: $rejectionReason, claimId: $claimId, paymentId: $paymentId, isReviewable: $isReviewable, items: $items, createdAt: $createdAt)';
+  return 'OrderListItemDto(id: $id, orderCode: $orderCode, deliveryAddressName: $deliveryAddressName, deliveryAddressRecipientName: $deliveryAddressRecipientName, deliveryAddressPhone: $deliveryAddressPhone, deliveryAddressFull: $deliveryAddressFull, status: $status, totalAmount: $totalAmount, rejectionReason: $rejectionReason, claimId: $claimId, isReviewable: $isReviewable, items: $items, isTaxInvoiceIssued: $isTaxInvoiceIssued, payment: $payment, createdAt: $createdAt)';
 }
 
 
@@ -841,11 +855,11 @@ abstract mixin class _$OrderListItemDtoCopyWith<$Res> implements $OrderListItemD
   factory _$OrderListItemDtoCopyWith(_OrderListItemDto value, $Res Function(_OrderListItemDto) _then) = __$OrderListItemDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String orderCode, String deliveryAddressName, String deliveryAddressRecipientName, String deliveryAddressPhone, String deliveryAddressFull, String status, int totalAmount, String? rejectionReason, int? claimId, int? paymentId, bool? isReviewable, List<OrderListProductItemDto> items,@LocalDateTimeConverter() DateTime createdAt
+ int id, String orderCode, String deliveryAddressName, String deliveryAddressRecipientName, String deliveryAddressPhone, String deliveryAddressFull, String status, int totalAmount, String? rejectionReason, int? claimId, bool? isReviewable, List<OrderListProductItemDto> items, bool? isTaxInvoiceIssued, PaymentDto? payment,@LocalDateTimeConverter() DateTime createdAt
 });
 
 
-
+@override $PaymentDtoCopyWith<$Res>? get payment;
 
 }
 /// @nodoc
@@ -858,7 +872,7 @@ class __$OrderListItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of OrderListItemDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? orderCode = null,Object? deliveryAddressName = null,Object? deliveryAddressRecipientName = null,Object? deliveryAddressPhone = null,Object? deliveryAddressFull = null,Object? status = null,Object? totalAmount = null,Object? rejectionReason = freezed,Object? claimId = freezed,Object? paymentId = freezed,Object? isReviewable = freezed,Object? items = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? orderCode = null,Object? deliveryAddressName = null,Object? deliveryAddressRecipientName = null,Object? deliveryAddressPhone = null,Object? deliveryAddressFull = null,Object? status = null,Object? totalAmount = null,Object? rejectionReason = freezed,Object? claimId = freezed,Object? isReviewable = freezed,Object? items = null,Object? isTaxInvoiceIssued = freezed,Object? payment = freezed,Object? createdAt = null,}) {
   return _then(_OrderListItemDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,orderCode: null == orderCode ? _self.orderCode : orderCode // ignore: cast_nullable_to_non_nullable
@@ -870,11 +884,290 @@ as String,status: null == status ? _self.status : status // ignore: cast_nullabl
 as String,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as int,rejectionReason: freezed == rejectionReason ? _self.rejectionReason : rejectionReason // ignore: cast_nullable_to_non_nullable
 as String?,claimId: freezed == claimId ? _self.claimId : claimId // ignore: cast_nullable_to_non_nullable
-as int?,paymentId: freezed == paymentId ? _self.paymentId : paymentId // ignore: cast_nullable_to_non_nullable
 as int?,isReviewable: freezed == isReviewable ? _self.isReviewable : isReviewable // ignore: cast_nullable_to_non_nullable
 as bool?,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
-as List<OrderListProductItemDto>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as List<OrderListProductItemDto>,isTaxInvoiceIssued: freezed == isTaxInvoiceIssued ? _self.isTaxInvoiceIssued : isTaxInvoiceIssued // ignore: cast_nullable_to_non_nullable
+as bool?,payment: freezed == payment ? _self.payment : payment // ignore: cast_nullable_to_non_nullable
+as PaymentDto?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
+  ));
+}
+
+/// Create a copy of OrderListItemDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$PaymentDtoCopyWith<$Res>? get payment {
+    if (_self.payment == null) {
+    return null;
+  }
+
+  return $PaymentDtoCopyWith<$Res>(_self.payment!, (value) {
+    return _then(_self.copyWith(payment: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$PaymentDto {
+
+ int get paymentId;@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod get paymentMethod;
+/// Create a copy of PaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PaymentDtoCopyWith<PaymentDto> get copyWith => _$PaymentDtoCopyWithImpl<PaymentDto>(this as PaymentDto, _$identity);
+
+  /// Serializes this PaymentDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaymentDto&&(identical(other.paymentId, paymentId) || other.paymentId == paymentId)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,paymentId,paymentMethod);
+
+@override
+String toString() {
+  return 'PaymentDto(paymentId: $paymentId, paymentMethod: $paymentMethod)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PaymentDtoCopyWith<$Res>  {
+  factory $PaymentDtoCopyWith(PaymentDto value, $Res Function(PaymentDto) _then) = _$PaymentDtoCopyWithImpl;
+@useResult
+$Res call({
+ int paymentId,@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod paymentMethod
+});
+
+
+
+
+}
+/// @nodoc
+class _$PaymentDtoCopyWithImpl<$Res>
+    implements $PaymentDtoCopyWith<$Res> {
+  _$PaymentDtoCopyWithImpl(this._self, this._then);
+
+  final PaymentDto _self;
+  final $Res Function(PaymentDto) _then;
+
+/// Create a copy of PaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? paymentId = null,Object? paymentMethod = null,}) {
+  return _then(_self.copyWith(
+paymentId: null == paymentId ? _self.paymentId : paymentId // ignore: cast_nullable_to_non_nullable
+as int,paymentMethod: null == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
+as OrderPaymentMethod,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PaymentDto].
+extension PaymentDtoPatterns on PaymentDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PaymentDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PaymentDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PaymentDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _PaymentDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PaymentDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PaymentDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int paymentId, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PaymentDto() when $default != null:
+return $default(_that.paymentId,_that.paymentMethod);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int paymentId, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod)  $default,) {final _that = this;
+switch (_that) {
+case _PaymentDto():
+return $default(_that.paymentId,_that.paymentMethod);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int paymentId, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson)  OrderPaymentMethod paymentMethod)?  $default,) {final _that = this;
+switch (_that) {
+case _PaymentDto() when $default != null:
+return $default(_that.paymentId,_that.paymentMethod);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PaymentDto implements PaymentDto {
+  const _PaymentDto({required this.paymentId, @JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) required this.paymentMethod});
+  factory _PaymentDto.fromJson(Map<String, dynamic> json) => _$PaymentDtoFromJson(json);
+
+@override final  int paymentId;
+@override@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) final  OrderPaymentMethod paymentMethod;
+
+/// Create a copy of PaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PaymentDtoCopyWith<_PaymentDto> get copyWith => __$PaymentDtoCopyWithImpl<_PaymentDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PaymentDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaymentDto&&(identical(other.paymentId, paymentId) || other.paymentId == paymentId)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,paymentId,paymentMethod);
+
+@override
+String toString() {
+  return 'PaymentDto(paymentId: $paymentId, paymentMethod: $paymentMethod)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PaymentDtoCopyWith<$Res> implements $PaymentDtoCopyWith<$Res> {
+  factory _$PaymentDtoCopyWith(_PaymentDto value, $Res Function(_PaymentDto) _then) = __$PaymentDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ int paymentId,@JsonKey(fromJson: OrderPaymentMethod.fromJson, toJson: OrderPaymentMethod.toJson) OrderPaymentMethod paymentMethod
+});
+
+
+
+
+}
+/// @nodoc
+class __$PaymentDtoCopyWithImpl<$Res>
+    implements _$PaymentDtoCopyWith<$Res> {
+  __$PaymentDtoCopyWithImpl(this._self, this._then);
+
+  final _PaymentDto _self;
+  final $Res Function(_PaymentDto) _then;
+
+/// Create a copy of PaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? paymentId = null,Object? paymentMethod = null,}) {
+  return _then(_PaymentDto(
+paymentId: null == paymentId ? _self.paymentId : paymentId // ignore: cast_nullable_to_non_nullable
+as int,paymentMethod: null == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
+as OrderPaymentMethod,
   ));
 }
 

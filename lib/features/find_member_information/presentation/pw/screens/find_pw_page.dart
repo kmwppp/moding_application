@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_page_params.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_result.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_identity_verification_type.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_verification_source.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/widgets/app_sliver_appbar.dart';
@@ -7,11 +12,11 @@ import '../../../../../core/presentation/widgets/custom_button.dart';
 import '../../../../../core/theme/app_box_styles.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 
-class FindPwPage extends StatelessWidget {
+class FindPwPage extends ConsumerWidget {
   const FindPwPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -27,7 +32,7 @@ class FindPwPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: AppBoxStyles.borderBox,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -39,16 +44,27 @@ class FindPwPage extends StatelessWidget {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            // SizedBox(height: 20),
-                            // FindPwTextField(
-                            //   label: '아이디',
-                            //   hint: '아이디를 입력해주세요.',
-                            //   onChanged: (String v) {},
-                            // ),
-                            SizedBox(height: 50),
+                            const SizedBox(height: 50),
                             GestureDetector(
-                              onTap: () {
-                                context.push('/find_pw/change_pw');
+                              onTap: () async {
+                                final result = await context
+                                    .push<NiceIdentityVerificationResult>(
+                                  '/nice_identity_verification',
+                                  extra: const NiceIdentityVerificationPageParams(
+                                    type: NiceIdentityVerificationType.general,
+                                    source: NiceVerificationSource.findPw,
+                                  ),
+                                );
+                                if (!context.mounted ||
+                                    result == null ||
+                                    !result.success ||
+                                    result.key == null) {
+                                  return;
+                                }
+                                context.push(
+                                  '/find_pw/change_pw',
+                                  extra: result.key!,
+                                );
                               },
                               child: CustomButton(
                                 title: '본인인증',
@@ -64,7 +80,7 @@ class FindPwPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 80),
+                      const SizedBox(height: 80),
                     ],
                   ),
                 ),

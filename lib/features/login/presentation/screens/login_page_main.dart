@@ -6,8 +6,13 @@ import 'package:moding_application/core/presentation/providers/app_viewmodel_res
 import 'package:moding_application/core/presentation/widgets/confirm_button.dart';
 import 'package:moding_application/core/presentation/widgets/input_widget.dart';
 import 'package:moding_application/core/utils/toast.dart';
+import 'package:moding_application/features/find_member_information/data/repositories/id/find_id_repository_impl.dart';
 import 'package:moding_application/features/login/presentation/providers/login_viewmodel.dart';
 import 'package:moding_application/features/login/presentation/screens/widgets/login_help_area.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_page_params.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_result.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_identity_verification_type.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_verification_source.dart';
 
 import '../../../../core/presentation/widgets/appbar_profile.dart';
 import '../../../../core/presentation/widgets/loading_indicator.dart';
@@ -112,12 +117,12 @@ class LoginPageMain extends ConsumerWidget {
           },
           child: ConfirmButton(buttonTitle: "회원가입", paddingH: 20),
         ),
-        _bottomSection(),
+        _bottomSection(context, ref),
       ],
     );
   }
 
-  Widget _bottomSection() {
+  Widget _bottomSection(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -132,6 +137,47 @@ class LoginPageMain extends ConsumerWidget {
             content: "회원정보가 기억나지 않나요?",
             accentContent1: "아이디 찾기",
             accentContent2: "비밀번호 찾기",
+            onFindIdTap: () async {
+              final result =
+                  await context.push<NiceIdentityVerificationResult>(
+                '/nice_identity_verification',
+                extra: const NiceIdentityVerificationPageParams(
+                  type: NiceIdentityVerificationType.general,
+                  source: NiceVerificationSource.findId,
+                ),
+              );
+              if (!context.mounted || result == null || !result.success) return;
+              try {
+                final response = await ref
+                    .read(findIdRepositoryProvider)
+                    .postFindId(result.key ?? '');
+                if (!context.mounted) return;
+                if (response.success && response.loginId != null) {
+                  context.push('/find_id/check', extra: response.loginId!);
+                } else {
+                  ToastUtil.show('아이디를 찾을 수 없습니다.');
+                }
+              } catch (_) {
+                if (context.mounted) ToastUtil.show('오류가 발생했습니다. 다시 시도해주세요.');
+              }
+            },
+            onFindPasswordTap: () async {
+              final result =
+                  await context.push<NiceIdentityVerificationResult>(
+                '/nice_identity_verification',
+                extra: const NiceIdentityVerificationPageParams(
+                  type: NiceIdentityVerificationType.general,
+                  source: NiceVerificationSource.findPw,
+                ),
+              );
+              if (!context.mounted ||
+                  result == null ||
+                  !result.success ||
+                  result.key == null) {
+                return;
+              }
+              context.push('/find_pw/change_pw', extra: result.key!);
+            },
           ),
         ],
       ),

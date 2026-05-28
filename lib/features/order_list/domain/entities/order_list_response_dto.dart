@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:moding_application/core/network/converters/local_date_time_converter.dart';
 
+import '../../../order_check/domain/enums/order_payment_method.dart';
+
 part 'order_list_response_dto.freezed.dart';
 part 'order_list_response_dto.g.dart';
 
@@ -68,15 +70,35 @@ abstract class OrderListItemDto with _$OrderListItemDto {
     required int totalAmount,
     String? rejectionReason,
     int? claimId,
-    int? paymentId,
+
     bool? isReviewable,
 
     required List<OrderListProductItemDto> items,
+
+    bool? isTaxInvoiceIssued,
+
+    PaymentDto? payment,
+
     @LocalDateTimeConverter() required DateTime createdAt,
   }) = _OrderListItemDto;
 
   factory OrderListItemDto.fromJson(Map<String, dynamic> json) =>
       _$OrderListItemDtoFromJson(json);
+}
+
+@freezed
+abstract class PaymentDto with _$PaymentDto {
+  const factory PaymentDto({
+    required int paymentId,
+    @JsonKey(
+      fromJson: OrderPaymentMethod.fromJson,
+      toJson: OrderPaymentMethod.toJson,
+    )
+    required OrderPaymentMethod paymentMethod,
+  }) = _PaymentDto;
+
+  factory PaymentDto.fromJson(Map<String, dynamic> json) =>
+      _$PaymentDtoFromJson(json);
 }
 
 @freezed

@@ -6,6 +6,6 @@ abstract class ChangeAccountInformationRepository {
 
   Future<ResponseModel> patchMyAccountInfo({
     required String email,
-    required String phone,
+    required String identityKey,
   });
 }

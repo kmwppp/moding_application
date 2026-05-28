@@ -1,14 +1,21 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:moding_application/core/network/entities/response_model.dart';
+import 'package:moding_application/core/services/token_storage.dart';
+import 'package:moding_application/core/utils/log_util.dart';
+import 'package:moding_application/features/login/data/repositories/login_repository_impl.dart';
+import 'package:moding_application/features/login/domain/repositories/login_repository.dart';
 import 'package:moding_application/features/signup_new/data/repositories/signup_new_repository_impl.dart';
+import 'package:moding_application/features/signup_new/domain/entities/signup_new_request.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'signup_new_state.dart';
 
 part 'signup_new_viewmodel.g.dart';
 
-@Riverpod()
+@Riverpod(keepAlive: true)
 class SignupNewViewModel extends _$SignupNewViewModel {
   Timer? _duplicateDebounce;
 
@@ -20,6 +27,11 @@ class SignupNewViewModel extends _$SignupNewViewModel {
     return SignupNewState.initial();
   }
 
+  void reset() {
+    _duplicateDebounce?.cancel();
+    state = SignupNewState.initial();
+  }
+
   static final _passwordRegex = RegExp(
     r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$',
   );
@@ -28,8 +40,16 @@ class SignupNewViewModel extends _$SignupNewViewModel {
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
 
-  void updateVerifiedIdentity({required String name, required String phone}) {
-    state = state.copyWith(verifiedName: name, verifiedPhone: phone);
+  void updateVerifiedIdentity({
+    required String name,
+    required String phone,
+    required String identityVerificationKey,
+  }) {
+    state = state.copyWith(
+      verifiedName: name,
+      verifiedPhone: phone,
+      identityVerificationKey: identityVerificationKey,
+    );
   }
 
   void updateLoginId(String value) {
@@ -98,6 +118,12 @@ class SignupNewViewModel extends _$SignupNewViewModel {
   }
 
   String? validateStep1() {
+    if (state.identityVerificationKey.trim().isEmpty ||
+        state.verifiedName.trim().isEmpty ||
+        state.verifiedPhone.trim().isEmpty) {
+      return '본인 인증을 진행해주세요.';
+    }
+
     if (state.loginIdCheckStatus != LoginIdCheckStatus.available) {
       return '사용 가능한 아이디인지 확인해주세요.';
     }
@@ -137,12 +163,27 @@ class SignupNewViewModel extends _$SignupNewViewModel {
     state = state.copyWith(ownerName: value);
   }
 
-  void updateAddress({required String zipCode, required String address}) {
-    state = state.copyWith(zipCode: zipCode, address: address);
+  void updateAddress({
+    required String zipCode,
+    required String sigunguCode,
+    required String address,
+  }) {
+    state = state.copyWith(
+      zipCode: zipCode,
+      sigunguCode: sigunguCode,
+      address: address,
+    );
   }
 
   void updateAddressDetail(String value) {
     state = state.copyWith(addressDetail: value);
+  }
+
+  void updateIsCorporateBusiness(bool value) {
+    state = state.copyWith(
+      isCorporateBusiness: value,
+      corporationNumber: value ? state.corporationNumber : '',
+    );
   }
 
   void updateCorporationNumber(String value) {
@@ -197,6 +238,7 @@ class SignupNewViewModel extends _$SignupNewViewModel {
       selectedMainCategory: selected,
       clearSelectedSubCategory: true,
       subCategoryList: const [],
+      clearBusinessCategoryId: true,
     );
 
     final items = await ref
@@ -207,7 +249,11 @@ class SignupNewViewModel extends _$SignupNewViewModel {
   }
 
   void selectSubCategory(int index) {
-    state = state.copyWith(selectedSubCategory: state.subCategoryList[index]);
+    final selected = state.subCategoryList[index];
+    state = state.copyWith(
+      selectedSubCategory: selected,
+      businessCategoryId: selected.id,
+    );
   }
 
   Future<void> pickBusinessLicenseImage(ImageSource source) async {
@@ -238,6 +284,9 @@ class SignupNewViewModel extends _$SignupNewViewModel {
     if (state.addressDetail.trim().isEmpty) {
       return '사업장 주소 상세를 입력해주세요.';
     }
+    if (state.isCorporateBusiness && state.corporationNumber.trim().isEmpty) {
+      return '법인번호를 입력해주세요.';
+    }
     if (state.industry.trim().isEmpty) {
       return '업태를 입력해주세요.';
     }
@@ -247,15 +296,96 @@ class SignupNewViewModel extends _$SignupNewViewModel {
     if (!_emailRegex.hasMatch(state.taxInvoiceEmail)) {
       return '올바른 이메일 형식을 입력해주세요.';
     }
-    if (state.selectedBusinessType == null) {
-      return '업종 구분을 선택해주세요.';
-    }
+    // if (state.selectedBusinessType == null) {
+    //   return '업종 구분을 선택해주세요.';
+    // }
     if (state.selectedMainCategory == null) {
       return '업종 카테고리 대분류를 선택해주세요.';
     }
-    if (state.selectedSubCategory == null) {
+    if (state.selectedSubCategory == null || state.businessCategoryId == null) {
       return '업종 카테고리 소분류를 선택해주세요.';
     }
+    if (state.businessLicenseImagePath.trim().isEmpty) {
+      return '사업자 등록증 파일을 첨부해주세요.';
+    }
     return null;
+  }
+
+  Future<ResponseModel> submitSignUp() async {
+    state = state.copyWith(isLoading: true);
+    try {
+      final request = SignupNewRequest(
+        loginId: state.loginId,
+        email: state.taxInvoiceEmail,
+        password: state.password,
+        businessNumber: state.businessRegistrationNumber,
+        businessName: state.businessName,
+        ownerName: state.ownerName,
+        zipCode: state.zipCode,
+        sigunguCode: state.sigunguCode,
+        address: state.address,
+        addressDetail: state.addressDetail,
+        industry: state.industry,
+        industryClass: state.industryClass,
+        corporateNumber: state.isCorporateBusiness
+            ? state.corporationNumber
+            : '',
+        businessCategoryId: state.businessCategoryId!,
+        businessLicenseFilePath: state.businessLicenseImagePath,
+        identityVerificationKey: state.identityVerificationKey,
+      );
+
+      return await ref.read(signupNewRepositoryProvider).signUp(request);
+    } finally {
+      if (ref.mounted) {
+        state = state.copyWith(isLoading: false);
+      }
+    }
+  }
+
+  Future<bool> loginAfterSignUp() async {
+    try {
+      final repository = ref.read(loginRepositoryProvider);
+      final token = await repository.executeLogin(
+        state.loginId,
+        state.password,
+      );
+
+      await ref
+          .read(tokenStorageProvider)
+          .saveTokens(
+            accessToken: token.accessToken,
+            refreshToken: token.refreshToken,
+          );
+
+      await _sendFcmToken(repository);
+      return true;
+    } catch (e) {
+      appLog('회원가입 후 자동 로그인 실패: $e');
+      return false;
+    }
+  }
+
+  Future<void> _sendFcmToken(LoginRepository repository) async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    if (fcmToken == null || fcmToken.isEmpty) return;
+
+    for (int attempt = 0; attempt < 2; attempt++) {
+      try {
+        final response = await repository.patchFcmToken(fcmToken);
+        if (response.success) {
+          appLog("FCM 토큰 서버 전송 완료");
+          return;
+        }
+
+        appLog("FCM 토큰 서버 전송 실패 응답: ${response.message}");
+      } catch (e) {
+        appLog("FCM 토큰 서버 전송 실패: $e");
+      }
+
+      if (attempt == 0) {
+        appLog("FCM 토큰 서버 전송 재시도");
+      }
+    }
   }
 }

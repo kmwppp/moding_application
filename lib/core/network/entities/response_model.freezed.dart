@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ResponseModel {
 
- bool get success; String get message;
+ bool get success; String get message; int? get statusCode;
 /// Create a copy of ResponseModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ResponseModelCopyWith<ResponseModel> get copyWith => _$ResponseModelCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResponseModel&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResponseModel&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message);
+int get hashCode => Object.hash(runtimeType,success,message,statusCode);
 
 @override
 String toString() {
-  return 'ResponseModel(success: $success, message: $message)';
+  return 'ResponseModel(success: $success, message: $message, statusCode: $statusCode)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ResponseModelCopyWith<$Res>  {
   factory $ResponseModelCopyWith(ResponseModel value, $Res Function(ResponseModel) _then) = _$ResponseModelCopyWithImpl;
 @useResult
 $Res call({
- bool success, String message
+ bool success, String message, int? statusCode
 });
 
 
@@ -65,11 +65,12 @@ class _$ResponseModelCopyWithImpl<$Res>
 
 /// Create a copy of ResponseModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? message = null,Object? statusCode = freezed,}) {
   return _then(_self.copyWith(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
+as String,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  String message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  String message,  int? statusCode)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ResponseModel() when $default != null:
-return $default(_that.success,_that.message);case _:
+return $default(_that.success,_that.message,_that.statusCode);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.success,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  String message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  String message,  int? statusCode)  $default,) {final _that = this;
 switch (_that) {
 case _ResponseModel():
-return $default(_that.success,_that.message);case _:
+return $default(_that.success,_that.message,_that.statusCode);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.success,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  String message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  String message,  int? statusCode)?  $default,) {final _that = this;
 switch (_that) {
 case _ResponseModel() when $default != null:
-return $default(_that.success,_that.message);case _:
+return $default(_that.success,_that.message,_that.statusCode);case _:
   return null;
 
 }
@@ -210,11 +211,12 @@ return $default(_that.success,_that.message);case _:
 @JsonSerializable()
 
 class _ResponseModel implements ResponseModel {
-  const _ResponseModel({this.success = false, this.message = ""});
+  const _ResponseModel({this.success = false, this.message = "", this.statusCode});
   factory _ResponseModel.fromJson(Map<String, dynamic> json) => _$ResponseModelFromJson(json);
 
 @override@JsonKey() final  bool success;
 @override@JsonKey() final  String message;
+@override final  int? statusCode;
 
 /// Create a copy of ResponseModel
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ResponseModel&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ResponseModel&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message);
+int get hashCode => Object.hash(runtimeType,success,message,statusCode);
 
 @override
 String toString() {
-  return 'ResponseModel(success: $success, message: $message)';
+  return 'ResponseModel(success: $success, message: $message, statusCode: $statusCode)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$ResponseModelCopyWith<$Res> implements $ResponseModelCopy
   factory _$ResponseModelCopyWith(_ResponseModel value, $Res Function(_ResponseModel) _then) = __$ResponseModelCopyWithImpl;
 @override @useResult
 $Res call({
- bool success, String message
+ bool success, String message, int? statusCode
 });
 
 
@@ -266,11 +268,12 @@ class __$ResponseModelCopyWithImpl<$Res>
 
 /// Create a copy of ResponseModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? message = null,Object? statusCode = freezed,}) {
   return _then(_ResponseModel(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
+as String,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

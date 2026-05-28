@@ -57,6 +57,8 @@ abstract class OrderDetailDto with _$OrderDetailDto {
 
     bool? isReviewable,
 
+    bool? isTaxInvoiceIssued,
+
     @LocalDateTimeConverter() required DateTime createdAt,
     @LocalDateTimeConverter() required DateTime updatedAt,
   }) = _OrderDetailDto;

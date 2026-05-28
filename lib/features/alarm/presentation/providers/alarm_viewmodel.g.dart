@@ -41,7 +41,7 @@ final class AlarmViewModelProvider
   }
 }
 
-String _$alarmViewModelHash() => r'97051afe992e7a0d30c88c29e57ef763314bb327';
+String _$alarmViewModelHash() => r'5f0da07fcebc073420b8dce74a59ef33fe958f6f';
 
 abstract class _$AlarmViewModel extends $Notifier<AlarmState> {
   AlarmState build();

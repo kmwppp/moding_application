@@ -1,11 +1,20 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moding_application/core/navigation/app_navigator.dart';
 import 'package:moding_application/core/utils/log_util.dart';
+import 'package:moding_application/features/alarm/data/repositories/alarm_repository_impl.dart';
+import 'package:moding_application/features/alarm/presentation/providers/alarm_refresh_provider.dart';
+import 'package:moding_application/features/fcm/domain/entities/fcm_notification_payload.dart';
+import 'package:moding_application/features/fcm/domain/enums/fcm_target_page.dart';
+import 'package:moding_application/features/profile/domain/enums/approval_status.dart';
+import 'package:moding_application/features/seller_web/presentation/utils/open_seller_web_page.dart';
+import 'package:moding_application/router/enums/notification_type.dart';
 
 class FCMInitializer extends StatefulWidget {
   final Widget child;
@@ -57,7 +66,7 @@ class _FCMInitializerState extends State<FCMInitializer> {
       onDidReceiveNotificationResponse: (response) {
         final payload = response.payload;
         if (payload == null || payload.isEmpty) return;
-        _openFcmTestPage(payload);
+        _handlePayloadTap(payload);
       },
     );
 
@@ -85,6 +94,10 @@ class _FCMInitializerState extends State<FCMInitializer> {
   Future<void> _getToken() async {
     final token = await FirebaseMessaging.instance.getToken();
     appLog("FCM Token: $token");
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+      appLog("APNs Token: $apnsToken");
+    }
   }
 
   /// 📩 foreground 메시지
@@ -93,8 +106,16 @@ class _FCMInitializerState extends State<FCMInitializer> {
       appLog("Foreground 메시지");
       appLog(message.notification?.title);
 
+      if (mounted) {
+        final container = ProviderScope.containerOf(context, listen: false);
+        container.read(alarmRefreshProvider.notifier).notifyRefresh();
+      }
+
       final notification = message.notification;
       if (notification == null) return;
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        return;
+      }
       final payload = _buildPayloadText(message);
 
       await _localNotifications.show(
@@ -125,25 +146,147 @@ class _FCMInitializerState extends State<FCMInitializer> {
   void _setupClickListener() {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       appLog("알림 클릭됨");
-      _openFcmTestPage(_buildPayloadText(message));
+      _handleFcmTap(message);
     });
 
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message == null) return;
-      _openFcmTestPage(_buildPayloadText(message));
+      _handleFcmTap(message);
     });
   }
 
   String _buildPayloadText(RemoteMessage message) {
-    final payload = <String, dynamic>{
-      'data': message.data,
-      'notification': {
-        'title': message.notification?.title,
-        'body': message.notification?.body,
-      },
-    };
+    return FcmNotificationPayload.fromRemoteMessage(message).toPrettyJson();
+  }
 
-    return const JsonEncoder.withIndent('  ').convert(payload);
+  void _handleFcmTap(RemoteMessage message) {
+    final payload = FcmNotificationPayload.fromRemoteMessage(message);
+    _navigateByPayload(payload);
+  }
+
+  void _handlePayloadTap(String payloadText) {
+    try {
+      final payload = FcmNotificationPayload.fromJson(
+        Map<String, dynamic>.from(
+          jsonDecode(payloadText) as Map<String, dynamic>,
+        ),
+      );
+      _navigateByPayload(payload);
+    } catch (e) {
+      appLog('FCM payload 파싱 실패: $e');
+      _openFcmTestPage(payloadText);
+    }
+  }
+
+  Future<void> _navigateByPayload(FcmNotificationPayload payload) async {
+    final context = rootNavigatorKey.currentContext;
+    if (context == null || !context.mounted) return;
+
+    final router = GoRouter.of(context);
+    final container = ProviderScope.containerOf(context, listen: false);
+
+    final notificationId = payload.data.notificationId;
+    if (notificationId != null) {
+      try {
+        await container
+            .read(alarmRepositoryProvider)
+            .patchNotificationRead(notificationId);
+      } catch (e) {
+        appLog('알림 읽음 처리 실패: $e');
+      }
+    }
+
+    if (!mounted || !context.mounted) {
+      return;
+    }
+
+    final referenceId = payload.data.referenceId;
+
+    switch (payload.data.page) {
+      case FcmTargetPage.orderDetail:
+        if (referenceId != null) {
+          router.push('/check_order/$referenceId');
+        }
+        break;
+      case FcmTargetPage.sellerOrderDetail:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerOrderDetail,
+          referenceId: referenceId,
+        );
+        break;
+      case FcmTargetPage.claimDetail:
+        if (referenceId != null) {
+          router.push('/claim_check/$referenceId');
+        }
+        break;
+      case FcmTargetPage.sellerClaimDetail:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerClaimDetail,
+          referenceId: referenceId,
+        );
+        break;
+      case FcmTargetPage.productDetail:
+        if (referenceId != null) {
+          router.push('/product/$referenceId');
+        }
+        break;
+      case FcmTargetPage.sellerProductDetail:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerProductDetail,
+          referenceId: referenceId,
+        );
+        break;
+      case FcmTargetPage.sellerProductList:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerProductList,
+        );
+        break;
+      case FcmTargetPage.sellerOrderList:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerOrderList,
+        );
+        break;
+      case FcmTargetPage.sellerHome:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerHome,
+        );
+        break;
+      case FcmTargetPage.sellerTaxInvoice:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerTaxInvoice,
+        );
+        break;
+      case FcmTargetPage.sellerSettlement:
+        await openSellerWebPage(
+          context: context,
+          container: container,
+          targetPage: FcmTargetPage.sellerSettlement,
+        );
+        break;
+      case FcmTargetPage.noticeList:
+        router.push('/notification/${NotificationType.NOTIFICATION.name}');
+        break;
+      case FcmTargetPage.conversionStatus:
+        router.push('/seller_conversion_check', extra: ApprovalStatus.REJECTED);
+        break;
+      case FcmTargetPage.unknown:
+        _openFcmTestPage(payload.toPrettyJson());
+        break;
+    }
   }
 
   void _openFcmTestPage(String payloadText) {

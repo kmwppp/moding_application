@@ -1,6 +1,8 @@
+import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/signup_new/data/data_source/signup_new_data_source.dart';
 import 'package:moding_application/features/signup_new/domain/entities/signup_new_business_type_item.dart';
 import 'package:moding_application/features/signup_new/domain/entities/signup_new_category_item.dart';
+import 'package:moding_application/features/signup_new/domain/entities/signup_new_request.dart';
 import 'package:moding_application/features/signup_new/domain/repositories/signup_new_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -66,5 +68,11 @@ class SignupNewRepositoryImpl implements SignupNewRepository {
           ),
         )
         .toList();
+  }
+
+  @override
+  Future<ResponseModel> signUp(SignupNewRequest request) async {
+    final response = await _dataSource.signUp(request);
+    return ResponseModel.fromJson(response);
   }
 }

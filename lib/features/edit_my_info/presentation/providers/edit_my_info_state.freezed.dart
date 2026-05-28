@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EditMyInfoState {
 
- bool get isLoading; UserInfoMaskingResponseWrapper? get maskingMyInfo;
+ bool get isLoading; bool get isNotificationLoading; bool? get notificationEnabled; UserInfoMaskingResponseWrapper? get maskingMyInfo;
 /// Create a copy of EditMyInfoState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $EditMyInfoStateCopyWith<EditMyInfoState> get copyWith => _$EditMyInfoStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EditMyInfoState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.maskingMyInfo, maskingMyInfo) || other.maskingMyInfo == maskingMyInfo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EditMyInfoState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isNotificationLoading, isNotificationLoading) || other.isNotificationLoading == isNotificationLoading)&&(identical(other.notificationEnabled, notificationEnabled) || other.notificationEnabled == notificationEnabled)&&(identical(other.maskingMyInfo, maskingMyInfo) || other.maskingMyInfo == maskingMyInfo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,maskingMyInfo);
+int get hashCode => Object.hash(runtimeType,isLoading,isNotificationLoading,notificationEnabled,maskingMyInfo);
 
 @override
 String toString() {
-  return 'EditMyInfoState(isLoading: $isLoading, maskingMyInfo: $maskingMyInfo)';
+  return 'EditMyInfoState(isLoading: $isLoading, isNotificationLoading: $isNotificationLoading, notificationEnabled: $notificationEnabled, maskingMyInfo: $maskingMyInfo)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $EditMyInfoStateCopyWith<$Res>  {
   factory $EditMyInfoStateCopyWith(EditMyInfoState value, $Res Function(EditMyInfoState) _then) = _$EditMyInfoStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, UserInfoMaskingResponseWrapper? maskingMyInfo
+ bool isLoading, bool isNotificationLoading, bool? notificationEnabled, UserInfoMaskingResponseWrapper? maskingMyInfo
 });
 
 
@@ -62,10 +62,12 @@ class _$EditMyInfoStateCopyWithImpl<$Res>
 
 /// Create a copy of EditMyInfoState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? maskingMyInfo = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isNotificationLoading = null,Object? notificationEnabled = freezed,Object? maskingMyInfo = freezed,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,maskingMyInfo: freezed == maskingMyInfo ? _self.maskingMyInfo : maskingMyInfo // ignore: cast_nullable_to_non_nullable
+as bool,isNotificationLoading: null == isNotificationLoading ? _self.isNotificationLoading : isNotificationLoading // ignore: cast_nullable_to_non_nullable
+as bool,notificationEnabled: freezed == notificationEnabled ? _self.notificationEnabled : notificationEnabled // ignore: cast_nullable_to_non_nullable
+as bool?,maskingMyInfo: freezed == maskingMyInfo ? _self.maskingMyInfo : maskingMyInfo // ignore: cast_nullable_to_non_nullable
 as UserInfoMaskingResponseWrapper?,
   ));
 }
@@ -163,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  UserInfoMaskingResponseWrapper? maskingMyInfo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  bool isNotificationLoading,  bool? notificationEnabled,  UserInfoMaskingResponseWrapper? maskingMyInfo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EditMyInfoState() when $default != null:
-return $default(_that.isLoading,_that.maskingMyInfo);case _:
+return $default(_that.isLoading,_that.isNotificationLoading,_that.notificationEnabled,_that.maskingMyInfo);case _:
   return orElse();
 
 }
@@ -184,10 +186,10 @@ return $default(_that.isLoading,_that.maskingMyInfo);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  UserInfoMaskingResponseWrapper? maskingMyInfo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  bool isNotificationLoading,  bool? notificationEnabled,  UserInfoMaskingResponseWrapper? maskingMyInfo)  $default,) {final _that = this;
 switch (_that) {
 case _EditMyInfoState():
-return $default(_that.isLoading,_that.maskingMyInfo);case _:
+return $default(_that.isLoading,_that.isNotificationLoading,_that.notificationEnabled,_that.maskingMyInfo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +206,10 @@ return $default(_that.isLoading,_that.maskingMyInfo);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  UserInfoMaskingResponseWrapper? maskingMyInfo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  bool isNotificationLoading,  bool? notificationEnabled,  UserInfoMaskingResponseWrapper? maskingMyInfo)?  $default,) {final _that = this;
 switch (_that) {
 case _EditMyInfoState() when $default != null:
-return $default(_that.isLoading,_that.maskingMyInfo);case _:
+return $default(_that.isLoading,_that.isNotificationLoading,_that.notificationEnabled,_that.maskingMyInfo);case _:
   return null;
 
 }
@@ -219,10 +221,12 @@ return $default(_that.isLoading,_that.maskingMyInfo);case _:
 
 
 class _EditMyInfoState extends EditMyInfoState {
-  const _EditMyInfoState({required this.isLoading, this.maskingMyInfo}): super._();
+  const _EditMyInfoState({required this.isLoading, this.isNotificationLoading = false, this.notificationEnabled, this.maskingMyInfo}): super._();
   
 
 @override final  bool isLoading;
+@override@JsonKey() final  bool isNotificationLoading;
+@override final  bool? notificationEnabled;
 @override final  UserInfoMaskingResponseWrapper? maskingMyInfo;
 
 /// Create a copy of EditMyInfoState
@@ -235,16 +239,16 @@ _$EditMyInfoStateCopyWith<_EditMyInfoState> get copyWith => __$EditMyInfoStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EditMyInfoState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.maskingMyInfo, maskingMyInfo) || other.maskingMyInfo == maskingMyInfo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EditMyInfoState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isNotificationLoading, isNotificationLoading) || other.isNotificationLoading == isNotificationLoading)&&(identical(other.notificationEnabled, notificationEnabled) || other.notificationEnabled == notificationEnabled)&&(identical(other.maskingMyInfo, maskingMyInfo) || other.maskingMyInfo == maskingMyInfo));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,maskingMyInfo);
+int get hashCode => Object.hash(runtimeType,isLoading,isNotificationLoading,notificationEnabled,maskingMyInfo);
 
 @override
 String toString() {
-  return 'EditMyInfoState(isLoading: $isLoading, maskingMyInfo: $maskingMyInfo)';
+  return 'EditMyInfoState(isLoading: $isLoading, isNotificationLoading: $isNotificationLoading, notificationEnabled: $notificationEnabled, maskingMyInfo: $maskingMyInfo)';
 }
 
 
@@ -255,7 +259,7 @@ abstract mixin class _$EditMyInfoStateCopyWith<$Res> implements $EditMyInfoState
   factory _$EditMyInfoStateCopyWith(_EditMyInfoState value, $Res Function(_EditMyInfoState) _then) = __$EditMyInfoStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, UserInfoMaskingResponseWrapper? maskingMyInfo
+ bool isLoading, bool isNotificationLoading, bool? notificationEnabled, UserInfoMaskingResponseWrapper? maskingMyInfo
 });
 
 
@@ -272,10 +276,12 @@ class __$EditMyInfoStateCopyWithImpl<$Res>
 
 /// Create a copy of EditMyInfoState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? maskingMyInfo = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isNotificationLoading = null,Object? notificationEnabled = freezed,Object? maskingMyInfo = freezed,}) {
   return _then(_EditMyInfoState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,maskingMyInfo: freezed == maskingMyInfo ? _self.maskingMyInfo : maskingMyInfo // ignore: cast_nullable_to_non_nullable
+as bool,isNotificationLoading: null == isNotificationLoading ? _self.isNotificationLoading : isNotificationLoading // ignore: cast_nullable_to_non_nullable
+as bool,notificationEnabled: freezed == notificationEnabled ? _self.notificationEnabled : notificationEnabled // ignore: cast_nullable_to_non_nullable
+as bool?,maskingMyInfo: freezed == maskingMyInfo ? _self.maskingMyInfo : maskingMyInfo // ignore: cast_nullable_to_non_nullable
 as UserInfoMaskingResponseWrapper?,
   ));
 }

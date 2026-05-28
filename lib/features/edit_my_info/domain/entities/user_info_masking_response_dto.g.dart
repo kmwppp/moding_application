@@ -35,7 +35,6 @@ _UserInfoMaskingResponseDto _$UserInfoMaskingResponseDtoFromJson(
       : RefundAccountDto.fromJson(
           json['refundAccount'] as Map<String, dynamic>,
         ),
-  isNotificationEnabled: json['isNotificationEnabled'] as bool,
 );
 
 Map<String, dynamic> _$UserInfoMaskingResponseDtoToJson(
@@ -47,7 +46,6 @@ Map<String, dynamic> _$UserInfoMaskingResponseDtoToJson(
   'phone': instance.phone,
   'businessProfile': instance.businessProfile,
   'refundAccount': instance.refundAccount,
-  'isNotificationEnabled': instance.isNotificationEnabled,
 };
 
 _BusinessProfileDto _$BusinessProfileDtoFromJson(Map<String, dynamic> json) =>
@@ -58,8 +56,8 @@ _BusinessProfileDto _$BusinessProfileDtoFromJson(Map<String, dynamic> json) =>
       addressDetail: json['addressDetail'] as String?,
       businessNumber: json['businessNumber'] as String,
       ownerName: json['ownerName'] as String,
-      parentCategoryName: json['parentCategoryName'] as String,
-      businessCategoryName: json['businessCategoryName'] as String,
+      parentCategoryName: json['parentCategoryName'] as String?,
+      businessCategoryName: json['businessCategoryName'] as String?,
       businessPhone: json['businessPhone'] as String?,
       industry: json['industry'] as String?,
       industryClass: json['industryClass'] as String?,

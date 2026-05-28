@@ -92,7 +92,7 @@ class CardItemWidth extends StatelessWidget {
   }
 
   Widget _imageBox(double width) {
-    final double imageHeight = width / 2.1;
+    final double imageHeight = width / 2.2;
     final encodedUrl = Uri.encodeFull(thumbnailUrl);
 
     return SizedBox(

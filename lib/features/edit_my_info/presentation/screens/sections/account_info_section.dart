@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/features/edit_my_info/presentation/providers/edit_my_info_viewmodel.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_page_params.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_result.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_identity_verification_type.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_verification_source.dart';
 
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/presentation/widgets/text_with_cehvron.dart';
@@ -30,8 +34,24 @@ class AccountInfoSection extends ConsumerWidget {
               Spacer(),
               InkWell(
                 onTap: () async {
+                  // 나이스 본인인증 먼저
+                  final niceResult =
+                      await context.push<NiceIdentityVerificationResult>(
+                    '/nice_identity_verification',
+                    extra: const NiceIdentityVerificationPageParams(
+                      type: NiceIdentityVerificationType.accountMatch,
+                      source: NiceVerificationSource.editInfo,
+                    ),
+                  );
+                  if (!context.mounted ||
+                      niceResult == null ||
+                      !niceResult.success) {
+                    return;
+                  }
+                  // 인증 성공 → 계정 정보 변경 페이지로 이동
                   final result = await context.push<bool>(
                     '/change_account_information',
+                    extra: niceResult,
                   );
                   if (result == true) {
                     await ref
@@ -57,8 +77,22 @@ class AccountInfoSection extends ConsumerWidget {
           EditMyInfoRow(title: "이메일", content: myInfo?.email ?? '-'),
           SizedBox(height: 10),
           InkWell(
-            onTap: () {
-              context.push('/change_password');
+            onTap: () async {
+              final niceResult =
+                  await context.push<NiceIdentityVerificationResult>(
+                '/nice_identity_verification',
+                extra: const NiceIdentityVerificationPageParams(
+                  type: NiceIdentityVerificationType.accountMatch,
+                  source: NiceVerificationSource.editInfo,
+                ),
+              );
+              if (!context.mounted ||
+                  niceResult == null ||
+                  !niceResult.success ||
+                  niceResult.key == null) {
+                return;
+              }
+              context.push('/change_password', extra: niceResult.key!);
             },
             child: CustomButton(
               title: "비밀번호 변경",

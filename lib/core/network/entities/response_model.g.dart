@@ -10,7 +10,12 @@ _ResponseModel _$ResponseModelFromJson(Map<String, dynamic> json) =>
     _ResponseModel(
       success: json['success'] as bool? ?? false,
       message: json['message'] as String? ?? "",
+      statusCode: (json['statusCode'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ResponseModelToJson(_ResponseModel instance) =>
-    <String, dynamic>{'success': instance.success, 'message': instance.message};
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'statusCode': instance.statusCode,
+    };

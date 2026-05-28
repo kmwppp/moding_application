@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:moding_application/core/network/entities/tax_invoice_url_response_dto.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/order_list/data/repositories/order_list_repository_impl.dart';
 import 'package:moding_application/features/order_list/domain/entities/order_list_response_dto.dart';
@@ -73,6 +74,18 @@ class OrderListViewModel extends _$OrderListViewModel {
       final paymentInfo = await repository.getPaymentInfo(paymentId: paymentId);
       return paymentInfo;
     } catch (e) {
+      return null;
+    }
+  }
+
+  Future<TaxInvoiceUrlResponseWrapper?> getOrderTaxInvoiceUrl(
+    int orderId,
+  ) async {
+    try {
+      final repository = ref.read(orderListRepositoryProvider);
+      return await repository.getOrderTaxInvoiceUrl(orderId: orderId);
+    } catch (e) {
+      debugPrint(e.toString());
       return null;
     }
   }

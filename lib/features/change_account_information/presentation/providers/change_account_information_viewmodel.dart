@@ -30,21 +30,21 @@ class ChangeAccountInformationViewModel
 
   Future<ResponseModel> patchMyAccountInfo({
     required String email,
-    required String phone,
+    required String identityKey,
   }) async {
     state = state.copyWith(isSubmitting: true);
     try {
       final repository = ref.read(changeAccountInformationRepositoryProvider);
       final response = await repository.patchMyAccountInfo(
         email: email,
-        phone: phone,
+        identityKey: identityKey,
       );
       if (!ref.mounted) return response;
 
       state = state.copyWith(
         isSubmitting: false,
         accountInfo: response.success && state.accountInfo != null
-            ? state.accountInfo!.copyWith(email: email, phone: phone)
+            ? state.accountInfo!.copyWith(email: email)
             : state.accountInfo,
       );
 

@@ -12,12 +12,19 @@ import 'package:moding_application/features/change_account_information/presentat
 import 'package:moding_application/features/change_password/presentation/screens/change_password_page.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/edit_my_info_page.dart';
 import 'package:moding_application/features/fcm_test/fcm_test.dart';
+import 'package:moding_application/features/find_member_information/presentation/id/screens/check_id_page.dart';
 import 'package:moding_application/features/find_member_information/presentation/id/screens/find_id_page.dart';
 import 'package:moding_application/features/find_member_information/presentation/pw/screens/change_pw_page.dart';
 import 'package:moding_application/features/identity_verification/domain/entities/identity_verification_page_params.dart';
 import 'package:moding_application/features/identity_verification/presentation/screens/identity_verification_page.dart';
 import 'package:moding_application/features/login/presentation/screens/login_page_main.dart';
 import 'package:moding_application/features/main/presentation/screens/main_page.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_page_params.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_result.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_identity_verification_type.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/enums/nice_verification_source.dart';
+import 'package:moding_application/features/nice_identity_verification/presentation/screens/nice_identity_verification_callback_page.dart';
+import 'package:moding_application/features/nice_identity_verification/presentation/screens/nice_identity_verification_page.dart';
 import 'package:moding_application/features/notification/presentation/screens/notification_page.dart';
 import 'package:moding_application/features/options/presentation/screens/options_page.dart';
 import 'package:moding_application/features/order/presentation/screens/order_page_main.dart';
@@ -25,13 +32,17 @@ import 'package:moding_application/features/order_check/presentation/screens/ord
 import 'package:moding_application/features/order_list/presentation/screens/order_list_page.dart';
 import 'package:moding_application/features/payment_complete/presentation/screens/payment_complete_page.dart';
 import 'package:moding_application/features/product/presentation/screens/product_main_page.dart';
+import 'package:moding_application/features/profile/domain/enums/approval_status.dart';
 import 'package:moding_application/features/refund_account_management/presentation/screens/account_management_page.dart';
 import 'package:moding_application/features/review_list/presentation/screens/review_list_page.dart';
 import 'package:moding_application/features/search/presentation/screens/search_page_main.dart';
 import 'package:moding_application/features/seller_conversion/presentation/screens/seller_conversion_page.dart';
+import 'package:moding_application/features/seller_store/presentation/screens/seller_store_page.dart';
 import 'package:moding_application/features/seller_web/presentation/screens/seller_web_page.dart';
+import 'package:moding_application/features/seller_web/presentation/seller_web_page_params.dart';
 import 'package:moding_application/features/signup/presentation/screens/signup_page_step2.dart';
-import 'package:moding_application/features/signup_new/presentation/screens/signup_new_page.dart';
+import 'package:moding_application/features/signup_new/presentation/screens/signup_new_page_step1.dart';
+import 'package:moding_application/features/signup_new/presentation/screens/signup_new_page_step2.dart';
 import 'package:moding_application/features/splash/presentation/custom_spash_screen.dart';
 import 'package:moding_application/router/enums/notification_type.dart';
 
@@ -48,15 +59,21 @@ import 'entities/product_list_page_params.dart';
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
-    // refreshListenable:
-    initialLocation: '/splash', //"/splash"
-    // redirect: (context, state) {}
+    initialLocation: '/splash',
     routes: [
       GoRoute(
         path: '/splash',
         builder: (context, state) => const CustomSplashScreen(),
       ),
-      GoRoute(path: '/main', builder: (context, state) => const MainPage()),
+      GoRoute(
+        path: '/main',
+        builder: (context, state) {
+          final showRefundAccountPrompt = state.extra is bool
+              ? state.extra as bool
+              : false;
+          return MainPage(showRefundAccountPrompt: showRefundAccountPrompt);
+        },
+      ),
       GoRoute(
         path: '/product/:id',
         builder: (context, state) {
@@ -112,6 +129,30 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const LoginPageMain(),
       ),
       GoRoute(
+        path: '/nice_identity_verification',
+        builder: (context, state) {
+          final params = state.extra as NiceIdentityVerificationPageParams?;
+          final type = params?.type ?? NiceIdentityVerificationType.general;
+          final source = params?.source ?? NiceVerificationSource.signup;
+
+          final page = NiceIdentityVerificationPage(type: type, source: source);
+          if (type == NiceIdentityVerificationType.accountMatch) {
+            return AuthRequiredPage(child: page);
+          }
+          return page;
+        },
+      ),
+      GoRoute(
+        path: '/nice',
+        builder: (context, state) =>
+            const NiceIdentityVerificationCallbackPage(),
+      ),
+      GoRoute(
+        path: '/auth/nice',
+        builder: (context, state) =>
+            const NiceIdentityVerificationCallbackPage(),
+      ),
+      GoRoute(
         path: '/signup/step1',
         builder: (context, state) => const SignupPageStep1(),
       ),
@@ -121,16 +162,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/signup_new',
-        builder: (context, state) => const SignupNewPage(),
+        builder: (context, state) => const SignupNewPageStep1(),
+      ),
+      GoRoute(
+        path: '/signup_new/step2',
+        builder: (context, state) => const SignupNewPageStep2(),
       ),
 
       GoRoute(
         path: '/seller_page',
         builder: (context, state) {
-          final webViewToken = state.extra is String
-              ? state.extra as String
-              : '';
-          return SellerWebPage(webViewToken: webViewToken);
+          final params = state.extra is SellerWebPageParams
+              ? state.extra as SellerWebPageParams
+              : const SellerWebPageParams(webViewToken: '');
+          return SellerWebPage(params: params);
         },
       ),
 
@@ -195,7 +240,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/seller_conversion_check',
         builder: (context, state) {
-          return SellerConversionCheckPage();
+          return SellerConversionCheckPage(
+            approvalStatus: state.extra as ApprovalStatus?,
+          );
         },
       ),
       GoRoute(
@@ -228,7 +275,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/change_account_information',
         builder: (context, state) {
-          return ChangeAccountInformationPage();
+          final niceResult = state.extra as NiceIdentityVerificationResult?;
+          return ChangeAccountInformationPage(niceResult: niceResult);
         },
       ),
 
@@ -254,7 +302,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/change_password',
         builder: (context, state) {
-          return ChangePasswordPage();
+          final identityKey = state.extra as String?;
+          return ChangePasswordPage(identityKey: identityKey);
         },
       ),
       GoRoute(
@@ -274,6 +323,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: '/find_id/check',
+        builder: (context, state) {
+          final loginId = state.extra is String ? state.extra as String : '';
+          return CheckIdPage(loginId: loginId);
+        },
+      ),
+      GoRoute(
         path: '/find_pw',
         builder: (context, state) {
           return FindPwPage();
@@ -282,7 +338,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/find_pw/change_pw',
         builder: (context, state) {
-          return ChangePwPage();
+          final identityVerificationKey = state.extra is String
+              ? state.extra as String
+              : '';
+          return ChangePwPage(identityVerificationKey: identityVerificationKey);
         },
       ),
       GoRoute(
@@ -299,6 +358,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/options',
         builder: (context, state) {
           return OptionsPage();
+        },
+      ),
+
+      GoRoute(
+        path: '/seller_store/:sellerProfileId',
+        builder: (context, state) {
+          final int sellerProfileId = int.parse(
+            state.pathParameters['sellerProfileId']!,
+          );
+          final sellerCompanyName = state.extra is String
+              ? state.extra as String
+              : '';
+          return SellerStorePage(
+            sellerProfileId: sellerProfileId,
+            sellerCompanyName: sellerCompanyName,
+          );
         },
       ),
     ],

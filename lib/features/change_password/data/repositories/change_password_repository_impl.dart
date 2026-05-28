@@ -19,12 +19,12 @@ class ChangePasswordRepositoryImpl implements ChangePasswordRepository {
 
   @override
   Future<ResponseModel> patchChangePassword({
-    required String currentPassword,
+    required String identityKey,
     required String newPassword,
   }) async {
     try {
       final response = await _dataSource.patchChangePassword(
-        currentPassword: currentPassword,
+        identityKey: identityKey,
         newPassword: newPassword,
       );
       return ResponseModel.fromJson(response);

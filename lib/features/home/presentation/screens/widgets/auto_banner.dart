@@ -112,7 +112,10 @@ class _AutoBannerState extends ConsumerState<AutoBanner> {
     final approvalStatus = profile?.approvalStatus;
 
     if (role == Role.SELLER) {
-      await openSellerWebPage(context: context, ref: ref);
+      await openSellerWebPage(
+        context: context,
+        container: ProviderScope.containerOf(context, listen: false),
+      );
       return;
     }
 
@@ -124,11 +127,16 @@ class _AutoBannerState extends ConsumerState<AutoBanner> {
         }
         break;
       case ApprovalStatus.PENDING:
-      case ApprovalStatus.REJECTED:
         context.push('/seller_conversion_check');
         break;
+      case ApprovalStatus.REJECTED:
+        context.push('/seller_conversion_check', extra: approvalStatus);
+        break;
       case ApprovalStatus.APPROVED:
-        await openSellerWebPage(context: context, ref: ref);
+        await openSellerWebPage(
+          context: context,
+          container: ProviderScope.containerOf(context, listen: false),
+        );
         break;
     }
   }

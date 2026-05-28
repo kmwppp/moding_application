@@ -14,7 +14,7 @@ class ChangePasswordViewModel extends _$ChangePasswordViewModel {
   }
 
   Future<ResponseModel> patchChangePassword({
-    required String currentPassword,
+    required String identityKey,
     required String newPassword,
   }) async {
     state = state.copyWith(isSubmitting: true);
@@ -22,7 +22,7 @@ class ChangePasswordViewModel extends _$ChangePasswordViewModel {
     try {
       final repository = ref.read(changePasswordRepositoryProvider);
       final response = await repository.patchChangePassword(
-        currentPassword: currentPassword,
+        identityKey: identityKey,
         newPassword: newPassword,
       );
 

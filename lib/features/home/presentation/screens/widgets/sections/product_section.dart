@@ -117,35 +117,32 @@ class _ProductHorizontalListState extends State<ProductHorizontalList> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final listHeight = widget.sectionType == ProductRecommendType.newProduct
+        ? ((screenWidth / 3) + 50) / 2.1 + 52
+        : ((screenWidth / 2) - 50) + 92;
 
-      child: Row(
-        children: [
-          ...widget.products.asMap().entries.map((entry) {
-            final index = entry.key;
-            final product = entry.value;
-
-            return GestureDetector(
-              onTap: () {
-                context.push("/product/${product.id}");
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: ProductCardBuilder(
-                  index: index,
-                  product: product,
-                  sectionType: widget.sectionType,
-                  randomStartIndex: _colorStartIndex,
-                ),
-              ),
-            );
-          }),
-
-          /// 🔥 여기 추가
-          // _MoreButton(sectionType: sectionType),
-        ],
+    return SizedBox(
+      height: listHeight,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        itemCount: widget.products.length,
+        separatorBuilder: (context, index) => const SizedBox(width: 6),
+        itemBuilder: (context, index) {
+          final product = widget.products[index];
+          return GestureDetector(
+            onTap: () {
+              context.push("/product/${product.id}");
+            },
+            child: ProductCardBuilder(
+              index: index,
+              product: product,
+              sectionType: widget.sectionType,
+              randomStartIndex: _colorStartIndex,
+            ),
+          );
+        },
       ),
     );
   }

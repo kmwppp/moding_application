@@ -24,8 +24,6 @@ abstract class UserInfoMaskingResponseDto with _$UserInfoMaskingResponseDto {
 
     BusinessProfileDto? businessProfile,
     RefundAccountDto? refundAccount,
-
-    required bool isNotificationEnabled,
   }) = _UserInfoMaskingResponseDto;
 
   factory UserInfoMaskingResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -41,8 +39,8 @@ abstract class BusinessProfileDto with _$BusinessProfileDto {
     String? addressDetail,
     required String businessNumber,
     required String ownerName,
-    required String parentCategoryName,
-    required String businessCategoryName,
+    String? parentCategoryName,
+    String? businessCategoryName,
     String? businessPhone,
     String? industry,
     String? industryClass,

@@ -223,70 +223,87 @@ class _CategoryPageMainState extends ConsumerState<CategoryPageMain> {
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: AppColors.dividerGrey),
                             ),
-                            child: GridView.builder(
-                              padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              primary: false,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: state.subCategory!.data.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 4,
-                                    crossAxisSpacing: 4,
-                                    childAspectRatio: 3.6,
-                                  ),
-                              itemBuilder: (context, index) {
-                                final item = state.subCategory!.data[index];
-                                final isSelected =
-                                    index == state.selectedSubCategoryIndex;
-                                return GestureDetector(
-                                  onTap: () {
-                                    notifier.clickedSubCategory(
-                                      item,
-                                      index: index,
-                                    );
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 180),
-                                    curve: Curves.easeOut,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? AppColors.primary
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: isSelected
-                                            ? AppColors.primary
-                                            : AppColors.mediumGrey,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withValues(
-                                            alpha: isSelected ? 0.08 : 0.03,
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                const crossAxisCount = 3;
+                                const spacing = 4.0;
+                                final itemWidth =
+                                    (constraints.maxWidth -
+                                        (spacing * (crossAxisCount - 1))) /
+                                    crossAxisCount;
+
+                                return Wrap(
+                                  spacing: spacing,
+                                  runSpacing: spacing,
+                                  children: List.generate(
+                                    state.subCategory!.data.length,
+                                    (index) {
+                                      final item =
+                                          state.subCategory!.data[index];
+                                      final isSelected =
+                                          index ==
+                                          state.selectedSubCategoryIndex;
+
+                                      return GestureDetector(
+                                        onTap: () {
+                                          notifier.clickedSubCategory(
+                                            item,
+                                            index: index,
+                                          );
+                                        },
+                                        child: SizedBox(
+                                          width: itemWidth,
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                              milliseconds: 180,
+                                            ),
+                                            curve: Curves.easeOut,
+                                            alignment: Alignment.center,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 4,
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? AppColors.primary
+                                                  : Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              border: Border.all(
+                                                color: isSelected
+                                                    ? AppColors.primary
+                                                    : AppColors.mediumGrey,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withValues(
+                                                        alpha: isSelected
+                                                            ? 0.08
+                                                            : 0.03,
+                                                      ),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 3),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Text(
+                                              item.name,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: context.bodySmall.copyWith(
+                                                color: isSelected
+                                                    ? Colors.white
+                                                    : AppColors.darkGrey,
+                                                fontWeight: isSelected
+                                                    ? FontWeight.w700
+                                                    : FontWeight.w500,
+                                              ),
+                                            ),
                                           ),
-                                          blurRadius: 10,
-                                          offset: const Offset(0, 3),
                                         ),
-                                      ],
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 4,
-                                    ),
-                                    child: Text(
-                                      item.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: context.bodySmall.copyWith(
-                                        color: isSelected
-                                            ? Colors.white
-                                            : AppColors.darkGrey,
-                                        fontWeight: isSelected
-                                            ? FontWeight.w700
-                                            : FontWeight.w500,
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
                                 );
                               },

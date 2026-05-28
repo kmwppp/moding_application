@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moding_application/core/presentation/widgets/app_badge_icon.dart';
+import 'package:moding_application/core/services/token_storage.dart';
 import 'package:moding_application/features/main/domain/enums/MainTab.dart';
 import 'package:moding_application/features/main/presentation/providers/main_viewmodel.dart';
 
@@ -39,7 +40,7 @@ class HomeSliverAppbar extends ConsumerWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent, // 상태바 배경
         statusBarIconBrightness: Brightness.dark, // 안드로이드 아이콘
-        statusBarBrightness: Brightness.dark, // iOS 아이콘
+        statusBarBrightness: Brightness.light, // iOS 아이콘
       ),
 
       leading: Padding(
@@ -62,7 +63,9 @@ class HomeSliverAppbar extends ConsumerWidget {
             width: 26,
             color: AppColors.darkGrey,
           ),
-          onPressed: () {
+          onPressed: () async {
+            final canProceed = await _ensureLoggedIn(context, ref);
+            if (!canProceed || !context.mounted) return;
             context.push('/alarm');
           },
         ),
@@ -72,8 +75,11 @@ class HomeSliverAppbar extends ConsumerWidget {
             width: 24,
             color: AppColors.darkGrey,
           ),
-          onPressed: () =>
-              ref.read(mainViewModelProvider.notifier).changeTab(MainTab.cart),
+          onPressed: () async {
+            final canProceed = await _ensureLoggedIn(context, ref);
+            if (!canProceed || !context.mounted) return;
+            ref.read(mainViewModelProvider.notifier).changeTab(MainTab.cart);
+          },
         ),
         const SizedBox(width: 8),
       ],
@@ -124,5 +130,19 @@ class HomeSliverAppbar extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> _ensureLoggedIn(BuildContext context, WidgetRef ref) async {
+    final accessToken = await ref.read(tokenStorageProvider).getAccessToken();
+    if ((accessToken ?? '').trim().isNotEmpty) {
+      return true;
+    }
+
+    if (!context.mounted) return false;
+
+    final loginResult = await context.push<bool>('/login');
+    if (!context.mounted) return false;
+
+    return loginResult == true;
   }
 }

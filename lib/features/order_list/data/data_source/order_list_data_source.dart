@@ -69,4 +69,9 @@ class OrderListDataSource {
   Future<Response<dynamic>> deleteOrderInfo(int orderId) async {
     return _dio.delete(AppHttpUrl.getMyOrderInfo(orderId));
   }
+
+  Future<Map<String, dynamic>> getOrderTaxInvoiceUrl(int orderId) async {
+    final response = await _dio.get(AppHttpUrl.getOrderTaxInvoiceUrl(orderId));
+    return response.data;
+  }
 }

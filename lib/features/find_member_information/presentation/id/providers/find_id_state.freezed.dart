@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FindIdState {
 
- bool get isLoading;
+ bool get isLoading; String get loginId;
 /// Create a copy of FindIdState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $FindIdStateCopyWith<FindIdState> get copyWith => _$FindIdStateCopyWithImpl<Find
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FindIdState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FindIdState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.loginId, loginId) || other.loginId == loginId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading);
+int get hashCode => Object.hash(runtimeType,isLoading,loginId);
 
 @override
 String toString() {
-  return 'FindIdState(isLoading: $isLoading)';
+  return 'FindIdState(isLoading: $isLoading, loginId: $loginId)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $FindIdStateCopyWith<$Res>  {
   factory $FindIdStateCopyWith(FindIdState value, $Res Function(FindIdState) _then) = _$FindIdStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading
+ bool isLoading, String loginId
 });
 
 
@@ -62,10 +62,11 @@ class _$FindIdStateCopyWithImpl<$Res>
 
 /// Create a copy of FindIdState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? loginId = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -150,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  String loginId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FindIdState() when $default != null:
-return $default(_that.isLoading);case _:
+return $default(_that.isLoading,_that.loginId);case _:
   return orElse();
 
 }
@@ -171,10 +172,10 @@ return $default(_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  String loginId)  $default,) {final _that = this;
 switch (_that) {
 case _FindIdState():
-return $default(_that.isLoading);case _:
+return $default(_that.isLoading,_that.loginId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +192,10 @@ return $default(_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  String loginId)?  $default,) {final _that = this;
 switch (_that) {
 case _FindIdState() when $default != null:
-return $default(_that.isLoading);case _:
+return $default(_that.isLoading,_that.loginId);case _:
   return null;
 
 }
@@ -206,10 +207,11 @@ return $default(_that.isLoading);case _:
 
 
 class _FindIdState extends FindIdState {
-  const _FindIdState({required this.isLoading}): super._();
+  const _FindIdState({required this.isLoading, this.loginId = ''}): super._();
   
 
 @override final  bool isLoading;
+@override@JsonKey() final  String loginId;
 
 /// Create a copy of FindIdState
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +223,16 @@ _$FindIdStateCopyWith<_FindIdState> get copyWith => __$FindIdStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FindIdState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FindIdState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.loginId, loginId) || other.loginId == loginId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading);
+int get hashCode => Object.hash(runtimeType,isLoading,loginId);
 
 @override
 String toString() {
-  return 'FindIdState(isLoading: $isLoading)';
+  return 'FindIdState(isLoading: $isLoading, loginId: $loginId)';
 }
 
 
@@ -241,7 +243,7 @@ abstract mixin class _$FindIdStateCopyWith<$Res> implements $FindIdStateCopyWith
   factory _$FindIdStateCopyWith(_FindIdState value, $Res Function(_FindIdState) _then) = __$FindIdStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading
+ bool isLoading, String loginId
 });
 
 
@@ -258,10 +260,11 @@ class __$FindIdStateCopyWithImpl<$Res>
 
 /// Create a copy of FindIdState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? loginId = null,}) {
   return _then(_FindIdState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

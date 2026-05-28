@@ -27,17 +27,31 @@ class EditMyInfoViewModel extends _$EditMyInfoViewModel {
     }
   }
 
+  Future<void> getNotificationSettings() async {
+    state = state.copyWith(isNotificationLoading: true);
+    try {
+      final repository = ref.read(editMyInfoRepositoryProvider);
+      final response = await repository.getNotificationSettings();
+      if (!ref.mounted) return;
+      state = state.copyWith(
+        isNotificationLoading: false,
+        notificationEnabled: response.data.notificationEnabled,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!ref.mounted) return;
+      state = state.copyWith(isNotificationLoading: false);
+    }
+  }
+
   Future<ResponseModel> patchNotificationSettings(bool isEnabled) async {
-    final current = state.maskingMyInfo;
-    if (current == null) {
-      return const ResponseModel(success: false, message: '회원 정보를 불러오지 못했습니다.');
+    final currentMasking = state.maskingMyInfo;
+    final currentNotificationEnabled = state.notificationEnabled;
+    if (currentNotificationEnabled == null) {
+      return const ResponseModel(success: false, message: '알림 설정을 불러오지 못했습니다.');
     }
 
-    state = state.copyWith(
-      maskingMyInfo: current.copyWith(
-        data: current.data.copyWith(isNotificationEnabled: isEnabled),
-      ),
-    );
+    state = state.copyWith(notificationEnabled: isEnabled);
 
     try {
       final repository = ref.read(editMyInfoRepositoryProvider);
@@ -46,14 +60,20 @@ class EditMyInfoViewModel extends _$EditMyInfoViewModel {
       );
 
       if (!response.success && ref.mounted) {
-        state = state.copyWith(maskingMyInfo: current);
+        state = state.copyWith(
+          notificationEnabled: currentNotificationEnabled,
+          maskingMyInfo: currentMasking,
+        );
       }
 
       return response;
     } catch (e) {
       debugPrint(e.toString());
       if (ref.mounted) {
-        state = state.copyWith(maskingMyInfo: current);
+        state = state.copyWith(
+          notificationEnabled: currentNotificationEnabled,
+          maskingMyInfo: currentMasking,
+        );
       }
       return const ResponseModel(success: false, message: '알림 설정 변경에 실패했습니다.');
     }

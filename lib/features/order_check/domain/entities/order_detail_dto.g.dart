@@ -52,6 +52,7 @@ _OrderDetailDto _$OrderDetailDtoFromJson(Map<String, dynamic> json) =>
               json['payment'] as Map<String, dynamic>,
             ),
       isReviewable: json['isReviewable'] as bool?,
+      isTaxInvoiceIssued: json['isTaxInvoiceIssued'] as bool?,
       createdAt: const LocalDateTimeConverter().fromJson(
         json['createdAt'] as String,
       ),
@@ -88,6 +89,7 @@ Map<String, dynamic> _$OrderDetailDtoToJson(_OrderDetailDto instance) =>
       'delivery': instance.delivery,
       'payment': instance.payment,
       'isReviewable': instance.isReviewable,
+      'isTaxInvoiceIssued': instance.isTaxInvoiceIssued,
       'createdAt': const LocalDateTimeConverter().toJson(instance.createdAt),
       'updatedAt': const LocalDateTimeConverter().toJson(instance.updatedAt),
     };

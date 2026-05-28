@@ -80,14 +80,6 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
     );
   }
 
-  Future<void> pickBusinessLicenseImage(ImageSource source) {
-    return _pickSingleImage(
-      source: source,
-      onSelected: (path) =>
-          state = state.copyWith(businessLicenseImagePath: path),
-    );
-  }
-
   Future<void> pickBusinessPermitImage(ImageSource source) {
     return _pickSingleImage(
       source: source,
@@ -133,10 +125,6 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
     state = state.copyWith(bankbookImagePath: null);
   }
 
-  void removeBusinessLicenseImage() {
-    state = state.copyWith(businessLicenseImagePath: null);
-  }
-
   void removeBusinessPermitImage() {
     state = state.copyWith(businessPermitImagePath: null);
   }
@@ -162,7 +150,6 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
       bankAccountNumber: state.bankAccountNumber.trim(),
       bankAccountHolder: state.bankAccountHolder.trim(),
       bankbookImagePath: state.bankbookImagePath!,
-      businessLicenseImagePath: state.businessLicenseImagePath!,
       businessPermitImagePath: state.businessPermitImagePath!,
       salesPermitImagePath: state.salesPermitImagePath!,
       otherFilePaths: state.otherFilePaths,

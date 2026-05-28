@@ -20,7 +20,7 @@ final class SignupNewViewModelProvider
         argument: null,
         retry: null,
         name: r'signupNewViewModelProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -42,7 +42,7 @@ final class SignupNewViewModelProvider
 }
 
 String _$signupNewViewModelHash() =>
-    r'66dda4ef6fce09638faddb781a08ba41cbbc4493';
+    r'32cd262f519188b4fcf85fb8f834b06d21aea1ba';
 
 abstract class _$SignupNewViewModel extends $Notifier<SignupNewState> {
   SignupNewState build();

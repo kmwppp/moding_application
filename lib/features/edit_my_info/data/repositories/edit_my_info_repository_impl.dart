@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/edit_my_info/data/data_source/edit_my_info_data_source.dart';
+import 'package:moding_application/features/edit_my_info/domain/entities/notification_settings_response_dto.dart';
 import 'package:moding_application/features/edit_my_info/domain/entities/user_info_masking_response_dto.dart';
 import 'package:moding_application/features/edit_my_info/domain/repositories/edit_my_info_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -22,6 +23,12 @@ class EditMyInfoRepositoryImpl implements EditMyInfoRepository {
   Future<UserInfoMaskingResponseWrapper> getMaskingMyInfo() async {
     final response = await _dataSource.getMaskingMyInfo();
     return UserInfoMaskingResponseWrapper.fromJson(response);
+  }
+
+  @override
+  Future<NotificationSettingsResponseWrapper> getNotificationSettings() async {
+    final response = await _dataSource.getNotificationSettings();
+    return NotificationSettingsResponseWrapper.fromJson(response);
   }
 
   @override

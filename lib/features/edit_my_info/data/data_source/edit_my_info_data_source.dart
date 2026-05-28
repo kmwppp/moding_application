@@ -20,6 +20,11 @@ class EditMyInfoDataSource {
     return response.data;
   }
 
+  Future<Map<String, dynamic>> getNotificationSettings() async {
+    final response = await _dio.get(AppHttpUrl.patchNotificationSettings);
+    return response.data;
+  }
+
   Future<Map<String, dynamic>> patchNotificationSettings({
     required bool notificationEnabled,
   }) async {

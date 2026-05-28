@@ -16,13 +16,12 @@ class ChangePasswordDataSource {
   ChangePasswordDataSource(this._dio);
 
   Future<Map<String, dynamic>> patchChangePassword({
-    required String currentPassword,
+    required String identityKey,
     required String newPassword,
   }) async {
     final response = await _dio.patch(
       AppHttpUrl.patchChangePassword,
-      data: {'currentPassword': currentPassword, 'newPassword': newPassword},
-      options: Options(extra: {'ignore401Logout': true}),
+      data: {'identityKey': identityKey, 'newPassword': newPassword},
     );
     return response.data;
   }

@@ -1,6 +1,6 @@
 class AppHttpUrl {
   /// API 메인 주소
-  static final mainServerUrl = "http://moding.iiiii.info:80";
+  static final mainServerUrl = "http://moding.iiiii.info:8080";
 
   /// 판매자 사이트 메인 주소
   static final sellerPageUrl = "http://moding.iiiii.info:8000";
@@ -10,6 +10,9 @@ class AppHttpUrl {
   static final refresh = "/api/v1/auth/refresh";
 
   static final reAuth = "/api/v1/auth/reauth";
+  static final postIdentityVerification = "/api/v1/auth/identity-verification";
+  static final postFindId = "/api/v1/auth/find-id";
+  static final patchFindPassword = "/api/v1/auth/password";
 
   ///Sign-Up
   static final idDuplicateCheck = "/api/v1/users/login-id/availability";
@@ -178,6 +181,16 @@ class AppHttpUrl {
     return "/api/v1/orders/$orderId";
   }
 
+  /// 주문 배송 추적 상세 조회
+  static String getOrderDeliveryDetail(int orderId) {
+    return "/api/v1/orders/$orderId/delivery";
+  }
+
+  /// 주문 세금계산서 URL 조회
+  static String getOrderTaxInvoiceUrl(int orderId) {
+    return "/api/v1/orders/$orderId/tax-invoice";
+  }
+
   /// 구매 확정
   static String patchPurchaseConfirm(int orderId) {
     return "/api/v1/orders/$orderId/purchase-confirm";
@@ -248,6 +261,17 @@ class AppHttpUrl {
   static String getFAQContent(int faqId) {
     return "/api/v1/faqs/$faqId";
   }
+
+  /// 알림 목록 조회
+  static String getNotifications = "/api/v1/notifications";
+
+  /// 알림 읽음 처리
+  static String patchNotificationRead(int notificationId) {
+    return "/api/v1/notifications/$notificationId/read";
+  }
+
+  /// 내 알림 목록 조회
+  static String getNotification = "/api/v1/notifications";
 
   /// 내 정보 조회
   static String getMyAccountInfo = "/api/v1/users/me";

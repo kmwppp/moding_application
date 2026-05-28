@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FindPwState {
 
- bool get isLoading;
+ bool get isLoading; String get loginId; String get newPassword; String get newPasswordConfirm; String get identityVerificationKey;
 /// Create a copy of FindPwState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $FindPwStateCopyWith<FindPwState> get copyWith => _$FindPwStateCopyWithImpl<Find
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FindPwState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FindPwState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.newPassword, newPassword) || other.newPassword == newPassword)&&(identical(other.newPasswordConfirm, newPasswordConfirm) || other.newPasswordConfirm == newPasswordConfirm)&&(identical(other.identityVerificationKey, identityVerificationKey) || other.identityVerificationKey == identityVerificationKey));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading);
+int get hashCode => Object.hash(runtimeType,isLoading,loginId,newPassword,newPasswordConfirm,identityVerificationKey);
 
 @override
 String toString() {
-  return 'FindPwState(isLoading: $isLoading)';
+  return 'FindPwState(isLoading: $isLoading, loginId: $loginId, newPassword: $newPassword, newPasswordConfirm: $newPasswordConfirm, identityVerificationKey: $identityVerificationKey)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $FindPwStateCopyWith<$Res>  {
   factory $FindPwStateCopyWith(FindPwState value, $Res Function(FindPwState) _then) = _$FindPwStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading
+ bool isLoading, String loginId, String newPassword, String newPasswordConfirm, String identityVerificationKey
 });
 
 
@@ -62,10 +62,14 @@ class _$FindPwStateCopyWithImpl<$Res>
 
 /// Create a copy of FindPwState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? loginId = null,Object? newPassword = null,Object? newPasswordConfirm = null,Object? identityVerificationKey = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
+as String,newPassword: null == newPassword ? _self.newPassword : newPassword // ignore: cast_nullable_to_non_nullable
+as String,newPasswordConfirm: null == newPasswordConfirm ? _self.newPasswordConfirm : newPasswordConfirm // ignore: cast_nullable_to_non_nullable
+as String,identityVerificationKey: null == identityVerificationKey ? _self.identityVerificationKey : identityVerificationKey // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -150,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  String loginId,  String newPassword,  String newPasswordConfirm,  String identityVerificationKey)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FindPwState() when $default != null:
-return $default(_that.isLoading);case _:
+return $default(_that.isLoading,_that.loginId,_that.newPassword,_that.newPasswordConfirm,_that.identityVerificationKey);case _:
   return orElse();
 
 }
@@ -171,10 +175,10 @@ return $default(_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  String loginId,  String newPassword,  String newPasswordConfirm,  String identityVerificationKey)  $default,) {final _that = this;
 switch (_that) {
 case _FindPwState():
-return $default(_that.isLoading);case _:
+return $default(_that.isLoading,_that.loginId,_that.newPassword,_that.newPasswordConfirm,_that.identityVerificationKey);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +195,10 @@ return $default(_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  String loginId,  String newPassword,  String newPasswordConfirm,  String identityVerificationKey)?  $default,) {final _that = this;
 switch (_that) {
 case _FindPwState() when $default != null:
-return $default(_that.isLoading);case _:
+return $default(_that.isLoading,_that.loginId,_that.newPassword,_that.newPasswordConfirm,_that.identityVerificationKey);case _:
   return null;
 
 }
@@ -206,10 +210,14 @@ return $default(_that.isLoading);case _:
 
 
 class _FindPwState extends FindPwState {
-  const _FindPwState({required this.isLoading}): super._();
+  const _FindPwState({required this.isLoading, this.loginId = '', this.newPassword = '', this.newPasswordConfirm = '', this.identityVerificationKey = ''}): super._();
   
 
 @override final  bool isLoading;
+@override@JsonKey() final  String loginId;
+@override@JsonKey() final  String newPassword;
+@override@JsonKey() final  String newPasswordConfirm;
+@override@JsonKey() final  String identityVerificationKey;
 
 /// Create a copy of FindPwState
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +229,16 @@ _$FindPwStateCopyWith<_FindPwState> get copyWith => __$FindPwStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FindPwState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FindPwState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.loginId, loginId) || other.loginId == loginId)&&(identical(other.newPassword, newPassword) || other.newPassword == newPassword)&&(identical(other.newPasswordConfirm, newPasswordConfirm) || other.newPasswordConfirm == newPasswordConfirm)&&(identical(other.identityVerificationKey, identityVerificationKey) || other.identityVerificationKey == identityVerificationKey));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading);
+int get hashCode => Object.hash(runtimeType,isLoading,loginId,newPassword,newPasswordConfirm,identityVerificationKey);
 
 @override
 String toString() {
-  return 'FindPwState(isLoading: $isLoading)';
+  return 'FindPwState(isLoading: $isLoading, loginId: $loginId, newPassword: $newPassword, newPasswordConfirm: $newPasswordConfirm, identityVerificationKey: $identityVerificationKey)';
 }
 
 
@@ -241,7 +249,7 @@ abstract mixin class _$FindPwStateCopyWith<$Res> implements $FindPwStateCopyWith
   factory _$FindPwStateCopyWith(_FindPwState value, $Res Function(_FindPwState) _then) = __$FindPwStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading
+ bool isLoading, String loginId, String newPassword, String newPasswordConfirm, String identityVerificationKey
 });
 
 
@@ -258,10 +266,14 @@ class __$FindPwStateCopyWithImpl<$Res>
 
 /// Create a copy of FindPwState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? loginId = null,Object? newPassword = null,Object? newPasswordConfirm = null,Object? identityVerificationKey = null,}) {
   return _then(_FindPwState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,loginId: null == loginId ? _self.loginId : loginId // ignore: cast_nullable_to_non_nullable
+as String,newPassword: null == newPassword ? _self.newPassword : newPassword // ignore: cast_nullable_to_non_nullable
+as String,newPasswordConfirm: null == newPasswordConfirm ? _self.newPasswordConfirm : newPasswordConfirm // ignore: cast_nullable_to_non_nullable
+as String,identityVerificationKey: null == identityVerificationKey ? _self.identityVerificationKey : identityVerificationKey // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

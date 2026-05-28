@@ -20,7 +20,6 @@ abstract class SellerConversionState with _$SellerConversionState {
     @Default('') String bankAccountNumber,
     @Default('') String bankAccountHolder,
     String? bankbookImagePath,
-    String? businessLicenseImagePath,
     String? businessPermitImagePath,
     String? salesPermitImagePath,
     @Default([]) List<String> otherFilePaths,

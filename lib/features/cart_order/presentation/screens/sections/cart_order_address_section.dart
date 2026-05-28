@@ -20,25 +20,22 @@ class CartOrderAddressSection extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IntrinsicHeight(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("배송지", style: context.titleMedium),
-                      VerticalDivider(
-                        color: AppColors.mediumGrey,
-                        thickness: 2,
-                        width: 30,
-                        indent: 4,
-                        endIndent: 4,
-                      ),
-                      Text(
-                        state.cartOrderInfo?.data.deliveryAddress.name ?? "",
-                        style: context.titleMedium,
-                      ),
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("배송지", style: context.titleMedium),
+                    Container(
+                      width: 2,
+                      height: 18,
+                      margin: const EdgeInsets.symmetric(horizontal: 14),
+                      color: AppColors.mediumGrey,
+                    ),
+                    Text(
+                      state.cartOrderInfo?.data.deliveryAddress.name ?? "",
+                      style: context.titleMedium,
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 6),
                 Text(

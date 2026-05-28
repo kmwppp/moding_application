@@ -9,11 +9,15 @@ class LoginHelpArea extends StatelessWidget {
     required this.content,
     required this.accentContent1,
     required this.accentContent2,
+    this.onFindIdTap,
+    this.onFindPasswordTap,
   });
 
   final String content;
   final String accentContent1;
   final String accentContent2;
+  final VoidCallback? onFindIdTap;
+  final VoidCallback? onFindPasswordTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,10 @@ class LoginHelpArea extends StatelessWidget {
             Text(content, style: context.caption),
             InkWell(
               onTap: () {
+                if (onFindIdTap != null) {
+                  onFindIdTap!();
+                  return;
+                }
                 context.push('/find_id');
               },
               child: Text(
@@ -41,6 +49,10 @@ class LoginHelpArea extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                if (onFindPasswordTap != null) {
+                  onFindPasswordTap!();
+                  return;
+                }
                 context.push('/find_pw');
               },
               child: Text(

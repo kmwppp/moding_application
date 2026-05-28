@@ -29,12 +29,12 @@ class ChangeAccountInformationRepositoryImpl
   @override
   Future<ResponseModel> patchMyAccountInfo({
     required String email,
-    required String phone,
+    required String identityKey,
   }) async {
     try {
       final response = await _dataSource.patchMyAccountInfo(
         email: email,
-        phone: phone,
+        identityKey: identityKey,
       );
       return ResponseModel.fromJson(response);
     } on DioException catch (e) {

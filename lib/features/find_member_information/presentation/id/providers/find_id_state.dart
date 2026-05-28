@@ -6,7 +6,10 @@ part 'find_id_state.freezed.dart';
 abstract class FindIdState with _$FindIdState {
   const FindIdState._();
 
-  const factory FindIdState({required bool isLoading}) = _FindIdState;
+  const factory FindIdState({
+    required bool isLoading,
+    @Default('') String loginId,
+  }) = _FindIdState;
 
-  factory FindIdState.initial() => FindIdState(isLoading: true);
+  factory FindIdState.initial() => FindIdState(isLoading: false);
 }

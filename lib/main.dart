@@ -9,6 +9,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'core/navigation/nice_deeplink_interceptor.dart';
 import 'core/services/storage_service.dart';
 import 'core/utils/log_util.dart';
 
@@ -38,12 +39,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   // 앱 시작 시 상태바 스타일 고정
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  // GoRouter보다 먼저 등록하여 moding://auth/nice 딥링크를 가로챔
+  WidgetsBinding.instance.addObserver(NiceDeeplinkInterceptor());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light, // 안드로이드용
-      statusBarBrightness: Brightness.dark, // iOS용
+      statusBarIconBrightness: Brightness.dark, // 안드로이드용
+      statusBarBrightness: Brightness.light, // iOS용
     ),
   );
 
@@ -62,10 +66,6 @@ void main() async {
 
   // 백그라운드 핸들러 등록
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  // 토큰 추출
-  String? token = await FirebaseMessaging.instance.getToken();
-  appLog("FCM Token: $token");
 
   runApp(const ProviderScope(child: App()));
 }

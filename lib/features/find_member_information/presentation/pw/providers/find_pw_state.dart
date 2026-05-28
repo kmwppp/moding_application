@@ -6,7 +6,13 @@ part 'find_pw_state.freezed.dart';
 abstract class FindPwState with _$FindPwState {
   const FindPwState._();
 
-  const factory FindPwState({required bool isLoading}) = _FindPwState;
+  const factory FindPwState({
+    required bool isLoading,
+    @Default('') String loginId,
+    @Default('') String newPassword,
+    @Default('') String newPasswordConfirm,
+    @Default('') String identityVerificationKey,
+  }) = _FindPwState;
 
-  factory FindPwState.initial() => FindPwState(isLoading: true);
+  factory FindPwState.initial() => const FindPwState(isLoading: false);
 }

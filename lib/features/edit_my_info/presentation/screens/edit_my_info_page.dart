@@ -11,7 +11,6 @@ import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/edit_my_info/presentation/providers/edit_my_info_viewmodel.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/sections/account_info_section.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/sections/business_info_section.dart';
-import 'package:moding_application/features/edit_my_info/presentation/screens/sections/notification_setting_section.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/sections/refund_account_info_section.dart';
 
 import '../../../../core/presentation/widgets/text_with_cehvron.dart';
@@ -54,8 +53,6 @@ class _EditMyInfoPageState extends ConsumerState<EditMyInfoPage> {
               const SliverToBoxAdapter(child: BusinessInfoSection()),
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
               const SliverToBoxAdapter(child: RefundAccountInfoSection()),
-              const SliverToBoxAdapter(child: SizedBox(height: 10)),
-              const SliverToBoxAdapter(child: NotificationSettingSection()),
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
               SliverToBoxAdapter(
                 child: Padding(

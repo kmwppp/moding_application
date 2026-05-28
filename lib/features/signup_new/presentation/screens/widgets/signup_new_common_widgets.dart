@@ -333,9 +333,10 @@ class SignupNewAddressField extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.dividerGrey),
                   borderRadius: BorderRadius.circular(10),
+                  color: zipCode.isNotEmpty ? AppColors.mediumGrey : null,
                 ),
                 child: Text(
-                  hasAddress ? '($zipCode) $address' : '주소를 검색해주세요.',
+                  hasAddress ? '($zipCode)' : '주소를 검색해주세요.',
                   style: context.body.copyWith(
                     color: hasAddress ? Colors.black : AppColors.darkGrey,
                   ),
@@ -360,6 +361,24 @@ class SignupNewAddressField extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: 10),
+        if (address.isNotEmpty)
+          Container(
+            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.dividerGrey),
+              borderRadius: BorderRadius.circular(10),
+              color: AppColors.mediumGrey,
+            ),
+            child: Text(
+              hasAddress ? address : '주소를 검색해주세요.',
+              style: context.body.copyWith(
+                color: hasAddress ? Colors.black : AppColors.darkGrey,
+              ),
+            ),
+          ),
       ],
     );
   }

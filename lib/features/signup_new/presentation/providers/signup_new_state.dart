@@ -10,6 +10,7 @@ class SignupNewState {
   final bool isLoading;
   final String verifiedName;
   final String verifiedPhone;
+  final String identityVerificationKey;
   final String loginId;
   final String password;
   final String passwordConfirm;
@@ -22,8 +23,10 @@ class SignupNewState {
   final String businessName;
   final String ownerName;
   final String zipCode;
+  final String sigunguCode;
   final String address;
   final String addressDetail;
+  final bool isCorporateBusiness;
   final String corporationNumber;
   final String industry;
   final String industryClass;
@@ -34,6 +37,7 @@ class SignupNewState {
   final SignupNewCategoryItem? selectedMainCategory;
   final List<SignupNewCategoryItem> subCategoryList;
   final SignupNewCategoryItem? selectedSubCategory;
+  final int? businessCategoryId;
   final String businessLicenseImagePath;
 
   const SignupNewState({
@@ -41,6 +45,7 @@ class SignupNewState {
     required this.isLoading,
     required this.verifiedName,
     required this.verifiedPhone,
+    required this.identityVerificationKey,
     required this.loginId,
     required this.password,
     required this.passwordConfirm,
@@ -53,8 +58,10 @@ class SignupNewState {
     required this.businessName,
     required this.ownerName,
     required this.zipCode,
+    required this.sigunguCode,
     required this.address,
     required this.addressDetail,
+    required this.isCorporateBusiness,
     required this.corporationNumber,
     required this.industry,
     required this.industryClass,
@@ -65,6 +72,7 @@ class SignupNewState {
     required this.selectedMainCategory,
     required this.subCategoryList,
     required this.selectedSubCategory,
+    required this.businessCategoryId,
     required this.businessLicenseImagePath,
   });
 
@@ -74,6 +82,7 @@ class SignupNewState {
       isLoading: false,
       verifiedName: '',
       verifiedPhone: '',
+      identityVerificationKey: '',
       loginId: '',
       password: '',
       passwordConfirm: '',
@@ -86,8 +95,10 @@ class SignupNewState {
       businessName: '',
       ownerName: '',
       zipCode: '',
+      sigunguCode: '',
       address: '',
       addressDetail: '',
+      isCorporateBusiness: false,
       corporationNumber: '',
       industry: '',
       industryClass: '',
@@ -98,6 +109,7 @@ class SignupNewState {
       selectedMainCategory: null,
       subCategoryList: [],
       selectedSubCategory: null,
+      businessCategoryId: null,
       businessLicenseImagePath: '',
     );
   }
@@ -107,6 +119,7 @@ class SignupNewState {
     bool? isLoading,
     String? verifiedName,
     String? verifiedPhone,
+    String? identityVerificationKey,
     String? loginId,
     String? password,
     String? passwordConfirm,
@@ -119,8 +132,10 @@ class SignupNewState {
     String? businessName,
     String? ownerName,
     String? zipCode,
+    String? sigunguCode,
     String? address,
     String? addressDetail,
+    bool? isCorporateBusiness,
     String? corporationNumber,
     String? industry,
     String? industryClass,
@@ -134,6 +149,8 @@ class SignupNewState {
     List<SignupNewCategoryItem>? subCategoryList,
     SignupNewCategoryItem? selectedSubCategory,
     bool clearSelectedSubCategory = false,
+    int? businessCategoryId,
+    bool clearBusinessCategoryId = false,
     String? businessLicenseImagePath,
   }) {
     return SignupNewState(
@@ -141,6 +158,8 @@ class SignupNewState {
       isLoading: isLoading ?? this.isLoading,
       verifiedName: verifiedName ?? this.verifiedName,
       verifiedPhone: verifiedPhone ?? this.verifiedPhone,
+      identityVerificationKey:
+          identityVerificationKey ?? this.identityVerificationKey,
       loginId: loginId ?? this.loginId,
       password: password ?? this.password,
       passwordConfirm: passwordConfirm ?? this.passwordConfirm,
@@ -155,8 +174,10 @@ class SignupNewState {
       businessName: businessName ?? this.businessName,
       ownerName: ownerName ?? this.ownerName,
       zipCode: zipCode ?? this.zipCode,
+      sigunguCode: sigunguCode ?? this.sigunguCode,
       address: address ?? this.address,
       addressDetail: addressDetail ?? this.addressDetail,
+      isCorporateBusiness: isCorporateBusiness ?? this.isCorporateBusiness,
       corporationNumber: corporationNumber ?? this.corporationNumber,
       industry: industry ?? this.industry,
       industryClass: industryClass ?? this.industryClass,
@@ -173,6 +194,9 @@ class SignupNewState {
       selectedSubCategory: clearSelectedSubCategory
           ? null
           : (selectedSubCategory ?? this.selectedSubCategory),
+      businessCategoryId: clearBusinessCategoryId
+          ? null
+          : (businessCategoryId ?? this.businessCategoryId),
       businessLicenseImagePath:
           businessLicenseImagePath ?? this.businessLicenseImagePath,
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moding_application/core/presentation/providers/delivery_ticker_provider.dart';
 import 'package:moding_application/features/product/presentation/providers/product_viewmodel.dart';
 
@@ -186,7 +187,7 @@ class PriceInfoSection extends ConsumerWidget {
                   "${StringUtil.formatCurrency(state.productInfo?.jejuShippingFee ?? 0)}원",
             ),
           const SizedBox(height: 14),
-          GestureDetector(
+          InkWell(
             onTap: () {
               final context = reviewSectionKey.currentContext;
               if (context != null) {
@@ -263,6 +264,42 @@ class PriceInfoSection extends ConsumerWidget {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 6),
+          InkWell(
+            onTap: () {
+              context.push(
+                '/seller_store/${state.productInfo!.sellerProfileId}',
+                extra: state.productInfo?.sellerCompanyName ?? '',
+              );
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    "판매자",
+                    style: context.body.copyWith(color: AppColors.darkGrey),
+                  ),
+                ),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    "${state.productInfo?.sellerCompanyName}",
+                    style: context.body.copyWith(),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: AppColors.darkGrey,
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 10),
         ],

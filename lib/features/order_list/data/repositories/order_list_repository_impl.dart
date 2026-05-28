@@ -1,3 +1,4 @@
+import 'package:moding_application/core/network/entities/tax_invoice_url_response_dto.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/order_list/domain/entities/date_list_response_dto.dart';
 import 'package:moding_application/features/order_list/domain/entities/order_list_response_dto.dart';
@@ -58,6 +59,14 @@ class OrderListRepositoryImpl implements OrderListRepository {
   }) async {
     final response = await _dataSource.getPaymentInfo(paymentId);
     return PaymentCompleteResponseWrapper.fromJson(response);
+  }
+
+  @override
+  Future<TaxInvoiceUrlResponseWrapper> getOrderTaxInvoiceUrl({
+    required int orderId,
+  }) async {
+    final response = await _dataSource.getOrderTaxInvoiceUrl(orderId);
+    return TaxInvoiceUrlResponseWrapper.fromJson(response);
   }
 
   @override

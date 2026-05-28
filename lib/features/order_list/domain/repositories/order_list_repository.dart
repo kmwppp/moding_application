@@ -1,3 +1,4 @@
+import 'package:moding_application/core/network/entities/tax_invoice_url_response_dto.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/order_list/domain/entities/date_list_response_dto.dart';
 
@@ -21,6 +22,10 @@ abstract class OrderListRepository {
 
   Future<PaymentCompleteResponseWrapper> getPaymentInfo({
     required int paymentId,
+  });
+
+  Future<TaxInvoiceUrlResponseWrapper> getOrderTaxInvoiceUrl({
+    required int orderId,
   });
 
   Future<ResponseModel> deletePaymentInfo({required int paymentId});

@@ -11,7 +11,6 @@ class SellerConversionRequest {
     required this.bankAccountNumber,
     required this.bankAccountHolder,
     required this.bankbookImagePath,
-    required this.businessLicenseImagePath,
     required this.businessPermitImagePath,
     required this.salesPermitImagePath,
     required this.otherFilePaths,
@@ -24,7 +23,6 @@ class SellerConversionRequest {
   final String bankAccountNumber;
   final String bankAccountHolder;
   final String bankbookImagePath;
-  final String businessLicenseImagePath;
   final String businessPermitImagePath;
   final String salesPermitImagePath;
   final List<String> otherFilePaths;
@@ -38,7 +36,6 @@ class SellerConversionRequest {
       'bankAccountNumber': bankAccountNumber,
       'bankAccountHolder': bankAccountHolder,
       'bankbook': await _toMultipartFile(bankbookImagePath),
-      'businessLicenseFile': await _toMultipartFile(businessLicenseImagePath),
       'businessPermit': await _toMultipartFile(businessPermitImagePath),
       'salesPermit': await _toMultipartFile(salesPermitImagePath),
       if (otherFilePaths.isNotEmpty)

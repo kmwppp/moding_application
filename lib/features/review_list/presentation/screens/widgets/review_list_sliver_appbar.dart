@@ -37,7 +37,7 @@ class ReviewListSliverAppbar extends ConsumerWidget {
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent, // 상태바 배경
         statusBarIconBrightness: Brightness.dark, // 안드로이드 아이콘
-        statusBarBrightness: Brightness.dark, // iOS 아이콘
+        statusBarBrightness: Brightness.light, // iOS 아이콘
       ),
 
       /// ⭐ 검색바 영역

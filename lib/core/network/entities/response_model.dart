@@ -8,6 +8,7 @@ abstract class ResponseModel with _$ResponseModel {
   const factory ResponseModel({
     @Default(false) bool success,
     @Default("") String message,
+    int? statusCode,
   }) = _ResponseModel;
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) =>

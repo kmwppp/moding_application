@@ -7,17 +7,24 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../router/enums/notification_type.dart';
+import '../../../profile/domain/enums/approval_status.dart';
 
 class SellerConversionCheckPage extends StatelessWidget {
-  const SellerConversionCheckPage({super.key});
+  const SellerConversionCheckPage({super.key, this.approvalStatus});
+
+  final ApprovalStatus? approvalStatus;
 
   @override
   Widget build(BuildContext context) {
+    final isRejected = approvalStatus == ApprovalStatus.REJECTED;
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            const SellerConversionSliverAppbar(title: "판매자 전환 대기"),
+            SellerConversionSliverAppbar(
+              title: isRejected ? "판매자 전환 반려" : "판매자 전환 대기",
+            ),
             SliverFillRemaining(
               hasScrollBody: false,
               child: Center(
@@ -34,22 +41,31 @@ class SellerConversionCheckPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "판매자 전환 신청을 완료했습니다.",
+                              isRejected
+                                  ? "판매자 전환 신청이 반려되었습니다."
+                                  : "판매자 전환 신청을 완료했습니다.",
                               style: context.titleSmall.copyWith(
-                                color: AppColors.primary,
+                                color: isRejected
+                                    ? AppColors.pointColor
+                                    : AppColors.primary,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             const SizedBox(height: 20),
                             Text(
-                              "순차적으로 확인 후 승인이 완료되며, 미비한 서류가 있으면 추가 요청이 있을 수 있습니다.",
+                              isRejected
+                                  ? "카카오톡 채널을 통해 문의해주세요."
+                                  : "순차적으로 확인 후 승인이 완료되며, 미비한 서류가 있으면 추가 요청이 있을 수 있습니다.",
                               style: context.body.copyWith(),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              "영업일 기준 1~2일 소요될 수 있습니다.",
+                              isRejected
+                                  ? "순차적으로 확인 후 연락드리겠습니다."
+                                  : "영업일 기준 1~2일 소요될 수 있습니다.",
                               style: context.caption.copyWith(),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),

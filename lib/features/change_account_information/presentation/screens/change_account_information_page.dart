@@ -7,12 +7,15 @@ import 'package:moding_application/core/presentation/widgets/app_sliver_appbar.d
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/core/theme/app_input_decoration.dart';
 import 'package:moding_application/features/change_account_information/presentation/providers/change_account_information_viewmodel.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_result.dart';
 import 'package:moding_application/features/payment_complete/presentation/screens/widgets/payment_complete_common_box.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
 
 class ChangeAccountInformationPage extends ConsumerStatefulWidget {
-  const ChangeAccountInformationPage({super.key});
+  const ChangeAccountInformationPage({super.key, this.niceResult});
+
+  final NiceIdentityVerificationResult? niceResult;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -21,7 +24,6 @@ class ChangeAccountInformationPage extends ConsumerStatefulWidget {
 
 class _ChangeAccountInformationPage
     extends ConsumerState<ChangeAccountInformationPage> {
-  final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
 
   @override
@@ -36,7 +38,6 @@ class _ChangeAccountInformationPage
 
   @override
   void dispose() {
-    _phoneController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -46,14 +47,18 @@ class _ChangeAccountInformationPage
     final state = ref.watch(changeAccountInformationViewModelProvider);
     final accountInfo = state.accountInfo;
 
-    if (accountInfo != null) {
-      if (_phoneController.text.isEmpty) {
-        _phoneController.text = accountInfo.phone;
-      }
-      if (_emailController.text.isEmpty) {
-        _emailController.text = accountInfo.email;
-      }
+    // 이메일은 API에서 받아온 값으로 초기 세팅
+    if (accountInfo != null && _emailController.text.isEmpty) {
+      _emailController.text = accountInfo.email;
     }
+
+    // NICE 결과에서 이름·전화번호 사용, 없으면 API 데이터 폴백
+    final displayName = widget.niceResult?.name?.isNotEmpty == true
+        ? widget.niceResult!.name!
+        : (accountInfo?.name ?? '-');
+    final displayPhone = widget.niceResult?.phone?.isNotEmpty == true
+        ? widget.niceResult!.phone!
+        : (accountInfo?.phone ?? '-');
 
     return Scaffold(
       bottomNavigationBar: !state.isLoading && accountInfo != null
@@ -67,7 +72,11 @@ class _ChangeAccountInformationPage
                     child: GestureDetector(
                       onTap: state.isSubmitting
                           ? null
-                          : () => _showConfirmDialog(context),
+                          : () => _showConfirmDialog(
+                              context,
+                              name: displayName,
+                              phone: displayPhone,
+                            ),
                       child: CustomButton(
                         title: '계정 정보 변경',
                         boxColor: AppColors.primary,
@@ -124,22 +133,9 @@ class _ChangeAccountInformationPage
                             content: accountInfo.loginId,
                           ),
                           const SizedBox(height: 8),
-                          _ReadOnlyRow(title: '이름', content: accountInfo.name),
-                          const SizedBox(height: 16),
-                          Text(
-                            '전화번호',
-                            style: context.body.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          _ReadOnlyRow(title: '이름', content: displayName),
                           const SizedBox(height: 8),
-                          TextField(
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
-                            decoration: AppInputDecoration.focusDecoration(
-                              "전화번호를 입력해주세요.",
-                            ),
-                          ),
+                          _ReadOnlyRow(title: '전화번호', content: displayPhone),
                           const SizedBox(height: 16),
                           Text(
                             '이메일',
@@ -177,19 +173,12 @@ class _ChangeAccountInformationPage
     );
   }
 
-  Future<void> _showConfirmDialog(BuildContext context) async {
-    final phone = _phoneController.text.trim();
+  Future<void> _showConfirmDialog(
+    BuildContext context, {
+    required String name,
+    required String phone,
+  }) async {
     final email = _emailController.text.trim();
-
-    if (phone.isEmpty) {
-      await CommonDialog.show(
-        context,
-        title: '확인',
-        isSuccess: false,
-        message: '전화번호를 입력해주세요.',
-      );
-      return;
-    }
 
     if (email.isEmpty) {
       await CommonDialog.show(
@@ -223,8 +212,8 @@ class _ChangeAccountInformationPage
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  '전화번호: $phone\n이메일: $email\n\n이 정보로 변경하시겠습니까?',
-                  style: context.body.copyWith(fontWeight: FontWeight.bold),
+                  '이름: $name\n전화번호: $phone\n이메일: $email\n\n이 정보로 변경하시겠습니까?',
+                  style: context.body,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -247,7 +236,7 @@ class _ChangeAccountInformationPage
                       child: GestureDetector(
                         onTap: () async {
                           Navigator.of(dialogContext).pop();
-                          await _submitAccountInfo(email: email, phone: phone);
+                          await _submitAccountInfo(email: email);
                         },
                         child: CustomButton(
                           title: '변경',
@@ -268,21 +257,15 @@ class _ChangeAccountInformationPage
     );
   }
 
-  Future<void> _submitAccountInfo({
-    required String email,
-    required String phone,
-  }) async {
+  Future<void> _submitAccountInfo({required String email}) async {
+    final identityKey = widget.niceResult?.key ?? '';
     final response = await ref
         .read(changeAccountInformationViewModelProvider.notifier)
-        .patchMyAccountInfo(email: email, phone: phone);
+        .patchMyAccountInfo(email: email, identityKey: identityKey);
 
     if (!mounted) return;
 
-    final latestState = ref.read(changeAccountInformationViewModelProvider);
-    final latestAccountInfo = latestState.accountInfo;
-    if (response.success && latestAccountInfo != null) {
-      _phoneController.text = latestAccountInfo.phone;
-      _emailController.text = latestAccountInfo.email;
+    if (response.success) {
       context.pop(true);
       return;
     }

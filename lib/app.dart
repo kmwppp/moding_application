@@ -1,17 +1,64 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:moding_application/fcm_initializer.dart';
+import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_result.dart';
+import 'package:moding_application/features/nice_identity_verification/presentation/providers/nice_callback_result_provider.dart';
 import 'package:moding_application/router/router.dart';
 
 import 'core/constants/app_colors.dart';
 import 'core/presentation/widgets/keyboard_dismiss_on_tap.dart';
 
-class App extends ConsumerWidget {
+class App extends ConsumerStatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<App> createState() => _AppState();
+}
+
+class _AppState extends ConsumerState<App> {
+  StreamSubscription<Uri>? _deepLinkSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _deepLinkSubscription = AppLinks().uriLinkStream.listen(_onDeepLink);
+  }
+
+  void _onDeepLink(Uri uri) {
+    if (uri.scheme != 'moding' || uri.host != 'auth' || uri.path != '/nice') {
+      return;
+    }
+
+    final error = uri.queryParameters['error'];
+    final NiceIdentityVerificationResult result;
+
+    if (error != null && error.isNotEmpty) {
+      result = NiceIdentityVerificationResult(success: false, error: error);
+    } else {
+      result = NiceIdentityVerificationResult(
+        success: true,
+        key: uri.queryParameters['key'],
+        name: uri.queryParameters['name'],
+        phone: uri.queryParameters['phone'],
+      );
+    }
+
+    ref.read(niceCallbackResultProvider.notifier).set(result);
+  }
+
+  @override
+  void dispose() {
+    _deepLinkSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(goRouterProvider);
 
     return FCMInitializer(
@@ -24,28 +71,31 @@ class App extends ConsumerWidget {
         },
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.light,
+            ),
+          ),
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: AppColors.pointColor,
             selectionHandleColor: AppColors.pointColor,
           ),
           progressIndicatorTheme: const ProgressIndicatorThemeData(
-            color: AppColors.primary, // 👉 원하는 색
+            color: AppColors.primary,
           ),
-          splashColor: AppColors.primary.withOpacity(0.2),
-          highlightColor: AppColors.primary.withOpacity(0.1),
+          splashColor: AppColors.primary.withValues(alpha: 0.2),
+          highlightColor: AppColors.primary.withValues(alpha: 0.1),
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         ),
-        // --- 한국어 설정을 위한 핵심 코드 ---
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('ko', 'KR'), // 한국어
-          Locale('en', 'US'), // 영어 (선택 사항)
-        ],
-        locale: const Locale('ko', 'KR'), // 기본 언어를 한국어로 강제 설정
+        supportedLocales: const [Locale('ko', 'KR'), Locale('en', 'US')],
+        locale: const Locale('ko', 'KR'),
       ),
     );
   }

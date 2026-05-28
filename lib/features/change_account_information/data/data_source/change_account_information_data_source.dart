@@ -22,11 +22,11 @@ class ChangeAccountInformationDataSource {
 
   Future<Map<String, dynamic>> patchMyAccountInfo({
     required String email,
-    required String phone,
+    required String identityKey,
   }) async {
     final response = await _dio.patch(
       AppHttpUrl.getMyAccountInfo,
-      data: {'email': email, 'phone': phone},
+      data: {'email': email, 'identityKey': identityKey},
     );
     return response.data;
   }

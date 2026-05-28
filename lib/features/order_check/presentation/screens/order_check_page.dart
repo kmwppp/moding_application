@@ -9,6 +9,7 @@ import 'package:moding_application/core/presentation/widgets/modal/app_bottom_sh
 import 'package:moding_application/core/theme/app_box_styles.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/order_check/domain/entities/order_detail_dto.dart';
+import 'package:moding_application/features/order_check/domain/enums/order_payment_method.dart';
 import 'package:moding_application/features/order_check/domain/enums/order_status.dart';
 import 'package:moding_application/features/order_check/presentation/providers/order_check_viewmodel.dart';
 import 'package:moding_application/features/order_check/presentation/screens/sections/delivery_info_section.dart';
@@ -17,6 +18,7 @@ import 'package:moding_application/features/order_check/presentation/screens/sec
 import 'package:moding_application/features/order_list/presentation/providers/order_list_viewmodel.dart';
 import 'package:moding_application/features/payment_complete/domain/entities/payment_complete_response_dto.dart';
 import 'package:moding_application/features/review_list/presentation/screens/widgets/create_review_bottom_sheet.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderCheckPage extends ConsumerStatefulWidget {
   const OrderCheckPage({super.key, required this.orderId});
@@ -189,7 +191,7 @@ class _OrderCheckActionButton extends ConsumerWidget {
         await _onClaimProgressPressed(context, order);
         break;
       case _OrderCheckActionType.taxInvoiceHistory:
-        _onTaxInvoiceHistoryPressed(order.id);
+        await _onTaxInvoiceHistoryPressed(context, order.id, ref);
         break;
       case _OrderCheckActionType.createReview:
         _onCreateReviewPressed(context, order);
@@ -286,8 +288,28 @@ class _OrderCheckActionButton extends ConsumerWidget {
     }
   }
 
-  void _onTaxInvoiceHistoryPressed(int orderId) {
+  Future<void> _onTaxInvoiceHistoryPressed(
+    BuildContext context,
+    int orderId,
+    WidgetRef ref,
+  ) async {
     debugPrint('세금계산서 발행 내역: orderId=$orderId');
+    final taxInvoice = await ref
+        .read(orderCheckViewModelProvider.notifier)
+        .getOrderTaxInvoiceUrl(orderId);
+    final url = taxInvoice?.data.url.trim() ?? '';
+    if (url.isNotEmpty) {
+      await openUrl(url);
+      return;
+    }
+
+    if (!context.mounted) return;
+    CommonDialog.show(
+      context,
+      title: "오류",
+      isSuccess: false,
+      message: "세금계산서를 불러오지 못했습니다.",
+    );
   }
 
   void _onCreateReviewPressed(BuildContext context, OrderDetailDto order) {
@@ -314,6 +336,14 @@ class _OrderCheckActionButton extends ConsumerWidget {
     }
 
     return '${firstProduct.optionName} 외 ${items.length - 1}개';
+  }
+
+  Future<void> openUrl(String receiptUrl) async {
+    final Uri url = Uri.parse(receiptUrl);
+
+    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+      throw Exception('URL 실행 실패');
+    }
   }
 
   void showPendingCancelBottomSheet(
@@ -674,11 +704,13 @@ class _OrderCheckActionUi {
         ];
       case OrderStatus.purchaseConfirmed:
         return [
-          const _OrderCheckActionUi(
-            title: '세금계산서 발행 준비중',
-            color: AppColors.darkGrey,
-            type: _OrderCheckActionType.taxInvoiceReady,
-          ),
+          if (order?.payment?.paymentMethod ==
+              OrderPaymentMethod.virtualAccount)
+            const _OrderCheckActionUi(
+              title: '세금계산서 발행 준비중',
+              color: AppColors.darkGrey,
+              type: _OrderCheckActionType.taxInvoiceReady,
+            ),
           if (isReviewable)
             const _OrderCheckActionUi(
               title: '리뷰 작성',
@@ -696,11 +728,19 @@ class _OrderCheckActionUi {
         ];
       case OrderStatus.settlementCompleted:
         return [
-          const _OrderCheckActionUi(
-            title: '세금계산서 발행',
-            color: AppColors.primary,
-            type: _OrderCheckActionType.taxInvoiceHistory,
-          ),
+          if (order?.payment?.paymentMethod ==
+              OrderPaymentMethod.virtualAccount)
+            _OrderCheckActionUi(
+              title: (order?.isTaxInvoiceIssued ?? false)
+                  ? '세금계산서 발행'
+                  : '세금계산서 발행 준비중',
+              color: (order?.isTaxInvoiceIssued ?? false)
+                  ? AppColors.primary
+                  : AppColors.darkGrey,
+              type: (order?.isTaxInvoiceIssued ?? false)
+                  ? _OrderCheckActionType.taxInvoiceHistory
+                  : _OrderCheckActionType.taxInvoiceReady,
+            ),
           if (isReviewable)
             const _OrderCheckActionUi(
               title: '리뷰 작성',
@@ -860,7 +900,7 @@ class _PendingCancelProductPagerState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item?.productName ?? '상품 정보를 확인할 수 없습니다.',
+                            item.productName,
                             style: context.body,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

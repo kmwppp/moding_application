@@ -145,21 +145,6 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
                       ),
                       const AppDivider(height: 4),
                       _SingleImageSection(
-                        title: '사업자 등록증',
-                        imagePath: state.businessLicenseImagePath,
-                        onAddTap: () => _showSingleImageSourceSheet(
-                          context,
-                          onGalleryTap: () => notifier.pickBusinessLicenseImage(
-                            ImageSource.gallery,
-                          ),
-                          onCameraTap: () => notifier.pickBusinessLicenseImage(
-                            ImageSource.camera,
-                          ),
-                        ),
-                        onRemoveTap: notifier.removeBusinessLicenseImage,
-                      ),
-                      const AppDivider(height: 4),
-                      _SingleImageSection(
                         title: '영업허가증',
                         imagePath: state.businessPermitImagePath,
                         onAddTap: () => _showSingleImageSourceSheet(
@@ -315,16 +300,6 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
         title: '확인',
         isSuccess: false,
         message: '통장사본 이미지를 첨부해주세요.',
-      );
-      return;
-    }
-
-    if (state.businessLicenseImagePath == null) {
-      await CommonDialog.show(
-        context,
-        title: '확인',
-        isSuccess: false,
-        message: '사업자 등록증 이미지를 첨부해주세요.',
       );
       return;
     }

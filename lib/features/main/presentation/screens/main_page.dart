@@ -8,6 +8,7 @@ import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/cart/presentation/screens/cart_main_page.dart';
 import 'package:moding_application/features/category/presentation/screens/category_page_main.dart';
 import 'package:moding_application/features/home/presentation/screens/home_page_main.dart';
+import 'package:moding_application/features/identity_verification/domain/entities/identity_verification_page_params.dart';
 import 'package:moding_application/features/main/presentation/providers/main_viewmodel.dart';
 import 'package:moding_application/features/search/presentation/screens/search_page_main.dart';
 
@@ -24,7 +25,9 @@ final List<String> _navItems = const [
 ];
 
 class MainPage extends ConsumerStatefulWidget {
-  const MainPage({super.key});
+  const MainPage({super.key, this.showRefundAccountPrompt = false});
+
+  final bool showRefundAccountPrompt;
 
   @override
   ConsumerState<MainPage> createState() => _MainPageState();
@@ -33,9 +36,24 @@ class MainPage extends ConsumerStatefulWidget {
 class _MainPageState extends ConsumerState<MainPage> {
   DateTime? _lastBackPressed;
   final Set<int> _loadedPageIndexes = {0};
+  bool _hasShownRefundAccountPrompt = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showRefundAccountPromptIfNeeded();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.showRefundAccountPrompt && !_hasShownRefundAccountPrompt) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showRefundAccountPromptIfNeeded();
+      });
+    }
+
     final state = ref.watch(mainViewModelProvider);
     final currentIndex = state.currentTab.index;
     final visiblePageIndexes = {..._loadedPageIndexes, currentIndex};
@@ -68,7 +86,7 @@ class _MainPageState extends ConsumerState<MainPage> {
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: AppColors.primary,
-          statusBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.light,
         ),
         child: Scaffold(
@@ -205,7 +223,7 @@ class _MainPageState extends ConsumerState<MainPage> {
               ),
               child: Text(
                 message,
-                style: context.body.copyWith(color: Colors.white),
+                style: context.bodySmall.copyWith(color: Colors.white),
               ),
             ),
           ),
@@ -218,5 +236,97 @@ class _MainPageState extends ConsumerState<MainPage> {
     Future.delayed(const Duration(seconds: 2), () {
       entry.remove();
     });
+  }
+
+  Future<void> _showRefundAccountPromptIfNeeded() async {
+    if (!mounted ||
+        !widget.showRefundAccountPrompt ||
+        _hasShownRefundAccountPrompt) {
+      return;
+    }
+    _hasShownRefundAccountPrompt = true;
+
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '환불 계좌를 등록하시겠습니까?',
+                  style: context.titleMedium.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(dialogContext).pop(),
+                        child: Container(
+                          height: 36,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppColors.lightGrey,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '취소',
+                            style: context.body.copyWith(
+                              color: AppColors.darkGrey,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(dialogContext).pop();
+                          context.push(
+                            '/identity_verification',
+                            extra: const IdentityVerificationPageParams(
+                              successRoute: '/account_management',
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 36,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '등록',
+                            style: context.body.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
