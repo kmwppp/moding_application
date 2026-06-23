@@ -26,9 +26,9 @@ class _AutoBannerState extends ConsumerState<AutoBanner> {
   Timer? timer;
 
   final List<String> banners = [
-    "assets/images/banners/main_banner1.png",
-    "assets/images/banners/main_banner2.png",
-    "assets/images/banners/main_banner3.png",
+    "assets/images/banners/main_banner1.webp",
+    "assets/images/banners/main_banner2.webp",
+    "assets/images/banners/main_banner3.webp",
   ];
 
   @override

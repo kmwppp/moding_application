@@ -10,6 +10,7 @@ import 'package:moding_application/core/services/token_storage.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/edit_my_info/presentation/providers/edit_my_info_viewmodel.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/sections/account_info_section.dart';
+import 'package:moding_application/features/edit_my_info/presentation/screens/sections/alcohol_buyer_status_section.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/sections/business_info_section.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/sections/refund_account_info_section.dart';
 
@@ -29,6 +30,7 @@ class _EditMyInfoPageState extends ConsumerState<EditMyInfoPage> {
     super.initState();
     Future.microtask(() {
       ref.read(editMyInfoViewModelProvider.notifier).getMaskingMyInfo();
+      ref.read(editMyInfoViewModelProvider.notifier).getAlcoholBuyerStatus();
     });
   }
 
@@ -53,6 +55,8 @@ class _EditMyInfoPageState extends ConsumerState<EditMyInfoPage> {
               const SliverToBoxAdapter(child: BusinessInfoSection()),
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
               const SliverToBoxAdapter(child: RefundAccountInfoSection()),
+              const SliverToBoxAdapter(child: SizedBox(height: 10)),
+              const SliverToBoxAdapter(child: AlcoholBuyerStatusSection()),
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
               SliverToBoxAdapter(
                 child: Padding(

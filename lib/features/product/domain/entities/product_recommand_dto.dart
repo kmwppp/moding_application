@@ -28,9 +28,13 @@ abstract class RecommandDto with _$RecommandDto {
     required String name,
     required String status,
     required String thumbnailImageUrl,
+    required int? lowestPrice,
+    required int? lowestDiscountAmount,
+    required int? lowestDiscountRate,
     required int? lowestSellingPrice,
     required int lowestPriceStockQuantity,
     required List<String> tags,
+    @Default(false) bool isHaccpCertified,
     @LocalDateTimeConverter() required DateTime createdAt,
     @LocalDateTimeConverter() required DateTime updatedAt,
   }) = _RecommandDto;

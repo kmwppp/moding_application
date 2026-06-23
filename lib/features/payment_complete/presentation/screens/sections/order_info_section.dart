@@ -108,7 +108,7 @@ class OrderInfoSection extends ConsumerWidget {
                     if (state.paymentInfo!.data.status ==
                         PaymentCompleteStatus.pending) ...[
                       Text(
-                        "[입금안내]",
+                        "입금안내",
                         style: context.bodyLarge.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -120,9 +120,13 @@ class OrderInfoSection extends ConsumerWidget {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          final vbankName =
+                              state.paymentInfo?.data.vbankName ?? "";
+                          final vbankNumber =
+                              state.paymentInfo?.data.vbankNumber ?? "";
                           await Clipboard.setData(
                             ClipboardData(
-                              text: state.paymentInfo?.data.vbankNumber ?? "",
+                              text: "$vbankName $vbankNumber".trim(),
                             ),
                           );
                           // ToastUtil.show('클립보드에 복사되었습니다');
@@ -130,6 +134,7 @@ class OrderInfoSection extends ConsumerWidget {
                         child: PaymentRatioRow(
                           title: "계좌번호",
                           content: state.paymentInfo?.data.vbankNumber ?? "",
+                          isVBank: true,
                         ),
                       ),
                       PaymentRatioRow(
@@ -144,8 +149,8 @@ class OrderInfoSection extends ConsumerWidget {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        "입금 확인 후 주문이 확정되며, 미입금 시 자동 취소됩니다.",
-                        style: context.body.copyWith(
+                        "가상계좌 주문은 입금 확인 후 주문이 접수되며, 입금기한 내 미입금 시 자동 취소됩니다.",
+                        style: context.bodySmall.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.red,
                         ),

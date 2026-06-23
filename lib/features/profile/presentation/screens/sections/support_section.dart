@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/features/profile/presentation/providers/profile_viewmodel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,7 +17,7 @@ class SupportSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(profileViewModelProvider);
+    ref.watch(profileViewModelProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -109,6 +110,16 @@ class SupportSection extends ConsumerWidget {
           const SizedBox(height: 20),
           GestureDetector(
             onTap: () async {
+              final shouldLogout = await CommonDialog.showChoice(
+                context,
+                title: '로그아웃',
+                isSuccess: false,
+                message: '로그아웃 하시겠습니까?',
+                primaryButtonText: '확인',
+                secondaryButtonText: '취소',
+              );
+              if (shouldLogout != true) return;
+
               await ref.read(tokenStorageProvider).deleteAll();
               resetAppViewModels(ref);
               if (!context.mounted) return;

@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:moding_application/core/constants/app_colors.dart';
+import 'package:moding_application/core/utils/string_util.dart';
 
 import '../../../theme/app_text_styles.dart';
 import '../styles/card_style.dart';
@@ -10,6 +13,11 @@ class CardItemLength extends StatelessWidget {
   final Color mainColor;
   final List<String> tags;
   final int colorSelectionSeed;
+  final bool isHaccpCertified;
+  final int? lowestPrice;
+  final int? lowestDiscountAmount;
+  final int? lowestDiscountRate;
+  final int? lowestSellingPrice;
 
   const CardItemLength({
     super.key,
@@ -19,6 +27,11 @@ class CardItemLength extends StatelessWidget {
     required this.mainColor,
     required this.tags,
     this.colorSelectionSeed = 0,
+    this.isHaccpCertified = false,
+    this.lowestPrice,
+    this.lowestDiscountAmount,
+    this.lowestDiscountRate,
+    this.lowestSellingPrice,
   });
 
   @override
@@ -45,6 +58,16 @@ class CardItemLength extends StatelessWidget {
             child: Stack(
               children: [
                 _imageBox(cardWidth),
+                if (isHaccpCertified)
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Image.asset(
+                      "assets/images/icons/haccp_icon.png",
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
                 Positioned(
                   left: 0,
                   right: 0,
@@ -58,6 +81,30 @@ class CardItemLength extends StatelessWidget {
                         colors: gradientList,
                       ),
                     ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 6,
+                  left: 4,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
+                        children: tags
+                            .take(3)
+                            .map(
+                              (tag) => _buildTagItem(
+                                context,
+                                tag,
+                                cardWidth,
+                                textColor,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -74,68 +121,48 @@ class CardItemLength extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     title,
-                    style: context
-                        .lengthCardTitleDynamic(
-                          isMain ? cardWidth : cardWidth - 20,
-                        )
-                        .copyWith(color: textColor),
+                    style: context.body.copyWith(
+                      color: textColor,
+                      fontWeight: FontWeight.w600,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  if (!isMain)
-                    Column(
-                      children: [
-                        const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 4,
-                          runSpacing: 4,
-                          children: tags
-                              .take(3)
-                              .map(
-                                (tag) => _buildTagItem(
-                                  context,
-                                  tag,
-                                  cardWidth,
-                                  textColor,
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
-                    )
-                  else
-                    Column(
-                      children: [
-                        const SizedBox(height: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 2,
-                            horizontal: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.22),
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.12),
-                              width: 0.5,
+                  if (lowestSellingPrice != null) ...[
+                    if (_hasDiscount) ...[
+                      const SizedBox(height: 8),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text:
+                                  '${StringUtil.formatCurrency(lowestDiscountRate)}%',
+                              style: context.bodySmall.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.pointColor,
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            "조회수: 12, 리뷰수: 13",
-                            style: context
-                                .lengthCardContentDynamic(
-                                  isMain ? cardWidth : cardWidth - 20,
-                                )
-                                .copyWith(
-                                  color: textColor == Colors.white
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
+                            const TextSpan(text: '  '),
+                            TextSpan(
+                              text: '${StringUtil.formatCurrency(lowestPrice)}원',
+                              style: context.bodySmall.copyWith(
+                                color: textColor,
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                    ],
+                    const SizedBox(height: 4),
+                    Text(
+                      '${StringUtil.formatCurrency(_displayPrice)}원',
+                      style: context.body.copyWith(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                  ],
                 ],
               ),
             ),
@@ -145,18 +172,26 @@ class CardItemLength extends StatelessWidget {
     );
   }
 
+  bool get _hasDiscount =>
+      (lowestDiscountAmount ?? 0) > 0 &&
+      (lowestDiscountRate ?? 0) > 0 &&
+      lowestPrice != null;
+
+  int get _displayPrice => lowestSellingPrice ?? lowestPrice ?? 0;
+
   Widget _imageBox(double width) {
+    final encodedUrl = Uri.encodeFull(imageUrl);
+
     return SizedBox(
       width: double.infinity,
       height: width,
-      child: Image.network(
-        imageUrl,
+      child: CachedNetworkImage(
+        imageUrl: encodedUrl,
+        cacheKey: encodedUrl,
         fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return const Center(child: CircularProgressIndicator());
-        },
-        errorBuilder: (context, error, stackTrace) {
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
+        errorWidget: (context, url, error) {
           return Container(
             color: Colors.grey[200],
             child: const Center(child: Icon(Icons.broken_image)),

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:moding_application/core/network/converters/local_date_time_converter.dart';
+import 'package:moding_application/features/cart/domain/enums/cart_unavailable_reason.dart';
 
 part 'cart_response_dto.freezed.dart';
 part 'cart_response_dto.g.dart';
@@ -16,18 +17,24 @@ abstract class CartResponseDto with _$CartResponseDto {
 @freezed
 abstract class CartItemDto with _$CartItemDto {
   const factory CartItemDto({
-    required int cartItemId,
-    required int productId,
-    required String productName,
-    required String thumbnailUrl,
-    required int sellerProfileId,
-    required String storageMethod,
-    required int deliveryDays,
-    required int shippingFee,
+    int? cartItemId,
+    int? productId,
+    String? productName,
+    String? thumbnailUrl,
+    int? sellerProfileId,
+    String? storageMethod,
+    int? deliveryDays,
+    int? shippingFee,
     int? freeShippingThreshold,
-    @LocalDateTimeConverter() required DateTime createdAt,
-    required List<CartItemOptionDto> options,
-    required int productTotalPrice,
+    @NullableLocalDateTimeConverter() DateTime? createdAt,
+    List<CartItemOptionDto>? options,
+    int? productTotalPrice,
+    bool? isAvailable,
+    @JsonKey(
+      fromJson: CartUnavailableReason.fromJson,
+      toJson: CartUnavailableReason.toJson,
+    )
+    CartUnavailableReason? unavailableReason,
   }) = _CartItemDto;
 
   factory CartItemDto.fromJson(Map<String, dynamic> json) =>

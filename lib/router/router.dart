@@ -9,6 +9,7 @@ import 'package:moding_application/features/business_profile/presentation/screen
 import 'package:moding_application/features/cart/presentation/screens/cart_main_page.dart';
 import 'package:moding_application/features/cart_order/presentation/screens/cart_order_page_main.dart';
 import 'package:moding_application/features/change_account_information/presentation/screens/change_account_information_page.dart';
+import 'package:moding_application/features/change_password/domain/entities/change_password_page_params.dart';
 import 'package:moding_application/features/change_password/presentation/screens/change_password_page.dart';
 import 'package:moding_application/features/edit_my_info/presentation/screens/edit_my_info_page.dart';
 import 'package:moding_application/features/fcm_test/fcm_test.dart';
@@ -32,6 +33,7 @@ import 'package:moding_application/features/order_check/presentation/screens/ord
 import 'package:moding_application/features/order_list/presentation/screens/order_list_page.dart';
 import 'package:moding_application/features/payment_complete/presentation/screens/payment_complete_page.dart';
 import 'package:moding_application/features/product/presentation/screens/product_main_page.dart';
+import 'package:moding_application/features/product/presentation/screens/product_review_list_page.dart';
 import 'package:moding_application/features/profile/domain/enums/approval_status.dart';
 import 'package:moding_application/features/refund_account_management/presentation/screens/account_management_page.dart';
 import 'package:moding_application/features/review_list/presentation/screens/review_list_page.dart';
@@ -48,12 +50,13 @@ import 'package:moding_application/router/enums/notification_type.dart';
 
 import '../features/claim_check/presentation/screens/claim_check_page.dart';
 import '../features/find_member_information/presentation/pw/screens/find_pw_page.dart';
-import '../features/order/domain/entities/order_request_dto.dart';
 import '../features/order_list/domain/enums/order_list_page_params.dart';
 import '../features/product_recommend_list/presentation/screens/product_list_page.dart';
 import '../features/seller_conversion/presentation/screens/seller_conversion_check_page.dart';
 import '../features/send_claim/presentation/screens/send_claim_page.dart';
 import '../features/signup/presentation/screens/signup_page_step1.dart';
+import 'entities/cart_order_page_params.dart';
+import 'entities/order_page_params.dart';
 import 'entities/product_list_page_params.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -82,10 +85,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: '/product/:id/reviews',
+        builder: (context, state) {
+          final int id = int.parse(state.pathParameters['id']!);
+          return ProductReviewListPage(productId: id);
+        },
+      ),
+      GoRoute(
         path: '/order',
         builder: (context, state) {
-          final request = state.extra as OrderRequestDto;
-          return AuthRequiredPage(child: OrderPageMain(requestDto: request));
+          final params = state.extra as OrderPageParams;
+          return AuthRequiredPage(
+            child: OrderPageMain(
+              requestDto: params.requestDto,
+              pgProvider: params.pgProvider,
+            ),
+          );
         },
       ),
       GoRoute(
@@ -118,9 +133,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/cart_order',
         builder: (context, state) {
-          final cartItemIds = state.extra as List<int>;
+          final params = state.extra as CartOrderPageParams;
           return AuthRequiredPage(
-            child: CartOrderPageMain(cartItemIds: cartItemIds),
+            child: CartOrderPageMain(
+              cartItemIds: params.cartItemIds,
+              pgProvider: params.pgProvider,
+            ),
           );
         },
       ),
@@ -145,12 +163,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/nice',
         builder: (context, state) =>
-            const NiceIdentityVerificationCallbackPage(),
+            NiceIdentityVerificationCallbackPage(uri: state.uri),
       ),
       GoRoute(
         path: '/auth/nice',
         builder: (context, state) =>
-            const NiceIdentityVerificationCallbackPage(),
+            NiceIdentityVerificationCallbackPage(uri: state.uri),
       ),
       GoRoute(
         path: '/signup/step1',
@@ -233,7 +251,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/seller_conversion',
         builder: (context, state) {
-          return SellerConversionPage();
+          final goMainOnSuccess =
+              state.uri.queryParameters['goMainOnSuccess'] == 'true';
+          return SellerConversionPage(goMainOnSuccess: goMainOnSuccess);
         },
       ),
 
@@ -302,8 +322,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/change_password',
         builder: (context, state) {
-          final identityKey = state.extra as String?;
-          return ChangePasswordPage(identityKey: identityKey);
+          final extra = state.extra;
+          final params = switch (extra) {
+            ChangePasswordPageParams p => p,
+            String s => ChangePasswordPageParams(identityKey: s),
+            _ => const ChangePasswordPageParams(),
+          };
+          return ChangePasswordPage(params: params);
         },
       ),
       GoRoute(

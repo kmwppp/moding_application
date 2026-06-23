@@ -36,7 +36,8 @@ abstract class ProductDto with _$ProductDto {
     int? deliveryDays,
     String? thumbnailImageUrl,
     String? foodLabelImageUrl,
-    List<String>? detailImageUrls,
+    List<String>? galleryImageUrls,
+    List<String>? descriptionImageUrls,
     String? shippingNotice,
     String? distributionNotice,
     String? handlingPrecaution,
@@ -56,6 +57,8 @@ abstract class ProductDto with _$ProductDto {
     bool? isRecommended,
     bool? isNew,
     bool? isEvent,
+    bool? isVariableWeight,
+    bool? isHaccpCertified,
 
     List<String>? directDeliveryRegions,
     bool? isWeekendShipping,

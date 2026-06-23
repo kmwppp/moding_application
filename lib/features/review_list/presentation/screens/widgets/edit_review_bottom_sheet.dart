@@ -71,11 +71,13 @@ class _EditReviewBottomSheetState extends ConsumerState<EditReviewBottomSheet> {
           ],
           const SizedBox(height: 16),
           TextField(
+            style: context.body,
             controller: _contentController,
             maxLines: 5,
             inputFormatters: [LengthLimitingTextInputFormatter(20)],
             decoration: InputDecoration(
-              hintText: '리뷰 내용을 입력해주세요.',
+              hintText: '거래와 무관한 내용, 욕설, 개인정보, 허위사실, 광고성 내용은 숨김 또는 삭제될 수 있습니다.',
+              hintStyle: context.bodySmall.copyWith(color: AppColors.darkGrey),
               filled: true,
               fillColor: AppColors.lightGrey,
               border: OutlineInputBorder(
@@ -89,7 +91,7 @@ class _EditReviewBottomSheetState extends ConsumerState<EditReviewBottomSheet> {
             children: [
               Expanded(
                 child: Text(
-                  '리뷰 내용은 10자 이상 20자 이하로 입력해주세요.',
+                  '리뷰는 10자 이상 입력해 주세요.',
                   style: context.caption.copyWith(color: AppColors.darkGrey),
                 ),
               ),
@@ -130,7 +132,7 @@ class _EditReviewBottomSheetState extends ConsumerState<EditReviewBottomSheet> {
           ),
           const SizedBox(height: 8),
           Text(
-            '사진은 최대 3장까지 첨부할 수 있으며 없어도 됩니다.',
+            '사진은 최대 3장까지 첨부 가능합니다. (선택)',
             style: context.caption.copyWith(color: AppColors.darkGrey),
           ),
           if (_existingPhotoUrls.isNotEmpty || _localPhotoPaths.isNotEmpty) ...[

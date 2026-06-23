@@ -22,7 +22,7 @@ class CartRecommendationSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double listHeight = (screenWidth / 3) + 20;
+    final double listHeight = ProductCardItem.estimatedHeightFor(screenWidth);
     final state = ref.watch(cartViewModelProvider);
     final list = state.recentlyList;
 
@@ -81,6 +81,7 @@ class CartRecommendationSection extends ConsumerWidget {
                     child: ProductCardItem(
                       imageUrl: item!.thumbnailImageUrl,
                       title: item.name,
+                      isHaccpCertified: item.isHaccpCertified,
                     ),
                   ),
                 );

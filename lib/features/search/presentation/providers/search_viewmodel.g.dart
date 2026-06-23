@@ -58,7 +58,7 @@ final class SearchViewModelProvider
   }
 }
 
-String _$searchViewModelHash() => r'93c76898cf465011adea40fb7539ac2ecd1bf026';
+String _$searchViewModelHash() => r'942b2a5798a0e9d08446671f96a4f9d5dacc5683';
 
 final class SearchViewModelFamily extends $Family
     with

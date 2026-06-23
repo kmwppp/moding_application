@@ -27,23 +27,25 @@ class _SellerStorePageState extends ConsumerState<SellerStorePage> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 300) {
-        final notifier = ref.read(
-          sellerStoreViewModelProvider(
-            sellerProfileId: widget.sellerProfileId,
-          ).notifier,
-        );
-        final state = ref.read(
-          sellerStoreViewModelProvider(sellerProfileId: widget.sellerProfileId),
-        );
+    _scrollController.addListener(_onScroll);
+  }
 
-        if (!state.isFetchingMore && state.hasNext) {
-          notifier.loadNext(sellerProfileId: widget.sellerProfileId);
-        }
-      }
-    });
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    if (_scrollController.position.extentAfter > 300) return;
+
+    final notifier = ref.read(
+      sellerStoreViewModelProvider(
+        sellerProfileId: widget.sellerProfileId,
+      ).notifier,
+    );
+    final state = ref.read(
+      sellerStoreViewModelProvider(sellerProfileId: widget.sellerProfileId),
+    );
+
+    if (!state.isFetchingMore && state.hasNext) {
+      notifier.loadNext(sellerProfileId: widget.sellerProfileId);
+    }
   }
 
   @override
@@ -57,6 +59,27 @@ class _SellerStorePageState extends ConsumerState<SellerStorePage> {
     final state = ref.watch(
       sellerStoreViewModelProvider(sellerProfileId: widget.sellerProfileId),
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scrollController.hasClients) return;
+
+      final currentState = ref.read(
+        sellerStoreViewModelProvider(sellerProfileId: widget.sellerProfileId),
+      );
+
+      if (_scrollController.position.maxScrollExtent <= 0 &&
+          currentState.hasNext &&
+          !currentState.isFetchingMore &&
+          !currentState.isLoading) {
+        ref
+            .read(
+              sellerStoreViewModelProvider(
+                sellerProfileId: widget.sellerProfileId,
+              ).notifier,
+            )
+            .loadNext(sellerProfileId: widget.sellerProfileId);
+      }
+    });
 
     final sellerCompanyName = widget.sellerCompanyName.isNotEmpty
         ? widget.sellerCompanyName

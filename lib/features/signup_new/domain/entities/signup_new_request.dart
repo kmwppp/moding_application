@@ -17,6 +17,7 @@ class SignupNewRequest {
     required this.corporateNumber,
     required this.businessCategoryId,
     required this.businessLicenseFilePath,
+    required this.isAlcoholBuyer,
     required this.identityVerificationKey,
   });
 
@@ -35,6 +36,7 @@ class SignupNewRequest {
   final String corporateNumber;
   final int businessCategoryId;
   final String businessLicenseFilePath;
+  final bool isAlcoholBuyer;
   final String identityVerificationKey;
 
   Future<FormData> toFormData() async {
@@ -57,6 +59,7 @@ class SignupNewRequest {
         businessLicenseFilePath,
         filename: businessLicenseFilePath.split('/').last,
       ),
+      'isAlcoholBuyer': isAlcoholBuyer,
       'identityVerificationKey': identityVerificationKey,
     });
   }

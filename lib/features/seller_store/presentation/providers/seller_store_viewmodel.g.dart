@@ -20,7 +20,7 @@ final class SellerStoreViewModelProvider
   }) : super(
          retry: null,
          name: r'sellerStoreViewModelProvider',
-         isAutoDispose: false,
+         isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -59,7 +59,7 @@ final class SellerStoreViewModelProvider
 }
 
 String _$sellerStoreViewModelHash() =>
-    r'd347df251a9c690ffdf442ef233d9ee0a4ce132f';
+    r'19f15e2f21ca50062c3947f36a1323b0116882da';
 
 final class SellerStoreViewModelFamily extends $Family
     with
@@ -76,7 +76,7 @@ final class SellerStoreViewModelFamily extends $Family
         name: r'sellerStoreViewModelProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: false,
+        isAutoDispose: true,
       );
 
   SellerStoreViewModelProvider call({required int sellerProfileId}) =>

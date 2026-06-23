@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MainState {
 
- MainTab get currentTab;
+ MainTab get currentTab; MainTab get previousTab;
 /// Create a copy of MainState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MainStateCopyWith<MainState> get copyWith => _$MainStateCopyWithImpl<MainState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MainState&&(identical(other.currentTab, currentTab) || other.currentTab == currentTab));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MainState&&(identical(other.currentTab, currentTab) || other.currentTab == currentTab)&&(identical(other.previousTab, previousTab) || other.previousTab == previousTab));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentTab);
+int get hashCode => Object.hash(runtimeType,currentTab,previousTab);
 
 @override
 String toString() {
-  return 'MainState(currentTab: $currentTab)';
+  return 'MainState(currentTab: $currentTab, previousTab: $previousTab)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $MainStateCopyWith<$Res>  {
   factory $MainStateCopyWith(MainState value, $Res Function(MainState) _then) = _$MainStateCopyWithImpl;
 @useResult
 $Res call({
- MainTab currentTab
+ MainTab currentTab, MainTab previousTab
 });
 
 
@@ -62,9 +62,10 @@ class _$MainStateCopyWithImpl<$Res>
 
 /// Create a copy of MainState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? currentTab = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? currentTab = null,Object? previousTab = null,}) {
   return _then(_self.copyWith(
 currentTab: null == currentTab ? _self.currentTab : currentTab // ignore: cast_nullable_to_non_nullable
+as MainTab,previousTab: null == previousTab ? _self.previousTab : previousTab // ignore: cast_nullable_to_non_nullable
 as MainTab,
   ));
 }
@@ -150,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MainTab currentTab)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( MainTab currentTab,  MainTab previousTab)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MainState() when $default != null:
-return $default(_that.currentTab);case _:
+return $default(_that.currentTab,_that.previousTab);case _:
   return orElse();
 
 }
@@ -171,10 +172,10 @@ return $default(_that.currentTab);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MainTab currentTab)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( MainTab currentTab,  MainTab previousTab)  $default,) {final _that = this;
 switch (_that) {
 case _MainState():
-return $default(_that.currentTab);case _:
+return $default(_that.currentTab,_that.previousTab);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +192,10 @@ return $default(_that.currentTab);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MainTab currentTab)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( MainTab currentTab,  MainTab previousTab)?  $default,) {final _that = this;
 switch (_that) {
 case _MainState() when $default != null:
-return $default(_that.currentTab);case _:
+return $default(_that.currentTab,_that.previousTab);case _:
   return null;
 
 }
@@ -206,10 +207,11 @@ return $default(_that.currentTab);case _:
 
 
 class _MainState extends MainState {
-  const _MainState({required this.currentTab}): super._();
+  const _MainState({required this.currentTab, required this.previousTab}): super._();
   
 
 @override final  MainTab currentTab;
+@override final  MainTab previousTab;
 
 /// Create a copy of MainState
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +223,16 @@ _$MainStateCopyWith<_MainState> get copyWith => __$MainStateCopyWithImpl<_MainSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MainState&&(identical(other.currentTab, currentTab) || other.currentTab == currentTab));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MainState&&(identical(other.currentTab, currentTab) || other.currentTab == currentTab)&&(identical(other.previousTab, previousTab) || other.previousTab == previousTab));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,currentTab);
+int get hashCode => Object.hash(runtimeType,currentTab,previousTab);
 
 @override
 String toString() {
-  return 'MainState(currentTab: $currentTab)';
+  return 'MainState(currentTab: $currentTab, previousTab: $previousTab)';
 }
 
 
@@ -241,7 +243,7 @@ abstract mixin class _$MainStateCopyWith<$Res> implements $MainStateCopyWith<$Re
   factory _$MainStateCopyWith(_MainState value, $Res Function(_MainState) _then) = __$MainStateCopyWithImpl;
 @override @useResult
 $Res call({
- MainTab currentTab
+ MainTab currentTab, MainTab previousTab
 });
 
 
@@ -258,9 +260,10 @@ class __$MainStateCopyWithImpl<$Res>
 
 /// Create a copy of MainState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? currentTab = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currentTab = null,Object? previousTab = null,}) {
   return _then(_MainState(
 currentTab: null == currentTab ? _self.currentTab : currentTab // ignore: cast_nullable_to_non_nullable
+as MainTab,previousTab: null == previousTab ? _self.previousTab : previousTab // ignore: cast_nullable_to_non_nullable
 as MainTab,
   ));
 }

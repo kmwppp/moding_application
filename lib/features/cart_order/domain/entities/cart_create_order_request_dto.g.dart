@@ -15,6 +15,7 @@ _CartCreateOrderRequestDto _$CartCreateOrderRequestDtoFromJson(
       .toList(),
   deliveryAddressId: (json['deliveryAddressId'] as num).toInt(),
   deliveryRequest: json['deliveryRequest'] as String,
+  pgProvider: $enumDecodeNullable(_$PgProviderEnumMap, json['pgProvider']),
 );
 
 Map<String, dynamic> _$CartCreateOrderRequestDtoToJson(
@@ -24,4 +25,10 @@ Map<String, dynamic> _$CartCreateOrderRequestDtoToJson(
   'cartItemIds': instance.cartItemIds,
   'deliveryAddressId': instance.deliveryAddressId,
   'deliveryRequest': instance.deliveryRequest,
+  'pgProvider': _pgProviderToJson(instance.pgProvider),
+};
+
+const _$PgProviderEnumMap = {
+  PgProvider.toss: 'toss',
+  PgProvider.inicis: 'inicis',
 };

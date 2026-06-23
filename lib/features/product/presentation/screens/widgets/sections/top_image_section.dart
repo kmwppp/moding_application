@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,14 +33,14 @@ class TopImageSection extends ConsumerWidget {
                   notifier.changeImageCurrentIndex(index);
                 },
                 itemBuilder: (context, index) {
-                  return Image.network(
-                    images[index],
+                  final imageUrl = Uri.encodeFull(images[index]);
+                  return CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    cacheKey: imageUrl,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const Center(child: CircularProgressIndicator());
-                    },
-                    errorBuilder: (context, error, stackTrace) {
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) {
                       return Container(
                         color: Colors.grey[200],
                         child: const Center(child: Icon(Icons.broken_image)),
@@ -66,6 +67,18 @@ class TopImageSection extends ConsumerWidget {
                       "${state.imageCurrentIndex + 1}/${images.length}",
                       style: context.body.copyWith(color: Colors.white),
                     ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: Visibility(
+                  visible: state.productInfo?.isHaccpCertified == true,
+                  child: Image.asset(
+                    "assets/images/icons/haccp_icon.png",
+                    width: 50,
+                    height: 50,
                   ),
                 ),
               ),
@@ -108,8 +121,8 @@ class TopImageSection extends ConsumerWidget {
       images.add(product.thumbnailImageUrl!);
     }
 
-    if (product.detailImageUrls != null) {
-      images.addAll(product.detailImageUrls!);
+    if (product.galleryImageUrls != null) {
+      images.addAll(product.galleryImageUrls!);
     }
 
     return images;

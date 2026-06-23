@@ -11,10 +11,12 @@ _AddressDto _$AddressDtoFromJson(Map<String, dynamic> json) => _AddressDto(
   name: json['name'] as String,
   recipientName: json['recipientName'] as String,
   zipCode: json['zipCode'] as String,
+  sigunguCode: json['sigunguCode'] as String? ?? '',
   address: json['address'] as String,
   addressDetail: json['addressDetail'] as String,
   phone: json['phone'] as String,
   isDefault: json['isDefault'] as bool? ?? false,
+  isBusinessAddress: json['isBusinessAddress'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$AddressDtoToJson(_AddressDto instance) =>
@@ -23,10 +25,12 @@ Map<String, dynamic> _$AddressDtoToJson(_AddressDto instance) =>
       'name': instance.name,
       'recipientName': instance.recipientName,
       'zipCode': instance.zipCode,
+      'sigunguCode': instance.sigunguCode,
       'address': instance.address,
       'addressDetail': instance.addressDetail,
       'phone': instance.phone,
       'isDefault': instance.isDefault,
+      'isBusinessAddress': instance.isBusinessAddress,
     };
 
 _AddressListResponse _$AddressListResponseFromJson(Map<String, dynamic> json) =>

@@ -19,10 +19,21 @@ class CartPage extends ConsumerWidget {
     final state = ref.watch(cartViewModelProvider);
     final notifier = ref.read(cartViewModelProvider.notifier);
     final items = state.cartData?.data ?? [];
+    final sortedItems = [
+      ...items.where((e) => e.isAvailable == true),
+      ...items.where((e) => e.isAvailable != true),
+    ];
+    final showLoading = state.cartData == null;
+    final showEmpty = !showLoading && items.isEmpty;
+    final availableItems = items.where((e) => e.isAvailable == true).toList();
 
     final allSelected =
-        items.isNotEmpty &&
-        items.every((e) => state.selectedCartItemIds.contains(e.cartItemId));
+        availableItems.isNotEmpty &&
+        availableItems.every(
+          (e) => e.cartItemId != null
+              ? state.selectedCartItemIds.contains(e.cartItemId)
+              : false,
+        );
 
     return ListView(
       controller: controller,
@@ -41,7 +52,7 @@ class CartPage extends ConsumerWidget {
                 ),
               ),
               Text(
-                '판매자의 배송정책에 따라 각 상품별 배송비가 적용됩니다.',
+                '판매자 배송정책에 따라 상품별 배송비가 각각 적용되며, 장바구니 주문은 상품별로 분리 주문될 수 있습니다.',
                 style: context.bodySmall.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.darkGrey,
@@ -65,7 +76,7 @@ class CartPage extends ConsumerWidget {
                 height: 28,
                 child: Checkbox(
                   value: allSelected && items.isNotEmpty,
-                  onChanged: items.isEmpty
+                  onChanged: availableItems.isEmpty
                       ? null
                       : (_) => notifier.toggleSelectAll(),
                   activeColor: AppColors.primary,
@@ -74,7 +85,7 @@ class CartPage extends ConsumerWidget {
               ),
               const SizedBox(width: 4),
               GestureDetector(
-                onTap: items.isEmpty ? null : notifier.toggleSelectAll,
+                onTap: availableItems.isEmpty ? null : notifier.toggleSelectAll,
                 child: Text(
                   '전체선택',
                   style: context.bodyLarge.copyWith(
@@ -101,12 +112,12 @@ class CartPage extends ConsumerWidget {
           ),
         ),
         const Divider(height: 1),
-        if (state.cartData == null)
+        if (showLoading)
           const Padding(
             padding: EdgeInsets.all(40),
             child: Center(child: CircularProgressIndicator()),
           )
-        else if (items.isEmpty)
+        else if (showEmpty)
           Padding(
             padding: const EdgeInsets.all(40),
             child: Center(
@@ -117,7 +128,14 @@ class CartPage extends ConsumerWidget {
             ),
           )
         else
-          ...items.map((e) => CartItemWidget(item: e)),
+          ListView.builder(
+            itemCount: sortedItems.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return CartItemWidget(item: sortedItems[index]);
+            },
+          ),
         const SizedBox(height: 10),
         if (items.isNotEmpty) const CartPriceSection(),
         CartRecommendationSection(

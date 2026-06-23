@@ -50,13 +50,12 @@ class BusinessProfileViewModel extends _$BusinessProfileViewModel {
     try {
       final repository = ref.read(businessProfileRepositoryProvider);
       final mainCategories = await repository.getMainCategoryList();
-      final businessProfile = await repository.getBusinessProfileInfo();
+      await repository.getBusinessProfileInfo();
       if (!ref.mounted) return;
 
       state = state.copyWith(
         requestFormLoading: false,
         mainCategories: mainCategories,
-        requestBusinessPhone: businessProfile.data.businessPhone ?? '',
         selectedMainCategory: null,
         selectedSubCategory: null,
         subCategories: const [],
@@ -90,10 +89,6 @@ class BusinessProfileViewModel extends _$BusinessProfileViewModel {
     state = state.copyWith(selectedSubCategory: category);
   }
 
-  void updateRequestBusinessPhone(String value) {
-    state = state.copyWith(requestBusinessPhone: value);
-  }
-
   void updateBusinessLicensePath(String? path) {
     state = state.copyWith(businessLicensePath: path);
   }
@@ -103,7 +98,6 @@ class BusinessProfileViewModel extends _$BusinessProfileViewModel {
     try {
       final repository = ref.read(businessProfileRepositoryProvider);
       final response = await repository.putMyBusinessProfileInfo(
-        businessPhone: state.requestBusinessPhone.trim(),
         businessCategoryId: state.selectedSubCategory?.id,
         businessLicenseFile: state.businessLicensePath,
       );

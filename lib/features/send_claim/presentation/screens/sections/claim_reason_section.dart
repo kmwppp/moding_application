@@ -31,7 +31,7 @@ class ClaimReasonSection extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "식품의 특성상 배송이 시작되면 상품의 가치가 훼손되어 변심으로 인한 취소가 제한됩니다.",
+                      "모딩 고객센터를 통하지 않은 전화, 문자, 외부 메신저 합의는 클레임 처리 기준으로 인정되지 않을 수 있습니다.",
                       style: context.bodySmall,
                     ),
                   ],

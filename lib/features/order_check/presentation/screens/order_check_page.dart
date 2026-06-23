@@ -9,7 +9,6 @@ import 'package:moding_application/core/presentation/widgets/modal/app_bottom_sh
 import 'package:moding_application/core/theme/app_box_styles.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/order_check/domain/entities/order_detail_dto.dart';
-import 'package:moding_application/features/order_check/domain/enums/order_payment_method.dart';
 import 'package:moding_application/features/order_check/domain/enums/order_status.dart';
 import 'package:moding_application/features/order_check/presentation/providers/order_check_viewmodel.dart';
 import 'package:moding_application/features/order_check/presentation/screens/sections/delivery_info_section.dart';
@@ -19,6 +18,9 @@ import 'package:moding_application/features/order_list/presentation/providers/or
 import 'package:moding_application/features/payment_complete/domain/entities/payment_complete_response_dto.dart';
 import 'package:moding_application/features/review_list/presentation/screens/widgets/create_review_bottom_sheet.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../badge/presentation/providers/app_badge_provider.dart';
+import '../../../cart/presentation/providers/cart/cart_viewmodel.dart';
 
 class OrderCheckPage extends ConsumerStatefulWidget {
   const OrderCheckPage({super.key, required this.orderId});
@@ -76,6 +78,16 @@ class _OrderCheckPageState extends ConsumerState<OrderCheckPage> {
           child: CustomScrollView(
             slivers: [
               const AppSliverAppbar(title: "배송·주문관리"),
+              const SliverToBoxAdapter(child: SizedBox(height: 10)),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    "주문은 판매자 확인 후 출고되며, 배송완료 후 48시간 내 클레임이 없으면 자동 구매확정됩니다.",
+                    style: context.caption.copyWith(color: AppColors.darkGrey),
+                  ),
+                ),
+              ),
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
               const SliverToBoxAdapter(child: DeliveryInfoSection()),
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
@@ -417,6 +429,8 @@ class _OrderCheckActionButton extends ConsumerWidget {
                           setSubmitting(false);
 
                           if (result.success) {
+                            ref.invalidate(cartViewModelProvider);
+                            ref.invalidate(appBadgeProvider);
                             CommonDialog.show(
                               context,
                               title: "주문 취소",
@@ -704,13 +718,11 @@ class _OrderCheckActionUi {
         ];
       case OrderStatus.purchaseConfirmed:
         return [
-          if (order?.payment?.paymentMethod ==
-              OrderPaymentMethod.virtualAccount)
-            const _OrderCheckActionUi(
-              title: '세금계산서 발행 준비중',
-              color: AppColors.darkGrey,
-              type: _OrderCheckActionType.taxInvoiceReady,
-            ),
+          const _OrderCheckActionUi(
+            title: '세금계산서 발행 준비중',
+            color: AppColors.darkGrey,
+            type: _OrderCheckActionType.taxInvoiceReady,
+          ),
           if (isReviewable)
             const _OrderCheckActionUi(
               title: '리뷰 작성',
@@ -728,19 +740,17 @@ class _OrderCheckActionUi {
         ];
       case OrderStatus.settlementCompleted:
         return [
-          if (order?.payment?.paymentMethod ==
-              OrderPaymentMethod.virtualAccount)
-            _OrderCheckActionUi(
-              title: (order?.isTaxInvoiceIssued ?? false)
-                  ? '세금계산서 발행'
-                  : '세금계산서 발행 준비중',
-              color: (order?.isTaxInvoiceIssued ?? false)
-                  ? AppColors.primary
-                  : AppColors.darkGrey,
-              type: (order?.isTaxInvoiceIssued ?? false)
-                  ? _OrderCheckActionType.taxInvoiceHistory
-                  : _OrderCheckActionType.taxInvoiceReady,
-            ),
+          _OrderCheckActionUi(
+            title: (order?.isTaxInvoiceIssued ?? false)
+                ? '세금계산서 발행'
+                : '세금계산서 발행 준비중',
+            color: (order?.isTaxInvoiceIssued ?? false)
+                ? AppColors.primary
+                : AppColors.darkGrey,
+            type: (order?.isTaxInvoiceIssued ?? false)
+                ? _OrderCheckActionType.taxInvoiceHistory
+                : _OrderCheckActionType.taxInvoiceReady,
+          ),
           if (isReviewable)
             const _OrderCheckActionUi(
               title: '리뷰 작성',

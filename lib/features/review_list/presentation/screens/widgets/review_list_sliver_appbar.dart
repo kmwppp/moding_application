@@ -7,7 +7,12 @@ import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 
 class ReviewListSliverAppbar extends ConsumerWidget {
-  const ReviewListSliverAppbar({super.key});
+  const ReviewListSliverAppbar({
+    super.key,
+    this.title = '리뷰 작성 내역',
+  });
+
+  final String title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,7 +47,7 @@ class ReviewListSliverAppbar extends ConsumerWidget {
 
       /// ⭐ 검색바 영역
       title: Text(
-        "리뷰 작성 내역",
+        title,
         style: context.title.copyWith(fontWeight: FontWeight.w600),
       ),
     );

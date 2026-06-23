@@ -41,7 +41,7 @@ final class MainViewModelProvider
   }
 }
 
-String _$mainViewModelHash() => r'07696131c7d812d6e6fd303790614b9f7b390305';
+String _$mainViewModelHash() => r'4cb3b506b0faea2a31fe715cf86bcd6741b1d15b';
 
 abstract class _$MainViewModel extends $Notifier<MainState> {
   MainState build();

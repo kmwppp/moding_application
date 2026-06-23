@@ -37,4 +37,7 @@ void resetAppViewModels(WidgetRef ref) {
   ref.invalidate(signupViewModelProvider);
   ref.invalidate(signupStep2ViewModelProvider);
   ref.invalidate(termsProvider);
+
+  // /main 전체(모든 탭 페이지) 리셋 신호
+  ref.read(mainResetTickProvider.notifier).trigger();
 }

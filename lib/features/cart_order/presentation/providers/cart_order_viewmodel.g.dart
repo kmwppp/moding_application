@@ -42,7 +42,7 @@ final class CartOrderViewModelProvider
 }
 
 String _$cartOrderViewModelHash() =>
-    r'4f42dec0c073f02757acbd3bb79ea7042663d0f8';
+    r'9f791f134b731235c0fdd74cf7a8085b609158bb';
 
 abstract class _$CartOrderViewModel extends $Notifier<CartOrderState> {
   CartOrderState build();

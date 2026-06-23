@@ -296,7 +296,7 @@ as int,
 /// @nodoc
 mixin _$ProductDto {
 
- int get id; String get productCode; String get sellerCompanyName; String get categoryFullPath; String get name; String get status; String get thumbnailImageUrl; int get lowestSellingPrice; int get lowestPriceStockQuantity; List<String> get tags;@LocalDateTimeConverter() DateTime get createdAt;@LocalDateTimeConverter() DateTime get updatedAt;
+ int get id; String get productCode; String get sellerCompanyName; String get categoryFullPath; String get name; String get status; String get thumbnailImageUrl; int? get lowestPrice; int? get lowestDiscountAmount; int? get lowestDiscountRate; int get lowestSellingPrice; int get lowestPriceStockQuantity; List<String> get tags; bool get isHaccpCertified;@LocalDateTimeConverter() DateTime get createdAt;@LocalDateTimeConverter() DateTime get updatedAt;
 /// Create a copy of ProductDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -309,16 +309,16 @@ $ProductDtoCopyWith<ProductDto> get copyWith => _$ProductDtoCopyWithImpl<Product
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductDto&&(identical(other.id, id) || other.id == id)&&(identical(other.productCode, productCode) || other.productCode == productCode)&&(identical(other.sellerCompanyName, sellerCompanyName) || other.sellerCompanyName == sellerCompanyName)&&(identical(other.categoryFullPath, categoryFullPath) || other.categoryFullPath == categoryFullPath)&&(identical(other.name, name) || other.name == name)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&(identical(other.lowestSellingPrice, lowestSellingPrice) || other.lowestSellingPrice == lowestSellingPrice)&&(identical(other.lowestPriceStockQuantity, lowestPriceStockQuantity) || other.lowestPriceStockQuantity == lowestPriceStockQuantity)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductDto&&(identical(other.id, id) || other.id == id)&&(identical(other.productCode, productCode) || other.productCode == productCode)&&(identical(other.sellerCompanyName, sellerCompanyName) || other.sellerCompanyName == sellerCompanyName)&&(identical(other.categoryFullPath, categoryFullPath) || other.categoryFullPath == categoryFullPath)&&(identical(other.name, name) || other.name == name)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&(identical(other.lowestPrice, lowestPrice) || other.lowestPrice == lowestPrice)&&(identical(other.lowestDiscountAmount, lowestDiscountAmount) || other.lowestDiscountAmount == lowestDiscountAmount)&&(identical(other.lowestDiscountRate, lowestDiscountRate) || other.lowestDiscountRate == lowestDiscountRate)&&(identical(other.lowestSellingPrice, lowestSellingPrice) || other.lowestSellingPrice == lowestSellingPrice)&&(identical(other.lowestPriceStockQuantity, lowestPriceStockQuantity) || other.lowestPriceStockQuantity == lowestPriceStockQuantity)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isHaccpCertified, isHaccpCertified) || other.isHaccpCertified == isHaccpCertified)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productCode,sellerCompanyName,categoryFullPath,name,status,thumbnailImageUrl,lowestSellingPrice,lowestPriceStockQuantity,const DeepCollectionEquality().hash(tags),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,productCode,sellerCompanyName,categoryFullPath,name,status,thumbnailImageUrl,lowestPrice,lowestDiscountAmount,lowestDiscountRate,lowestSellingPrice,lowestPriceStockQuantity,const DeepCollectionEquality().hash(tags),isHaccpCertified,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProductDto(id: $id, productCode: $productCode, sellerCompanyName: $sellerCompanyName, categoryFullPath: $categoryFullPath, name: $name, status: $status, thumbnailImageUrl: $thumbnailImageUrl, lowestSellingPrice: $lowestSellingPrice, lowestPriceStockQuantity: $lowestPriceStockQuantity, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProductDto(id: $id, productCode: $productCode, sellerCompanyName: $sellerCompanyName, categoryFullPath: $categoryFullPath, name: $name, status: $status, thumbnailImageUrl: $thumbnailImageUrl, lowestPrice: $lowestPrice, lowestDiscountAmount: $lowestDiscountAmount, lowestDiscountRate: $lowestDiscountRate, lowestSellingPrice: $lowestSellingPrice, lowestPriceStockQuantity: $lowestPriceStockQuantity, tags: $tags, isHaccpCertified: $isHaccpCertified, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -329,7 +329,7 @@ abstract mixin class $ProductDtoCopyWith<$Res>  {
   factory $ProductDtoCopyWith(ProductDto value, $Res Function(ProductDto) _then) = _$ProductDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String productCode, String sellerCompanyName, String categoryFullPath, String name, String status, String thumbnailImageUrl, int lowestSellingPrice, int lowestPriceStockQuantity, List<String> tags,@LocalDateTimeConverter() DateTime createdAt,@LocalDateTimeConverter() DateTime updatedAt
+ int id, String productCode, String sellerCompanyName, String categoryFullPath, String name, String status, String thumbnailImageUrl, int? lowestPrice, int? lowestDiscountAmount, int? lowestDiscountRate, int lowestSellingPrice, int lowestPriceStockQuantity, List<String> tags, bool isHaccpCertified,@LocalDateTimeConverter() DateTime createdAt,@LocalDateTimeConverter() DateTime updatedAt
 });
 
 
@@ -346,7 +346,7 @@ class _$ProductDtoCopyWithImpl<$Res>
 
 /// Create a copy of ProductDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productCode = null,Object? sellerCompanyName = null,Object? categoryFullPath = null,Object? name = null,Object? status = null,Object? thumbnailImageUrl = null,Object? lowestSellingPrice = null,Object? lowestPriceStockQuantity = null,Object? tags = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productCode = null,Object? sellerCompanyName = null,Object? categoryFullPath = null,Object? name = null,Object? status = null,Object? thumbnailImageUrl = null,Object? lowestPrice = freezed,Object? lowestDiscountAmount = freezed,Object? lowestDiscountRate = freezed,Object? lowestSellingPrice = null,Object? lowestPriceStockQuantity = null,Object? tags = null,Object? isHaccpCertified = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,productCode: null == productCode ? _self.productCode : productCode // ignore: cast_nullable_to_non_nullable
@@ -355,10 +355,14 @@ as String,categoryFullPath: null == categoryFullPath ? _self.categoryFullPath : 
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,thumbnailImageUrl: null == thumbnailImageUrl ? _self.thumbnailImageUrl : thumbnailImageUrl // ignore: cast_nullable_to_non_nullable
-as String,lowestSellingPrice: null == lowestSellingPrice ? _self.lowestSellingPrice : lowestSellingPrice // ignore: cast_nullable_to_non_nullable
+as String,lowestPrice: freezed == lowestPrice ? _self.lowestPrice : lowestPrice // ignore: cast_nullable_to_non_nullable
+as int?,lowestDiscountAmount: freezed == lowestDiscountAmount ? _self.lowestDiscountAmount : lowestDiscountAmount // ignore: cast_nullable_to_non_nullable
+as int?,lowestDiscountRate: freezed == lowestDiscountRate ? _self.lowestDiscountRate : lowestDiscountRate // ignore: cast_nullable_to_non_nullable
+as int?,lowestSellingPrice: null == lowestSellingPrice ? _self.lowestSellingPrice : lowestSellingPrice // ignore: cast_nullable_to_non_nullable
 as int,lowestPriceStockQuantity: null == lowestPriceStockQuantity ? _self.lowestPriceStockQuantity : lowestPriceStockQuantity // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
-as List<String>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as List<String>,isHaccpCertified: null == isHaccpCertified ? _self.isHaccpCertified : isHaccpCertified // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -445,10 +449,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String productCode,  String sellerCompanyName,  String categoryFullPath,  String name,  String status,  String thumbnailImageUrl,  int lowestSellingPrice,  int lowestPriceStockQuantity,  List<String> tags, @LocalDateTimeConverter()  DateTime createdAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String productCode,  String sellerCompanyName,  String categoryFullPath,  String name,  String status,  String thumbnailImageUrl,  int? lowestPrice,  int? lowestDiscountAmount,  int? lowestDiscountRate,  int lowestSellingPrice,  int lowestPriceStockQuantity,  List<String> tags,  bool isHaccpCertified, @LocalDateTimeConverter()  DateTime createdAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProductDto() when $default != null:
-return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categoryFullPath,_that.name,_that.status,_that.thumbnailImageUrl,_that.lowestSellingPrice,_that.lowestPriceStockQuantity,_that.tags,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categoryFullPath,_that.name,_that.status,_that.thumbnailImageUrl,_that.lowestPrice,_that.lowestDiscountAmount,_that.lowestDiscountRate,_that.lowestSellingPrice,_that.lowestPriceStockQuantity,_that.tags,_that.isHaccpCertified,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -466,10 +470,10 @@ return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categor
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String productCode,  String sellerCompanyName,  String categoryFullPath,  String name,  String status,  String thumbnailImageUrl,  int lowestSellingPrice,  int lowestPriceStockQuantity,  List<String> tags, @LocalDateTimeConverter()  DateTime createdAt, @LocalDateTimeConverter()  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String productCode,  String sellerCompanyName,  String categoryFullPath,  String name,  String status,  String thumbnailImageUrl,  int? lowestPrice,  int? lowestDiscountAmount,  int? lowestDiscountRate,  int lowestSellingPrice,  int lowestPriceStockQuantity,  List<String> tags,  bool isHaccpCertified, @LocalDateTimeConverter()  DateTime createdAt, @LocalDateTimeConverter()  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ProductDto():
-return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categoryFullPath,_that.name,_that.status,_that.thumbnailImageUrl,_that.lowestSellingPrice,_that.lowestPriceStockQuantity,_that.tags,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categoryFullPath,_that.name,_that.status,_that.thumbnailImageUrl,_that.lowestPrice,_that.lowestDiscountAmount,_that.lowestDiscountRate,_that.lowestSellingPrice,_that.lowestPriceStockQuantity,_that.tags,_that.isHaccpCertified,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -486,10 +490,10 @@ return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categor
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String productCode,  String sellerCompanyName,  String categoryFullPath,  String name,  String status,  String thumbnailImageUrl,  int lowestSellingPrice,  int lowestPriceStockQuantity,  List<String> tags, @LocalDateTimeConverter()  DateTime createdAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String productCode,  String sellerCompanyName,  String categoryFullPath,  String name,  String status,  String thumbnailImageUrl,  int? lowestPrice,  int? lowestDiscountAmount,  int? lowestDiscountRate,  int lowestSellingPrice,  int lowestPriceStockQuantity,  List<String> tags,  bool isHaccpCertified, @LocalDateTimeConverter()  DateTime createdAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ProductDto() when $default != null:
-return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categoryFullPath,_that.name,_that.status,_that.thumbnailImageUrl,_that.lowestSellingPrice,_that.lowestPriceStockQuantity,_that.tags,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categoryFullPath,_that.name,_that.status,_that.thumbnailImageUrl,_that.lowestPrice,_that.lowestDiscountAmount,_that.lowestDiscountRate,_that.lowestSellingPrice,_that.lowestPriceStockQuantity,_that.tags,_that.isHaccpCertified,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -501,7 +505,7 @@ return $default(_that.id,_that.productCode,_that.sellerCompanyName,_that.categor
 @JsonSerializable()
 
 class _ProductDto implements ProductDto {
-  const _ProductDto({required this.id, required this.productCode, required this.sellerCompanyName, required this.categoryFullPath, required this.name, required this.status, required this.thumbnailImageUrl, required this.lowestSellingPrice, required this.lowestPriceStockQuantity, required final  List<String> tags, @LocalDateTimeConverter() required this.createdAt, @LocalDateTimeConverter() required this.updatedAt}): _tags = tags;
+  const _ProductDto({required this.id, required this.productCode, required this.sellerCompanyName, required this.categoryFullPath, required this.name, required this.status, required this.thumbnailImageUrl, this.lowestPrice, this.lowestDiscountAmount, this.lowestDiscountRate, required this.lowestSellingPrice, required this.lowestPriceStockQuantity, required final  List<String> tags, this.isHaccpCertified = false, @LocalDateTimeConverter() required this.createdAt, @LocalDateTimeConverter() required this.updatedAt}): _tags = tags;
   factory _ProductDto.fromJson(Map<String, dynamic> json) => _$ProductDtoFromJson(json);
 
 @override final  int id;
@@ -511,6 +515,9 @@ class _ProductDto implements ProductDto {
 @override final  String name;
 @override final  String status;
 @override final  String thumbnailImageUrl;
+@override final  int? lowestPrice;
+@override final  int? lowestDiscountAmount;
+@override final  int? lowestDiscountRate;
 @override final  int lowestSellingPrice;
 @override final  int lowestPriceStockQuantity;
  final  List<String> _tags;
@@ -520,6 +527,7 @@ class _ProductDto implements ProductDto {
   return EqualUnmodifiableListView(_tags);
 }
 
+@override@JsonKey() final  bool isHaccpCertified;
 @override@LocalDateTimeConverter() final  DateTime createdAt;
 @override@LocalDateTimeConverter() final  DateTime updatedAt;
 
@@ -536,16 +544,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductDto&&(identical(other.id, id) || other.id == id)&&(identical(other.productCode, productCode) || other.productCode == productCode)&&(identical(other.sellerCompanyName, sellerCompanyName) || other.sellerCompanyName == sellerCompanyName)&&(identical(other.categoryFullPath, categoryFullPath) || other.categoryFullPath == categoryFullPath)&&(identical(other.name, name) || other.name == name)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&(identical(other.lowestSellingPrice, lowestSellingPrice) || other.lowestSellingPrice == lowestSellingPrice)&&(identical(other.lowestPriceStockQuantity, lowestPriceStockQuantity) || other.lowestPriceStockQuantity == lowestPriceStockQuantity)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductDto&&(identical(other.id, id) || other.id == id)&&(identical(other.productCode, productCode) || other.productCode == productCode)&&(identical(other.sellerCompanyName, sellerCompanyName) || other.sellerCompanyName == sellerCompanyName)&&(identical(other.categoryFullPath, categoryFullPath) || other.categoryFullPath == categoryFullPath)&&(identical(other.name, name) || other.name == name)&&(identical(other.status, status) || other.status == status)&&(identical(other.thumbnailImageUrl, thumbnailImageUrl) || other.thumbnailImageUrl == thumbnailImageUrl)&&(identical(other.lowestPrice, lowestPrice) || other.lowestPrice == lowestPrice)&&(identical(other.lowestDiscountAmount, lowestDiscountAmount) || other.lowestDiscountAmount == lowestDiscountAmount)&&(identical(other.lowestDiscountRate, lowestDiscountRate) || other.lowestDiscountRate == lowestDiscountRate)&&(identical(other.lowestSellingPrice, lowestSellingPrice) || other.lowestSellingPrice == lowestSellingPrice)&&(identical(other.lowestPriceStockQuantity, lowestPriceStockQuantity) || other.lowestPriceStockQuantity == lowestPriceStockQuantity)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isHaccpCertified, isHaccpCertified) || other.isHaccpCertified == isHaccpCertified)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,productCode,sellerCompanyName,categoryFullPath,name,status,thumbnailImageUrl,lowestSellingPrice,lowestPriceStockQuantity,const DeepCollectionEquality().hash(_tags),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,productCode,sellerCompanyName,categoryFullPath,name,status,thumbnailImageUrl,lowestPrice,lowestDiscountAmount,lowestDiscountRate,lowestSellingPrice,lowestPriceStockQuantity,const DeepCollectionEquality().hash(_tags),isHaccpCertified,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProductDto(id: $id, productCode: $productCode, sellerCompanyName: $sellerCompanyName, categoryFullPath: $categoryFullPath, name: $name, status: $status, thumbnailImageUrl: $thumbnailImageUrl, lowestSellingPrice: $lowestSellingPrice, lowestPriceStockQuantity: $lowestPriceStockQuantity, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProductDto(id: $id, productCode: $productCode, sellerCompanyName: $sellerCompanyName, categoryFullPath: $categoryFullPath, name: $name, status: $status, thumbnailImageUrl: $thumbnailImageUrl, lowestPrice: $lowestPrice, lowestDiscountAmount: $lowestDiscountAmount, lowestDiscountRate: $lowestDiscountRate, lowestSellingPrice: $lowestSellingPrice, lowestPriceStockQuantity: $lowestPriceStockQuantity, tags: $tags, isHaccpCertified: $isHaccpCertified, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -556,7 +564,7 @@ abstract mixin class _$ProductDtoCopyWith<$Res> implements $ProductDtoCopyWith<$
   factory _$ProductDtoCopyWith(_ProductDto value, $Res Function(_ProductDto) _then) = __$ProductDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String productCode, String sellerCompanyName, String categoryFullPath, String name, String status, String thumbnailImageUrl, int lowestSellingPrice, int lowestPriceStockQuantity, List<String> tags,@LocalDateTimeConverter() DateTime createdAt,@LocalDateTimeConverter() DateTime updatedAt
+ int id, String productCode, String sellerCompanyName, String categoryFullPath, String name, String status, String thumbnailImageUrl, int? lowestPrice, int? lowestDiscountAmount, int? lowestDiscountRate, int lowestSellingPrice, int lowestPriceStockQuantity, List<String> tags, bool isHaccpCertified,@LocalDateTimeConverter() DateTime createdAt,@LocalDateTimeConverter() DateTime updatedAt
 });
 
 
@@ -573,7 +581,7 @@ class __$ProductDtoCopyWithImpl<$Res>
 
 /// Create a copy of ProductDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productCode = null,Object? sellerCompanyName = null,Object? categoryFullPath = null,Object? name = null,Object? status = null,Object? thumbnailImageUrl = null,Object? lowestSellingPrice = null,Object? lowestPriceStockQuantity = null,Object? tags = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productCode = null,Object? sellerCompanyName = null,Object? categoryFullPath = null,Object? name = null,Object? status = null,Object? thumbnailImageUrl = null,Object? lowestPrice = freezed,Object? lowestDiscountAmount = freezed,Object? lowestDiscountRate = freezed,Object? lowestSellingPrice = null,Object? lowestPriceStockQuantity = null,Object? tags = null,Object? isHaccpCertified = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_ProductDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,productCode: null == productCode ? _self.productCode : productCode // ignore: cast_nullable_to_non_nullable
@@ -582,10 +590,14 @@ as String,categoryFullPath: null == categoryFullPath ? _self.categoryFullPath : 
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,thumbnailImageUrl: null == thumbnailImageUrl ? _self.thumbnailImageUrl : thumbnailImageUrl // ignore: cast_nullable_to_non_nullable
-as String,lowestSellingPrice: null == lowestSellingPrice ? _self.lowestSellingPrice : lowestSellingPrice // ignore: cast_nullable_to_non_nullable
+as String,lowestPrice: freezed == lowestPrice ? _self.lowestPrice : lowestPrice // ignore: cast_nullable_to_non_nullable
+as int?,lowestDiscountAmount: freezed == lowestDiscountAmount ? _self.lowestDiscountAmount : lowestDiscountAmount // ignore: cast_nullable_to_non_nullable
+as int?,lowestDiscountRate: freezed == lowestDiscountRate ? _self.lowestDiscountRate : lowestDiscountRate // ignore: cast_nullable_to_non_nullable
+as int?,lowestSellingPrice: null == lowestSellingPrice ? _self.lowestSellingPrice : lowestSellingPrice // ignore: cast_nullable_to_non_nullable
 as int,lowestPriceStockQuantity: null == lowestPriceStockQuantity ? _self.lowestPriceStockQuantity : lowestPriceStockQuantity // ignore: cast_nullable_to_non_nullable
 as int,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
-as List<String>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as List<String>,isHaccpCertified: null == isHaccpCertified ? _self.isHaccpCertified : isHaccpCertified // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

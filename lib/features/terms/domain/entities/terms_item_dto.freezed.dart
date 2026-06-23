@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TermsItemDto {
 
- int get id; TermsType get type; String get typeLabel; String get pdfUrl;@LocalDateTimeConverter() DateTime get createdAt;
+ int get id; TermsType get type; String get pdfUrl;@LocalDateTimeConverter() DateTime get createdAt;
 /// Create a copy of TermsItemDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $TermsItemDtoCopyWith<TermsItemDto> get copyWith => _$TermsItemDtoCopyWithImpl<T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TermsItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.typeLabel, typeLabel) || other.typeLabel == typeLabel)&&(identical(other.pdfUrl, pdfUrl) || other.pdfUrl == pdfUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TermsItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.pdfUrl, pdfUrl) || other.pdfUrl == pdfUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,typeLabel,pdfUrl,createdAt);
+int get hashCode => Object.hash(runtimeType,id,type,pdfUrl,createdAt);
 
 @override
 String toString() {
-  return 'TermsItemDto(id: $id, type: $type, typeLabel: $typeLabel, pdfUrl: $pdfUrl, createdAt: $createdAt)';
+  return 'TermsItemDto(id: $id, type: $type, pdfUrl: $pdfUrl, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $TermsItemDtoCopyWith<$Res>  {
   factory $TermsItemDtoCopyWith(TermsItemDto value, $Res Function(TermsItemDto) _then) = _$TermsItemDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, TermsType type, String typeLabel, String pdfUrl,@LocalDateTimeConverter() DateTime createdAt
+ int id, TermsType type, String pdfUrl,@LocalDateTimeConverter() DateTime createdAt
 });
 
 
@@ -65,12 +65,11 @@ class _$TermsItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of TermsItemDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? typeLabel = null,Object? pdfUrl = null,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? pdfUrl = null,Object? createdAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TermsType,typeLabel: null == typeLabel ? _self.typeLabel : typeLabel // ignore: cast_nullable_to_non_nullable
-as String,pdfUrl: null == pdfUrl ? _self.pdfUrl : pdfUrl // ignore: cast_nullable_to_non_nullable
+as TermsType,pdfUrl: null == pdfUrl ? _self.pdfUrl : pdfUrl // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -157,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  TermsType type,  String typeLabel,  String pdfUrl, @LocalDateTimeConverter()  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  TermsType type,  String pdfUrl, @LocalDateTimeConverter()  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TermsItemDto() when $default != null:
-return $default(_that.id,_that.type,_that.typeLabel,_that.pdfUrl,_that.createdAt);case _:
+return $default(_that.id,_that.type,_that.pdfUrl,_that.createdAt);case _:
   return orElse();
 
 }
@@ -178,10 +177,10 @@ return $default(_that.id,_that.type,_that.typeLabel,_that.pdfUrl,_that.createdAt
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  TermsType type,  String typeLabel,  String pdfUrl, @LocalDateTimeConverter()  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  TermsType type,  String pdfUrl, @LocalDateTimeConverter()  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _TermsItemDto():
-return $default(_that.id,_that.type,_that.typeLabel,_that.pdfUrl,_that.createdAt);case _:
+return $default(_that.id,_that.type,_that.pdfUrl,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +197,10 @@ return $default(_that.id,_that.type,_that.typeLabel,_that.pdfUrl,_that.createdAt
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  TermsType type,  String typeLabel,  String pdfUrl, @LocalDateTimeConverter()  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  TermsType type,  String pdfUrl, @LocalDateTimeConverter()  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _TermsItemDto() when $default != null:
-return $default(_that.id,_that.type,_that.typeLabel,_that.pdfUrl,_that.createdAt);case _:
+return $default(_that.id,_that.type,_that.pdfUrl,_that.createdAt);case _:
   return null;
 
 }
@@ -212,13 +211,12 @@ return $default(_that.id,_that.type,_that.typeLabel,_that.pdfUrl,_that.createdAt
 /// @nodoc
 @JsonSerializable()
 
-class _TermsItemDto implements TermsItemDto {
-  const _TermsItemDto({required this.id, required this.type, required this.typeLabel, required this.pdfUrl, @LocalDateTimeConverter() required this.createdAt});
+class _TermsItemDto extends TermsItemDto {
+  const _TermsItemDto({required this.id, required this.type, required this.pdfUrl, @LocalDateTimeConverter() required this.createdAt}): super._();
   factory _TermsItemDto.fromJson(Map<String, dynamic> json) => _$TermsItemDtoFromJson(json);
 
 @override final  int id;
 @override final  TermsType type;
-@override final  String typeLabel;
 @override final  String pdfUrl;
 @override@LocalDateTimeConverter() final  DateTime createdAt;
 
@@ -235,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TermsItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.typeLabel, typeLabel) || other.typeLabel == typeLabel)&&(identical(other.pdfUrl, pdfUrl) || other.pdfUrl == pdfUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TermsItemDto&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.pdfUrl, pdfUrl) || other.pdfUrl == pdfUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,typeLabel,pdfUrl,createdAt);
+int get hashCode => Object.hash(runtimeType,id,type,pdfUrl,createdAt);
 
 @override
 String toString() {
-  return 'TermsItemDto(id: $id, type: $type, typeLabel: $typeLabel, pdfUrl: $pdfUrl, createdAt: $createdAt)';
+  return 'TermsItemDto(id: $id, type: $type, pdfUrl: $pdfUrl, createdAt: $createdAt)';
 }
 
 
@@ -255,7 +253,7 @@ abstract mixin class _$TermsItemDtoCopyWith<$Res> implements $TermsItemDtoCopyWi
   factory _$TermsItemDtoCopyWith(_TermsItemDto value, $Res Function(_TermsItemDto) _then) = __$TermsItemDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, TermsType type, String typeLabel, String pdfUrl,@LocalDateTimeConverter() DateTime createdAt
+ int id, TermsType type, String pdfUrl,@LocalDateTimeConverter() DateTime createdAt
 });
 
 
@@ -272,12 +270,11 @@ class __$TermsItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of TermsItemDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? typeLabel = null,Object? pdfUrl = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? pdfUrl = null,Object? createdAt = null,}) {
   return _then(_TermsItemDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as TermsType,typeLabel: null == typeLabel ? _self.typeLabel : typeLabel // ignore: cast_nullable_to_non_nullable
-as String,pdfUrl: null == pdfUrl ? _self.pdfUrl : pdfUrl // ignore: cast_nullable_to_non_nullable
+as TermsType,pdfUrl: null == pdfUrl ? _self.pdfUrl : pdfUrl // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));

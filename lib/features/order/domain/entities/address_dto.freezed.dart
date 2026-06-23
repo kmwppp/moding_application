@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AddressDto {
 
- int get id; String get name; String get recipientName; String get zipCode; String get address; String get addressDetail; String get phone; bool get isDefault;
+ int get id; String get name; String get recipientName; String get zipCode; String get sigunguCode; String get address; String get addressDetail; String get phone; bool get isDefault; bool get isBusinessAddress;
 /// Create a copy of AddressDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AddressDtoCopyWith<AddressDto> get copyWith => _$AddressDtoCopyWithImpl<Address
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.recipientName, recipientName) || other.recipientName == recipientName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.recipientName, recipientName) || other.recipientName == recipientName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.sigunguCode, sigunguCode) || other.sigunguCode == sigunguCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault)&&(identical(other.isBusinessAddress, isBusinessAddress) || other.isBusinessAddress == isBusinessAddress));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,recipientName,zipCode,address,addressDetail,phone,isDefault);
+int get hashCode => Object.hash(runtimeType,id,name,recipientName,zipCode,sigunguCode,address,addressDetail,phone,isDefault,isBusinessAddress);
 
 @override
 String toString() {
-  return 'AddressDto(id: $id, name: $name, recipientName: $recipientName, zipCode: $zipCode, address: $address, addressDetail: $addressDetail, phone: $phone, isDefault: $isDefault)';
+  return 'AddressDto(id: $id, name: $name, recipientName: $recipientName, zipCode: $zipCode, sigunguCode: $sigunguCode, address: $address, addressDetail: $addressDetail, phone: $phone, isDefault: $isDefault, isBusinessAddress: $isBusinessAddress)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AddressDtoCopyWith<$Res>  {
   factory $AddressDtoCopyWith(AddressDto value, $Res Function(AddressDto) _then) = _$AddressDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String recipientName, String zipCode, String address, String addressDetail, String phone, bool isDefault
+ int id, String name, String recipientName, String zipCode, String sigunguCode, String address, String addressDetail, String phone, bool isDefault, bool isBusinessAddress
 });
 
 
@@ -65,16 +65,18 @@ class _$AddressDtoCopyWithImpl<$Res>
 
 /// Create a copy of AddressDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? recipientName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = null,Object? phone = null,Object? isDefault = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? recipientName = null,Object? zipCode = null,Object? sigunguCode = null,Object? address = null,Object? addressDetail = null,Object? phone = null,Object? isDefault = null,Object? isBusinessAddress = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,recipientName: null == recipientName ? _self.recipientName : recipientName // ignore: cast_nullable_to_non_nullable
 as String,zipCode: null == zipCode ? _self.zipCode : zipCode // ignore: cast_nullable_to_non_nullable
+as String,sigunguCode: null == sigunguCode ? _self.sigunguCode : sigunguCode // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,addressDetail: null == addressDetail ? _self.addressDetail : addressDetail // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,isDefault: null == isDefault ? _self.isDefault : isDefault // ignore: cast_nullable_to_non_nullable
+as bool,isBusinessAddress: null == isBusinessAddress ? _self.isBusinessAddress : isBusinessAddress // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -160,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String recipientName,  String zipCode,  String address,  String addressDetail,  String phone,  bool isDefault)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String recipientName,  String zipCode,  String sigunguCode,  String address,  String addressDetail,  String phone,  bool isDefault,  bool isBusinessAddress)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AddressDto() when $default != null:
-return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.address,_that.addressDetail,_that.phone,_that.isDefault);case _:
+return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.sigunguCode,_that.address,_that.addressDetail,_that.phone,_that.isDefault,_that.isBusinessAddress);case _:
   return orElse();
 
 }
@@ -181,10 +183,10 @@ return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.addr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String recipientName,  String zipCode,  String address,  String addressDetail,  String phone,  bool isDefault)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String recipientName,  String zipCode,  String sigunguCode,  String address,  String addressDetail,  String phone,  bool isDefault,  bool isBusinessAddress)  $default,) {final _that = this;
 switch (_that) {
 case _AddressDto():
-return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.address,_that.addressDetail,_that.phone,_that.isDefault);case _:
+return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.sigunguCode,_that.address,_that.addressDetail,_that.phone,_that.isDefault,_that.isBusinessAddress);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +203,10 @@ return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.addr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String recipientName,  String zipCode,  String address,  String addressDetail,  String phone,  bool isDefault)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String recipientName,  String zipCode,  String sigunguCode,  String address,  String addressDetail,  String phone,  bool isDefault,  bool isBusinessAddress)?  $default,) {final _that = this;
 switch (_that) {
 case _AddressDto() when $default != null:
-return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.address,_that.addressDetail,_that.phone,_that.isDefault);case _:
+return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.sigunguCode,_that.address,_that.addressDetail,_that.phone,_that.isDefault,_that.isBusinessAddress);case _:
   return null;
 
 }
@@ -216,17 +218,19 @@ return $default(_that.id,_that.name,_that.recipientName,_that.zipCode,_that.addr
 @JsonSerializable()
 
 class _AddressDto implements AddressDto {
-  const _AddressDto({required this.id, required this.name, required this.recipientName, required this.zipCode, required this.address, required this.addressDetail, required this.phone, this.isDefault = false});
+  const _AddressDto({required this.id, required this.name, required this.recipientName, required this.zipCode, this.sigunguCode = '', required this.address, required this.addressDetail, required this.phone, this.isDefault = false, this.isBusinessAddress = false});
   factory _AddressDto.fromJson(Map<String, dynamic> json) => _$AddressDtoFromJson(json);
 
 @override final  int id;
 @override final  String name;
 @override final  String recipientName;
 @override final  String zipCode;
+@override@JsonKey() final  String sigunguCode;
 @override final  String address;
 @override final  String addressDetail;
 @override final  String phone;
 @override@JsonKey() final  bool isDefault;
+@override@JsonKey() final  bool isBusinessAddress;
 
 /// Create a copy of AddressDto
 /// with the given fields replaced by the non-null parameter values.
@@ -241,16 +245,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.recipientName, recipientName) || other.recipientName == recipientName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.recipientName, recipientName) || other.recipientName == recipientName)&&(identical(other.zipCode, zipCode) || other.zipCode == zipCode)&&(identical(other.sigunguCode, sigunguCode) || other.sigunguCode == sigunguCode)&&(identical(other.address, address) || other.address == address)&&(identical(other.addressDetail, addressDetail) || other.addressDetail == addressDetail)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.isDefault, isDefault) || other.isDefault == isDefault)&&(identical(other.isBusinessAddress, isBusinessAddress) || other.isBusinessAddress == isBusinessAddress));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,recipientName,zipCode,address,addressDetail,phone,isDefault);
+int get hashCode => Object.hash(runtimeType,id,name,recipientName,zipCode,sigunguCode,address,addressDetail,phone,isDefault,isBusinessAddress);
 
 @override
 String toString() {
-  return 'AddressDto(id: $id, name: $name, recipientName: $recipientName, zipCode: $zipCode, address: $address, addressDetail: $addressDetail, phone: $phone, isDefault: $isDefault)';
+  return 'AddressDto(id: $id, name: $name, recipientName: $recipientName, zipCode: $zipCode, sigunguCode: $sigunguCode, address: $address, addressDetail: $addressDetail, phone: $phone, isDefault: $isDefault, isBusinessAddress: $isBusinessAddress)';
 }
 
 
@@ -261,7 +265,7 @@ abstract mixin class _$AddressDtoCopyWith<$Res> implements $AddressDtoCopyWith<$
   factory _$AddressDtoCopyWith(_AddressDto value, $Res Function(_AddressDto) _then) = __$AddressDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String recipientName, String zipCode, String address, String addressDetail, String phone, bool isDefault
+ int id, String name, String recipientName, String zipCode, String sigunguCode, String address, String addressDetail, String phone, bool isDefault, bool isBusinessAddress
 });
 
 
@@ -278,16 +282,18 @@ class __$AddressDtoCopyWithImpl<$Res>
 
 /// Create a copy of AddressDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? recipientName = null,Object? zipCode = null,Object? address = null,Object? addressDetail = null,Object? phone = null,Object? isDefault = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? recipientName = null,Object? zipCode = null,Object? sigunguCode = null,Object? address = null,Object? addressDetail = null,Object? phone = null,Object? isDefault = null,Object? isBusinessAddress = null,}) {
   return _then(_AddressDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,recipientName: null == recipientName ? _self.recipientName : recipientName // ignore: cast_nullable_to_non_nullable
 as String,zipCode: null == zipCode ? _self.zipCode : zipCode // ignore: cast_nullable_to_non_nullable
+as String,sigunguCode: null == sigunguCode ? _self.sigunguCode : sigunguCode // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,addressDetail: null == addressDetail ? _self.addressDetail : addressDetail // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,isDefault: null == isDefault ? _self.isDefault : isDefault // ignore: cast_nullable_to_non_nullable
+as bool,isBusinessAddress: null == isBusinessAddress ? _self.isBusinessAddress : isBusinessAddress // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }

@@ -17,6 +17,12 @@ class AppBoxStyles {
     ],
   );
 
+  static final borderBoxNoneShadow = BoxDecoration(
+    color: Colors.white, // 그림자가 보이려면 배경색이 반드시 있어야 합니다!
+    border: Border.all(color: AppColors.boxBorderGrey),
+    borderRadius: BorderRadius.circular(10),
+  );
+
   static BoxDecoration focusContainerDecoration({bool isError = false}) {
     return BoxDecoration(
       color: Colors.white, // 배경색이 필요할 경우 추가

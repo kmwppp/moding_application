@@ -45,7 +45,7 @@ class _OptionsPageState extends ConsumerState<OptionsPage> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            const AppSliverAppbar(title: '옵션'),
+            const AppSliverAppbar(title: '설정'),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

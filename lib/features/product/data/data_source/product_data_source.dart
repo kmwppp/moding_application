@@ -19,7 +19,10 @@ class ProductDataSource {
   ProductDataSource(this._dio);
 
   Future<Map<String, dynamic>> getProductInfo(int productId) async {
-    final response = await _dio.get(AppHttpUrl.getProductDetailInfo(productId));
+    final response = await _dio.get(
+      AppHttpUrl.getProductDetailInfo(productId),
+      options: Options(extra: {'ignore401Logout': true}),
+    );
     return response.data;
   }
 

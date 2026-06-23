@@ -35,7 +35,7 @@ class SignupNewLoginInfoSection extends ConsumerWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '비밀번호는 영어, 숫자, 특수문자를 포함하여 8자 이상 입력해주세요.',
+            '비밀번호는 영문, 숫자, 특수문자를 포함하여 8자 이상 입력해 주세요.',
             style: context.caption.copyWith(color: AppColors.darkGrey),
           ),
           const SizedBox(height: 12),

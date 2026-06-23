@@ -1,6 +1,1 @@
-enum NiceVerificationSource {
-  signup,
-  findId,
-  findPw,
-  editInfo,
-}
+enum NiceVerificationSource { signup, findId, findPw, editInfo, alcohol, login }

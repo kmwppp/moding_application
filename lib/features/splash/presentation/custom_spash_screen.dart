@@ -5,11 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/constants/app_colors.dart';
+import 'package:moding_application/core/presentation/widgets/custom_button.dart';
+import 'package:moding_application/core/presentation/widgets/modal/app_bottom_sheet.dart';
+import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/app_version/data/repositories/app_version_repository_impl.dart';
+import 'package:moding_application/features/app_version/domain/entities/app_version_response_dto.dart';
+import 'package:moding_application/features/app_version/domain/enums/app_update_type.dart';
+import 'package:moding_application/features/app_version/domain/enums/app_version_platform.dart';
+import 'package:moding_application/features/app_version/domain/utils/app_version_checker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../core/constants/app_colors.dart';
 
 class CustomSplashScreen extends ConsumerStatefulWidget {
   const CustomSplashScreen({super.key});
@@ -31,88 +37,102 @@ class _CustomSplashScreenState extends ConsumerState<CustomSplashScreen> {
 
   Future<void> _startTimer() async {
     FlutterNativeSplash.remove();
-    // final shouldBlockForUpdate = await _checkRequiredUpdate();
-    // if (!mounted || shouldBlockForUpdate) return;
-
-    await Future.delayed(const Duration(seconds: 2));
+    final canProceed = await _checkAppVersionAndHandle();
+    if (!mounted || !canProceed) return;
 
     if (mounted) {
       context.go('/main');
     }
   }
 
-  Future<bool> _checkRequiredUpdate() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    final platform = Platform.isIOS ? 'ios' : 'android';
-    final response = await ref
-        .read(appVersionRepositoryProvider)
-        .getAppVersion(platform: platform, currentVersion: packageInfo.version);
+  Future<bool> _checkAppVersionAndHandle() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      final platform = Platform.isIOS
+          ? AppVersionPlatform.ios
+          : AppVersionPlatform.android;
+      final response = await ref
+          .read(appVersionRepositoryProvider)
+          .getAppVersion(
+            platform: platform.apiValue,
+            currentVersion: packageInfo.version,
+          );
 
-    if (response.success) {
-      return false;
-    }
+      if (!mounted) return false;
+      if (response?.data == null) return true;
 
-    if (!mounted) return true;
+      final updateType = AppVersionChecker.resolveUpdateType(
+        currentVersion: packageInfo.version,
+        versionInfo: response!.data!,
+      );
 
-    await showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  '필수 업데이트',
-                  style: TextStyle(
-                    color: AppColors.pointColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  '필수 업데이트가 있습니다.',
-                  // response.message.isEmpty
-                  //     ? '필수 업데이트가 있습니다.'
-                  //     : response.message,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: _openStore,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size.fromHeight(44),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text('업데이트'),
-                  ),
-                ),
-              ],
+      switch (updateType) {
+        case AppUpdateType.force:
+          await _showUpdateDialog(
+            title: '필수 업데이트',
+            primaryButtonText: '업데이트',
+            message: _buildUpdateMessage(
+              defaultMessage: '필수 업데이트가 있습니다.',
+              response: response,
             ),
-          ),
-        );
-      },
-    );
+            onPrimaryTap: _openStore,
+          );
+          return false;
+        case AppUpdateType.optional:
+          final shouldUpdate = await _showOptionalUpdateDialog(
+            message: _buildUpdateMessage(
+              defaultMessage: '새로운 버전이 있습니다.',
+              response: response,
+            ),
+          );
+          if (shouldUpdate == true) {
+            await _openStore();
+          }
+          return shouldUpdate != true;
+        case AppUpdateType.none:
+          return true;
+      }
+    } catch (_) {
+      return true;
+    }
+  }
 
-    return true;
+  String _buildUpdateMessage({
+    required String defaultMessage,
+    required AppVersionResponseDto response,
+  }) {
+    final releaseNotes = response.data?.releaseNotes.trim() ?? '';
+    if (releaseNotes.isEmpty) return defaultMessage;
+    return '$defaultMessage\n\n$releaseNotes';
+  }
+
+  Future<void> _showUpdateDialog({
+    required String title,
+    required String message,
+    required String primaryButtonText,
+    required Future<void> Function() onPrimaryTap,
+  }) async {
+    await AppBottomSheet.show<void>(
+      context: context,
+      title: title,
+      isDismissible: false,
+      enableDrag: false,
+      child: _UpdateBottomSheetContent(
+        message: message,
+        primaryButtonText: primaryButtonText,
+        onPrimaryTap: onPrimaryTap,
+      ),
+    );
+  }
+
+  Future<bool?> _showOptionalUpdateDialog({required String message}) {
+    return AppBottomSheet.show<bool>(
+      context: context,
+      title: '업데이트 안내',
+      isDismissible: false,
+      enableDrag: false,
+      child: _OptionalUpdateBottomSheetContent(message: message),
+    );
   }
 
   Future<void> _openStore() async {
@@ -157,6 +177,107 @@ class _CustomSplashScreenState extends ConsumerState<CustomSplashScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _UpdateBottomSheetContent extends StatelessWidget {
+  const _UpdateBottomSheetContent({
+    required this.message,
+    required this.primaryButtonText,
+    required this.onPrimaryTap,
+  });
+
+  final String message;
+  final String primaryButtonText;
+  final Future<void> Function() onPrimaryTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            message,
+            style: context.body.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          GestureDetector(
+            onTap: () async {
+              Navigator.of(context).pop();
+              await onPrimaryTap();
+            },
+            child: SizedBox(
+              width: double.infinity,
+              height: 32,
+              child: CustomButton(
+                title: primaryButtonText,
+                boxColor: AppColors.primary,
+                textColor: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OptionalUpdateBottomSheetContent extends StatelessWidget {
+  const _OptionalUpdateBottomSheetContent({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            message,
+            style: context.body.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(false),
+                  child: SizedBox(
+                    height: 32,
+                    child: CustomButton(
+                      title: '나중에 하기',
+                      boxColor: Colors.white,
+                      textColor: AppColors.darkGrey,
+                      borderColor: AppColors.mediumGrey,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(true),
+                  child: SizedBox(
+                    height: 32,
+                    child: CustomButton(
+                      title: '업데이트하기',
+                      boxColor: AppColors.primary,
+                      textColor: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

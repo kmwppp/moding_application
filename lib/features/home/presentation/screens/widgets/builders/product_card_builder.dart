@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moding_application/features/home/domain/enums/section_type.dart';
 import 'package:moding_application/features/product/domain/enums/product_recommand_type.dart';
 
 import '../../../../../../core/presentation/widgets/card/card_item_width.dart';
@@ -13,12 +12,14 @@ class ProductCardBuilder extends StatelessWidget {
     required this.product,
     required this.sectionType,
     required this.randomStartIndex,
+    required this.isLoggedIn,
   });
 
   final int index;
   final HomeBasicItemModel product;
   final ProductRecommendType sectionType;
   final int randomStartIndex;
+  final bool isLoggedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,12 @@ class ProductCardBuilder extends StatelessWidget {
         name: product.name,
         thumbnailUrl: product.thumbnailUrl,
         isMain: true,
+        isHaccpCertified: product.isHaccpCertified,
+        lowestPrice: product.lowestPrice,
+        lowestDiscountAmount: product.lowestDiscountAmount,
+        lowestDiscountRate: product.lowestDiscountRate,
+        lowestSellingPrice: product.lowestSellingPrice,
+        isLoggedIn: isLoggedIn,
       );
     }
 
@@ -43,6 +50,12 @@ class ProductCardBuilder extends StatelessWidget {
       thumbnailUrl: product.thumbnailUrl,
       viewCount: product.viewCount,
       reviewCount: product.reviewCount,
+      isHaccpCertified: product.isHaccpCertified,
+      lowestPrice: product.lowestPrice,
+      lowestDiscountAmount: product.lowestDiscountAmount,
+      lowestDiscountRate: product.lowestDiscountRate,
+      lowestSellingPrice: product.lowestSellingPrice,
+      isLoggedIn: isLoggedIn,
     );
   }
 }

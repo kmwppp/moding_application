@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/constants/app_http_url.dart';
 import '../../../../core/network/dio_client.dart';
 import '../../../product/domain/enums/product_recommand_type.dart';
+import '../../domain/entities/search_sort.dart';
 
 part 'search_data_source.g.dart';
 
@@ -45,6 +46,7 @@ class SearchDataSource {
     required String keyword,
     required int page,
     required int size,
+    required SearchSort sort,
   }) async {
     // 방어 로직
     if (keyword.isEmpty) {
@@ -53,7 +55,12 @@ class SearchDataSource {
 
     final response = await _dio.get(
       AppHttpUrl.getSearchProductList,
-      queryParameters: {"keyword": keyword, "page": page, "size": size},
+      queryParameters: {
+        "keyword": keyword,
+        "page": page,
+        "size": size,
+        "sort": sort.value,
+      },
     );
 
     return response.data;

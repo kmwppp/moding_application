@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/core/theme/app_box_styles.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/seller_conversion/presentation/screens/widgets/seller_conversion_sliver_appbar.dart';
@@ -55,18 +56,31 @@ class SellerConversionCheckPage extends StatelessWidget {
                             Text(
                               isRejected
                                   ? "카카오톡 채널을 통해 문의해주세요."
-                                  : "순차적으로 확인 후 승인이 완료되며, 미비한 서류가 있으면 추가 요청이 있을 수 있습니다.",
+                                  : "제출하신 신청서는 순차적으로 검토되며, 서류가 미비한 경우 보완 요청이 있을 수 있습니다.",
                               style: context.body.copyWith(),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              isRejected
-                                  ? "순차적으로 확인 후 연락드리겠습니다."
-                                  : "영업일 기준 1~2일 소요될 수 있습니다.",
-                              style: context.caption.copyWith(),
-                              textAlign: TextAlign.center,
-                            ),
+                            if (!isRejected)
+                              Text(
+                                "승인까지 영업일 기준 1~2일이 소요될 수 있습니다.",
+                                style: context.caption.copyWith(),
+                                textAlign: TextAlign.center,
+                              )
+                            else
+                              GestureDetector(
+                                onTap: () {
+                                  context.push(
+                                    '/seller_conversion?goMainOnSuccess=true',
+                                  );
+                                },
+                                child: CustomButton(
+                                  title: "재신청",
+                                  boxColor: AppColors.pointColor,
+                                  borderColor: AppColors.pointColor,
+                                  textColor: Colors.white,
+                                ),
+                              ),
                           ],
                         ),
                       ),

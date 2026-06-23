@@ -26,10 +26,7 @@ class HomeDataSource {
   }
 
   Future<Map<String, dynamic>> getHomeProductList(int sectionId) async {
-    final response = await _dio.get(
-      AppHttpUrl.getHomeProductList(sectionId),
-      options: Options(extra: {"SkipAuth": true}),
-    );
+    final response = await _dio.get(AppHttpUrl.getHomeProductList(sectionId));
 
     return response.data;
   }

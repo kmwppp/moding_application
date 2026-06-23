@@ -67,7 +67,7 @@ class PaymentCompletePage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "(주)모딩은 통신판매중개자로서 거래의 당사자가 아닙니다.",
+                              "(주)모딩은 통신판매중개자로서 거래의 당사자가 아니며, 거래 문의 및 클레임은 모딩 고객센터를 통해 접수됩니다.",
                               style: context.caption.copyWith(
                                 fontSize: 8,
                                 color: AppColors.darkGrey,

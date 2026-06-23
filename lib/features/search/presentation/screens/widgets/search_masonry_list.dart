@@ -71,6 +71,11 @@ class _ItemCard extends StatelessWidget {
         mainColor: CardStyle.colorByIndex(index, offset: colorStartIndex),
         tags: item.tags,
         colorSelectionSeed: index,
+        isHaccpCertified: item.isHaccpCertified == true,
+        lowestPrice: item.lowestPrice,
+        lowestDiscountAmount: item.lowestDiscountAmount,
+        lowestDiscountRate: item.lowestDiscountRate,
+        lowestSellingPrice: item.lowestSellingPrice,
       ),
     );
   }

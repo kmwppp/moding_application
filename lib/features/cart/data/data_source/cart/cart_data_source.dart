@@ -62,9 +62,10 @@ class CartDataSource {
   }
 
   Future<Map<String, dynamic>> deleteProducts(List<int> cartItemIds) async {
+    final cartItemIdsQuery = cartItemIds.join(',');
     final response = await _dio.delete(
       AppHttpUrl.shoppingCartControl,
-      data: {"cartItemIds": cartItemIds},
+      queryParameters: {"cartItemIds": cartItemIdsQuery},
     );
     return response.data;
   }

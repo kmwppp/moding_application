@@ -25,4 +25,18 @@ class ChangePasswordDataSource {
     );
     return response.data;
   }
+
+  Future<Map<String, dynamic>> verifyIdentityAndResetPassword({
+    required String identityVerificationKey,
+    required String newPassword,
+  }) async {
+    final response = await _dio.post(
+      AppHttpUrl.postIdentityVerify,
+      data: {
+        'identityVerificationKey': identityVerificationKey,
+        'newPassword': newPassword,
+      },
+    );
+    return response.data;
+  }
 }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CartCreateOrderRequestDto {
 
- String get idempotencyKey; List<int> get cartItemIds; int get deliveryAddressId; String get deliveryRequest;
+ String get idempotencyKey; List<int> get cartItemIds; int get deliveryAddressId; String get deliveryRequest;@JsonKey(toJson: _pgProviderToJson) PgProvider? get pgProvider;
 /// Create a copy of CartCreateOrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CartCreateOrderRequestDtoCopyWith<CartCreateOrderRequestDto> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartCreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&const DeepCollectionEquality().equals(other.cartItemIds, cartItemIds)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartCreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&const DeepCollectionEquality().equals(other.cartItemIds, cartItemIds)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&(identical(other.pgProvider, pgProvider) || other.pgProvider == pgProvider));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,idempotencyKey,const DeepCollectionEquality().hash(cartItemIds),deliveryAddressId,deliveryRequest);
+int get hashCode => Object.hash(runtimeType,idempotencyKey,const DeepCollectionEquality().hash(cartItemIds),deliveryAddressId,deliveryRequest,pgProvider);
 
 @override
 String toString() {
-  return 'CartCreateOrderRequestDto(idempotencyKey: $idempotencyKey, cartItemIds: $cartItemIds, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest)';
+  return 'CartCreateOrderRequestDto(idempotencyKey: $idempotencyKey, cartItemIds: $cartItemIds, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest, pgProvider: $pgProvider)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CartCreateOrderRequestDtoCopyWith<$Res>  {
   factory $CartCreateOrderRequestDtoCopyWith(CartCreateOrderRequestDto value, $Res Function(CartCreateOrderRequestDto) _then) = _$CartCreateOrderRequestDtoCopyWithImpl;
 @useResult
 $Res call({
- String idempotencyKey, List<int> cartItemIds, int deliveryAddressId, String deliveryRequest
+ String idempotencyKey, List<int> cartItemIds, int deliveryAddressId, String deliveryRequest,@JsonKey(toJson: _pgProviderToJson) PgProvider? pgProvider
 });
 
 
@@ -65,13 +65,14 @@ class _$CartCreateOrderRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of CartCreateOrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? idempotencyKey = null,Object? cartItemIds = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? idempotencyKey = null,Object? cartItemIds = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,Object? pgProvider = freezed,}) {
   return _then(_self.copyWith(
 idempotencyKey: null == idempotencyKey ? _self.idempotencyKey : idempotencyKey // ignore: cast_nullable_to_non_nullable
 as String,cartItemIds: null == cartItemIds ? _self.cartItemIds : cartItemIds // ignore: cast_nullable_to_non_nullable
 as List<int>,deliveryAddressId: null == deliveryAddressId ? _self.deliveryAddressId : deliveryAddressId // ignore: cast_nullable_to_non_nullable
 as int,deliveryRequest: null == deliveryRequest ? _self.deliveryRequest : deliveryRequest // ignore: cast_nullable_to_non_nullable
-as String,
+as String,pgProvider: freezed == pgProvider ? _self.pgProvider : pgProvider // ignore: cast_nullable_to_non_nullable
+as PgProvider?,
   ));
 }
 
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String idempotencyKey,  List<int> cartItemIds,  int deliveryAddressId,  String deliveryRequest)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String idempotencyKey,  List<int> cartItemIds,  int deliveryAddressId,  String deliveryRequest, @JsonKey(toJson: _pgProviderToJson)  PgProvider? pgProvider)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CartCreateOrderRequestDto() when $default != null:
-return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_that.deliveryRequest);case _:
+return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_that.deliveryRequest,_that.pgProvider);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String idempotencyKey,  List<int> cartItemIds,  int deliveryAddressId,  String deliveryRequest)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String idempotencyKey,  List<int> cartItemIds,  int deliveryAddressId,  String deliveryRequest, @JsonKey(toJson: _pgProviderToJson)  PgProvider? pgProvider)  $default,) {final _that = this;
 switch (_that) {
 case _CartCreateOrderRequestDto():
-return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_that.deliveryRequest);case _:
+return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_that.deliveryRequest,_that.pgProvider);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String idempotencyKey,  List<int> cartItemIds,  int deliveryAddressId,  String deliveryRequest)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String idempotencyKey,  List<int> cartItemIds,  int deliveryAddressId,  String deliveryRequest, @JsonKey(toJson: _pgProviderToJson)  PgProvider? pgProvider)?  $default,) {final _that = this;
 switch (_that) {
 case _CartCreateOrderRequestDto() when $default != null:
-return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_that.deliveryRequest);case _:
+return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_that.deliveryRequest,_that.pgProvider);case _:
   return null;
 
 }
@@ -212,7 +213,7 @@ return $default(_that.idempotencyKey,_that.cartItemIds,_that.deliveryAddressId,_
 @JsonSerializable()
 
 class _CartCreateOrderRequestDto implements CartCreateOrderRequestDto {
-  const _CartCreateOrderRequestDto({required this.idempotencyKey, required final  List<int> cartItemIds, required this.deliveryAddressId, required this.deliveryRequest}): _cartItemIds = cartItemIds;
+  const _CartCreateOrderRequestDto({required this.idempotencyKey, required final  List<int> cartItemIds, required this.deliveryAddressId, required this.deliveryRequest, @JsonKey(toJson: _pgProviderToJson) this.pgProvider}): _cartItemIds = cartItemIds;
   factory _CartCreateOrderRequestDto.fromJson(Map<String, dynamic> json) => _$CartCreateOrderRequestDtoFromJson(json);
 
 @override final  String idempotencyKey;
@@ -225,6 +226,7 @@ class _CartCreateOrderRequestDto implements CartCreateOrderRequestDto {
 
 @override final  int deliveryAddressId;
 @override final  String deliveryRequest;
+@override@JsonKey(toJson: _pgProviderToJson) final  PgProvider? pgProvider;
 
 /// Create a copy of CartCreateOrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CartCreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&const DeepCollectionEquality().equals(other._cartItemIds, _cartItemIds)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CartCreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&const DeepCollectionEquality().equals(other._cartItemIds, _cartItemIds)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&(identical(other.pgProvider, pgProvider) || other.pgProvider == pgProvider));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,idempotencyKey,const DeepCollectionEquality().hash(_cartItemIds),deliveryAddressId,deliveryRequest);
+int get hashCode => Object.hash(runtimeType,idempotencyKey,const DeepCollectionEquality().hash(_cartItemIds),deliveryAddressId,deliveryRequest,pgProvider);
 
 @override
 String toString() {
-  return 'CartCreateOrderRequestDto(idempotencyKey: $idempotencyKey, cartItemIds: $cartItemIds, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest)';
+  return 'CartCreateOrderRequestDto(idempotencyKey: $idempotencyKey, cartItemIds: $cartItemIds, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest, pgProvider: $pgProvider)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$CartCreateOrderRequestDtoCopyWith<$Res> implements $CartC
   factory _$CartCreateOrderRequestDtoCopyWith(_CartCreateOrderRequestDto value, $Res Function(_CartCreateOrderRequestDto) _then) = __$CartCreateOrderRequestDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String idempotencyKey, List<int> cartItemIds, int deliveryAddressId, String deliveryRequest
+ String idempotencyKey, List<int> cartItemIds, int deliveryAddressId, String deliveryRequest,@JsonKey(toJson: _pgProviderToJson) PgProvider? pgProvider
 });
 
 
@@ -276,13 +278,14 @@ class __$CartCreateOrderRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of CartCreateOrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? idempotencyKey = null,Object? cartItemIds = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? idempotencyKey = null,Object? cartItemIds = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,Object? pgProvider = freezed,}) {
   return _then(_CartCreateOrderRequestDto(
 idempotencyKey: null == idempotencyKey ? _self.idempotencyKey : idempotencyKey // ignore: cast_nullable_to_non_nullable
 as String,cartItemIds: null == cartItemIds ? _self._cartItemIds : cartItemIds // ignore: cast_nullable_to_non_nullable
 as List<int>,deliveryAddressId: null == deliveryAddressId ? _self.deliveryAddressId : deliveryAddressId // ignore: cast_nullable_to_non_nullable
 as int,deliveryRequest: null == deliveryRequest ? _self.deliveryRequest : deliveryRequest // ignore: cast_nullable_to_non_nullable
-as String,
+as String,pgProvider: freezed == pgProvider ? _self.pgProvider : pgProvider // ignore: cast_nullable_to_non_nullable
+as PgProvider?,
   ));
 }
 

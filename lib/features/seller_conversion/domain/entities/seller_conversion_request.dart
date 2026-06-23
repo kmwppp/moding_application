@@ -11,8 +11,9 @@ class SellerConversionRequest {
     required this.bankAccountNumber,
     required this.bankAccountHolder,
     required this.bankbookImagePath,
-    required this.businessPermitImagePath,
-    required this.salesPermitImagePath,
+    required this.businessPermitImagePaths,
+    required this.salesPermitImagePaths,
+    required this.haccpCertificateImagePaths,
     required this.otherFilePaths,
   });
 
@@ -23,8 +24,9 @@ class SellerConversionRequest {
   final String bankAccountNumber;
   final String bankAccountHolder;
   final String bankbookImagePath;
-  final String businessPermitImagePath;
-  final String salesPermitImagePath;
+  final List<String> businessPermitImagePaths;
+  final List<String> salesPermitImagePaths;
+  final List<String> haccpCertificateImagePaths;
   final List<String> otherFilePaths;
 
   Future<FormData> toFormData() async {
@@ -36,8 +38,18 @@ class SellerConversionRequest {
       'bankAccountNumber': bankAccountNumber,
       'bankAccountHolder': bankAccountHolder,
       'bankbook': await _toMultipartFile(bankbookImagePath),
-      'businessPermit': await _toMultipartFile(businessPermitImagePath),
-      'salesPermit': await _toMultipartFile(salesPermitImagePath),
+      if (businessPermitImagePaths.isNotEmpty)
+        'businessPermit': await Future.wait(
+          businessPermitImagePaths.map(_toMultipartFile),
+        ),
+      if (salesPermitImagePaths.isNotEmpty)
+        'mailOrderSalesReport': await Future.wait(
+          salesPermitImagePaths.map(_toMultipartFile),
+        ),
+      if (haccpCertificateImagePaths.isNotEmpty)
+        'haccpCertificate': await Future.wait(
+          haccpCertificateImagePaths.map(_toMultipartFile),
+        ),
       if (otherFilePaths.isNotEmpty)
         'otherFiles': await Future.wait(otherFilePaths.map(_toMultipartFile)),
     });

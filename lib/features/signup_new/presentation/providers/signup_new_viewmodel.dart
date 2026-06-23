@@ -133,7 +133,7 @@ class SignupNewViewModel extends _$SignupNewViewModel {
     }
 
     if (!state.isPasswordConfirmMatched) {
-      return '변경할 비밀번호가 일치하지 않습니다.';
+      return '비밀번호가 일치하지 않습니다.';
     }
 
     if (!state.agreedRequiredTerms) {
@@ -268,6 +268,10 @@ class SignupNewViewModel extends _$SignupNewViewModel {
     state = state.copyWith(businessLicenseImagePath: '');
   }
 
+  void updateIsAlcoholBuyer(bool value) {
+    state = state.copyWith(isAlcoholBuyer: value);
+  }
+
   String? validateStep2() {
     if (state.businessRegistrationNumber.trim().isEmpty) {
       return '사업자 등록번호를 입력해주세요.';
@@ -332,6 +336,7 @@ class SignupNewViewModel extends _$SignupNewViewModel {
             : '',
         businessCategoryId: state.businessCategoryId!,
         businessLicenseFilePath: state.businessLicenseImagePath,
+        isAlcoholBuyer: state.isAlcoholBuyer,
         identityVerificationKey: state.identityVerificationKey,
       );
 

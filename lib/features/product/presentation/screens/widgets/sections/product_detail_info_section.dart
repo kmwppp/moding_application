@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -65,16 +66,15 @@ class ProductDetailInfoSection extends ConsumerWidget {
                       child: Column(
                         children: [
                           const SizedBox(height: 30),
-                          Image.network(
-                            state.productInfo?.foodLabelImageUrl ?? "",
+                          CachedNetworkImage(
+                            imageUrl: Uri.encodeFull(
+                              state.productInfo?.foodLabelImageUrl ?? "",
+                            ),
                             fit: BoxFit.fitWidth,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) {
                               return Container(
                                 color: Colors.grey[200],
                                 child: const Center(

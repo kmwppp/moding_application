@@ -11,10 +11,12 @@ abstract class AddressDto with _$AddressDto {
     required String name,
     required String recipientName,
     required String zipCode,
+    @Default('') String sigunguCode,
     required String address,
     required String addressDetail,
     required String phone,
     @Default(false) bool isDefault,
+    @Default(false) bool isBusinessAddress,
   }) = _AddressDto;
 
   factory AddressDto.fromJson(Map<String, dynamic> json) =>

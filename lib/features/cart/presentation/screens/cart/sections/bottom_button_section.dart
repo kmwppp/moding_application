@@ -16,9 +16,10 @@ class CartPriceSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(cartViewModelProvider);
     final items = state.cartData?.data ?? [];
+    final selectedIds = state.selectedCartItemIds;
 
-    final productSum = CartPricing.sumProductAmount(items);
-    final shippingSum = CartPricing.sumShipping(items);
+    final productSum = CartPricing.sumProductAmountSelected(items, selectedIds);
+    final shippingSum = CartPricing.sumShippingSelected(items, selectedIds);
     final grand = productSum + shippingSum;
 
     return CartCommonBox(

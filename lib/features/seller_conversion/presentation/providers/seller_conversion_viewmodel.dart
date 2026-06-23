@@ -80,18 +80,57 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
     );
   }
 
-  Future<void> pickBusinessPermitImage(ImageSource source) {
-    return _pickSingleImage(
-      source: source,
-      onSelected: (path) =>
-          state = state.copyWith(businessPermitImagePath: path),
+  Future<void> pickBusinessPermitImagesFromGallery() async {
+    await _pickMultiImages(
+      onSelected: (paths) => state = state.copyWith(
+        businessPermitImagePaths: [...state.businessPermitImagePaths, ...paths],
+      ),
     );
   }
 
-  Future<void> pickSalesPermitImage(ImageSource source) {
+  Future<void> pickBusinessPermitImageFromCamera() {
     return _pickSingleImage(
-      source: source,
-      onSelected: (path) => state = state.copyWith(salesPermitImagePath: path),
+      source: ImageSource.camera,
+      onSelected: (path) => state = state.copyWith(
+        businessPermitImagePaths: [...state.businessPermitImagePaths, path],
+      ),
+    );
+  }
+
+  Future<void> pickSalesPermitImagesFromGallery() async {
+    await _pickMultiImages(
+      onSelected: (paths) => state = state.copyWith(
+        salesPermitImagePaths: [...state.salesPermitImagePaths, ...paths],
+      ),
+    );
+  }
+
+  Future<void> pickSalesPermitImageFromCamera() {
+    return _pickSingleImage(
+      source: ImageSource.camera,
+      onSelected: (path) => state = state.copyWith(
+        salesPermitImagePaths: [...state.salesPermitImagePaths, path],
+      ),
+    );
+  }
+
+  Future<void> pickHaccpCertificateImagesFromGallery() async {
+    await _pickMultiImages(
+      onSelected: (paths) => state = state.copyWith(
+        haccpCertificateImagePaths: [
+          ...state.haccpCertificateImagePaths,
+          ...paths,
+        ],
+      ),
+    );
+  }
+
+  Future<void> pickHaccpCertificateImageFromCamera() {
+    return _pickSingleImage(
+      source: ImageSource.camera,
+      onSelected: (path) => state = state.copyWith(
+        haccpCertificateImagePaths: [...state.haccpCertificateImagePaths, path],
+      ),
     );
   }
 
@@ -125,12 +164,28 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
     state = state.copyWith(bankbookImagePath: null);
   }
 
-  void removeBusinessPermitImage() {
-    state = state.copyWith(businessPermitImagePath: null);
+  void removeSalesPermitImage(String path) {
+    state = state.copyWith(
+      salesPermitImagePaths: state.salesPermitImagePaths
+          .where((file) => file != path)
+          .toList(),
+    );
   }
 
-  void removeSalesPermitImage() {
-    state = state.copyWith(salesPermitImagePath: null);
+  void removeBusinessPermitImage(String path) {
+    state = state.copyWith(
+      businessPermitImagePaths: state.businessPermitImagePaths
+          .where((file) => file != path)
+          .toList(),
+    );
+  }
+
+  void removeHaccpCertificateImage(String path) {
+    state = state.copyWith(
+      haccpCertificateImagePaths: state.haccpCertificateImagePaths
+          .where((file) => file != path)
+          .toList(),
+    );
   }
 
   void removeOtherFile(String path) {
@@ -139,6 +194,21 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
           .where((file) => file != path)
           .toList(),
     );
+  }
+
+  void toggleAllRequiredTerms(bool value) {
+    state = state.copyWith(
+      agreedSellerTerms: value,
+      agreedSettlementTerms: value,
+    );
+  }
+
+  void toggleSellerTerms(bool value) {
+    state = state.copyWith(agreedSellerTerms: value);
+  }
+
+  void toggleSettlementTerms(bool value) {
+    state = state.copyWith(agreedSettlementTerms: value);
   }
 
   SellerConversionRequest buildRequest() {
@@ -150,8 +220,9 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
       bankAccountNumber: state.bankAccountNumber.trim(),
       bankAccountHolder: state.bankAccountHolder.trim(),
       bankbookImagePath: state.bankbookImagePath!,
-      businessPermitImagePath: state.businessPermitImagePath!,
-      salesPermitImagePath: state.salesPermitImagePath!,
+      businessPermitImagePaths: state.businessPermitImagePaths,
+      salesPermitImagePaths: state.salesPermitImagePaths,
+      haccpCertificateImagePaths: state.haccpCertificateImagePaths,
       otherFilePaths: state.otherFilePaths,
     );
   }
@@ -181,6 +252,20 @@ class SellerConversionViewModel extends _$SellerConversionViewModel {
       if (image == null) return;
 
       onSelected(image.path);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> _pickMultiImages({
+    required ValueChanged<List<String>> onSelected,
+  }) async {
+    try {
+      final picker = ImagePicker();
+      final images = await picker.pickMultiImage(imageQuality: 85);
+      if (images.isEmpty) return;
+
+      onSelected(images.map((image) => image.path).toList());
     } catch (e) {
       debugPrint(e.toString());
     }

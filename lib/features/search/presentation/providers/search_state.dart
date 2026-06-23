@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../product/domain/entities/product_recommand_dto.dart';
+import '../../domain/entities/search_sort.dart';
 
 part 'search_state.freezed.dart';
 
@@ -22,6 +23,7 @@ abstract class SearchState with _$SearchState {
 
     required bool isList,
     required List<RecommandDto>? searchList,
+    @Default(SearchSort.relevance) SearchSort searchSort,
 
     @Default(0) int searchPage,
     @Default(true) bool searchHasNext,
@@ -36,5 +38,6 @@ abstract class SearchState with _$SearchState {
     productList: [],
     isList: false,
     searchList: [],
+    searchSort: SearchSort.relevance,
   );
 }

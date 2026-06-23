@@ -24,14 +24,6 @@ class SignupNewBusinessCategorySection extends ConsumerWidget {
             value: state.selectedMainCategory?.name,
             placeholder: '대분류를 선택해주세요.',
             onTap: () async {
-              // if (state.selectedBusinessType == null) {
-              //   await CommonDialog.show(
-              //     context,
-              //     title: '안내',
-              //     message: '먼저 업종 구분을 선택해주세요.',
-              //   );
-              //   return;
-              // }
               await notifier.loadMainCategoryList();
               if (!context.mounted) return;
               _showMainCategorySheet(context, ref);

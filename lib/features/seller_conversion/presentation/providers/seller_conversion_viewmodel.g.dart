@@ -43,7 +43,7 @@ final class SellerConversionViewModelProvider
 }
 
 String _$sellerConversionViewModelHash() =>
-    r'0006645c330c3067133a329fc937c18602f1bfd6';
+    r'44e0b5e719839bc6be97b1f20080bab9d28859d8';
 
 abstract class _$SellerConversionViewModel
     extends $Notifier<SellerConversionState> {

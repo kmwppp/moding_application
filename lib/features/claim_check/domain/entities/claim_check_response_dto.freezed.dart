@@ -296,7 +296,7 @@ $ClaimCheckResponseDtoCopyWith<$Res> get data {
 /// @nodoc
 mixin _$ClaimCheckResponseDto {
 
- int get id; String get claimCode; int get orderId; String get orderCode; String get sellerBusinessName;@LocalDateTimeConverter() DateTime get createdAt;@JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) ClaimType get claimType; String get claimReason; List<ClaimCheckItemDto> get items; int get totalRefundAmount; List<String> get photoUrls;@JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) ClaimStatus get status;@JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) ClaimResolution? get resolution; String? get rejectReason; String? get appealReason;@NullableLocalDateTimeConverter() DateTime? get appealDeadlineAt;@JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) ReshipDeliveryMethod? get reshipDeliveryMethod; String? get reshipCourierCode; String? get reshipTrackingNumber;@NullableLocalDateTimeConverter() DateTime? get reshipShippedAt; List<ClaimCheckStatusHistoryDto> get statusHistories;@NullableLocalDateTimeConverter() DateTime? get deliveredAt;@LocalDateTimeConverter() DateTime get updatedAt;
+ int get id; String get claimCode; int get orderId; String get orderCode; String get sellerBusinessName;@LocalDateTimeConverter() DateTime get createdAt;@JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) ClaimType get claimType; String get claimReason; List<ClaimCheckItemDto> get items; int get totalRefundAmount; List<String> get photoUrls;@JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) ClaimStatus get status;@JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) ClaimResolution? get resolution; String? get rejectReason; String? get appealReason;@NullableLocalDateTimeConverter() DateTime? get appealDeadlineAt;@JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) ReshipDeliveryMethod? get reshipDeliveryMethod; String? get reshipCourierCode; String? get reshipTrackingNumber;@NullableLocalDateTimeConverter() DateTime? get reshipShippedAt; List<ClaimCheckTrackingEventDto> get reshipTrackingEvents; List<ClaimCheckStatusHistoryDto> get statusHistories;@NullableLocalDateTimeConverter() DateTime? get deliveredAt;@LocalDateTimeConverter() DateTime get updatedAt;
 /// Create a copy of ClaimCheckResponseDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -309,16 +309,16 @@ $ClaimCheckResponseDtoCopyWith<ClaimCheckResponseDto> get copyWith => _$ClaimChe
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClaimCheckResponseDto&&(identical(other.id, id) || other.id == id)&&(identical(other.claimCode, claimCode) || other.claimCode == claimCode)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.claimType, claimType) || other.claimType == claimType)&&(identical(other.claimReason, claimReason) || other.claimReason == claimReason)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.totalRefundAmount, totalRefundAmount) || other.totalRefundAmount == totalRefundAmount)&&const DeepCollectionEquality().equals(other.photoUrls, photoUrls)&&(identical(other.status, status) || other.status == status)&&(identical(other.resolution, resolution) || other.resolution == resolution)&&(identical(other.rejectReason, rejectReason) || other.rejectReason == rejectReason)&&(identical(other.appealReason, appealReason) || other.appealReason == appealReason)&&(identical(other.appealDeadlineAt, appealDeadlineAt) || other.appealDeadlineAt == appealDeadlineAt)&&(identical(other.reshipDeliveryMethod, reshipDeliveryMethod) || other.reshipDeliveryMethod == reshipDeliveryMethod)&&(identical(other.reshipCourierCode, reshipCourierCode) || other.reshipCourierCode == reshipCourierCode)&&(identical(other.reshipTrackingNumber, reshipTrackingNumber) || other.reshipTrackingNumber == reshipTrackingNumber)&&(identical(other.reshipShippedAt, reshipShippedAt) || other.reshipShippedAt == reshipShippedAt)&&const DeepCollectionEquality().equals(other.statusHistories, statusHistories)&&(identical(other.deliveredAt, deliveredAt) || other.deliveredAt == deliveredAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClaimCheckResponseDto&&(identical(other.id, id) || other.id == id)&&(identical(other.claimCode, claimCode) || other.claimCode == claimCode)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.claimType, claimType) || other.claimType == claimType)&&(identical(other.claimReason, claimReason) || other.claimReason == claimReason)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.totalRefundAmount, totalRefundAmount) || other.totalRefundAmount == totalRefundAmount)&&const DeepCollectionEquality().equals(other.photoUrls, photoUrls)&&(identical(other.status, status) || other.status == status)&&(identical(other.resolution, resolution) || other.resolution == resolution)&&(identical(other.rejectReason, rejectReason) || other.rejectReason == rejectReason)&&(identical(other.appealReason, appealReason) || other.appealReason == appealReason)&&(identical(other.appealDeadlineAt, appealDeadlineAt) || other.appealDeadlineAt == appealDeadlineAt)&&(identical(other.reshipDeliveryMethod, reshipDeliveryMethod) || other.reshipDeliveryMethod == reshipDeliveryMethod)&&(identical(other.reshipCourierCode, reshipCourierCode) || other.reshipCourierCode == reshipCourierCode)&&(identical(other.reshipTrackingNumber, reshipTrackingNumber) || other.reshipTrackingNumber == reshipTrackingNumber)&&(identical(other.reshipShippedAt, reshipShippedAt) || other.reshipShippedAt == reshipShippedAt)&&const DeepCollectionEquality().equals(other.reshipTrackingEvents, reshipTrackingEvents)&&const DeepCollectionEquality().equals(other.statusHistories, statusHistories)&&(identical(other.deliveredAt, deliveredAt) || other.deliveredAt == deliveredAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,claimCode,orderId,orderCode,sellerBusinessName,createdAt,claimType,claimReason,const DeepCollectionEquality().hash(items),totalRefundAmount,const DeepCollectionEquality().hash(photoUrls),status,resolution,rejectReason,appealReason,appealDeadlineAt,reshipDeliveryMethod,reshipCourierCode,reshipTrackingNumber,reshipShippedAt,const DeepCollectionEquality().hash(statusHistories),deliveredAt,updatedAt]);
+int get hashCode => Object.hashAll([runtimeType,id,claimCode,orderId,orderCode,sellerBusinessName,createdAt,claimType,claimReason,const DeepCollectionEquality().hash(items),totalRefundAmount,const DeepCollectionEquality().hash(photoUrls),status,resolution,rejectReason,appealReason,appealDeadlineAt,reshipDeliveryMethod,reshipCourierCode,reshipTrackingNumber,reshipShippedAt,const DeepCollectionEquality().hash(reshipTrackingEvents),const DeepCollectionEquality().hash(statusHistories),deliveredAt,updatedAt]);
 
 @override
 String toString() {
-  return 'ClaimCheckResponseDto(id: $id, claimCode: $claimCode, orderId: $orderId, orderCode: $orderCode, sellerBusinessName: $sellerBusinessName, createdAt: $createdAt, claimType: $claimType, claimReason: $claimReason, items: $items, totalRefundAmount: $totalRefundAmount, photoUrls: $photoUrls, status: $status, resolution: $resolution, rejectReason: $rejectReason, appealReason: $appealReason, appealDeadlineAt: $appealDeadlineAt, reshipDeliveryMethod: $reshipDeliveryMethod, reshipCourierCode: $reshipCourierCode, reshipTrackingNumber: $reshipTrackingNumber, reshipShippedAt: $reshipShippedAt, statusHistories: $statusHistories, deliveredAt: $deliveredAt, updatedAt: $updatedAt)';
+  return 'ClaimCheckResponseDto(id: $id, claimCode: $claimCode, orderId: $orderId, orderCode: $orderCode, sellerBusinessName: $sellerBusinessName, createdAt: $createdAt, claimType: $claimType, claimReason: $claimReason, items: $items, totalRefundAmount: $totalRefundAmount, photoUrls: $photoUrls, status: $status, resolution: $resolution, rejectReason: $rejectReason, appealReason: $appealReason, appealDeadlineAt: $appealDeadlineAt, reshipDeliveryMethod: $reshipDeliveryMethod, reshipCourierCode: $reshipCourierCode, reshipTrackingNumber: $reshipTrackingNumber, reshipShippedAt: $reshipShippedAt, reshipTrackingEvents: $reshipTrackingEvents, statusHistories: $statusHistories, deliveredAt: $deliveredAt, updatedAt: $updatedAt)';
 }
 
 
@@ -329,7 +329,7 @@ abstract mixin class $ClaimCheckResponseDtoCopyWith<$Res>  {
   factory $ClaimCheckResponseDtoCopyWith(ClaimCheckResponseDto value, $Res Function(ClaimCheckResponseDto) _then) = _$ClaimCheckResponseDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String claimCode, int orderId, String orderCode, String sellerBusinessName,@LocalDateTimeConverter() DateTime createdAt,@JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) ClaimType claimType, String claimReason, List<ClaimCheckItemDto> items, int totalRefundAmount, List<String> photoUrls,@JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) ClaimStatus status,@JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) ClaimResolution? resolution, String? rejectReason, String? appealReason,@NullableLocalDateTimeConverter() DateTime? appealDeadlineAt,@JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) ReshipDeliveryMethod? reshipDeliveryMethod, String? reshipCourierCode, String? reshipTrackingNumber,@NullableLocalDateTimeConverter() DateTime? reshipShippedAt, List<ClaimCheckStatusHistoryDto> statusHistories,@NullableLocalDateTimeConverter() DateTime? deliveredAt,@LocalDateTimeConverter() DateTime updatedAt
+ int id, String claimCode, int orderId, String orderCode, String sellerBusinessName,@LocalDateTimeConverter() DateTime createdAt,@JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) ClaimType claimType, String claimReason, List<ClaimCheckItemDto> items, int totalRefundAmount, List<String> photoUrls,@JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) ClaimStatus status,@JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) ClaimResolution? resolution, String? rejectReason, String? appealReason,@NullableLocalDateTimeConverter() DateTime? appealDeadlineAt,@JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) ReshipDeliveryMethod? reshipDeliveryMethod, String? reshipCourierCode, String? reshipTrackingNumber,@NullableLocalDateTimeConverter() DateTime? reshipShippedAt, List<ClaimCheckTrackingEventDto> reshipTrackingEvents, List<ClaimCheckStatusHistoryDto> statusHistories,@NullableLocalDateTimeConverter() DateTime? deliveredAt,@LocalDateTimeConverter() DateTime updatedAt
 });
 
 
@@ -346,7 +346,7 @@ class _$ClaimCheckResponseDtoCopyWithImpl<$Res>
 
 /// Create a copy of ClaimCheckResponseDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? claimCode = null,Object? orderId = null,Object? orderCode = null,Object? sellerBusinessName = null,Object? createdAt = null,Object? claimType = null,Object? claimReason = null,Object? items = null,Object? totalRefundAmount = null,Object? photoUrls = null,Object? status = null,Object? resolution = freezed,Object? rejectReason = freezed,Object? appealReason = freezed,Object? appealDeadlineAt = freezed,Object? reshipDeliveryMethod = freezed,Object? reshipCourierCode = freezed,Object? reshipTrackingNumber = freezed,Object? reshipShippedAt = freezed,Object? statusHistories = null,Object? deliveredAt = freezed,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? claimCode = null,Object? orderId = null,Object? orderCode = null,Object? sellerBusinessName = null,Object? createdAt = null,Object? claimType = null,Object? claimReason = null,Object? items = null,Object? totalRefundAmount = null,Object? photoUrls = null,Object? status = null,Object? resolution = freezed,Object? rejectReason = freezed,Object? appealReason = freezed,Object? appealDeadlineAt = freezed,Object? reshipDeliveryMethod = freezed,Object? reshipCourierCode = freezed,Object? reshipTrackingNumber = freezed,Object? reshipShippedAt = freezed,Object? reshipTrackingEvents = null,Object? statusHistories = null,Object? deliveredAt = freezed,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,claimCode: null == claimCode ? _self.claimCode : claimCode // ignore: cast_nullable_to_non_nullable
@@ -368,7 +368,8 @@ as DateTime?,reshipDeliveryMethod: freezed == reshipDeliveryMethod ? _self.reshi
 as ReshipDeliveryMethod?,reshipCourierCode: freezed == reshipCourierCode ? _self.reshipCourierCode : reshipCourierCode // ignore: cast_nullable_to_non_nullable
 as String?,reshipTrackingNumber: freezed == reshipTrackingNumber ? _self.reshipTrackingNumber : reshipTrackingNumber // ignore: cast_nullable_to_non_nullable
 as String?,reshipShippedAt: freezed == reshipShippedAt ? _self.reshipShippedAt : reshipShippedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,statusHistories: null == statusHistories ? _self.statusHistories : statusHistories // ignore: cast_nullable_to_non_nullable
+as DateTime?,reshipTrackingEvents: null == reshipTrackingEvents ? _self.reshipTrackingEvents : reshipTrackingEvents // ignore: cast_nullable_to_non_nullable
+as List<ClaimCheckTrackingEventDto>,statusHistories: null == statusHistories ? _self.statusHistories : statusHistories // ignore: cast_nullable_to_non_nullable
 as List<ClaimCheckStatusHistoryDto>,deliveredAt: freezed == deliveredAt ? _self.deliveredAt : deliveredAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
@@ -456,10 +457,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String claimCode,  int orderId,  String orderCode,  String sellerBusinessName, @LocalDateTimeConverter()  DateTime createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson)  ClaimType claimType,  String claimReason,  List<ClaimCheckItemDto> items,  int totalRefundAmount,  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson)  ClaimStatus status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson)  ClaimResolution? resolution,  String? rejectReason,  String? appealReason, @NullableLocalDateTimeConverter()  DateTime? appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson)  ReshipDeliveryMethod? reshipDeliveryMethod,  String? reshipCourierCode,  String? reshipTrackingNumber, @NullableLocalDateTimeConverter()  DateTime? reshipShippedAt,  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter()  DateTime? deliveredAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String claimCode,  int orderId,  String orderCode,  String sellerBusinessName, @LocalDateTimeConverter()  DateTime createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson)  ClaimType claimType,  String claimReason,  List<ClaimCheckItemDto> items,  int totalRefundAmount,  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson)  ClaimStatus status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson)  ClaimResolution? resolution,  String? rejectReason,  String? appealReason, @NullableLocalDateTimeConverter()  DateTime? appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson)  ReshipDeliveryMethod? reshipDeliveryMethod,  String? reshipCourierCode,  String? reshipTrackingNumber, @NullableLocalDateTimeConverter()  DateTime? reshipShippedAt,  List<ClaimCheckTrackingEventDto> reshipTrackingEvents,  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter()  DateTime? deliveredAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ClaimCheckResponseDto() when $default != null:
-return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sellerBusinessName,_that.createdAt,_that.claimType,_that.claimReason,_that.items,_that.totalRefundAmount,_that.photoUrls,_that.status,_that.resolution,_that.rejectReason,_that.appealReason,_that.appealDeadlineAt,_that.reshipDeliveryMethod,_that.reshipCourierCode,_that.reshipTrackingNumber,_that.reshipShippedAt,_that.statusHistories,_that.deliveredAt,_that.updatedAt);case _:
+return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sellerBusinessName,_that.createdAt,_that.claimType,_that.claimReason,_that.items,_that.totalRefundAmount,_that.photoUrls,_that.status,_that.resolution,_that.rejectReason,_that.appealReason,_that.appealDeadlineAt,_that.reshipDeliveryMethod,_that.reshipCourierCode,_that.reshipTrackingNumber,_that.reshipShippedAt,_that.reshipTrackingEvents,_that.statusHistories,_that.deliveredAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -477,10 +478,10 @@ return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sel
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String claimCode,  int orderId,  String orderCode,  String sellerBusinessName, @LocalDateTimeConverter()  DateTime createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson)  ClaimType claimType,  String claimReason,  List<ClaimCheckItemDto> items,  int totalRefundAmount,  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson)  ClaimStatus status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson)  ClaimResolution? resolution,  String? rejectReason,  String? appealReason, @NullableLocalDateTimeConverter()  DateTime? appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson)  ReshipDeliveryMethod? reshipDeliveryMethod,  String? reshipCourierCode,  String? reshipTrackingNumber, @NullableLocalDateTimeConverter()  DateTime? reshipShippedAt,  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter()  DateTime? deliveredAt, @LocalDateTimeConverter()  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String claimCode,  int orderId,  String orderCode,  String sellerBusinessName, @LocalDateTimeConverter()  DateTime createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson)  ClaimType claimType,  String claimReason,  List<ClaimCheckItemDto> items,  int totalRefundAmount,  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson)  ClaimStatus status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson)  ClaimResolution? resolution,  String? rejectReason,  String? appealReason, @NullableLocalDateTimeConverter()  DateTime? appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson)  ReshipDeliveryMethod? reshipDeliveryMethod,  String? reshipCourierCode,  String? reshipTrackingNumber, @NullableLocalDateTimeConverter()  DateTime? reshipShippedAt,  List<ClaimCheckTrackingEventDto> reshipTrackingEvents,  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter()  DateTime? deliveredAt, @LocalDateTimeConverter()  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ClaimCheckResponseDto():
-return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sellerBusinessName,_that.createdAt,_that.claimType,_that.claimReason,_that.items,_that.totalRefundAmount,_that.photoUrls,_that.status,_that.resolution,_that.rejectReason,_that.appealReason,_that.appealDeadlineAt,_that.reshipDeliveryMethod,_that.reshipCourierCode,_that.reshipTrackingNumber,_that.reshipShippedAt,_that.statusHistories,_that.deliveredAt,_that.updatedAt);case _:
+return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sellerBusinessName,_that.createdAt,_that.claimType,_that.claimReason,_that.items,_that.totalRefundAmount,_that.photoUrls,_that.status,_that.resolution,_that.rejectReason,_that.appealReason,_that.appealDeadlineAt,_that.reshipDeliveryMethod,_that.reshipCourierCode,_that.reshipTrackingNumber,_that.reshipShippedAt,_that.reshipTrackingEvents,_that.statusHistories,_that.deliveredAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -497,10 +498,10 @@ return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sel
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String claimCode,  int orderId,  String orderCode,  String sellerBusinessName, @LocalDateTimeConverter()  DateTime createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson)  ClaimType claimType,  String claimReason,  List<ClaimCheckItemDto> items,  int totalRefundAmount,  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson)  ClaimStatus status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson)  ClaimResolution? resolution,  String? rejectReason,  String? appealReason, @NullableLocalDateTimeConverter()  DateTime? appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson)  ReshipDeliveryMethod? reshipDeliveryMethod,  String? reshipCourierCode,  String? reshipTrackingNumber, @NullableLocalDateTimeConverter()  DateTime? reshipShippedAt,  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter()  DateTime? deliveredAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String claimCode,  int orderId,  String orderCode,  String sellerBusinessName, @LocalDateTimeConverter()  DateTime createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson)  ClaimType claimType,  String claimReason,  List<ClaimCheckItemDto> items,  int totalRefundAmount,  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson)  ClaimStatus status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson)  ClaimResolution? resolution,  String? rejectReason,  String? appealReason, @NullableLocalDateTimeConverter()  DateTime? appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson)  ReshipDeliveryMethod? reshipDeliveryMethod,  String? reshipCourierCode,  String? reshipTrackingNumber, @NullableLocalDateTimeConverter()  DateTime? reshipShippedAt,  List<ClaimCheckTrackingEventDto> reshipTrackingEvents,  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter()  DateTime? deliveredAt, @LocalDateTimeConverter()  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ClaimCheckResponseDto() when $default != null:
-return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sellerBusinessName,_that.createdAt,_that.claimType,_that.claimReason,_that.items,_that.totalRefundAmount,_that.photoUrls,_that.status,_that.resolution,_that.rejectReason,_that.appealReason,_that.appealDeadlineAt,_that.reshipDeliveryMethod,_that.reshipCourierCode,_that.reshipTrackingNumber,_that.reshipShippedAt,_that.statusHistories,_that.deliveredAt,_that.updatedAt);case _:
+return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sellerBusinessName,_that.createdAt,_that.claimType,_that.claimReason,_that.items,_that.totalRefundAmount,_that.photoUrls,_that.status,_that.resolution,_that.rejectReason,_that.appealReason,_that.appealDeadlineAt,_that.reshipDeliveryMethod,_that.reshipCourierCode,_that.reshipTrackingNumber,_that.reshipShippedAt,_that.reshipTrackingEvents,_that.statusHistories,_that.deliveredAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -512,7 +513,7 @@ return $default(_that.id,_that.claimCode,_that.orderId,_that.orderCode,_that.sel
 @JsonSerializable()
 
 class _ClaimCheckResponseDto implements ClaimCheckResponseDto {
-  const _ClaimCheckResponseDto({required this.id, required this.claimCode, required this.orderId, required this.orderCode, required this.sellerBusinessName, @LocalDateTimeConverter() required this.createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) required this.claimType, required this.claimReason, required final  List<ClaimCheckItemDto> items, required this.totalRefundAmount, required final  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) required this.status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) this.resolution, this.rejectReason, this.appealReason, @NullableLocalDateTimeConverter() this.appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) this.reshipDeliveryMethod, this.reshipCourierCode, this.reshipTrackingNumber, @NullableLocalDateTimeConverter() this.reshipShippedAt, required final  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter() this.deliveredAt, @LocalDateTimeConverter() required this.updatedAt}): _items = items,_photoUrls = photoUrls,_statusHistories = statusHistories;
+  const _ClaimCheckResponseDto({required this.id, required this.claimCode, required this.orderId, required this.orderCode, required this.sellerBusinessName, @LocalDateTimeConverter() required this.createdAt, @JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) required this.claimType, required this.claimReason, required final  List<ClaimCheckItemDto> items, required this.totalRefundAmount, required final  List<String> photoUrls, @JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) required this.status, @JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) this.resolution, this.rejectReason, this.appealReason, @NullableLocalDateTimeConverter() this.appealDeadlineAt, @JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) this.reshipDeliveryMethod, this.reshipCourierCode, this.reshipTrackingNumber, @NullableLocalDateTimeConverter() this.reshipShippedAt, final  List<ClaimCheckTrackingEventDto> reshipTrackingEvents = const [], required final  List<ClaimCheckStatusHistoryDto> statusHistories, @NullableLocalDateTimeConverter() this.deliveredAt, @LocalDateTimeConverter() required this.updatedAt}): _items = items,_photoUrls = photoUrls,_reshipTrackingEvents = reshipTrackingEvents,_statusHistories = statusHistories;
   factory _ClaimCheckResponseDto.fromJson(Map<String, dynamic> json) => _$ClaimCheckResponseDtoFromJson(json);
 
 @override final  int id;
@@ -547,6 +548,13 @@ class _ClaimCheckResponseDto implements ClaimCheckResponseDto {
 @override final  String? reshipCourierCode;
 @override final  String? reshipTrackingNumber;
 @override@NullableLocalDateTimeConverter() final  DateTime? reshipShippedAt;
+ final  List<ClaimCheckTrackingEventDto> _reshipTrackingEvents;
+@override@JsonKey() List<ClaimCheckTrackingEventDto> get reshipTrackingEvents {
+  if (_reshipTrackingEvents is EqualUnmodifiableListView) return _reshipTrackingEvents;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_reshipTrackingEvents);
+}
+
  final  List<ClaimCheckStatusHistoryDto> _statusHistories;
 @override List<ClaimCheckStatusHistoryDto> get statusHistories {
   if (_statusHistories is EqualUnmodifiableListView) return _statusHistories;
@@ -570,16 +578,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClaimCheckResponseDto&&(identical(other.id, id) || other.id == id)&&(identical(other.claimCode, claimCode) || other.claimCode == claimCode)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.claimType, claimType) || other.claimType == claimType)&&(identical(other.claimReason, claimReason) || other.claimReason == claimReason)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.totalRefundAmount, totalRefundAmount) || other.totalRefundAmount == totalRefundAmount)&&const DeepCollectionEquality().equals(other._photoUrls, _photoUrls)&&(identical(other.status, status) || other.status == status)&&(identical(other.resolution, resolution) || other.resolution == resolution)&&(identical(other.rejectReason, rejectReason) || other.rejectReason == rejectReason)&&(identical(other.appealReason, appealReason) || other.appealReason == appealReason)&&(identical(other.appealDeadlineAt, appealDeadlineAt) || other.appealDeadlineAt == appealDeadlineAt)&&(identical(other.reshipDeliveryMethod, reshipDeliveryMethod) || other.reshipDeliveryMethod == reshipDeliveryMethod)&&(identical(other.reshipCourierCode, reshipCourierCode) || other.reshipCourierCode == reshipCourierCode)&&(identical(other.reshipTrackingNumber, reshipTrackingNumber) || other.reshipTrackingNumber == reshipTrackingNumber)&&(identical(other.reshipShippedAt, reshipShippedAt) || other.reshipShippedAt == reshipShippedAt)&&const DeepCollectionEquality().equals(other._statusHistories, _statusHistories)&&(identical(other.deliveredAt, deliveredAt) || other.deliveredAt == deliveredAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClaimCheckResponseDto&&(identical(other.id, id) || other.id == id)&&(identical(other.claimCode, claimCode) || other.claimCode == claimCode)&&(identical(other.orderId, orderId) || other.orderId == orderId)&&(identical(other.orderCode, orderCode) || other.orderCode == orderCode)&&(identical(other.sellerBusinessName, sellerBusinessName) || other.sellerBusinessName == sellerBusinessName)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.claimType, claimType) || other.claimType == claimType)&&(identical(other.claimReason, claimReason) || other.claimReason == claimReason)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.totalRefundAmount, totalRefundAmount) || other.totalRefundAmount == totalRefundAmount)&&const DeepCollectionEquality().equals(other._photoUrls, _photoUrls)&&(identical(other.status, status) || other.status == status)&&(identical(other.resolution, resolution) || other.resolution == resolution)&&(identical(other.rejectReason, rejectReason) || other.rejectReason == rejectReason)&&(identical(other.appealReason, appealReason) || other.appealReason == appealReason)&&(identical(other.appealDeadlineAt, appealDeadlineAt) || other.appealDeadlineAt == appealDeadlineAt)&&(identical(other.reshipDeliveryMethod, reshipDeliveryMethod) || other.reshipDeliveryMethod == reshipDeliveryMethod)&&(identical(other.reshipCourierCode, reshipCourierCode) || other.reshipCourierCode == reshipCourierCode)&&(identical(other.reshipTrackingNumber, reshipTrackingNumber) || other.reshipTrackingNumber == reshipTrackingNumber)&&(identical(other.reshipShippedAt, reshipShippedAt) || other.reshipShippedAt == reshipShippedAt)&&const DeepCollectionEquality().equals(other._reshipTrackingEvents, _reshipTrackingEvents)&&const DeepCollectionEquality().equals(other._statusHistories, _statusHistories)&&(identical(other.deliveredAt, deliveredAt) || other.deliveredAt == deliveredAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,claimCode,orderId,orderCode,sellerBusinessName,createdAt,claimType,claimReason,const DeepCollectionEquality().hash(_items),totalRefundAmount,const DeepCollectionEquality().hash(_photoUrls),status,resolution,rejectReason,appealReason,appealDeadlineAt,reshipDeliveryMethod,reshipCourierCode,reshipTrackingNumber,reshipShippedAt,const DeepCollectionEquality().hash(_statusHistories),deliveredAt,updatedAt]);
+int get hashCode => Object.hashAll([runtimeType,id,claimCode,orderId,orderCode,sellerBusinessName,createdAt,claimType,claimReason,const DeepCollectionEquality().hash(_items),totalRefundAmount,const DeepCollectionEquality().hash(_photoUrls),status,resolution,rejectReason,appealReason,appealDeadlineAt,reshipDeliveryMethod,reshipCourierCode,reshipTrackingNumber,reshipShippedAt,const DeepCollectionEquality().hash(_reshipTrackingEvents),const DeepCollectionEquality().hash(_statusHistories),deliveredAt,updatedAt]);
 
 @override
 String toString() {
-  return 'ClaimCheckResponseDto(id: $id, claimCode: $claimCode, orderId: $orderId, orderCode: $orderCode, sellerBusinessName: $sellerBusinessName, createdAt: $createdAt, claimType: $claimType, claimReason: $claimReason, items: $items, totalRefundAmount: $totalRefundAmount, photoUrls: $photoUrls, status: $status, resolution: $resolution, rejectReason: $rejectReason, appealReason: $appealReason, appealDeadlineAt: $appealDeadlineAt, reshipDeliveryMethod: $reshipDeliveryMethod, reshipCourierCode: $reshipCourierCode, reshipTrackingNumber: $reshipTrackingNumber, reshipShippedAt: $reshipShippedAt, statusHistories: $statusHistories, deliveredAt: $deliveredAt, updatedAt: $updatedAt)';
+  return 'ClaimCheckResponseDto(id: $id, claimCode: $claimCode, orderId: $orderId, orderCode: $orderCode, sellerBusinessName: $sellerBusinessName, createdAt: $createdAt, claimType: $claimType, claimReason: $claimReason, items: $items, totalRefundAmount: $totalRefundAmount, photoUrls: $photoUrls, status: $status, resolution: $resolution, rejectReason: $rejectReason, appealReason: $appealReason, appealDeadlineAt: $appealDeadlineAt, reshipDeliveryMethod: $reshipDeliveryMethod, reshipCourierCode: $reshipCourierCode, reshipTrackingNumber: $reshipTrackingNumber, reshipShippedAt: $reshipShippedAt, reshipTrackingEvents: $reshipTrackingEvents, statusHistories: $statusHistories, deliveredAt: $deliveredAt, updatedAt: $updatedAt)';
 }
 
 
@@ -590,7 +598,7 @@ abstract mixin class _$ClaimCheckResponseDtoCopyWith<$Res> implements $ClaimChec
   factory _$ClaimCheckResponseDtoCopyWith(_ClaimCheckResponseDto value, $Res Function(_ClaimCheckResponseDto) _then) = __$ClaimCheckResponseDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String claimCode, int orderId, String orderCode, String sellerBusinessName,@LocalDateTimeConverter() DateTime createdAt,@JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) ClaimType claimType, String claimReason, List<ClaimCheckItemDto> items, int totalRefundAmount, List<String> photoUrls,@JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) ClaimStatus status,@JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) ClaimResolution? resolution, String? rejectReason, String? appealReason,@NullableLocalDateTimeConverter() DateTime? appealDeadlineAt,@JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) ReshipDeliveryMethod? reshipDeliveryMethod, String? reshipCourierCode, String? reshipTrackingNumber,@NullableLocalDateTimeConverter() DateTime? reshipShippedAt, List<ClaimCheckStatusHistoryDto> statusHistories,@NullableLocalDateTimeConverter() DateTime? deliveredAt,@LocalDateTimeConverter() DateTime updatedAt
+ int id, String claimCode, int orderId, String orderCode, String sellerBusinessName,@LocalDateTimeConverter() DateTime createdAt,@JsonKey(fromJson: ClaimType.fromJson, toJson: ClaimType.toJson) ClaimType claimType, String claimReason, List<ClaimCheckItemDto> items, int totalRefundAmount, List<String> photoUrls,@JsonKey(fromJson: ClaimStatus.fromJson, toJson: ClaimStatus.toJson) ClaimStatus status,@JsonKey(fromJson: ClaimResolution.fromJson, toJson: ClaimResolution.toJson) ClaimResolution? resolution, String? rejectReason, String? appealReason,@NullableLocalDateTimeConverter() DateTime? appealDeadlineAt,@JsonKey(fromJson: ReshipDeliveryMethod.fromJson, toJson: ReshipDeliveryMethod.toJson) ReshipDeliveryMethod? reshipDeliveryMethod, String? reshipCourierCode, String? reshipTrackingNumber,@NullableLocalDateTimeConverter() DateTime? reshipShippedAt, List<ClaimCheckTrackingEventDto> reshipTrackingEvents, List<ClaimCheckStatusHistoryDto> statusHistories,@NullableLocalDateTimeConverter() DateTime? deliveredAt,@LocalDateTimeConverter() DateTime updatedAt
 });
 
 
@@ -607,7 +615,7 @@ class __$ClaimCheckResponseDtoCopyWithImpl<$Res>
 
 /// Create a copy of ClaimCheckResponseDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? claimCode = null,Object? orderId = null,Object? orderCode = null,Object? sellerBusinessName = null,Object? createdAt = null,Object? claimType = null,Object? claimReason = null,Object? items = null,Object? totalRefundAmount = null,Object? photoUrls = null,Object? status = null,Object? resolution = freezed,Object? rejectReason = freezed,Object? appealReason = freezed,Object? appealDeadlineAt = freezed,Object? reshipDeliveryMethod = freezed,Object? reshipCourierCode = freezed,Object? reshipTrackingNumber = freezed,Object? reshipShippedAt = freezed,Object? statusHistories = null,Object? deliveredAt = freezed,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? claimCode = null,Object? orderId = null,Object? orderCode = null,Object? sellerBusinessName = null,Object? createdAt = null,Object? claimType = null,Object? claimReason = null,Object? items = null,Object? totalRefundAmount = null,Object? photoUrls = null,Object? status = null,Object? resolution = freezed,Object? rejectReason = freezed,Object? appealReason = freezed,Object? appealDeadlineAt = freezed,Object? reshipDeliveryMethod = freezed,Object? reshipCourierCode = freezed,Object? reshipTrackingNumber = freezed,Object? reshipShippedAt = freezed,Object? reshipTrackingEvents = null,Object? statusHistories = null,Object? deliveredAt = freezed,Object? updatedAt = null,}) {
   return _then(_ClaimCheckResponseDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,claimCode: null == claimCode ? _self.claimCode : claimCode // ignore: cast_nullable_to_non_nullable
@@ -629,7 +637,8 @@ as DateTime?,reshipDeliveryMethod: freezed == reshipDeliveryMethod ? _self.reshi
 as ReshipDeliveryMethod?,reshipCourierCode: freezed == reshipCourierCode ? _self.reshipCourierCode : reshipCourierCode // ignore: cast_nullable_to_non_nullable
 as String?,reshipTrackingNumber: freezed == reshipTrackingNumber ? _self.reshipTrackingNumber : reshipTrackingNumber // ignore: cast_nullable_to_non_nullable
 as String?,reshipShippedAt: freezed == reshipShippedAt ? _self.reshipShippedAt : reshipShippedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,statusHistories: null == statusHistories ? _self._statusHistories : statusHistories // ignore: cast_nullable_to_non_nullable
+as DateTime?,reshipTrackingEvents: null == reshipTrackingEvents ? _self._reshipTrackingEvents : reshipTrackingEvents // ignore: cast_nullable_to_non_nullable
+as List<ClaimCheckTrackingEventDto>,statusHistories: null == statusHistories ? _self._statusHistories : statusHistories // ignore: cast_nullable_to_non_nullable
 as List<ClaimCheckStatusHistoryDto>,deliveredAt: freezed == deliveredAt ? _self.deliveredAt : deliveredAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
@@ -1192,6 +1201,278 @@ as int,status: null == status ? _self.status : status // ignore: cast_nullable_t
 as ClaimStatus,memo: freezed == memo ? _self.memo : memo // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ClaimCheckTrackingEventDto {
+
+ String get timeString; String get where; String get kind; int get level;
+/// Create a copy of ClaimCheckTrackingEventDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ClaimCheckTrackingEventDtoCopyWith<ClaimCheckTrackingEventDto> get copyWith => _$ClaimCheckTrackingEventDtoCopyWithImpl<ClaimCheckTrackingEventDto>(this as ClaimCheckTrackingEventDto, _$identity);
+
+  /// Serializes this ClaimCheckTrackingEventDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClaimCheckTrackingEventDto&&(identical(other.timeString, timeString) || other.timeString == timeString)&&(identical(other.where, where) || other.where == where)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.level, level) || other.level == level));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,timeString,where,kind,level);
+
+@override
+String toString() {
+  return 'ClaimCheckTrackingEventDto(timeString: $timeString, where: $where, kind: $kind, level: $level)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ClaimCheckTrackingEventDtoCopyWith<$Res>  {
+  factory $ClaimCheckTrackingEventDtoCopyWith(ClaimCheckTrackingEventDto value, $Res Function(ClaimCheckTrackingEventDto) _then) = _$ClaimCheckTrackingEventDtoCopyWithImpl;
+@useResult
+$Res call({
+ String timeString, String where, String kind, int level
+});
+
+
+
+
+}
+/// @nodoc
+class _$ClaimCheckTrackingEventDtoCopyWithImpl<$Res>
+    implements $ClaimCheckTrackingEventDtoCopyWith<$Res> {
+  _$ClaimCheckTrackingEventDtoCopyWithImpl(this._self, this._then);
+
+  final ClaimCheckTrackingEventDto _self;
+  final $Res Function(ClaimCheckTrackingEventDto) _then;
+
+/// Create a copy of ClaimCheckTrackingEventDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? timeString = null,Object? where = null,Object? kind = null,Object? level = null,}) {
+  return _then(_self.copyWith(
+timeString: null == timeString ? _self.timeString : timeString // ignore: cast_nullable_to_non_nullable
+as String,where: null == where ? _self.where : where // ignore: cast_nullable_to_non_nullable
+as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ClaimCheckTrackingEventDto].
+extension ClaimCheckTrackingEventDtoPatterns on ClaimCheckTrackingEventDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ClaimCheckTrackingEventDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ClaimCheckTrackingEventDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ClaimCheckTrackingEventDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _ClaimCheckTrackingEventDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ClaimCheckTrackingEventDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ClaimCheckTrackingEventDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String timeString,  String where,  String kind,  int level)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ClaimCheckTrackingEventDto() when $default != null:
+return $default(_that.timeString,_that.where,_that.kind,_that.level);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String timeString,  String where,  String kind,  int level)  $default,) {final _that = this;
+switch (_that) {
+case _ClaimCheckTrackingEventDto():
+return $default(_that.timeString,_that.where,_that.kind,_that.level);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String timeString,  String where,  String kind,  int level)?  $default,) {final _that = this;
+switch (_that) {
+case _ClaimCheckTrackingEventDto() when $default != null:
+return $default(_that.timeString,_that.where,_that.kind,_that.level);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ClaimCheckTrackingEventDto implements ClaimCheckTrackingEventDto {
+  const _ClaimCheckTrackingEventDto({required this.timeString, required this.where, required this.kind, required this.level});
+  factory _ClaimCheckTrackingEventDto.fromJson(Map<String, dynamic> json) => _$ClaimCheckTrackingEventDtoFromJson(json);
+
+@override final  String timeString;
+@override final  String where;
+@override final  String kind;
+@override final  int level;
+
+/// Create a copy of ClaimCheckTrackingEventDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ClaimCheckTrackingEventDtoCopyWith<_ClaimCheckTrackingEventDto> get copyWith => __$ClaimCheckTrackingEventDtoCopyWithImpl<_ClaimCheckTrackingEventDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ClaimCheckTrackingEventDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClaimCheckTrackingEventDto&&(identical(other.timeString, timeString) || other.timeString == timeString)&&(identical(other.where, where) || other.where == where)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.level, level) || other.level == level));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,timeString,where,kind,level);
+
+@override
+String toString() {
+  return 'ClaimCheckTrackingEventDto(timeString: $timeString, where: $where, kind: $kind, level: $level)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ClaimCheckTrackingEventDtoCopyWith<$Res> implements $ClaimCheckTrackingEventDtoCopyWith<$Res> {
+  factory _$ClaimCheckTrackingEventDtoCopyWith(_ClaimCheckTrackingEventDto value, $Res Function(_ClaimCheckTrackingEventDto) _then) = __$ClaimCheckTrackingEventDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ String timeString, String where, String kind, int level
+});
+
+
+
+
+}
+/// @nodoc
+class __$ClaimCheckTrackingEventDtoCopyWithImpl<$Res>
+    implements _$ClaimCheckTrackingEventDtoCopyWith<$Res> {
+  __$ClaimCheckTrackingEventDtoCopyWithImpl(this._self, this._then);
+
+  final _ClaimCheckTrackingEventDto _self;
+  final $Res Function(_ClaimCheckTrackingEventDto) _then;
+
+/// Create a copy of ClaimCheckTrackingEventDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? timeString = null,Object? where = null,Object? kind = null,Object? level = null,}) {
+  return _then(_ClaimCheckTrackingEventDto(
+timeString: null == timeString ? _self.timeString : timeString // ignore: cast_nullable_to_non_nullable
+as String,where: null == where ? _self.where : where // ignore: cast_nullable_to_non_nullable
+as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
+as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

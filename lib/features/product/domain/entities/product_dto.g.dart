@@ -31,7 +31,10 @@ _ProductDto _$ProductDtoFromJson(Map<String, dynamic> json) => _ProductDto(
   deliveryDays: (json['deliveryDays'] as num?)?.toInt(),
   thumbnailImageUrl: json['thumbnailImageUrl'] as String?,
   foodLabelImageUrl: json['foodLabelImageUrl'] as String?,
-  detailImageUrls: (json['detailImageUrls'] as List<dynamic>?)
+  galleryImageUrls: (json['galleryImageUrls'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  descriptionImageUrls: (json['descriptionImageUrls'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
   shippingNotice: json['shippingNotice'] as String?,
@@ -63,6 +66,8 @@ _ProductDto _$ProductDtoFromJson(Map<String, dynamic> json) => _ProductDto(
   isRecommended: json['isRecommended'] as bool?,
   isNew: json['isNew'] as bool?,
   isEvent: json['isEvent'] as bool?,
+  isVariableWeight: json['isVariableWeight'] as bool?,
+  isHaccpCertified: json['isHaccpCertified'] as bool?,
   directDeliveryRegions: (json['directDeliveryRegions'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),
@@ -95,7 +100,8 @@ Map<String, dynamic> _$ProductDtoToJson(_ProductDto instance) =>
       'deliveryDays': instance.deliveryDays,
       'thumbnailImageUrl': instance.thumbnailImageUrl,
       'foodLabelImageUrl': instance.foodLabelImageUrl,
-      'detailImageUrls': instance.detailImageUrls,
+      'galleryImageUrls': instance.galleryImageUrls,
+      'descriptionImageUrls': instance.descriptionImageUrls,
       'shippingNotice': instance.shippingNotice,
       'distributionNotice': instance.distributionNotice,
       'handlingPrecaution': instance.handlingPrecaution,
@@ -123,6 +129,8 @@ Map<String, dynamic> _$ProductDtoToJson(_ProductDto instance) =>
       'isRecommended': instance.isRecommended,
       'isNew': instance.isNew,
       'isEvent': instance.isEvent,
+      'isVariableWeight': instance.isVariableWeight,
+      'isHaccpCertified': instance.isHaccpCertified,
       'directDeliveryRegions': instance.directDeliveryRegions,
       'isWeekendShipping': instance.isWeekendShipping,
     };

@@ -26,8 +26,8 @@ class SignupNewStepHeader extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           step == SignupNewStep.accountInfo
-              ? '기본 회원 정보를 먼저 입력해주세요.'
-              : '모딩은 사업자 회원 전용 서비스 입니다.\n주문과 증빙 처리를 위해 사업자 정보를 등록해주세요.',
+              ? '기본 회원정보를 입력해 주세요.'
+              : '모딩은 사업자 회원 전용 서비스입니다.\n주문, 배송 및 증빙 처리를 위해 사업자 정보를 등록해 주세요.',
           style: context.caption.copyWith(color: AppColors.darkGrey),
         ),
       ],
@@ -216,7 +216,7 @@ class SignupNewPasswordCaption extends StatelessWidget {
 
     if (confirmPassword.isNotEmpty && !confirmMatched) {
       return Text(
-        '변경할 비밀번호가 일치하지 않습니다.',
+        '비밀번호가 일치하지 않습니다.',
         style: context.caption.copyWith(color: Colors.red),
       );
     }
@@ -265,7 +265,7 @@ class SignupNewCheckboxRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 6),
-          Expanded(child: Text(title, style: context.bodySmall)),
+          Expanded(child: Text(title, style: context.body)),
           if (trailing != null) ...[trailing!],
         ],
       ),

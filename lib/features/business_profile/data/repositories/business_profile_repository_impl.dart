@@ -47,12 +47,11 @@ class BusinessProfileRepositoryImpl implements BusinessProfileRepository {
 
   @override
   Future<ResponseModel> putMyBusinessProfileInfo({
-    required String businessPhone,
     int? businessCategoryId,
     String? businessLicenseFile,
   }) async {
     try {
-      final request = <String, dynamic>{'businessPhone': businessPhone};
+      final request = <String, dynamic>{};
       if (businessCategoryId != null) {
         request['businessCategoryId'] = businessCategoryId;
       }

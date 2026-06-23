@@ -33,7 +33,7 @@ final class TermsNotifierProvider
   TermsNotifier create() => TermsNotifier();
 }
 
-String _$termsNotifierHash() => r'ec2c2bf19587264cf79833c9d70869fe5b095818';
+String _$termsNotifierHash() => r'2ebd4b7aa10f87049e391cb4e6931a8fa4bd0f37';
 
 abstract class _$TermsNotifier extends $AsyncNotifier<TermsDto> {
   FutureOr<TermsDto> build();

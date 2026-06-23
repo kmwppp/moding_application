@@ -134,14 +134,17 @@ class PaymentInfoSection extends ConsumerWidget {
         rows.add(
           GestureDetector(
             onTap: () async {
+              final vbankName = payment.vbankName ?? "";
+              final vbankNumber = payment.vbankNumber ?? "";
               await Clipboard.setData(
-                ClipboardData(text: payment.vbankNumber ?? ""),
+                ClipboardData(text: "$vbankName $vbankNumber".trim()),
               );
               // ToastUtil.show('클립보드에 복사되었습니다');
             },
             child: _PaymentInfoRow(
               label: '계좌번호',
               value: payment.vbankNumber ?? '-',
+              isVBank: true,
             ),
           ),
         );
@@ -225,10 +228,15 @@ class PaymentInfoSection extends ConsumerWidget {
 }
 
 class _PaymentInfoRow extends StatelessWidget {
-  const _PaymentInfoRow({required this.label, required this.value});
+  const _PaymentInfoRow({
+    required this.label,
+    required this.value,
+    this.isVBank = false,
+  });
 
   final String label;
   final String value;
+  final bool isVBank;
 
   @override
   Widget build(BuildContext context) {
@@ -244,12 +252,23 @@ class _PaymentInfoRow extends StatelessWidget {
               style: context.bodySmall.copyWith(color: AppColors.darkGrey),
             ),
           ),
-          Expanded(
-            child: Text(
+          if (!isVBank)
+            Expanded(
+              child: Text(
+                value,
+                style: context.bodySmall.copyWith(fontWeight: FontWeight.w500),
+              ),
+            )
+          else
+            Text(
               value,
-              style: context.bodySmall.copyWith(fontWeight: FontWeight.w500),
+              style: context.bodySmall.copyWith(
+                fontWeight: FontWeight.w500,
+                color: Colors.blueAccent,
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.blueAccent,
+              ),
             ),
-          ),
         ],
       ),
     );

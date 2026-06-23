@@ -13,7 +13,12 @@ class OrderDeliveryRequestSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(orderViewModelProvider);
+    final selectedRequest = ref.watch(
+      orderViewModelProvider.select((state) => state.selectedRequest),
+    );
+    final deliveryRequestList = ref.watch(
+      orderViewModelProvider.select((state) => state.deliveryRequestList),
+    );
     final notifier = ref.read(orderViewModelProvider.notifier);
 
     return OrderCommonBox(
@@ -37,7 +42,7 @@ class OrderDeliveryRequestSection extends ConsumerWidget {
                     padding: const EdgeInsets.only(right: 10),
                     child: Icon(Icons.arrow_drop_down, size: 20),
                   ),
-                  value: state.selectedRequest,
+                  value: selectedRequest,
                   dropdownColor: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   decoration: AppInputDecoration.inputDecoration.copyWith(
@@ -47,7 +52,7 @@ class OrderDeliveryRequestSection extends ConsumerWidget {
                     ),
                   ),
 
-                  items: state.deliveryRequestList.map((type) {
+                  items: deliveryRequestList.map((type) {
                     return DropdownMenuItem(
                       value: type,
                       child: Text(
@@ -64,7 +69,7 @@ class OrderDeliveryRequestSection extends ConsumerWidget {
                   },
                 ),
 
-                if (state.selectedRequest == DeliveryRequestType.etc) ...[
+                if (selectedRequest == DeliveryRequestType.etc) ...[
                   SizedBox(height: 10),
                   TextField(
                     style: context.body,

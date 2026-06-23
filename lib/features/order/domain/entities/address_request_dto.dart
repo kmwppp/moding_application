@@ -9,6 +9,7 @@ abstract class AddressRequestDto with _$AddressRequestDto {
     required String name,
     required String recipientName,
     required String zipCode,
+    required String sigunguCode,
     required String address,
     required String addressDetail,
     required String phone,

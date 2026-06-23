@@ -42,7 +42,7 @@ final class EditMyInfoViewModelProvider
 }
 
 String _$editMyInfoViewModelHash() =>
-    r'52db1bcab19cec0d38fc7933aaff5101bb56e4c2';
+    r'1979f62a320d20e7610b170963bf35934086b0dd';
 
 abstract class _$EditMyInfoViewModel extends $Notifier<EditMyInfoState> {
   EditMyInfoState build();

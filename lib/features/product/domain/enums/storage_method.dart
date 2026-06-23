@@ -1,5 +1,3 @@
-
-
 enum StorageMethod { REFRIGERATED, FROZEN, ROOM_TEMP }
 
 extension StorageMethodX on StorageMethod {

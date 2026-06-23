@@ -6,6 +6,7 @@ import 'package:moding_application/features/order/domain/entities/order_response
 import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_request_dto.dart';
 import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_response_dto.dart';
 import 'package:moding_application/features/order/domain/entities/payments/payments_fail_request_dto.dart';
+import 'package:moding_application/features/order/domain/enums/pg_provider.dart';
 
 import '../entities/order_request_dto.dart';
 
@@ -20,11 +21,15 @@ abstract class OrderRepository {
 
   Future<ResponseModel> deleteAddress(int addressId);
 
+  Future<ResponseModel> patchDefaultAddress(int addressId);
+
   Future<ResponseModel> postAddress(AddressRequestDto request);
 
   Future<CreateOrderResponseWrapper> postCreateOrder(
     CreateOrderRequestDto request,
   );
+
+  Future<PgProvider> getPaymentProvider();
 
   Future<PaymentsConfirmResponseWrapper> postPaymentsConfirm(
     PaymentsConfirmRequestDto request,

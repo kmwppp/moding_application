@@ -983,7 +983,7 @@ as DateTime,
 /// @nodoc
 mixin _$CreateOrderPaymentDto {
 
- String? get paymentCode; String? get paymentMethod; String? get status;@NullableLocalDateTimeConverter() DateTime? get paidAt; int? get cancelledAmount; int? get netAmount; String? get receiptUrl; String? get approvalNumber; String? get vbankNumber; String? get vbankName;@NullableLocalDateTimeConverter() DateTime? get vbankExpDate; String? get vbankHolder;
+ String? get paymentCode; String? get paymentMethod; String? get status; String? get signature; String? get timestamp;@NullableLocalDateTimeConverter() DateTime? get paidAt; int? get cancelledAmount; int? get netAmount; String? get receiptUrl; String? get approvalNumber; String? get vbankNumber; String? get vbankName;@NullableLocalDateTimeConverter() DateTime? get vbankExpDate; String? get vbankHolder;
 /// Create a copy of CreateOrderPaymentDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -996,16 +996,16 @@ $CreateOrderPaymentDtoCopyWith<CreateOrderPaymentDto> get copyWith => _$CreateOr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateOrderPaymentDto&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateOrderPaymentDto&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.signature, signature) || other.signature == signature)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,paymentCode,paymentMethod,status,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,vbankNumber,vbankName,vbankExpDate,vbankHolder);
+int get hashCode => Object.hash(runtimeType,paymentCode,paymentMethod,status,signature,timestamp,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,vbankNumber,vbankName,vbankExpDate,vbankHolder);
 
 @override
 String toString() {
-  return 'CreateOrderPaymentDto(paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
+  return 'CreateOrderPaymentDto(paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, signature: $signature, timestamp: $timestamp, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
 }
 
 
@@ -1016,7 +1016,7 @@ abstract mixin class $CreateOrderPaymentDtoCopyWith<$Res>  {
   factory $CreateOrderPaymentDtoCopyWith(CreateOrderPaymentDto value, $Res Function(CreateOrderPaymentDto) _then) = _$CreateOrderPaymentDtoCopyWithImpl;
 @useResult
 $Res call({
- String? paymentCode, String? paymentMethod, String? status,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
+ String? paymentCode, String? paymentMethod, String? status, String? signature, String? timestamp,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
 });
 
 
@@ -1033,11 +1033,13 @@ class _$CreateOrderPaymentDtoCopyWithImpl<$Res>
 
 /// Create a copy of CreateOrderPaymentDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? paymentCode = freezed,Object? paymentMethod = freezed,Object? status = freezed,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? paymentCode = freezed,Object? paymentMethod = freezed,Object? status = freezed,Object? signature = freezed,Object? timestamp = freezed,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
   return _then(_self.copyWith(
 paymentCode: freezed == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String?,paymentMethod: freezed == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
 as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,signature: freezed == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
+as String?,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as String?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelledAmount: freezed == cancelledAmount ? _self.cancelledAmount : cancelledAmount // ignore: cast_nullable_to_non_nullable
 as int?,netAmount: freezed == netAmount ? _self.netAmount : netAmount // ignore: cast_nullable_to_non_nullable
@@ -1132,10 +1134,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? paymentCode,  String? paymentMethod,  String? status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? paymentCode,  String? paymentMethod,  String? status,  String? signature,  String? timestamp, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateOrderPaymentDto() when $default != null:
-return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
+return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.signature,_that.timestamp,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
   return orElse();
 
 }
@@ -1153,10 +1155,10 @@ return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? paymentCode,  String? paymentMethod,  String? status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? paymentCode,  String? paymentMethod,  String? status,  String? signature,  String? timestamp, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)  $default,) {final _that = this;
 switch (_that) {
 case _CreateOrderPaymentDto():
-return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
+return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.signature,_that.timestamp,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1173,10 +1175,10 @@ return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? paymentCode,  String? paymentMethod,  String? status, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? paymentCode,  String? paymentMethod,  String? status,  String? signature,  String? timestamp, @NullableLocalDateTimeConverter()  DateTime? paidAt,  int? cancelledAmount,  int? netAmount,  String? receiptUrl,  String? approvalNumber,  String? vbankNumber,  String? vbankName, @NullableLocalDateTimeConverter()  DateTime? vbankExpDate,  String? vbankHolder)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateOrderPaymentDto() when $default != null:
-return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
+return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.signature,_that.timestamp,_that.paidAt,_that.cancelledAmount,_that.netAmount,_that.receiptUrl,_that.approvalNumber,_that.vbankNumber,_that.vbankName,_that.vbankExpDate,_that.vbankHolder);case _:
   return null;
 
 }
@@ -1188,12 +1190,14 @@ return $default(_that.paymentCode,_that.paymentMethod,_that.status,_that.paidAt,
 @JsonSerializable()
 
 class _CreateOrderPaymentDto implements CreateOrderPaymentDto {
-  const _CreateOrderPaymentDto({required this.paymentCode, required this.paymentMethod, required this.status, @NullableLocalDateTimeConverter() this.paidAt, this.cancelledAmount, this.netAmount, this.receiptUrl, this.approvalNumber, this.vbankNumber, this.vbankName, @NullableLocalDateTimeConverter() this.vbankExpDate, this.vbankHolder});
+  const _CreateOrderPaymentDto({required this.paymentCode, required this.paymentMethod, required this.status, this.signature, this.timestamp, @NullableLocalDateTimeConverter() this.paidAt, this.cancelledAmount, this.netAmount, this.receiptUrl, this.approvalNumber, this.vbankNumber, this.vbankName, @NullableLocalDateTimeConverter() this.vbankExpDate, this.vbankHolder});
   factory _CreateOrderPaymentDto.fromJson(Map<String, dynamic> json) => _$CreateOrderPaymentDtoFromJson(json);
 
 @override final  String? paymentCode;
 @override final  String? paymentMethod;
 @override final  String? status;
+@override final  String? signature;
+@override final  String? timestamp;
 @override@NullableLocalDateTimeConverter() final  DateTime? paidAt;
 @override final  int? cancelledAmount;
 @override final  int? netAmount;
@@ -1217,16 +1221,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateOrderPaymentDto&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateOrderPaymentDto&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.status, status) || other.status == status)&&(identical(other.signature, signature) || other.signature == signature)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.cancelledAmount, cancelledAmount) || other.cancelledAmount == cancelledAmount)&&(identical(other.netAmount, netAmount) || other.netAmount == netAmount)&&(identical(other.receiptUrl, receiptUrl) || other.receiptUrl == receiptUrl)&&(identical(other.approvalNumber, approvalNumber) || other.approvalNumber == approvalNumber)&&(identical(other.vbankNumber, vbankNumber) || other.vbankNumber == vbankNumber)&&(identical(other.vbankName, vbankName) || other.vbankName == vbankName)&&(identical(other.vbankExpDate, vbankExpDate) || other.vbankExpDate == vbankExpDate)&&(identical(other.vbankHolder, vbankHolder) || other.vbankHolder == vbankHolder));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,paymentCode,paymentMethod,status,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,vbankNumber,vbankName,vbankExpDate,vbankHolder);
+int get hashCode => Object.hash(runtimeType,paymentCode,paymentMethod,status,signature,timestamp,paidAt,cancelledAmount,netAmount,receiptUrl,approvalNumber,vbankNumber,vbankName,vbankExpDate,vbankHolder);
 
 @override
 String toString() {
-  return 'CreateOrderPaymentDto(paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
+  return 'CreateOrderPaymentDto(paymentCode: $paymentCode, paymentMethod: $paymentMethod, status: $status, signature: $signature, timestamp: $timestamp, paidAt: $paidAt, cancelledAmount: $cancelledAmount, netAmount: $netAmount, receiptUrl: $receiptUrl, approvalNumber: $approvalNumber, vbankNumber: $vbankNumber, vbankName: $vbankName, vbankExpDate: $vbankExpDate, vbankHolder: $vbankHolder)';
 }
 
 
@@ -1237,7 +1241,7 @@ abstract mixin class _$CreateOrderPaymentDtoCopyWith<$Res> implements $CreateOrd
   factory _$CreateOrderPaymentDtoCopyWith(_CreateOrderPaymentDto value, $Res Function(_CreateOrderPaymentDto) _then) = __$CreateOrderPaymentDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String? paymentCode, String? paymentMethod, String? status,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
+ String? paymentCode, String? paymentMethod, String? status, String? signature, String? timestamp,@NullableLocalDateTimeConverter() DateTime? paidAt, int? cancelledAmount, int? netAmount, String? receiptUrl, String? approvalNumber, String? vbankNumber, String? vbankName,@NullableLocalDateTimeConverter() DateTime? vbankExpDate, String? vbankHolder
 });
 
 
@@ -1254,11 +1258,13 @@ class __$CreateOrderPaymentDtoCopyWithImpl<$Res>
 
 /// Create a copy of CreateOrderPaymentDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? paymentCode = freezed,Object? paymentMethod = freezed,Object? status = freezed,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? paymentCode = freezed,Object? paymentMethod = freezed,Object? status = freezed,Object? signature = freezed,Object? timestamp = freezed,Object? paidAt = freezed,Object? cancelledAmount = freezed,Object? netAmount = freezed,Object? receiptUrl = freezed,Object? approvalNumber = freezed,Object? vbankNumber = freezed,Object? vbankName = freezed,Object? vbankExpDate = freezed,Object? vbankHolder = freezed,}) {
   return _then(_CreateOrderPaymentDto(
 paymentCode: freezed == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
 as String?,paymentMethod: freezed == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
 as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,signature: freezed == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
+as String?,timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as String?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelledAmount: freezed == cancelledAmount ? _self.cancelledAmount : cancelledAmount // ignore: cast_nullable_to_non_nullable
 as int?,netAmount: freezed == netAmount ? _self.netAmount : netAmount // ignore: cast_nullable_to_non_nullable

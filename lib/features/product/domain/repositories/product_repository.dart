@@ -2,6 +2,7 @@ import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/home/domain/entities/home_basic_item_model.dart';
 import 'package:moding_application/features/product/domain/entities/product_dto.dart';
 import 'package:moding_application/features/product/domain/entities/product_recommand_dto.dart';
+import 'package:moding_application/features/product/domain/entities/product_review_list_response_dto.dart';
 import 'package:moding_application/features/product/domain/entities/seller_info_dto.dart';
 
 import '../entities/review_dto.dart';
@@ -15,6 +16,12 @@ abstract class ProductRepository {
   Future<List<ReviewDto>> getProductReviewList(
     int productId,
     int pageNum,
+    int size,
+  );
+
+  Future<ProductReviewListResponseDto> getProductReviewPage(
+    int productId,
+    int page,
     int size,
   );
 

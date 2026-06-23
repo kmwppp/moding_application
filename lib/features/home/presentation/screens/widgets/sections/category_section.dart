@@ -10,11 +10,11 @@ class CategorySection extends ConsumerWidget {
   const CategorySection({super.key});
 
   static const categories = [
-    ("식육가공", "assets/images/porkImage.png"),
-    ("수산가공", "assets/images/fishImage.png"),
-    ("소스·향신료", "assets/images/sauceImage.png"),
-    ("가공식품", "assets/images/dumplingImage.png"),
-    ("카페·베이커리", "assets/images/breadImage.png"),
+    ("육류", "assets/images/porkImage.png"),
+    ("수산", "assets/images/fishImage.png"),
+    ("소스·베이스", "assets/images/sauceImage.png"),
+    ("가공·반조리", "assets/images/dumplingImage.png"),
+    ("카페·디저트", "assets/images/breadImage.png"),
     ("주류", "assets/images/alcoholImage.png"),
   ];
 

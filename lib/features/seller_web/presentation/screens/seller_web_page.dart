@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:moding_application/core/constants/app_http_url.dart';
 import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
+import 'package:moding_application/features/identity_verification/domain/entities/identity_verification_page_params.dart';
 import 'package:moding_application/features/seller_web/presentation/seller_web_bridge_service.dart';
 import 'package:moding_application/features/seller_web/presentation/seller_web_page_params.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -68,6 +69,14 @@ class _SellerWebPageState extends State<SellerWebPage> {
       case 'goMain':
         final route = payload?['route']?.toString() ?? '/main';
         context.go(route);
+        return;
+      case 'openIdentityVerification':
+        final successRoute =
+            payload?['successRoute']?.toString() ?? '/edit_my_info';
+        context.push(
+          '/identity_verification',
+          extra: IdentityVerificationPageParams(successRoute: successRoute),
+        );
         return;
       case 'error':
       case 'apiError':

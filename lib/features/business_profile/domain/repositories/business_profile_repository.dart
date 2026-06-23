@@ -11,7 +11,6 @@ abstract class BusinessProfileRepository {
   Future<List<CategoryRequestModel>> getSubCategoryList(int parentId);
 
   Future<ResponseModel> putMyBusinessProfileInfo({
-    required String businessPhone,
     int? businessCategoryId,
     String? businessLicenseFile,
   });

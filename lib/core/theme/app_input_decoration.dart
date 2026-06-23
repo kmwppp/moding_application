@@ -36,7 +36,7 @@ class AppInputDecoration {
 
   static InputDecoration focusDecoration(String hint) => InputDecoration(
     hintText: hint,
-    hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.darkGrey),
+    hintStyle: AppTextStyles.bodySmall.copyWith(color: AppColors.darkGrey),
     isDense: true,
 
     /// 기본

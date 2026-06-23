@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moding_application/core/constants/app_http_url.dart';
+import 'package:moding_application/core/network/maintenance_handler.dart';
 import 'package:moding_application/core/network/reauth_required_handler.dart';
 import 'package:moding_application/core/network/session_expired_handler.dart';
 
@@ -40,6 +41,13 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
+    if (_isUnderMaintenance(err)) {
+      final message =
+          _extractMaintenanceMessage(err) ?? '서비스 점검 중입니다. 잠시 후 다시 이용해 주세요.';
+      await MaintenanceHandler.showDialog(message: message);
+      return handler.next(err);
+    }
+
     if (_shouldSkipAuth(err.requestOptions) ||
         _isReAuthEndpoint(err.requestOptions.path)) {
       return handler.next(err);
@@ -188,5 +196,20 @@ class AuthInterceptor extends Interceptor {
     return SessionExpiredHandler.showLoginRequiredDialog(
       tokenStorage: _tokenStorage,
     );
+  }
+
+  bool _isUnderMaintenance(DioException err) {
+    if (err.response?.statusCode != 503) return false;
+
+    final data = err.response?.data;
+    if (data is! Map) return false;
+
+    return data['code']?.toString() == 'UNDER_MAINTENANCE';
+  }
+
+  String? _extractMaintenanceMessage(DioException err) {
+    final data = err.response?.data;
+    if (data is! Map) return null;
+    return data['message']?.toString();
   }
 }

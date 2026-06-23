@@ -42,7 +42,7 @@ final class BusinessProfileViewModelProvider
 }
 
 String _$businessProfileViewModelHash() =>
-    r'c2442f2d0b30c07d8aac289a983fb8034d75bec8';
+    r'ea47c3336e891c47dc972203c36cb56f2dae15aa';
 
 abstract class _$BusinessProfileViewModel
     extends $Notifier<BusinessProfileState> {

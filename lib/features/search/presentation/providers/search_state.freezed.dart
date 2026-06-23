@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SearchState {
 
- bool get isLoading; bool get searchIsLoading; String get searchWord; List<String> get recentWordList; List<RecommandDto>? get productList; int get page; bool get hasNext; bool get isFetchingMore; bool get isList; List<RecommandDto>? get searchList; int get searchPage; bool get searchHasNext; bool get searchIsFetchingMore;
+ bool get isLoading; bool get searchIsLoading; String get searchWord; List<String> get recentWordList; List<RecommandDto>? get productList; int get page; bool get hasNext; bool get isFetchingMore; bool get isList; List<RecommandDto>? get searchList; SearchSort get searchSort; int get searchPage; bool get searchHasNext; bool get searchIsFetchingMore;
 /// Create a copy of SearchState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SearchStateCopyWith<SearchState> get copyWith => _$SearchStateCopyWithImpl<Sear
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.searchIsLoading, searchIsLoading) || other.searchIsLoading == searchIsLoading)&&(identical(other.searchWord, searchWord) || other.searchWord == searchWord)&&const DeepCollectionEquality().equals(other.recentWordList, recentWordList)&&const DeepCollectionEquality().equals(other.productList, productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.isList, isList) || other.isList == isList)&&const DeepCollectionEquality().equals(other.searchList, searchList)&&(identical(other.searchPage, searchPage) || other.searchPage == searchPage)&&(identical(other.searchHasNext, searchHasNext) || other.searchHasNext == searchHasNext)&&(identical(other.searchIsFetchingMore, searchIsFetchingMore) || other.searchIsFetchingMore == searchIsFetchingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.searchIsLoading, searchIsLoading) || other.searchIsLoading == searchIsLoading)&&(identical(other.searchWord, searchWord) || other.searchWord == searchWord)&&const DeepCollectionEquality().equals(other.recentWordList, recentWordList)&&const DeepCollectionEquality().equals(other.productList, productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.isList, isList) || other.isList == isList)&&const DeepCollectionEquality().equals(other.searchList, searchList)&&(identical(other.searchSort, searchSort) || other.searchSort == searchSort)&&(identical(other.searchPage, searchPage) || other.searchPage == searchPage)&&(identical(other.searchHasNext, searchHasNext) || other.searchHasNext == searchHasNext)&&(identical(other.searchIsFetchingMore, searchIsFetchingMore) || other.searchIsFetchingMore == searchIsFetchingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,searchIsLoading,searchWord,const DeepCollectionEquality().hash(recentWordList),const DeepCollectionEquality().hash(productList),page,hasNext,isFetchingMore,isList,const DeepCollectionEquality().hash(searchList),searchPage,searchHasNext,searchIsFetchingMore);
+int get hashCode => Object.hash(runtimeType,isLoading,searchIsLoading,searchWord,const DeepCollectionEquality().hash(recentWordList),const DeepCollectionEquality().hash(productList),page,hasNext,isFetchingMore,isList,const DeepCollectionEquality().hash(searchList),searchSort,searchPage,searchHasNext,searchIsFetchingMore);
 
 @override
 String toString() {
-  return 'SearchState(isLoading: $isLoading, searchIsLoading: $searchIsLoading, searchWord: $searchWord, recentWordList: $recentWordList, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore, isList: $isList, searchList: $searchList, searchPage: $searchPage, searchHasNext: $searchHasNext, searchIsFetchingMore: $searchIsFetchingMore)';
+  return 'SearchState(isLoading: $isLoading, searchIsLoading: $searchIsLoading, searchWord: $searchWord, recentWordList: $recentWordList, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore, isList: $isList, searchList: $searchList, searchSort: $searchSort, searchPage: $searchPage, searchHasNext: $searchHasNext, searchIsFetchingMore: $searchIsFetchingMore)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SearchStateCopyWith<$Res>  {
   factory $SearchStateCopyWith(SearchState value, $Res Function(SearchState) _then) = _$SearchStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, bool searchIsLoading, String searchWord, List<String> recentWordList, List<RecommandDto>? productList, int page, bool hasNext, bool isFetchingMore, bool isList, List<RecommandDto>? searchList, int searchPage, bool searchHasNext, bool searchIsFetchingMore
+ bool isLoading, bool searchIsLoading, String searchWord, List<String> recentWordList, List<RecommandDto>? productList, int page, bool hasNext, bool isFetchingMore, bool isList, List<RecommandDto>? searchList, SearchSort searchSort, int searchPage, bool searchHasNext, bool searchIsFetchingMore
 });
 
 
@@ -62,7 +62,7 @@ class _$SearchStateCopyWithImpl<$Res>
 
 /// Create a copy of SearchState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? searchIsLoading = null,Object? searchWord = null,Object? recentWordList = null,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,Object? isList = null,Object? searchList = freezed,Object? searchPage = null,Object? searchHasNext = null,Object? searchIsFetchingMore = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? searchIsLoading = null,Object? searchWord = null,Object? recentWordList = null,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,Object? isList = null,Object? searchList = freezed,Object? searchSort = null,Object? searchPage = null,Object? searchHasNext = null,Object? searchIsFetchingMore = null,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,searchIsLoading: null == searchIsLoading ? _self.searchIsLoading : searchIsLoading // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,8 @@ as int,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullab
 as bool,isFetchingMore: null == isFetchingMore ? _self.isFetchingMore : isFetchingMore // ignore: cast_nullable_to_non_nullable
 as bool,isList: null == isList ? _self.isList : isList // ignore: cast_nullable_to_non_nullable
 as bool,searchList: freezed == searchList ? _self.searchList : searchList // ignore: cast_nullable_to_non_nullable
-as List<RecommandDto>?,searchPage: null == searchPage ? _self.searchPage : searchPage // ignore: cast_nullable_to_non_nullable
+as List<RecommandDto>?,searchSort: null == searchSort ? _self.searchSort : searchSort // ignore: cast_nullable_to_non_nullable
+as SearchSort,searchPage: null == searchPage ? _self.searchPage : searchPage // ignore: cast_nullable_to_non_nullable
 as int,searchHasNext: null == searchHasNext ? _self.searchHasNext : searchHasNext // ignore: cast_nullable_to_non_nullable
 as bool,searchIsFetchingMore: null == searchIsFetchingMore ? _self.searchIsFetchingMore : searchIsFetchingMore // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -162,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  bool searchIsLoading,  String searchWord,  List<String> recentWordList,  List<RecommandDto>? productList,  int page,  bool hasNext,  bool isFetchingMore,  bool isList,  List<RecommandDto>? searchList,  int searchPage,  bool searchHasNext,  bool searchIsFetchingMore)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  bool searchIsLoading,  String searchWord,  List<String> recentWordList,  List<RecommandDto>? productList,  int page,  bool hasNext,  bool isFetchingMore,  bool isList,  List<RecommandDto>? searchList,  SearchSort searchSort,  int searchPage,  bool searchHasNext,  bool searchIsFetchingMore)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SearchState() when $default != null:
-return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.recentWordList,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore,_that.isList,_that.searchList,_that.searchPage,_that.searchHasNext,_that.searchIsFetchingMore);case _:
+return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.recentWordList,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore,_that.isList,_that.searchList,_that.searchSort,_that.searchPage,_that.searchHasNext,_that.searchIsFetchingMore);case _:
   return orElse();
 
 }
@@ -183,10 +184,10 @@ return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.rec
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  bool searchIsLoading,  String searchWord,  List<String> recentWordList,  List<RecommandDto>? productList,  int page,  bool hasNext,  bool isFetchingMore,  bool isList,  List<RecommandDto>? searchList,  int searchPage,  bool searchHasNext,  bool searchIsFetchingMore)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  bool searchIsLoading,  String searchWord,  List<String> recentWordList,  List<RecommandDto>? productList,  int page,  bool hasNext,  bool isFetchingMore,  bool isList,  List<RecommandDto>? searchList,  SearchSort searchSort,  int searchPage,  bool searchHasNext,  bool searchIsFetchingMore)  $default,) {final _that = this;
 switch (_that) {
 case _SearchState():
-return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.recentWordList,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore,_that.isList,_that.searchList,_that.searchPage,_that.searchHasNext,_that.searchIsFetchingMore);case _:
+return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.recentWordList,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore,_that.isList,_that.searchList,_that.searchSort,_that.searchPage,_that.searchHasNext,_that.searchIsFetchingMore);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -203,10 +204,10 @@ return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.rec
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  bool searchIsLoading,  String searchWord,  List<String> recentWordList,  List<RecommandDto>? productList,  int page,  bool hasNext,  bool isFetchingMore,  bool isList,  List<RecommandDto>? searchList,  int searchPage,  bool searchHasNext,  bool searchIsFetchingMore)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  bool searchIsLoading,  String searchWord,  List<String> recentWordList,  List<RecommandDto>? productList,  int page,  bool hasNext,  bool isFetchingMore,  bool isList,  List<RecommandDto>? searchList,  SearchSort searchSort,  int searchPage,  bool searchHasNext,  bool searchIsFetchingMore)?  $default,) {final _that = this;
 switch (_that) {
 case _SearchState() when $default != null:
-return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.recentWordList,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore,_that.isList,_that.searchList,_that.searchPage,_that.searchHasNext,_that.searchIsFetchingMore);case _:
+return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.recentWordList,_that.productList,_that.page,_that.hasNext,_that.isFetchingMore,_that.isList,_that.searchList,_that.searchSort,_that.searchPage,_that.searchHasNext,_that.searchIsFetchingMore);case _:
   return null;
 
 }
@@ -218,7 +219,7 @@ return $default(_that.isLoading,_that.searchIsLoading,_that.searchWord,_that.rec
 
 
 class _SearchState extends SearchState {
-  const _SearchState({required this.isLoading, required this.searchIsLoading, required this.searchWord, required final  List<String> recentWordList, required final  List<RecommandDto>? productList, this.page = 0, this.hasNext = true, this.isFetchingMore = false, required this.isList, required final  List<RecommandDto>? searchList, this.searchPage = 0, this.searchHasNext = true, this.searchIsFetchingMore = false}): _recentWordList = recentWordList,_productList = productList,_searchList = searchList,super._();
+  const _SearchState({required this.isLoading, required this.searchIsLoading, required this.searchWord, required final  List<String> recentWordList, required final  List<RecommandDto>? productList, this.page = 0, this.hasNext = true, this.isFetchingMore = false, required this.isList, required final  List<RecommandDto>? searchList, this.searchSort = SearchSort.relevance, this.searchPage = 0, this.searchHasNext = true, this.searchIsFetchingMore = false}): _recentWordList = recentWordList,_productList = productList,_searchList = searchList,super._();
   
 
 @override final  bool isLoading;
@@ -253,6 +254,7 @@ class _SearchState extends SearchState {
   return EqualUnmodifiableListView(value);
 }
 
+@override@JsonKey() final  SearchSort searchSort;
 @override@JsonKey() final  int searchPage;
 @override@JsonKey() final  bool searchHasNext;
 @override@JsonKey() final  bool searchIsFetchingMore;
@@ -267,16 +269,16 @@ _$SearchStateCopyWith<_SearchState> get copyWith => __$SearchStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.searchIsLoading, searchIsLoading) || other.searchIsLoading == searchIsLoading)&&(identical(other.searchWord, searchWord) || other.searchWord == searchWord)&&const DeepCollectionEquality().equals(other._recentWordList, _recentWordList)&&const DeepCollectionEquality().equals(other._productList, _productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.isList, isList) || other.isList == isList)&&const DeepCollectionEquality().equals(other._searchList, _searchList)&&(identical(other.searchPage, searchPage) || other.searchPage == searchPage)&&(identical(other.searchHasNext, searchHasNext) || other.searchHasNext == searchHasNext)&&(identical(other.searchIsFetchingMore, searchIsFetchingMore) || other.searchIsFetchingMore == searchIsFetchingMore));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.searchIsLoading, searchIsLoading) || other.searchIsLoading == searchIsLoading)&&(identical(other.searchWord, searchWord) || other.searchWord == searchWord)&&const DeepCollectionEquality().equals(other._recentWordList, _recentWordList)&&const DeepCollectionEquality().equals(other._productList, _productList)&&(identical(other.page, page) || other.page == page)&&(identical(other.hasNext, hasNext) || other.hasNext == hasNext)&&(identical(other.isFetchingMore, isFetchingMore) || other.isFetchingMore == isFetchingMore)&&(identical(other.isList, isList) || other.isList == isList)&&const DeepCollectionEquality().equals(other._searchList, _searchList)&&(identical(other.searchSort, searchSort) || other.searchSort == searchSort)&&(identical(other.searchPage, searchPage) || other.searchPage == searchPage)&&(identical(other.searchHasNext, searchHasNext) || other.searchHasNext == searchHasNext)&&(identical(other.searchIsFetchingMore, searchIsFetchingMore) || other.searchIsFetchingMore == searchIsFetchingMore));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,searchIsLoading,searchWord,const DeepCollectionEquality().hash(_recentWordList),const DeepCollectionEquality().hash(_productList),page,hasNext,isFetchingMore,isList,const DeepCollectionEquality().hash(_searchList),searchPage,searchHasNext,searchIsFetchingMore);
+int get hashCode => Object.hash(runtimeType,isLoading,searchIsLoading,searchWord,const DeepCollectionEquality().hash(_recentWordList),const DeepCollectionEquality().hash(_productList),page,hasNext,isFetchingMore,isList,const DeepCollectionEquality().hash(_searchList),searchSort,searchPage,searchHasNext,searchIsFetchingMore);
 
 @override
 String toString() {
-  return 'SearchState(isLoading: $isLoading, searchIsLoading: $searchIsLoading, searchWord: $searchWord, recentWordList: $recentWordList, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore, isList: $isList, searchList: $searchList, searchPage: $searchPage, searchHasNext: $searchHasNext, searchIsFetchingMore: $searchIsFetchingMore)';
+  return 'SearchState(isLoading: $isLoading, searchIsLoading: $searchIsLoading, searchWord: $searchWord, recentWordList: $recentWordList, productList: $productList, page: $page, hasNext: $hasNext, isFetchingMore: $isFetchingMore, isList: $isList, searchList: $searchList, searchSort: $searchSort, searchPage: $searchPage, searchHasNext: $searchHasNext, searchIsFetchingMore: $searchIsFetchingMore)';
 }
 
 
@@ -287,7 +289,7 @@ abstract mixin class _$SearchStateCopyWith<$Res> implements $SearchStateCopyWith
   factory _$SearchStateCopyWith(_SearchState value, $Res Function(_SearchState) _then) = __$SearchStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, bool searchIsLoading, String searchWord, List<String> recentWordList, List<RecommandDto>? productList, int page, bool hasNext, bool isFetchingMore, bool isList, List<RecommandDto>? searchList, int searchPage, bool searchHasNext, bool searchIsFetchingMore
+ bool isLoading, bool searchIsLoading, String searchWord, List<String> recentWordList, List<RecommandDto>? productList, int page, bool hasNext, bool isFetchingMore, bool isList, List<RecommandDto>? searchList, SearchSort searchSort, int searchPage, bool searchHasNext, bool searchIsFetchingMore
 });
 
 
@@ -304,7 +306,7 @@ class __$SearchStateCopyWithImpl<$Res>
 
 /// Create a copy of SearchState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? searchIsLoading = null,Object? searchWord = null,Object? recentWordList = null,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,Object? isList = null,Object? searchList = freezed,Object? searchPage = null,Object? searchHasNext = null,Object? searchIsFetchingMore = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? searchIsLoading = null,Object? searchWord = null,Object? recentWordList = null,Object? productList = freezed,Object? page = null,Object? hasNext = null,Object? isFetchingMore = null,Object? isList = null,Object? searchList = freezed,Object? searchSort = null,Object? searchPage = null,Object? searchHasNext = null,Object? searchIsFetchingMore = null,}) {
   return _then(_SearchState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,searchIsLoading: null == searchIsLoading ? _self.searchIsLoading : searchIsLoading // ignore: cast_nullable_to_non_nullable
@@ -316,7 +318,8 @@ as int,hasNext: null == hasNext ? _self.hasNext : hasNext // ignore: cast_nullab
 as bool,isFetchingMore: null == isFetchingMore ? _self.isFetchingMore : isFetchingMore // ignore: cast_nullable_to_non_nullable
 as bool,isList: null == isList ? _self.isList : isList // ignore: cast_nullable_to_non_nullable
 as bool,searchList: freezed == searchList ? _self._searchList : searchList // ignore: cast_nullable_to_non_nullable
-as List<RecommandDto>?,searchPage: null == searchPage ? _self.searchPage : searchPage // ignore: cast_nullable_to_non_nullable
+as List<RecommandDto>?,searchSort: null == searchSort ? _self.searchSort : searchSort // ignore: cast_nullable_to_non_nullable
+as SearchSort,searchPage: null == searchPage ? _self.searchPage : searchPage // ignore: cast_nullable_to_non_nullable
 as int,searchHasNext: null == searchHasNext ? _self.searchHasNext : searchHasNext // ignore: cast_nullable_to_non_nullable
 as bool,searchIsFetchingMore: null == searchIsFetchingMore ? _self.searchIsFetchingMore : searchIsFetchingMore // ignore: cast_nullable_to_non_nullable
 as bool,

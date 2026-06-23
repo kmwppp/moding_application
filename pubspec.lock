@@ -266,7 +266,7 @@ packages:
     source: hosted
     version: "0.3.5+2"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
       sha256: c8ea0233063ba03258fbcf2ca4d6dadfefe14f02fab57702265467a19f27fadf
@@ -1597,10 +1597,9 @@ packages:
   tosspayments_widget_sdk_flutter:
     dependency: "direct main"
     description:
-      name: tosspayments_widget_sdk_flutter
-      sha256: ce997fbfb2d6ba1b92e0c96e9d18c753aeb6b3bbcefd4030f02ca0d1444e9a19
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/tosspayments_widget_sdk_flutter"
+      relative: true
+    source: path
     version: "2.2.0"
   typed_data:
     dependency: transitive
@@ -1755,7 +1754,7 @@ packages:
     source: hosted
     version: "4.13.1"
   webview_flutter_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter_android
       sha256: "0f7fcd2c86bf36bdcf94881f7941ce0cbc4f8d104b9fdcd5fcbef90e2199db76"

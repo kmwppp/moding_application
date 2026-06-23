@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/core/theme/app_box_styles.dart';
 import 'package:moding_application/features/order/presentation/providers/order_viewmodel.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../identity_verification/domain/entities/identity_verification_page_params.dart';
 import 'order_address_add_page.dart';
 
 class OrderAddressPage extends ConsumerStatefulWidget {
@@ -114,10 +116,42 @@ class _OrderAddressPageState extends ConsumerState<OrderAddressPage> {
                                       ),
                                     ),
                                   ],
+                                  if (address.isBusinessAddress) ...[
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.pointColor.withValues(
+                                          alpha: 0.1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        "사업장주소",
+                                        style: context.caption.copyWith(
+                                          color: AppColors.pointColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                   const Spacer(),
                                   GestureDetector(
                                     onTap: () {
-                                      // 수정 시 해당 배송지 정보를 넘겨줘야 함 (추후 필요시 인자 추가)
+                                      if (address.isBusinessAddress) {
+                                        context.push(
+                                          '/identity_verification',
+                                          extra:
+                                              const IdentityVerificationPageParams(
+                                                successRoute:
+                                                    '/business_profile',
+                                              ),
+                                        );
+                                        return;
+                                      }
                                       showAddressAddPage(
                                         context,
                                         false,
@@ -147,7 +181,40 @@ class _OrderAddressPageState extends ConsumerState<OrderAddressPage> {
                               ),
                               const SizedBox(height: 4),
                               Text(address.phone, style: context.body),
-                              const SizedBox(height: 6),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final result = await notifier
+                                          .patchDefaultAddress(address.id);
+                                      if (!mounted) return;
+                                      if (result.success) {
+                                        return;
+                                      }
+                                      await CommonDialog.show(
+                                        this.context,
+                                        title: "오류",
+                                        isSuccess: false,
+                                        message: result.message.isNotEmpty
+                                            ? result.message
+                                            : "기본 배송지 설정에 실패했습니다.",
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: AppBoxStyles.borderBox,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                        horizontal: 10,
+                                      ),
+                                      child: Text(
+                                        "기본 배송지로 설정",
+                                        style: context.bodySmall.copyWith(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -180,16 +247,12 @@ class _OrderAddressPageState extends ConsumerState<OrderAddressPage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      // 키보드 대응을 위해 필수
       useSafeArea: true,
-      // 🔥 상태바 침범 방지 핵심 속성
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (context) {
-        // 이제 SizedBox로 높이를 계산할 필요 없이,
-        // 모달이 상태바 아래 가용한 최대 영역을 알아서 차지합니다.
         return OrderAddressAddPage(isAdd: isAdd, addressId: addressId);
       },
     );

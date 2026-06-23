@@ -28,9 +28,13 @@ abstract class ProductDto with _$ProductDto {
     required String name,
     required String status,
     required String thumbnailImageUrl,
+    int? lowestPrice,
+    int? lowestDiscountAmount,
+    int? lowestDiscountRate,
     required int lowestSellingPrice,
     required int lowestPriceStockQuantity,
     required List<String> tags,
+    @Default(false) bool isHaccpCertified,
     @LocalDateTimeConverter() required DateTime createdAt,
     @LocalDateTimeConverter() required DateTime updatedAt,
   }) = _ProductDto;

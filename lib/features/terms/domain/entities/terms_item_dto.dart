@@ -8,16 +8,19 @@ part 'terms_item_dto.g.dart';
 
 @freezed
 abstract class TermsItemDto with _$TermsItemDto {
+  const TermsItemDto._();
+
   const factory TermsItemDto({
     required int id,
     required TermsType type,
-    required String typeLabel,
     required String pdfUrl,
     @LocalDateTimeConverter() required DateTime createdAt,
   }) = _TermsItemDto;
 
   factory TermsItemDto.fromJson(Map<String, dynamic> json) =>
       _$TermsItemDtoFromJson(json);
+
+  String get typeLabel => type.label;
 }
 
 @freezed

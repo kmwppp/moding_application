@@ -12,6 +12,7 @@ _CreateOrderRequestDto _$CreateOrderRequestDtoFromJson(
   idempotencyKey: json['idempotencyKey'] as String,
   deliveryAddressId: (json['deliveryAddressId'] as num).toInt(),
   deliveryRequest: json['deliveryRequest'] as String,
+  pgProvider: _pgProviderFromJson(json['pgProvider'] as String?),
   items: (json['items'] as List<dynamic>)
       .map((e) => OrderItemDto.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -23,6 +24,7 @@ Map<String, dynamic> _$CreateOrderRequestDtoToJson(
   'idempotencyKey': instance.idempotencyKey,
   'deliveryAddressId': instance.deliveryAddressId,
   'deliveryRequest': instance.deliveryRequest,
+  'pgProvider': _pgProviderToJson(instance.pgProvider),
   'items': instance.items,
 };
 

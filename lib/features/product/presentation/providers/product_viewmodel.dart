@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moding_application/features/cart/presentation/providers/wish_list/wish_list_viewmodel.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
+import 'package:moding_application/core/network/exceptions/api_code_exception.dart';
 import 'package:moding_application/features/product/data/repositories/product_repository_impl.dart';
 import 'package:moding_application/features/product/presentation/providers/product_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,18 +20,19 @@ class ProductViewModel extends _$ProductViewModel {
 
   @override
   ProductState build(int productId) {
-    Future.microtask(() {
-      if (ref.mounted) {
-        _init(productId);
-      }
-    });
-
     return ProductState.initial();
   }
 
-  Future<void> _init(int productId) async {
+  Future<void> init(int productId) async {
+    state = ProductState.initial();
+    await getProductInfo(productId);
+    if (!ref.mounted) return;
+    state = state.copyWith(isLoading: false);
+    unawaited(_loadDeferredContent(productId));
+  }
+
+  Future<void> _loadDeferredContent(int productId) async {
     await Future.wait([
-      getProductInfo(productId),
       getProductReviewList(productId),
       getProductRecommendList(
         type: ProductRecommendType.similar,
@@ -46,12 +51,6 @@ class ProductViewModel extends _$ProductViewModel {
         size: 10,
       ),
     ]);
-    // await getProductListSimilar(productId);
-
-    // await getProductListRecently();
-    // await getProductListBusinessPick();
-    if (!ref.mounted) return;
-    state = state.copyWith(isLoading: false);
   }
 
   String get formattedTime {
@@ -108,6 +107,10 @@ class ProductViewModel extends _$ProductViewModel {
       final response = await repository.getProductInfo(productId);
       if (!ref.mounted) return;
       state = state.copyWith(productInfo: response);
+    } on DioException {
+      rethrow;
+    } on ApiCodeException {
+      rethrow;
     } catch (e) {
       debugPrint('$e');
     }
@@ -126,9 +129,9 @@ class ProductViewModel extends _$ProductViewModel {
   Future<void> getProductReviewList(int productId) async {
     try {
       final repository = ref.read(productRepositoryProvider);
-      final reviewList = await repository.getProductReviewList(productId, 0, 5);
+      final reviewList = await repository.getProductReviewPage(productId, 0, 5);
       if (!ref.mounted) return;
-      state = state.copyWith(reviewList: reviewList);
+      state = state.copyWith(reviewList: reviewList.content);
     } catch (e) {
       debugPrint('$e');
     }

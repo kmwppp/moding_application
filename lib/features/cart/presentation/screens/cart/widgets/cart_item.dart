@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:moding_application/features/cart/domain/cart_pricing.dart';
 import 'package:moding_application/features/cart/domain/entities/cart/cart_response_dto.dart';
+import 'package:moding_application/features/cart/domain/enums/cart_unavailable_reason.dart';
 import 'package:moding_application/features/cart/presentation/providers/cart/cart_viewmodel.dart';
 
 import '../../../../../../core/constants/app_colors.dart';
@@ -36,12 +37,19 @@ class CartItemWidget extends ConsumerWidget {
     return '$deliveryDays일 후 도착';
   }
 
+  String _unavailableLabel(CartUnavailableReason? reason) =>
+      reason?.label ?? '구매 불가';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(cartViewModelProvider.notifier);
+    final cartItemId = item.cartItemId;
+    final productId = item.productId;
+    final options = item.options ?? const <CartItemOptionDto>[];
+    final isAvailable = item.isAvailable == true;
     final selected = ref.watch(
       cartViewModelProvider.select(
-        (s) => s.selectedCartItemIds.contains(item.cartItemId),
+        (s) => cartItemId != null && s.selectedCartItemIds.contains(cartItemId),
       ),
     );
 
@@ -49,124 +57,166 @@ class CartItemWidget extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          InkWell(
-            onTap: () => notifier.toggleProduct(item.cartItemId),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 28,
-                  height: 28,
-                  child: Checkbox(
-                    value: selected,
-                    onChanged: (_) => notifier.toggleProduct(item.cartItemId),
-                    activeColor: AppColors.primary,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: !isAvailable || cartItemId == null
+                    ? null
+                    : () => notifier.toggleProduct(cartItemId),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: Checkbox(
+                        value: selected,
+                        onChanged: !isAvailable || cartItemId == null
+                            ? null
+                            : (_) => notifier.toggleProduct(cartItemId),
+                        activeColor: AppColors.primary,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        '${_deliveryLabel(item.deliveryDays ?? 1)} · ${_storageLabel(item.storageMethod ?? '')}',
+                        style: context.bodyLarge.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              InkWell(
+                onTap: productId == null
+                    ? null
+                    : () {
+                        context.push('/product/$productId');
+                      },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        imageUrl: item.thumbnailUrl ?? '',
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(
+                          width: 80,
+                          height: 80,
+                          color: Colors.grey.shade200,
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          width: 80,
+                          height: 80,
+                          color: Colors.grey.shade200,
+                          child: const Icon(Icons.image_not_supported_outlined),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.productName ?? '',
+                            style: context.body.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            CartPricing.lineShippingFee(item) == 0
+                                ? '배송비 무료'
+                                : '배송비 ${_currency.format(CartPricing.lineShippingFee(item))}원',
+                            style: context.bodySmall.copyWith(
+                              color: AppColors.darkGrey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              ...options.map(
+                (option) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _CartOptionTile(
+                    option: option,
+                    enabled: isAvailable && cartItemId != null,
+                    onRemove: cartItemId == null
+                        ? () {}
+                        : () => notifier.removeOption(
+                            cartItemId,
+                            option.cartItemOptionId,
+                          ),
+                    onDelta: cartItemId == null
+                        ? (_) {}
+                        : (d) => notifier.changeOptionQuantity(
+                            cartItemId,
+                            option.cartItemOptionId,
+                            d,
+                          ),
                   ),
                 ),
-                const SizedBox(width: 4),
-                Expanded(
+              ),
+              if (untilFree != null)
+                Text(
+                  '${_currency.format(untilFree)}원 더 주문시 무료배송',
+                  style: context.body.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                  ),
+                ),
+              if (options.any((o) => o.isUnavailable))
+                Text(
+                  '품절 상품이 포함되어 있어, 해당 상품은 주문이 불가능합니다.',
+                  style: context.bodySmall.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.pointColor,
+                  ),
+                ),
+            ],
+          ),
+          if (!isAvailable)
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.66),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                alignment: Alignment.center,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
                   child: Text(
-                    '${_deliveryLabel(item.deliveryDays)} · ${_storageLabel(item.storageMethod)}',
-                    style: context.bodyLarge.copyWith(
-                      color: AppColors.primary,
+                    _unavailableLabel(item.unavailableReason),
+                    style: context.body.copyWith(
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              context.push("/product/${item.productId}");
-            },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: CachedNetworkImage(
-                    imageUrl: item.thumbnailUrl,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.grey.shade200,
-                    ),
-                    errorWidget: (context, url, error) => Container(
-                      width: 80,
-                      height: 80,
-                      color: Colors.grey.shade200,
-                      child: const Icon(Icons.image_not_supported_outlined),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item.productName,
-                        style: context.body.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        CartPricing.lineShippingFee(item) == 0
-                            ? '배송비 무료'
-                            : '배송비 ${_currency.format(CartPricing.lineShippingFee(item))}원',
-                        style: context.bodySmall.copyWith(
-                          color: AppColors.darkGrey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          ...item.options.map(
-            (option) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _CartOptionTile(
-                option: option,
-                onRemove: () => notifier.removeOption(
-                  item.cartItemId,
-                  option.cartItemOptionId,
-                ),
-                onDelta: (d) => notifier.changeOptionQuantity(
-                  item.cartItemId,
-                  option.cartItemOptionId,
-                  d,
-                ),
-              ),
-            ),
-          ),
-          if (untilFree != null)
-            Text(
-              '${_currency.format(untilFree)}원 더 주문시 무료배송',
-              style: context.body.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-              ),
-            ),
-          if (item.options.any((o) => o.isUnavailable))
-            Text(
-              '품절 상품이 포함되어 있어, 해당 상품은 주문이 불가능합니다.',
-              style: context.body.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.pointColor,
               ),
             ),
         ],
@@ -178,11 +228,13 @@ class CartItemWidget extends ConsumerWidget {
 class _CartOptionTile extends StatelessWidget {
   const _CartOptionTile({
     required this.option,
+    required this.enabled,
     required this.onRemove,
     required this.onDelta,
   });
 
   final CartItemOptionDto option;
+  final bool enabled;
   final VoidCallback onRemove;
   final void Function(int delta) onDelta;
 
@@ -190,12 +242,18 @@ class _CartOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isUnavailable = option.isUnavailable;
+    final canEdit = enabled && !isUnavailable;
+    final contentColor = isUnavailable ? AppColors.darkGrey : null;
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
         Container(
           width: double.infinity,
-          decoration: AppBoxStyles.borderBox,
+          decoration: isUnavailable
+              ? AppBoxStyles.borderBox.copyWith(color: AppColors.lightGrey)
+              : AppBoxStyles.borderBox,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
             child: Column(
@@ -208,9 +266,13 @@ class _CartOptionTile extends StatelessWidget {
                         text: '옵션  ',
                         style: context.body.copyWith(
                           fontWeight: FontWeight.bold,
+                          color: contentColor,
                         ),
                       ),
-                      TextSpan(text: option.optionName, style: context.body),
+                      TextSpan(
+                        text: option.optionName,
+                        style: context.body.copyWith(color: contentColor),
+                      ),
                     ],
                   ),
                 ),
@@ -218,37 +280,41 @@ class _CartOptionTile extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: option.quantity <= 1
+                      onPressed: !canEdit || option.quantity <= 1
                           ? null
                           : () => onDelta(-1),
                       icon: const Icon(Icons.remove, size: 20),
+                      color: contentColor,
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      // 👈 기존 minWidth 제거
-                      visualDensity: VisualDensity.compact, // 👈 추가
+                      visualDensity: VisualDensity.compact,
                     ),
                     SizedBox(
                       width: 36,
                       child: Text(
                         '${option.quantity}',
-                        style: context.body,
+                        style: context.body.copyWith(color: contentColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     IconButton(
-                      onPressed: option.quantity >= option.stockQuantity
+                      onPressed:
+                          !canEdit || option.quantity >= option.stockQuantity
                           ? null
                           : () => onDelta(1),
                       icon: const Icon(Icons.add, size: 20),
+                      color: contentColor,
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      // 👈 기존 minWidth 제거
-                      visualDensity: VisualDensity.compact, // 👈 추가
+                      visualDensity: VisualDensity.compact,
                     ),
                     const Spacer(),
                     Text(
                       '${_currency.format(option.totalPrice)}원',
-                      style: context.body.copyWith(fontWeight: FontWeight.bold),
+                      style: context.body.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: contentColor,
+                      ),
                     ),
                   ],
                 ),
@@ -260,7 +326,7 @@ class _CartOptionTile extends StatelessWidget {
           top: 4,
           right: 4,
           child: IconButton(
-            onPressed: onRemove,
+            onPressed: enabled ? onRemove : null,
             icon: const Icon(Icons.close, size: 20),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 32, minHeight: 32),

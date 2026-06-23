@@ -39,6 +39,7 @@ class SignupNewState {
   final SignupNewCategoryItem? selectedSubCategory;
   final int? businessCategoryId;
   final String businessLicenseImagePath;
+  final bool isAlcoholBuyer;
 
   const SignupNewState({
     required this.step,
@@ -74,6 +75,7 @@ class SignupNewState {
     required this.selectedSubCategory,
     required this.businessCategoryId,
     required this.businessLicenseImagePath,
+    required this.isAlcoholBuyer,
   });
 
   factory SignupNewState.initial() {
@@ -111,6 +113,7 @@ class SignupNewState {
       selectedSubCategory: null,
       businessCategoryId: null,
       businessLicenseImagePath: '',
+      isAlcoholBuyer: false,
     );
   }
 
@@ -152,6 +155,7 @@ class SignupNewState {
     int? businessCategoryId,
     bool clearBusinessCategoryId = false,
     String? businessLicenseImagePath,
+    bool? isAlcoholBuyer,
   }) {
     return SignupNewState(
       step: step ?? this.step,
@@ -199,6 +203,7 @@ class SignupNewState {
           : (businessCategoryId ?? this.businessCategoryId),
       businessLicenseImagePath:
           businessLicenseImagePath ?? this.businessLicenseImagePath,
+      isAlcoholBuyer: isAlcoholBuyer ?? this.isAlcoholBuyer,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:moding_application/core/services/token_storage.dart';
 import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/login/data/repositories/login_repository_impl.dart';
+import 'package:moding_application/features/login/domain/entities/login_token.dart';
 import 'package:moding_application/features/login/domain/repositories/login_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,7 +26,7 @@ class LoginViewModel extends _$LoginViewModel {
   }
 
   //실제 로그인 함수
-  Future<bool> login() async {
+  Future<LoginToken?> login() async {
     state = state.copyWith(isSubmitting: true);
     try {
       final repository = ref.read(loginRepositoryProvider);
@@ -43,10 +44,10 @@ class LoginViewModel extends _$LoginViewModel {
 
       await _sendFcmToken(repository);
 
-      return true;
+      return token;
     } catch (e) {
       appLog("❌ 에러: $e");
-      return false;
+      return null;
     } finally {
       state = state.copyWith(isSubmitting: false);
     }

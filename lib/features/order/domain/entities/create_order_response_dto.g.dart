@@ -146,6 +146,8 @@ _CreateOrderPaymentDto _$CreateOrderPaymentDtoFromJson(
   paymentCode: json['paymentCode'] as String?,
   paymentMethod: json['paymentMethod'] as String?,
   status: json['status'] as String?,
+  signature: json['signature'] as String?,
+  timestamp: json['timestamp'] as String?,
   paidAt: const NullableLocalDateTimeConverter().fromJson(
     json['paidAt'] as String?,
   ),
@@ -167,6 +169,8 @@ Map<String, dynamic> _$CreateOrderPaymentDtoToJson(
   'paymentCode': instance.paymentCode,
   'paymentMethod': instance.paymentMethod,
   'status': instance.status,
+  'signature': instance.signature,
+  'timestamp': instance.timestamp,
   'paidAt': const NullableLocalDateTimeConverter().toJson(instance.paidAt),
   'cancelledAmount': instance.cancelledAmount,
   'netAmount': instance.netAmount,

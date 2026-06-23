@@ -27,6 +27,23 @@ class EditMyInfoViewModel extends _$EditMyInfoViewModel {
     }
   }
 
+  Future<void> getAlcoholBuyerStatus() async {
+    state = state.copyWith(isAlcoholBuyerLoading: true);
+    try {
+      final repository = ref.read(editMyInfoRepositoryProvider);
+      final response = await repository.getAlcoholBuyerStatus();
+      if (!ref.mounted) return;
+      state = state.copyWith(
+        isAlcoholBuyerLoading: false,
+        alcoholBuyerStatus: response,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      if (!ref.mounted) return;
+      state = state.copyWith(isAlcoholBuyerLoading: false);
+    }
+  }
+
   Future<void> getNotificationSettings() async {
     state = state.copyWith(isNotificationLoading: true);
     try {
@@ -76,6 +93,23 @@ class EditMyInfoViewModel extends _$EditMyInfoViewModel {
         );
       }
       return const ResponseModel(success: false, message: '알림 설정 변경에 실패했습니다.');
+    }
+  }
+
+  Future<ResponseModel> postAlcoholBuyerApply() async {
+    try {
+      final repository = ref.read(editMyInfoRepositoryProvider);
+      final response = await repository.postAlcoholBuyerApply();
+      if (response.success) {
+        await getAlcoholBuyerStatus();
+      }
+      return response;
+    } catch (e) {
+      debugPrint(e.toString());
+      return const ResponseModel(
+        success: false,
+        message: '주류 구매자격 신청에 실패했습니다.',
+      );
     }
   }
 

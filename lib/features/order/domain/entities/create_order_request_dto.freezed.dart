@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CreateOrderRequestDto {
 
- String get idempotencyKey; int get deliveryAddressId; String get deliveryRequest; List<OrderItemDto> get items;
+ String get idempotencyKey; int get deliveryAddressId; String get deliveryRequest;@JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson) PgProvider get pgProvider; List<OrderItemDto> get items;
 /// Create a copy of CreateOrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CreateOrderRequestDtoCopyWith<CreateOrderRequestDto> get copyWith => _$CreateOr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&const DeepCollectionEquality().equals(other.items, items));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&(identical(other.pgProvider, pgProvider) || other.pgProvider == pgProvider)&&const DeepCollectionEquality().equals(other.items, items));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,idempotencyKey,deliveryAddressId,deliveryRequest,const DeepCollectionEquality().hash(items));
+int get hashCode => Object.hash(runtimeType,idempotencyKey,deliveryAddressId,deliveryRequest,pgProvider,const DeepCollectionEquality().hash(items));
 
 @override
 String toString() {
-  return 'CreateOrderRequestDto(idempotencyKey: $idempotencyKey, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest, items: $items)';
+  return 'CreateOrderRequestDto(idempotencyKey: $idempotencyKey, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest, pgProvider: $pgProvider, items: $items)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CreateOrderRequestDtoCopyWith<$Res>  {
   factory $CreateOrderRequestDtoCopyWith(CreateOrderRequestDto value, $Res Function(CreateOrderRequestDto) _then) = _$CreateOrderRequestDtoCopyWithImpl;
 @useResult
 $Res call({
- String idempotencyKey, int deliveryAddressId, String deliveryRequest, List<OrderItemDto> items
+ String idempotencyKey, int deliveryAddressId, String deliveryRequest,@JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson) PgProvider pgProvider, List<OrderItemDto> items
 });
 
 
@@ -65,12 +65,13 @@ class _$CreateOrderRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of CreateOrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? idempotencyKey = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,Object? items = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? idempotencyKey = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,Object? pgProvider = null,Object? items = null,}) {
   return _then(_self.copyWith(
 idempotencyKey: null == idempotencyKey ? _self.idempotencyKey : idempotencyKey // ignore: cast_nullable_to_non_nullable
 as String,deliveryAddressId: null == deliveryAddressId ? _self.deliveryAddressId : deliveryAddressId // ignore: cast_nullable_to_non_nullable
 as int,deliveryRequest: null == deliveryRequest ? _self.deliveryRequest : deliveryRequest // ignore: cast_nullable_to_non_nullable
-as String,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as String,pgProvider: null == pgProvider ? _self.pgProvider : pgProvider // ignore: cast_nullable_to_non_nullable
+as PgProvider,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<OrderItemDto>,
   ));
 }
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String idempotencyKey,  int deliveryAddressId,  String deliveryRequest,  List<OrderItemDto> items)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String idempotencyKey,  int deliveryAddressId,  String deliveryRequest, @JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson)  PgProvider pgProvider,  List<OrderItemDto> items)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateOrderRequestDto() when $default != null:
-return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryRequest,_that.items);case _:
+return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryRequest,_that.pgProvider,_that.items);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryReque
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String idempotencyKey,  int deliveryAddressId,  String deliveryRequest,  List<OrderItemDto> items)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String idempotencyKey,  int deliveryAddressId,  String deliveryRequest, @JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson)  PgProvider pgProvider,  List<OrderItemDto> items)  $default,) {final _that = this;
 switch (_that) {
 case _CreateOrderRequestDto():
-return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryRequest,_that.items);case _:
+return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryRequest,_that.pgProvider,_that.items);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryReque
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String idempotencyKey,  int deliveryAddressId,  String deliveryRequest,  List<OrderItemDto> items)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String idempotencyKey,  int deliveryAddressId,  String deliveryRequest, @JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson)  PgProvider pgProvider,  List<OrderItemDto> items)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateOrderRequestDto() when $default != null:
-return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryRequest,_that.items);case _:
+return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryRequest,_that.pgProvider,_that.items);case _:
   return null;
 
 }
@@ -212,12 +213,13 @@ return $default(_that.idempotencyKey,_that.deliveryAddressId,_that.deliveryReque
 @JsonSerializable()
 
 class _CreateOrderRequestDto implements CreateOrderRequestDto {
-  const _CreateOrderRequestDto({required this.idempotencyKey, required this.deliveryAddressId, required this.deliveryRequest, required final  List<OrderItemDto> items}): _items = items;
+  const _CreateOrderRequestDto({required this.idempotencyKey, required this.deliveryAddressId, required this.deliveryRequest, @JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson) required this.pgProvider, required final  List<OrderItemDto> items}): _items = items;
   factory _CreateOrderRequestDto.fromJson(Map<String, dynamic> json) => _$CreateOrderRequestDtoFromJson(json);
 
 @override final  String idempotencyKey;
 @override final  int deliveryAddressId;
 @override final  String deliveryRequest;
+@override@JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson) final  PgProvider pgProvider;
  final  List<OrderItemDto> _items;
 @override List<OrderItemDto> get items {
   if (_items is EqualUnmodifiableListView) return _items;
@@ -239,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&const DeepCollectionEquality().equals(other._items, _items));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateOrderRequestDto&&(identical(other.idempotencyKey, idempotencyKey) || other.idempotencyKey == idempotencyKey)&&(identical(other.deliveryAddressId, deliveryAddressId) || other.deliveryAddressId == deliveryAddressId)&&(identical(other.deliveryRequest, deliveryRequest) || other.deliveryRequest == deliveryRequest)&&(identical(other.pgProvider, pgProvider) || other.pgProvider == pgProvider)&&const DeepCollectionEquality().equals(other._items, _items));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,idempotencyKey,deliveryAddressId,deliveryRequest,const DeepCollectionEquality().hash(_items));
+int get hashCode => Object.hash(runtimeType,idempotencyKey,deliveryAddressId,deliveryRequest,pgProvider,const DeepCollectionEquality().hash(_items));
 
 @override
 String toString() {
-  return 'CreateOrderRequestDto(idempotencyKey: $idempotencyKey, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest, items: $items)';
+  return 'CreateOrderRequestDto(idempotencyKey: $idempotencyKey, deliveryAddressId: $deliveryAddressId, deliveryRequest: $deliveryRequest, pgProvider: $pgProvider, items: $items)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$CreateOrderRequestDtoCopyWith<$Res> implements $CreateOrd
   factory _$CreateOrderRequestDtoCopyWith(_CreateOrderRequestDto value, $Res Function(_CreateOrderRequestDto) _then) = __$CreateOrderRequestDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String idempotencyKey, int deliveryAddressId, String deliveryRequest, List<OrderItemDto> items
+ String idempotencyKey, int deliveryAddressId, String deliveryRequest,@JsonKey(fromJson: _pgProviderFromJson, toJson: _pgProviderToJson) PgProvider pgProvider, List<OrderItemDto> items
 });
 
 
@@ -276,12 +278,13 @@ class __$CreateOrderRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of CreateOrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? idempotencyKey = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,Object? items = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? idempotencyKey = null,Object? deliveryAddressId = null,Object? deliveryRequest = null,Object? pgProvider = null,Object? items = null,}) {
   return _then(_CreateOrderRequestDto(
 idempotencyKey: null == idempotencyKey ? _self.idempotencyKey : idempotencyKey // ignore: cast_nullable_to_non_nullable
 as String,deliveryAddressId: null == deliveryAddressId ? _self.deliveryAddressId : deliveryAddressId // ignore: cast_nullable_to_non_nullable
 as int,deliveryRequest: null == deliveryRequest ? _self.deliveryRequest : deliveryRequest // ignore: cast_nullable_to_non_nullable
-as String,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as String,pgProvider: null == pgProvider ? _self.pgProvider : pgProvider // ignore: cast_nullable_to_non_nullable
+as PgProvider,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<OrderItemDto>,
   ));
 }

@@ -40,7 +40,7 @@ class ProductRecommendationSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double listHeight = (screenWidth / 3) + 20;
+    final double listHeight = ProductCardItem.estimatedHeightFor(screenWidth);
     final state = ref.watch(productViewModelProvider(productId));
     final list = _getList(state);
     return Padding(
@@ -103,6 +103,7 @@ class ProductRecommendationSection extends ConsumerWidget {
                     child: ProductCardItem(
                       imageUrl: item.thumbnailImageUrl,
                       title: item.name,
+                      isHaccpCertified: item.isHaccpCertified,
                     ),
                   ),
                 );

@@ -54,6 +54,7 @@ abstract class ClaimCheckResponseDto with _$ClaimCheckResponseDto {
     String? reshipCourierCode,
     String? reshipTrackingNumber,
     @NullableLocalDateTimeConverter() DateTime? reshipShippedAt,
+    @Default([]) List<ClaimCheckTrackingEventDto> reshipTrackingEvents,
 
     required List<ClaimCheckStatusHistoryDto> statusHistories,
 
@@ -95,4 +96,17 @@ abstract class ClaimCheckStatusHistoryDto with _$ClaimCheckStatusHistoryDto {
 
   factory ClaimCheckStatusHistoryDto.fromJson(Map<String, dynamic> json) =>
       _$ClaimCheckStatusHistoryDtoFromJson(json);
+}
+
+@freezed
+abstract class ClaimCheckTrackingEventDto with _$ClaimCheckTrackingEventDto {
+  const factory ClaimCheckTrackingEventDto({
+    required String timeString,
+    required String where,
+    required String kind,
+    required int level,
+  }) = _ClaimCheckTrackingEventDto;
+
+  factory ClaimCheckTrackingEventDto.fromJson(Map<String, dynamic> json) =>
+      _$ClaimCheckTrackingEventDtoFromJson(json);
 }

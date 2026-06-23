@@ -27,11 +27,16 @@ _CartCreateOrderResponseDto _$CartCreateOrderResponseDtoFromJson(
   orders: (json['orders'] as List<dynamic>)
       .map((e) => CartCreateOrderDto.fromJson(e as Map<String, dynamic>))
       .toList(),
+  payment: json['payment'] == null
+      ? null
+      : CartCreateOrderPaymentDto.fromJson(
+          json['payment'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$CartCreateOrderResponseDtoToJson(
   _CartCreateOrderResponseDto instance,
-) => <String, dynamic>{'orders': instance.orders};
+) => <String, dynamic>{'orders': instance.orders, 'payment': instance.payment};
 
 _CartCreateOrderDto _$CartCreateOrderDtoFromJson(Map<String, dynamic> json) =>
     _CartCreateOrderDto(
@@ -173,6 +178,8 @@ _CartCreateOrderPaymentDto _$CartCreateOrderPaymentDtoFromJson(
   paymentCode: json['paymentCode'] as String?,
   paymentMethod: json['paymentMethod'] as String?,
   status: json['status'] as String?,
+  signature: json['signature'] as String?,
+  timestamp: json['timestamp'] as String?,
   paidAt: const NullableLocalDateTimeConverter().fromJson(
     json['paidAt'] as String?,
   ),
@@ -194,6 +201,8 @@ Map<String, dynamic> _$CartCreateOrderPaymentDtoToJson(
   'paymentCode': instance.paymentCode,
   'paymentMethod': instance.paymentMethod,
   'status': instance.status,
+  'signature': instance.signature,
+  'timestamp': instance.timestamp,
   'paidAt': const NullableLocalDateTimeConverter().toJson(instance.paidAt),
   'cancelledAmount': instance.cancelledAmount,
   'netAmount': instance.netAmount,

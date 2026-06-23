@@ -4,6 +4,7 @@ class NiceIdentityVerificationResult {
     this.key,
     this.name,
     this.phone,
+    this.result,
     this.error,
   });
 
@@ -11,5 +12,6 @@ class NiceIdentityVerificationResult {
   final String? key;
   final String? name;
   final String? phone;
+  final String? result;
   final String? error;
 }

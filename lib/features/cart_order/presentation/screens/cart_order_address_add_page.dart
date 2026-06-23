@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kpostal/kpostal.dart';
 
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/presentation/dialog/common_dialog.dart';
 import '../../../../core/presentation/widgets/address_search_screen.dart';
 import '../../../../core/presentation/widgets/custom_button.dart';
 import '../../../../core/theme/app_box_styles.dart';
@@ -161,6 +162,8 @@ class _CartOrderAddressAddPageState
                           _buildDefaultCheckbox(
                             detail?.isDefault ?? false,
                             notifier,
+                            isLocked:
+                                !widget.isAdd && (detail?.isDefault ?? false),
                           ),
                         ],
                       ),
@@ -219,7 +222,14 @@ class _CartOrderAddressAddPageState
                   ),
                 );
                 if (result != null) {
-                  notifier.updateAddress(result.address, result.postCode);
+                  final sigunguCode = result.bcode.length >= 5
+                      ? result.bcode.substring(0, 5)
+                      : '';
+                  notifier.updateAddress(
+                    result.address,
+                    result.postCode,
+                    sigunguCode,
+                  );
                 }
               },
               child: Container(
@@ -247,12 +257,18 @@ class _CartOrderAddressAddPageState
     );
   }
 
-  Widget _buildDefaultCheckbox(bool isDefault, dynamic notifier) {
+  Widget _buildDefaultCheckbox(
+    bool isDefault,
+    dynamic notifier, {
+    required bool isLocked,
+  }) {
     return Row(
       children: [
         Checkbox(
           value: isDefault,
-          onChanged: (val) => notifier.updateIsDefault(val ?? false),
+          onChanged: isLocked
+              ? null
+              : (val) => notifier.updateIsDefault(val ?? false),
           visualDensity: VisualDensity.compact,
           activeColor: AppColors.primary,
         ),
@@ -292,8 +308,29 @@ class _CartOrderAddressAddPageState
             const SizedBox(height: 8),
             GestureDetector(
               onTap: () async {
+                final confirmed = await CommonDialog.showChoice(
+                  context,
+                  title: "삭제",
+                  isSuccess: false,
+                  message: "배송지를 삭제하시겠습니까?",
+                  primaryButtonText: "삭제",
+                  secondaryButtonText: "취소",
+                );
+                if (confirmed != true || !mounted) return;
                 final result = await notifier.deleteAddress(widget.addressId!);
-                if (result.success) _handleSuccess("주소를 삭제했습니다.", "삭제 완료");
+                if (result.success) {
+                  _handleSuccess("주소를 삭제했습니다.", "삭제 완료");
+                  return;
+                }
+                if (!mounted) return;
+                await CommonDialog.show(
+                  context,
+                  title: "오류",
+                  isSuccess: false,
+                  message: result.message.isNotEmpty
+                      ? result.message
+                      : "주소 삭제에 실패했습니다.",
+                );
               },
               child: CustomButton(
                 title: "삭제",

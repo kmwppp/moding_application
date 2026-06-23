@@ -3,11 +3,15 @@ import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/home/domain/entities/home_basic_item_model.dart';
 import 'package:moding_application/features/product/domain/entities/product_dto.dart';
 import 'package:moding_application/features/product/domain/entities/product_recommand_dto.dart';
+import 'package:moding_application/features/product/domain/entities/product_review_list_response_dto.dart';
 import 'package:moding_application/features/product/domain/entities/review_dto.dart';
 import 'package:moding_application/features/product/domain/entities/seller_info_dto.dart';
 import 'package:moding_application/features/product/domain/repositories/product_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:dio/dio.dart';
 
+import '../../../../core/network/exceptions/api_code_exception.dart';
+import '../../../../core/utils/alcohol_purchase_flow.dart';
 import '../../domain/enums/product_recommand_type.dart';
 import '../data_source/product_data_source.dart';
 
@@ -26,9 +30,18 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<ProductDto> getProductInfo(int productId) async {
-    final response = await _dataSource.getProductInfo(productId);
-    final data = response['data'];
-    return ProductDto.fromJson(data);
+    try {
+      final response = await _dataSource.getProductInfo(productId);
+      final data = response['data'];
+      return ProductDto.fromJson(data);
+    } on DioException catch (error) {
+      final exception = ApiCodeException.fromDio(
+        error,
+        allowedCodes: alcoholPurchaseErrorCodes,
+      );
+      if (exception != null) throw exception;
+      rethrow;
+    }
   }
 
   @override
@@ -37,20 +50,21 @@ class ProductRepositoryImpl implements ProductRepository {
     int pageNum,
     int size,
   ) async {
-    final response = await _dataSource.getProductReview(
-      productId,
-      pageNum,
-      size,
-    );
+    final response = await getProductReviewPage(productId, pageNum, size);
+    return response.content;
+  }
 
-    final data = response['data']['content'] as List<dynamic>;
+  @override
+  Future<ProductReviewListResponseDto> getProductReviewPage(
+    int productId,
+    int page,
+    int size,
+  ) async {
+    final response = await _dataSource.getProductReview(productId, page, size);
+    final data = response['data'];
 
     appLog(data);
-    return data
-        .map<ReviewDto>(
-          (item) => ReviewDto.fromJson(item as Map<String, dynamic>),
-        )
-        .toList(growable: false);
+    return ProductReviewListResponseDto.fromJson(data);
   }
 
   @override

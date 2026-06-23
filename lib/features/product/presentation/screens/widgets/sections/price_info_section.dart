@@ -68,6 +68,17 @@ class PriceInfoSection extends ConsumerWidget {
             style: context.bodySmall.copyWith(color: AppColors.darkGrey),
           ),
           const SizedBox(height: 6),
+
+          if (state.productInfo!.isVariableWeight ?? false) ...[
+            Text(
+              "본 상품은 가변중량 상품으로, 출고 후 실측 중량에 따라 차액이 환불될 수 있습니다.",
+              style: context.caption.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.pointColor,
+              ),
+            ),
+            const SizedBox(height: 6),
+          ],
           Wrap(
             spacing: 4,
             runSpacing: 4,

@@ -18,7 +18,8 @@ Map<String, dynamic> _$CartOrderResponseDtoToJson(
 
 _CartOrderData _$CartOrderDataFromJson(Map<String, dynamic> json) =>
     _CartOrderData(
-      tossCustomerKey: json['tossCustomerKey'] as String?,
+      customerKey: json['customerKey'] as String?,
+      customerName: json['customerName'] as String?,
       deliveryAddress: DeliveryAddress.fromJson(
         json['deliveryAddress'] as Map<String, dynamic>,
       ),
@@ -33,7 +34,8 @@ _CartOrderData _$CartOrderDataFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CartOrderDataToJson(_CartOrderData instance) =>
     <String, dynamic>{
-      'tossCustomerKey': instance.tossCustomerKey,
+      'customerKey': instance.customerKey,
+      'customerName': instance.customerName,
       'deliveryAddress': instance.deliveryAddress,
       'totalProductAmount': instance.totalProductAmount,
       'totalDeliveryFee': instance.totalDeliveryFee,

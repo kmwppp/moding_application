@@ -1,10 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:moding_application/core/presentation/widgets/app_badge_icon.dart';
+import 'package:moding_application/core/navigation/app_navigator.dart';
+import 'package:moding_application/core/network/exceptions/api_code_exception.dart';
 import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
+import 'package:moding_application/core/presentation/widgets/app_badge_icon.dart';
+import 'package:moding_application/core/utils/alcohol_purchase_flow.dart';
 import 'package:moding_application/features/product/presentation/providers/product_viewmodel.dart';
 import 'package:moding_application/features/product/presentation/screens/widgets/product_bottom_bar.dart';
+import 'package:moding_application/features/product/presentation/screens/widgets/sections/description_image_section.dart';
 import 'package:moding_application/features/product/presentation/screens/widgets/sections/price_info_section.dart';
 import 'package:moding_application/features/product/presentation/screens/widgets/sections/product_detail_info_section.dart';
 import 'package:moding_application/features/product/presentation/screens/widgets/sections/product_recommendation_section.dart';
@@ -18,9 +23,9 @@ import '../../../../core/presentation/widgets/text_with_cehvron.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../cart/presentation/providers/cart/cart_viewmodel.dart';
 import '../../../search/presentation/screens/widgets/search_masonry_list.dart';
-import '../../domain/enums/product_recommand_type.dart';
 import '../../../seller_info/data/repositories/seller_info_repository_impl.dart';
 import '../../../seller_info/presentation/widgets/seller_info_bottom_sheet.dart';
+import '../../domain/enums/product_recommand_type.dart';
 
 class ProductMainPage extends ConsumerStatefulWidget {
   const ProductMainPage({super.key, required this.id});
@@ -36,12 +41,15 @@ class _ProductMainPageState extends ConsumerState<ProductMainPage> {
   final GlobalKey _reviewKey = GlobalKey();
 
   bool _showBottomBar = true;
+  bool _showAllDescriptionImages = false;
+  bool _showScrollToTop = false;
   double _lastOffset = 0;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_handleScroll);
+    Future.microtask(_loadProductPage);
   }
 
   void _handleScroll() {
@@ -52,6 +60,12 @@ class _ProductMainPageState extends ConsumerState<ProductMainPage> {
       setState(() => _showBottomBar = false);
     } else if (_lastOffset - offset > 5 && !_showBottomBar) {
       setState(() => _showBottomBar = true);
+    }
+
+    // 맨 위로 가기 버튼
+    final shouldShowScrollToTop = offset > 300;
+    if (shouldShowScrollToTop != _showScrollToTop) {
+      setState(() => _showScrollToTop = shouldShowScrollToTop);
     }
 
     _lastOffset = offset;
@@ -74,6 +88,40 @@ class _ProductMainPageState extends ConsumerState<ProductMainPage> {
       ..removeListener(_handleScroll)
       ..dispose();
     super.dispose();
+  }
+
+  Future<void> _loadProductPage() async {
+    try {
+      await ref
+          .read(productViewModelProvider(widget.id).notifier)
+          .init(widget.id);
+    } on DioException catch (e) {
+      if (!mounted) return;
+      if (e.response?.statusCode == 401) {
+        if (context.canPop()) {
+          context.pop();
+        } else {
+          context.go('/main');
+        }
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final rootContext = rootNavigatorKey.currentContext;
+          if (rootContext == null || !rootContext.mounted) return;
+          GoRouter.of(rootContext).push('/login');
+        });
+        return;
+      }
+      rethrow;
+    } on ApiCodeException catch (exception) {
+      if (!mounted) return;
+      await handleAlcoholPurchaseException(
+        context,
+        ref,
+        exception,
+        failureBehavior: AlcoholFailureBehavior.pop,
+        onVerified: _loadProductPage,
+      );
+    }
   }
 
   @override
@@ -105,251 +153,320 @@ class _ProductMainPageState extends ConsumerState<ProductMainPage> {
         ),
       ),
       body: SafeArea(
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            _buildProductAppbar(context, "상품상세"),
+        child: Stack(
+          children: [
+            CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                _buildProductAppbar(context, "상품상세"),
 
-            if (state.isLoading)
-              const SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(child: LoadingIndicator()),
-              )
-            else ...[
-              SliverToBoxAdapter(child: TopImageSection(productId: widget.id)),
-
-              const SliverToBoxAdapter(child: SizedBox(height: 10)),
-
-              SliverToBoxAdapter(
-                child: PriceInfoSection(
-                  reviewSectionKey: _reviewKey,
-                  productId: widget.id,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: Divider(
-                  height: 10,
-                  thickness: 10,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: SelectOptionSection(
-                  cardWidth: cardWidth,
-                  productId: widget.id,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: Divider(
-                  height: 10,
-                  thickness: 10,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-
-              if (state.similarList!.isNotEmpty) ...[
-                SliverToBoxAdapter(
-                  child: ProductRecommendationSection(
-                    title: "유사 상품 추천",
-                    productId: widget.id,
-                    recommandType: ProductRecommendType.similar,
+                if (state.isLoading)
+                  const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(child: LoadingIndicator()),
+                  )
+                else ...[
+                  SliverToBoxAdapter(
+                    child: TopImageSection(productId: widget.id),
                   ),
-                ),
 
-                SliverToBoxAdapter(
-                  child: Divider(
-                    height: 10,
-                    thickness: 10,
-                    color: AppColors.lightGrey,
+                  const SliverToBoxAdapter(child: SizedBox(height: 10)),
+
+                  SliverToBoxAdapter(
+                    child: PriceInfoSection(
+                      reviewSectionKey: _reviewKey,
+                      productId: widget.id,
+                    ),
                   ),
-                ),
-              ],
 
-              SliverToBoxAdapter(
-                child: ProductDetailInfoSection(
-                  cardWidth: cardWidth,
-                  productId: widget.id,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: Divider(
-                  height: 10,
-                  thickness: 10,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-
-              if (state.recentlyList!.isNotEmpty) ...[
-                SliverToBoxAdapter(
-                  child: ProductRecommendationSection(
-                    title: "최근 주문한 상품",
-                    productId: widget.id,
-                    recommandType: ProductRecommendType.recentlyOrdered,
+                  SliverToBoxAdapter(
+                    child: Divider(
+                      height: 10,
+                      thickness: 10,
+                      color: AppColors.lightGrey,
+                    ),
                   ),
-                ),
 
-                SliverToBoxAdapter(
-                  child: Divider(
-                    height: 10,
-                    thickness: 10,
-                    color: AppColors.lightGrey,
+                  SliverToBoxAdapter(
+                    child: SelectOptionSection(
+                      cardWidth: cardWidth,
+                      productId: widget.id,
+                    ),
                   ),
-                ),
-              ],
 
-              SliverToBoxAdapter(
-                key: _reviewKey,
-                child: ReviewSection(
-                  cardWidth: cardWidth,
-                  productId: widget.id,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: Divider(
-                  height: 10,
-                  thickness: 10,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "클레임 안내",
-                        style: context.titleMedium.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  if ((state.productInfo?.descriptionImageUrls ?? [])
+                      .isNotEmpty)
+                    SliverToBoxAdapter(
+                      child: DescriptionImageSection(
+                        imageUrls:
+                            state.productInfo?.descriptionImageUrls ?? [],
+                        isExpanded: _showAllDescriptionImages,
+                        onToggle: () {
+                          setState(() {
+                            _showAllDescriptionImages =
+                                !_showAllDescriptionImages;
+                          });
+                        },
                       ),
+                    ),
 
-                      const SizedBox(height: 10),
+                  SliverToBoxAdapter(
+                    child: Divider(
+                      height: 10,
+                      thickness: 10,
+                      color: AppColors.lightGrey,
+                    ),
+                  ),
 
-                      Column(
+                  if (state.similarList!.isNotEmpty) ...[
+                    SliverToBoxAdapter(
+                      child: ProductRecommendationSection(
+                        title: "유사 상품 추천",
+                        productId: widget.id,
+                        recommandType: ProductRecommendType.similar,
+                      ),
+                    ),
+
+                    SliverToBoxAdapter(
+                      child: Divider(
+                        height: 10,
+                        thickness: 10,
+                        color: AppColors.lightGrey,
+                      ),
+                    ),
+                  ],
+
+                  SliverToBoxAdapter(
+                    child: ProductDetailInfoSection(
+                      cardWidth: cardWidth,
+                      productId: widget.id,
+                    ),
+                  ),
+
+                  SliverToBoxAdapter(
+                    child: Divider(
+                      height: 10,
+                      thickness: 10,
+                      color: AppColors.lightGrey,
+                    ),
+                  ),
+
+                  if (state.recentlyList!.isNotEmpty) ...[
+                    SliverToBoxAdapter(
+                      child: ProductRecommendationSection(
+                        title: "최근 주문한 상품",
+                        productId: widget.id,
+                        recommandType: ProductRecommendType.recentlyOrdered,
+                      ),
+                    ),
+
+                    SliverToBoxAdapter(
+                      child: Divider(
+                        height: 10,
+                        thickness: 10,
+                        color: AppColors.lightGrey,
+                      ),
+                    ),
+                  ],
+
+                  SliverToBoxAdapter(
+                    key: _reviewKey,
+                    child: ReviewSection(
+                      cardWidth: cardWidth,
+                      productId: widget.id,
+                    ),
+                  ),
+
+                  SliverToBoxAdapter(
+                    child: Divider(
+                      height: 10,
+                      thickness: 10,
+                      color: AppColors.lightGrey,
+                    ),
+                  ),
+
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: (state.productInfo?.claimGuideItems ?? [])
-                            .map(
-                              (contents) => Padding(
-                                padding: const EdgeInsets.only(bottom: 2),
-                                child: Text(
-                                  "- $contents",
+                        children: [
+                          Text(
+                            "클레임 안내",
+                            style: context.titleMedium.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: (state.productInfo?.claimGuideItems ?? [])
+                                .map(
+                                  (contents) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 2),
+                                    child: Text(
+                                      "- $contents",
+                                      style: context.caption.copyWith(
+                                        color: AppColors.darkGrey,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          const SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Padding(
+                              //   padding: const EdgeInsets.only(bottom: 2),
+                              //   child: Text(
+                              //     "- 본 상품은 판매자가 제공하며, 상품의 품질 및 배송 책임은 판매자에게 있습니다.",
+                              //     style: context.caption.copyWith(
+                              //       color: AppColors.darkGrey,
+                              //     ),
+                              //   ),
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(bottom: 2),
+                              //   child: Text(
+                              //     "- 일부 상품은 납품 중량에 따라 금액이 변동될 수 있습니다.",
+                              //     style: context.caption.copyWith(
+                              //       color: AppColors.darkGrey,
+                              //     ),
+                              //   ),
+                              // ),
+                              GestureDetector(
+                                onTap: () async {
+                                  final sellerProfileId =
+                                      state.productInfo?.sellerProfileId;
+                                  if (sellerProfileId == null) {
+                                    CommonDialog.show(
+                                      context,
+                                      title: "오류",
+                                      isSuccess: false,
+                                      message: "판매자 정보를 확인할 수 없습니다.",
+                                    );
+                                    return;
+                                  }
+
+                                  try {
+                                    final sellerInfo = await ref
+                                        .read(sellerInfoRepositoryProvider)
+                                        .getSellerInfo(sellerProfileId);
+                                    if (!context.mounted) return;
+                                    showSellerInfoBottomSheet(
+                                      context,
+                                      sellerInfo,
+                                    );
+                                  } catch (_) {
+                                    if (!context.mounted) return;
+                                    CommonDialog.show(
+                                      context,
+                                      title: "오류",
+                                      isSuccess: false,
+                                      message: "판매자 정보를 불러오지 못했습니다.",
+                                    );
+                                  }
+                                },
+                                child: TextWithChevron(
+                                  text: "판매자 정보 보기",
                                   style: context.caption.copyWith(
                                     color: AppColors.darkGrey,
                                   ),
+                                  iconSize: 8,
+                                  spacing: 3,
                                 ),
                               ),
-                            )
-                            .toList(),
-                      ),
-                      const SizedBox(height: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            child: Text(
-                              "- 본 상품은 판매자가 제공하며, 상품의 품질 및 배송 책임은 판매자에게 있습니다.",
-                              style: context.caption.copyWith(
-                                color: AppColors.darkGrey,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            child: Text(
-                              "- 일부 상품은 납품 중량에 따라 금액이 변동될 수 있습니다.",
-                              style: context.caption.copyWith(
-                                color: AppColors.darkGrey,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              final sellerProfileId =
-                                  state.productInfo?.sellerProfileId;
-                              if (sellerProfileId == null) {
-                                CommonDialog.show(
-                                  context,
-                                  title: "오류",
-                                  isSuccess: false,
-                                  message: "판매자 정보를 확인할 수 없습니다.",
-                                );
-                                return;
-                              }
-
-                              try {
-                                final sellerInfo = await ref
-                                    .read(sellerInfoRepositoryProvider)
-                                    .getSellerInfo(sellerProfileId);
-                                if (!context.mounted) return;
-                                showSellerInfoBottomSheet(context, sellerInfo);
-                              } catch (_) {
-                                if (!context.mounted) return;
-                                CommonDialog.show(
-                                  context,
-                                  title: "오류",
-                                  isSuccess: false,
-                                  message: "판매자 정보를 불러오지 못했습니다.",
-                                );
-                              }
-                            },
-                            child: TextWithChevron(
-                              text: "판매자 정보 보기",
-                              style: context.caption.copyWith(
-                                color: AppColors.darkGrey,
-                              ),
-                              iconSize: 8,
-                              spacing: 3,
-                            ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Divider(
-                  height: 10,
-                  thickness: 10,
-                  color: AppColors.lightGrey,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    "사장님 업종 추천 상품",
-                    style: context.titleMedium.copyWith(
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ),
-
-              /// 메이슨리 그리드
-              SearchMasonrySliver(items: state.businessPickList!),
-
-              /// 로딩
-              if (state.businessLoading)
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Center(child: CircularProgressIndicator()),
+                  SliverToBoxAdapter(
+                    child: Divider(
+                      height: 10,
+                      thickness: 10,
+                      color: AppColors.lightGrey,
+                    ),
                   ),
-                ),
-            ],
 
-            // const SliverToBoxAdapter(child: SizedBox(height: 100)),
+                  if (state.businessPickList!.isNotEmpty) ...[
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "사장님 업종 추천 상품",
+                          style: context.titleMedium.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    /// 메이슨리 그리드
+                    SearchMasonrySliver(items: state.businessPickList!),
+                  ],
+
+                  /// 로딩
+                  if (state.businessLoading)
+                    const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                    ),
+                ],
+
+                // const SliverToBoxAdapter(child: SizedBox(height: 100)),
+              ],
+            ),
+            Positioned(
+              right: 16,
+              bottom: 16,
+              child: _buildScrollToTopButton(context),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  Widget _buildScrollToTopButton(BuildContext context) {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 200),
+      opacity: _showScrollToTop ? 1 : 0,
+      child: IgnorePointer(
+        ignoring: !_showScrollToTop,
+        child: Material(
+          color: Colors.white,
+          elevation: 4,
+          borderRadius: BorderRadius.circular(14),
+          shadowColor: Colors.black.withValues(alpha: 0.2),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(14),
+            onTap: _scrollToTop,
+            child: Container(
+              width: 48,
+              height: 48,
+              alignment: Alignment.center,
+              child: const Icon(
+                Icons.arrow_upward_rounded,
+                color: AppColors.darkGrey,
+              ),
+            ),
+          ),
         ),
       ),
     );

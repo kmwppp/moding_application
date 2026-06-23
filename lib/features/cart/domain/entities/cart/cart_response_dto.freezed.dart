@@ -284,7 +284,7 @@ as List<CartItemDto>,
 /// @nodoc
 mixin _$CartItemDto {
 
- int get cartItemId; int get productId; String get productName; String get thumbnailUrl; int get sellerProfileId; String get storageMethod; int get deliveryDays; int get shippingFee; int? get freeShippingThreshold;@LocalDateTimeConverter() DateTime get createdAt; List<CartItemOptionDto> get options; int get productTotalPrice;
+ int? get cartItemId; int? get productId; String? get productName; String? get thumbnailUrl; int? get sellerProfileId; String? get storageMethod; int? get deliveryDays; int? get shippingFee; int? get freeShippingThreshold;@NullableLocalDateTimeConverter() DateTime? get createdAt; List<CartItemOptionDto>? get options; int? get productTotalPrice; bool? get isAvailable;@JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson) CartUnavailableReason? get unavailableReason;
 /// Create a copy of CartItemDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -297,16 +297,16 @@ $CartItemDtoCopyWith<CartItemDto> get copyWith => _$CartItemDtoCopyWithImpl<Cart
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartItemDto&&(identical(other.cartItemId, cartItemId) || other.cartItemId == cartItemId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.sellerProfileId, sellerProfileId) || other.sellerProfileId == sellerProfileId)&&(identical(other.storageMethod, storageMethod) || other.storageMethod == storageMethod)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingFee, shippingFee) || other.shippingFee == shippingFee)&&(identical(other.freeShippingThreshold, freeShippingThreshold) || other.freeShippingThreshold == freeShippingThreshold)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other.options, options)&&(identical(other.productTotalPrice, productTotalPrice) || other.productTotalPrice == productTotalPrice));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CartItemDto&&(identical(other.cartItemId, cartItemId) || other.cartItemId == cartItemId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.sellerProfileId, sellerProfileId) || other.sellerProfileId == sellerProfileId)&&(identical(other.storageMethod, storageMethod) || other.storageMethod == storageMethod)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingFee, shippingFee) || other.shippingFee == shippingFee)&&(identical(other.freeShippingThreshold, freeShippingThreshold) || other.freeShippingThreshold == freeShippingThreshold)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other.options, options)&&(identical(other.productTotalPrice, productTotalPrice) || other.productTotalPrice == productTotalPrice)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable)&&(identical(other.unavailableReason, unavailableReason) || other.unavailableReason == unavailableReason));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cartItemId,productId,productName,thumbnailUrl,sellerProfileId,storageMethod,deliveryDays,shippingFee,freeShippingThreshold,createdAt,const DeepCollectionEquality().hash(options),productTotalPrice);
+int get hashCode => Object.hash(runtimeType,cartItemId,productId,productName,thumbnailUrl,sellerProfileId,storageMethod,deliveryDays,shippingFee,freeShippingThreshold,createdAt,const DeepCollectionEquality().hash(options),productTotalPrice,isAvailable,unavailableReason);
 
 @override
 String toString() {
-  return 'CartItemDto(cartItemId: $cartItemId, productId: $productId, productName: $productName, thumbnailUrl: $thumbnailUrl, sellerProfileId: $sellerProfileId, storageMethod: $storageMethod, deliveryDays: $deliveryDays, shippingFee: $shippingFee, freeShippingThreshold: $freeShippingThreshold, createdAt: $createdAt, options: $options, productTotalPrice: $productTotalPrice)';
+  return 'CartItemDto(cartItemId: $cartItemId, productId: $productId, productName: $productName, thumbnailUrl: $thumbnailUrl, sellerProfileId: $sellerProfileId, storageMethod: $storageMethod, deliveryDays: $deliveryDays, shippingFee: $shippingFee, freeShippingThreshold: $freeShippingThreshold, createdAt: $createdAt, options: $options, productTotalPrice: $productTotalPrice, isAvailable: $isAvailable, unavailableReason: $unavailableReason)';
 }
 
 
@@ -317,7 +317,7 @@ abstract mixin class $CartItemDtoCopyWith<$Res>  {
   factory $CartItemDtoCopyWith(CartItemDto value, $Res Function(CartItemDto) _then) = _$CartItemDtoCopyWithImpl;
 @useResult
 $Res call({
- int cartItemId, int productId, String productName, String thumbnailUrl, int sellerProfileId, String storageMethod, int deliveryDays, int shippingFee, int? freeShippingThreshold,@LocalDateTimeConverter() DateTime createdAt, List<CartItemOptionDto> options, int productTotalPrice
+ int? cartItemId, int? productId, String? productName, String? thumbnailUrl, int? sellerProfileId, String? storageMethod, int? deliveryDays, int? shippingFee, int? freeShippingThreshold,@NullableLocalDateTimeConverter() DateTime? createdAt, List<CartItemOptionDto>? options, int? productTotalPrice, bool? isAvailable,@JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson) CartUnavailableReason? unavailableReason
 });
 
 
@@ -334,21 +334,23 @@ class _$CartItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of CartItemDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cartItemId = null,Object? productId = null,Object? productName = null,Object? thumbnailUrl = null,Object? sellerProfileId = null,Object? storageMethod = null,Object? deliveryDays = null,Object? shippingFee = null,Object? freeShippingThreshold = freezed,Object? createdAt = null,Object? options = null,Object? productTotalPrice = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? cartItemId = freezed,Object? productId = freezed,Object? productName = freezed,Object? thumbnailUrl = freezed,Object? sellerProfileId = freezed,Object? storageMethod = freezed,Object? deliveryDays = freezed,Object? shippingFee = freezed,Object? freeShippingThreshold = freezed,Object? createdAt = freezed,Object? options = freezed,Object? productTotalPrice = freezed,Object? isAvailable = freezed,Object? unavailableReason = freezed,}) {
   return _then(_self.copyWith(
-cartItemId: null == cartItemId ? _self.cartItemId : cartItemId // ignore: cast_nullable_to_non_nullable
-as int,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as int,productName: null == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String,thumbnailUrl: null == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
-as String,sellerProfileId: null == sellerProfileId ? _self.sellerProfileId : sellerProfileId // ignore: cast_nullable_to_non_nullable
-as int,storageMethod: null == storageMethod ? _self.storageMethod : storageMethod // ignore: cast_nullable_to_non_nullable
-as String,deliveryDays: null == deliveryDays ? _self.deliveryDays : deliveryDays // ignore: cast_nullable_to_non_nullable
-as int,shippingFee: null == shippingFee ? _self.shippingFee : shippingFee // ignore: cast_nullable_to_non_nullable
-as int,freeShippingThreshold: freezed == freeShippingThreshold ? _self.freeShippingThreshold : freeShippingThreshold // ignore: cast_nullable_to_non_nullable
-as int?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,options: null == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
-as List<CartItemOptionDto>,productTotalPrice: null == productTotalPrice ? _self.productTotalPrice : productTotalPrice // ignore: cast_nullable_to_non_nullable
-as int,
+cartItemId: freezed == cartItemId ? _self.cartItemId : cartItemId // ignore: cast_nullable_to_non_nullable
+as int?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
+as String?,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
+as String?,sellerProfileId: freezed == sellerProfileId ? _self.sellerProfileId : sellerProfileId // ignore: cast_nullable_to_non_nullable
+as int?,storageMethod: freezed == storageMethod ? _self.storageMethod : storageMethod // ignore: cast_nullable_to_non_nullable
+as String?,deliveryDays: freezed == deliveryDays ? _self.deliveryDays : deliveryDays // ignore: cast_nullable_to_non_nullable
+as int?,shippingFee: freezed == shippingFee ? _self.shippingFee : shippingFee // ignore: cast_nullable_to_non_nullable
+as int?,freeShippingThreshold: freezed == freeShippingThreshold ? _self.freeShippingThreshold : freeShippingThreshold // ignore: cast_nullable_to_non_nullable
+as int?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,options: freezed == options ? _self.options : options // ignore: cast_nullable_to_non_nullable
+as List<CartItemOptionDto>?,productTotalPrice: freezed == productTotalPrice ? _self.productTotalPrice : productTotalPrice // ignore: cast_nullable_to_non_nullable
+as int?,isAvailable: freezed == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
+as bool?,unavailableReason: freezed == unavailableReason ? _self.unavailableReason : unavailableReason // ignore: cast_nullable_to_non_nullable
+as CartUnavailableReason?,
   ));
 }
 
@@ -433,10 +435,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int cartItemId,  int productId,  String productName,  String thumbnailUrl,  int sellerProfileId,  String storageMethod,  int deliveryDays,  int shippingFee,  int? freeShippingThreshold, @LocalDateTimeConverter()  DateTime createdAt,  List<CartItemOptionDto> options,  int productTotalPrice)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? cartItemId,  int? productId,  String? productName,  String? thumbnailUrl,  int? sellerProfileId,  String? storageMethod,  int? deliveryDays,  int? shippingFee,  int? freeShippingThreshold, @NullableLocalDateTimeConverter()  DateTime? createdAt,  List<CartItemOptionDto>? options,  int? productTotalPrice,  bool? isAvailable, @JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson)  CartUnavailableReason? unavailableReason)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CartItemDto() when $default != null:
-return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbnailUrl,_that.sellerProfileId,_that.storageMethod,_that.deliveryDays,_that.shippingFee,_that.freeShippingThreshold,_that.createdAt,_that.options,_that.productTotalPrice);case _:
+return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbnailUrl,_that.sellerProfileId,_that.storageMethod,_that.deliveryDays,_that.shippingFee,_that.freeShippingThreshold,_that.createdAt,_that.options,_that.productTotalPrice,_that.isAvailable,_that.unavailableReason);case _:
   return orElse();
 
 }
@@ -454,10 +456,10 @@ return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbna
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int cartItemId,  int productId,  String productName,  String thumbnailUrl,  int sellerProfileId,  String storageMethod,  int deliveryDays,  int shippingFee,  int? freeShippingThreshold, @LocalDateTimeConverter()  DateTime createdAt,  List<CartItemOptionDto> options,  int productTotalPrice)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? cartItemId,  int? productId,  String? productName,  String? thumbnailUrl,  int? sellerProfileId,  String? storageMethod,  int? deliveryDays,  int? shippingFee,  int? freeShippingThreshold, @NullableLocalDateTimeConverter()  DateTime? createdAt,  List<CartItemOptionDto>? options,  int? productTotalPrice,  bool? isAvailable, @JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson)  CartUnavailableReason? unavailableReason)  $default,) {final _that = this;
 switch (_that) {
 case _CartItemDto():
-return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbnailUrl,_that.sellerProfileId,_that.storageMethod,_that.deliveryDays,_that.shippingFee,_that.freeShippingThreshold,_that.createdAt,_that.options,_that.productTotalPrice);case _:
+return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbnailUrl,_that.sellerProfileId,_that.storageMethod,_that.deliveryDays,_that.shippingFee,_that.freeShippingThreshold,_that.createdAt,_that.options,_that.productTotalPrice,_that.isAvailable,_that.unavailableReason);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -474,10 +476,10 @@ return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbna
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int cartItemId,  int productId,  String productName,  String thumbnailUrl,  int sellerProfileId,  String storageMethod,  int deliveryDays,  int shippingFee,  int? freeShippingThreshold, @LocalDateTimeConverter()  DateTime createdAt,  List<CartItemOptionDto> options,  int productTotalPrice)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? cartItemId,  int? productId,  String? productName,  String? thumbnailUrl,  int? sellerProfileId,  String? storageMethod,  int? deliveryDays,  int? shippingFee,  int? freeShippingThreshold, @NullableLocalDateTimeConverter()  DateTime? createdAt,  List<CartItemOptionDto>? options,  int? productTotalPrice,  bool? isAvailable, @JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson)  CartUnavailableReason? unavailableReason)?  $default,) {final _that = this;
 switch (_that) {
 case _CartItemDto() when $default != null:
-return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbnailUrl,_that.sellerProfileId,_that.storageMethod,_that.deliveryDays,_that.shippingFee,_that.freeShippingThreshold,_that.createdAt,_that.options,_that.productTotalPrice);case _:
+return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbnailUrl,_that.sellerProfileId,_that.storageMethod,_that.deliveryDays,_that.shippingFee,_that.freeShippingThreshold,_that.createdAt,_that.options,_that.productTotalPrice,_that.isAvailable,_that.unavailableReason);case _:
   return null;
 
 }
@@ -489,27 +491,31 @@ return $default(_that.cartItemId,_that.productId,_that.productName,_that.thumbna
 @JsonSerializable()
 
 class _CartItemDto implements CartItemDto {
-  const _CartItemDto({required this.cartItemId, required this.productId, required this.productName, required this.thumbnailUrl, required this.sellerProfileId, required this.storageMethod, required this.deliveryDays, required this.shippingFee, this.freeShippingThreshold, @LocalDateTimeConverter() required this.createdAt, required final  List<CartItemOptionDto> options, required this.productTotalPrice}): _options = options;
+  const _CartItemDto({this.cartItemId, this.productId, this.productName, this.thumbnailUrl, this.sellerProfileId, this.storageMethod, this.deliveryDays, this.shippingFee, this.freeShippingThreshold, @NullableLocalDateTimeConverter() this.createdAt, final  List<CartItemOptionDto>? options, this.productTotalPrice, this.isAvailable, @JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson) this.unavailableReason}): _options = options;
   factory _CartItemDto.fromJson(Map<String, dynamic> json) => _$CartItemDtoFromJson(json);
 
-@override final  int cartItemId;
-@override final  int productId;
-@override final  String productName;
-@override final  String thumbnailUrl;
-@override final  int sellerProfileId;
-@override final  String storageMethod;
-@override final  int deliveryDays;
-@override final  int shippingFee;
+@override final  int? cartItemId;
+@override final  int? productId;
+@override final  String? productName;
+@override final  String? thumbnailUrl;
+@override final  int? sellerProfileId;
+@override final  String? storageMethod;
+@override final  int? deliveryDays;
+@override final  int? shippingFee;
 @override final  int? freeShippingThreshold;
-@override@LocalDateTimeConverter() final  DateTime createdAt;
- final  List<CartItemOptionDto> _options;
-@override List<CartItemOptionDto> get options {
+@override@NullableLocalDateTimeConverter() final  DateTime? createdAt;
+ final  List<CartItemOptionDto>? _options;
+@override List<CartItemOptionDto>? get options {
+  final value = _options;
+  if (value == null) return null;
   if (_options is EqualUnmodifiableListView) return _options;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_options);
+  return EqualUnmodifiableListView(value);
 }
 
-@override final  int productTotalPrice;
+@override final  int? productTotalPrice;
+@override final  bool? isAvailable;
+@override@JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson) final  CartUnavailableReason? unavailableReason;
 
 /// Create a copy of CartItemDto
 /// with the given fields replaced by the non-null parameter values.
@@ -524,16 +530,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CartItemDto&&(identical(other.cartItemId, cartItemId) || other.cartItemId == cartItemId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.sellerProfileId, sellerProfileId) || other.sellerProfileId == sellerProfileId)&&(identical(other.storageMethod, storageMethod) || other.storageMethod == storageMethod)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingFee, shippingFee) || other.shippingFee == shippingFee)&&(identical(other.freeShippingThreshold, freeShippingThreshold) || other.freeShippingThreshold == freeShippingThreshold)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other._options, _options)&&(identical(other.productTotalPrice, productTotalPrice) || other.productTotalPrice == productTotalPrice));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CartItemDto&&(identical(other.cartItemId, cartItemId) || other.cartItemId == cartItemId)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.sellerProfileId, sellerProfileId) || other.sellerProfileId == sellerProfileId)&&(identical(other.storageMethod, storageMethod) || other.storageMethod == storageMethod)&&(identical(other.deliveryDays, deliveryDays) || other.deliveryDays == deliveryDays)&&(identical(other.shippingFee, shippingFee) || other.shippingFee == shippingFee)&&(identical(other.freeShippingThreshold, freeShippingThreshold) || other.freeShippingThreshold == freeShippingThreshold)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other._options, _options)&&(identical(other.productTotalPrice, productTotalPrice) || other.productTotalPrice == productTotalPrice)&&(identical(other.isAvailable, isAvailable) || other.isAvailable == isAvailable)&&(identical(other.unavailableReason, unavailableReason) || other.unavailableReason == unavailableReason));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cartItemId,productId,productName,thumbnailUrl,sellerProfileId,storageMethod,deliveryDays,shippingFee,freeShippingThreshold,createdAt,const DeepCollectionEquality().hash(_options),productTotalPrice);
+int get hashCode => Object.hash(runtimeType,cartItemId,productId,productName,thumbnailUrl,sellerProfileId,storageMethod,deliveryDays,shippingFee,freeShippingThreshold,createdAt,const DeepCollectionEquality().hash(_options),productTotalPrice,isAvailable,unavailableReason);
 
 @override
 String toString() {
-  return 'CartItemDto(cartItemId: $cartItemId, productId: $productId, productName: $productName, thumbnailUrl: $thumbnailUrl, sellerProfileId: $sellerProfileId, storageMethod: $storageMethod, deliveryDays: $deliveryDays, shippingFee: $shippingFee, freeShippingThreshold: $freeShippingThreshold, createdAt: $createdAt, options: $options, productTotalPrice: $productTotalPrice)';
+  return 'CartItemDto(cartItemId: $cartItemId, productId: $productId, productName: $productName, thumbnailUrl: $thumbnailUrl, sellerProfileId: $sellerProfileId, storageMethod: $storageMethod, deliveryDays: $deliveryDays, shippingFee: $shippingFee, freeShippingThreshold: $freeShippingThreshold, createdAt: $createdAt, options: $options, productTotalPrice: $productTotalPrice, isAvailable: $isAvailable, unavailableReason: $unavailableReason)';
 }
 
 
@@ -544,7 +550,7 @@ abstract mixin class _$CartItemDtoCopyWith<$Res> implements $CartItemDtoCopyWith
   factory _$CartItemDtoCopyWith(_CartItemDto value, $Res Function(_CartItemDto) _then) = __$CartItemDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int cartItemId, int productId, String productName, String thumbnailUrl, int sellerProfileId, String storageMethod, int deliveryDays, int shippingFee, int? freeShippingThreshold,@LocalDateTimeConverter() DateTime createdAt, List<CartItemOptionDto> options, int productTotalPrice
+ int? cartItemId, int? productId, String? productName, String? thumbnailUrl, int? sellerProfileId, String? storageMethod, int? deliveryDays, int? shippingFee, int? freeShippingThreshold,@NullableLocalDateTimeConverter() DateTime? createdAt, List<CartItemOptionDto>? options, int? productTotalPrice, bool? isAvailable,@JsonKey(fromJson: CartUnavailableReason.fromJson, toJson: CartUnavailableReason.toJson) CartUnavailableReason? unavailableReason
 });
 
 
@@ -561,21 +567,23 @@ class __$CartItemDtoCopyWithImpl<$Res>
 
 /// Create a copy of CartItemDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? cartItemId = null,Object? productId = null,Object? productName = null,Object? thumbnailUrl = null,Object? sellerProfileId = null,Object? storageMethod = null,Object? deliveryDays = null,Object? shippingFee = null,Object? freeShippingThreshold = freezed,Object? createdAt = null,Object? options = null,Object? productTotalPrice = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? cartItemId = freezed,Object? productId = freezed,Object? productName = freezed,Object? thumbnailUrl = freezed,Object? sellerProfileId = freezed,Object? storageMethod = freezed,Object? deliveryDays = freezed,Object? shippingFee = freezed,Object? freeShippingThreshold = freezed,Object? createdAt = freezed,Object? options = freezed,Object? productTotalPrice = freezed,Object? isAvailable = freezed,Object? unavailableReason = freezed,}) {
   return _then(_CartItemDto(
-cartItemId: null == cartItemId ? _self.cartItemId : cartItemId // ignore: cast_nullable_to_non_nullable
-as int,productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
-as int,productName: null == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String,thumbnailUrl: null == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
-as String,sellerProfileId: null == sellerProfileId ? _self.sellerProfileId : sellerProfileId // ignore: cast_nullable_to_non_nullable
-as int,storageMethod: null == storageMethod ? _self.storageMethod : storageMethod // ignore: cast_nullable_to_non_nullable
-as String,deliveryDays: null == deliveryDays ? _self.deliveryDays : deliveryDays // ignore: cast_nullable_to_non_nullable
-as int,shippingFee: null == shippingFee ? _self.shippingFee : shippingFee // ignore: cast_nullable_to_non_nullable
-as int,freeShippingThreshold: freezed == freeShippingThreshold ? _self.freeShippingThreshold : freeShippingThreshold // ignore: cast_nullable_to_non_nullable
-as int?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,options: null == options ? _self._options : options // ignore: cast_nullable_to_non_nullable
-as List<CartItemOptionDto>,productTotalPrice: null == productTotalPrice ? _self.productTotalPrice : productTotalPrice // ignore: cast_nullable_to_non_nullable
-as int,
+cartItemId: freezed == cartItemId ? _self.cartItemId : cartItemId // ignore: cast_nullable_to_non_nullable
+as int?,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+as int?,productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
+as String?,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
+as String?,sellerProfileId: freezed == sellerProfileId ? _self.sellerProfileId : sellerProfileId // ignore: cast_nullable_to_non_nullable
+as int?,storageMethod: freezed == storageMethod ? _self.storageMethod : storageMethod // ignore: cast_nullable_to_non_nullable
+as String?,deliveryDays: freezed == deliveryDays ? _self.deliveryDays : deliveryDays // ignore: cast_nullable_to_non_nullable
+as int?,shippingFee: freezed == shippingFee ? _self.shippingFee : shippingFee // ignore: cast_nullable_to_non_nullable
+as int?,freeShippingThreshold: freezed == freeShippingThreshold ? _self.freeShippingThreshold : freeShippingThreshold // ignore: cast_nullable_to_non_nullable
+as int?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,options: freezed == options ? _self._options : options // ignore: cast_nullable_to_non_nullable
+as List<CartItemOptionDto>?,productTotalPrice: freezed == productTotalPrice ? _self.productTotalPrice : productTotalPrice // ignore: cast_nullable_to_non_nullable
+as int?,isAvailable: freezed == isAvailable ? _self.isAvailable : isAvailable // ignore: cast_nullable_to_non_nullable
+as bool?,unavailableReason: freezed == unavailableReason ? _self.unavailableReason : unavailableReason // ignore: cast_nullable_to_non_nullable
+as CartUnavailableReason?,
   ));
 }
 

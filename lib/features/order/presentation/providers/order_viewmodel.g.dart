@@ -41,7 +41,7 @@ final class OrderViewModelProvider
   }
 }
 
-String _$orderViewModelHash() => r'0a5221ecdad2a01f410ae4250c2ed6a93c7fd799';
+String _$orderViewModelHash() => r'36a9f861013e3db04a7837dca2b076653619ee81';
 
 abstract class _$OrderViewModel extends $Notifier<OrderState> {
   OrderState build();

@@ -8,7 +8,11 @@ part 'main_state.freezed.dart';
 abstract class MainState with _$MainState {
   const MainState._();
 
-  const factory MainState({required MainTab currentTab}) = _MainState;
+  const factory MainState({
+    required MainTab currentTab,
+    required MainTab previousTab,
+  }) = _MainState;
 
-  factory MainState.initial() => const MainState(currentTab: MainTab.home);
+  factory MainState.initial() =>
+      const MainState(currentTab: MainTab.home, previousTab: MainTab.home);
 }

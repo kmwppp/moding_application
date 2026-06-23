@@ -1,3 +1,5 @@
+import '../../config/app_config.dart';
+
 enum PdfType {
   privacyPolicy, // 개인정보처리방침
   buyerTerms, // 구매자약관
@@ -17,6 +19,8 @@ enum PdfType {
 enum PdfShowView { main, order }
 
 extension PdfTypeExtension on PdfType {
+  String _path(String fileName) => '${AppConfig.staticFileBaseUrl}/$fileName';
+
   String get label {
     switch (this) {
       case PdfType.privacyPolicy:
@@ -51,14 +55,14 @@ extension PdfTypeExtension on PdfType {
       case PdfType.privacyPolicy:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_privacy_policy.pdf";
+            return _path('moding_privacy_policy.pdf');
           case PdfShowView.order:
             return "";
         }
       case PdfType.buyerTerms:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_buyer_terms.pdf";
+            return _path('moding_buyer_terms.pdf');
           case PdfShowView.order:
             return "";
         }
@@ -66,7 +70,7 @@ extension PdfTypeExtension on PdfType {
       case PdfType.serviceTerms:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_terms_of_sevice.pdf";
+            return _path('moding_terms_of_sevice.pdf');
           case PdfShowView.order:
             return "";
         }
@@ -74,7 +78,7 @@ extension PdfTypeExtension on PdfType {
       case PdfType.commonTerms:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_common_terms.pdf";
+            return _path('moding_common_terms.pdf');
           case PdfShowView.order:
             return "";
         }
@@ -82,7 +86,7 @@ extension PdfTypeExtension on PdfType {
       case PdfType.sellerTerms:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_seller_terms.pdf";
+            return _path('moding_seller_terms.pdf');
           case PdfShowView.order:
             return "";
         }
@@ -90,7 +94,7 @@ extension PdfTypeExtension on PdfType {
       case PdfType.settlementAgreement:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_settlement_service_agreement.pdf";
+            return _path('moding_settlement_service_agreement.pdf');
           case PdfShowView.order:
             return "";
         }
@@ -98,15 +102,15 @@ extension PdfTypeExtension on PdfType {
       case PdfType.electronicFinancialTerms:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_electronic_financial_terms.pdf";
+            return _path('moding_electronic_financial_terms.pdf');
           case PdfShowView.order:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_order_electronic_financial_terms.pdf";
+            return _path('moding_order_electronic_financial_terms.pdf');
         }
 
       case PdfType.shippingClaimsTerms:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_shipping_claims_terms.pdf";
+            return _path('moding_shipping_claims_terms.pdf');
           case PdfShowView.order:
             return "";
         }
@@ -114,7 +118,7 @@ extension PdfTypeExtension on PdfType {
       case PdfType.requiredNotice:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_required_notice.pdf";
+            return _path('moding_required_notice.pdf');
           case PdfShowView.order:
             return "";
         }
@@ -122,25 +126,25 @@ extension PdfTypeExtension on PdfType {
       case PdfType.purchaseTerms:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_purchase_terms.pdf";
+            return _path('moding_purchase_terms.pdf');
           case PdfShowView.order:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_order_purchase_terms.pdf";
+            return _path('moding_order_purchase_terms.pdf');
         }
 
       case PdfType.consentCollectionPersonalInfo:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_consent_collection_personal_info.pdf";
+            return _path('moding_consent_collection_personal_info.pdf');
           case PdfShowView.order:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_order_consent_collection_personal_info.pdf";
+            return _path('moding_order_consent_collection_personal_info.pdf');
         }
 
       case PdfType.personalInfoThirdParties:
         switch (view) {
           case PdfShowView.main:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_personal_info_third_parties.pdf";
+            return _path('moding_personal_info_third_parties.pdf');
           case PdfShowView.order:
-            return "http://moding.iiiii.info:4566/moding-local/test/moding_order_personal_info_third_parties.pdf";
+            return _path('moding_order_personal_info_third_parties.pdf');
         }
     }
   }

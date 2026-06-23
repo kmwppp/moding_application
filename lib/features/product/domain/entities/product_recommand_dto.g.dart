@@ -36,10 +36,14 @@ _RecommandDto _$RecommandDtoFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       status: json['status'] as String,
       thumbnailImageUrl: json['thumbnailImageUrl'] as String,
+      lowestPrice: (json['lowestPrice'] as num?)?.toInt(),
+      lowestDiscountAmount: (json['lowestDiscountAmount'] as num?)?.toInt(),
+      lowestDiscountRate: (json['lowestDiscountRate'] as num?)?.toInt(),
       lowestSellingPrice: (json['lowestSellingPrice'] as num?)?.toInt(),
       lowestPriceStockQuantity: (json['lowestPriceStockQuantity'] as num)
           .toInt(),
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      isHaccpCertified: json['isHaccpCertified'] as bool? ?? false,
       createdAt: const LocalDateTimeConverter().fromJson(
         json['createdAt'] as String,
       ),
@@ -57,9 +61,13 @@ Map<String, dynamic> _$RecommandDtoToJson(_RecommandDto instance) =>
       'name': instance.name,
       'status': instance.status,
       'thumbnailImageUrl': instance.thumbnailImageUrl,
+      'lowestPrice': instance.lowestPrice,
+      'lowestDiscountAmount': instance.lowestDiscountAmount,
+      'lowestDiscountRate': instance.lowestDiscountRate,
       'lowestSellingPrice': instance.lowestSellingPrice,
       'lowestPriceStockQuantity': instance.lowestPriceStockQuantity,
       'tags': instance.tags,
+      'isHaccpCertified': instance.isHaccpCertified,
       'createdAt': const LocalDateTimeConverter().toJson(instance.createdAt),
       'updatedAt': const LocalDateTimeConverter().toJson(instance.updatedAt),
     };

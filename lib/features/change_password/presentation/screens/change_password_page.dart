@@ -9,13 +9,17 @@ import 'package:moding_application/core/presentation/widgets/custom_button.dart'
 import 'package:moding_application/core/services/token_storage.dart';
 import 'package:moding_application/core/theme/app_input_decoration.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
+import 'package:moding_application/features/change_password/domain/entities/change_password_page_params.dart';
 import 'package:moding_application/features/change_password/presentation/providers/change_password_viewmodel.dart';
 import 'package:moding_application/features/payment_complete/presentation/screens/widgets/payment_complete_common_box.dart';
 
 class ChangePasswordPage extends ConsumerStatefulWidget {
-  const ChangePasswordPage({super.key, this.identityKey});
+  const ChangePasswordPage({
+    super.key,
+    this.params = const ChangePasswordPageParams(),
+  });
 
-  final String? identityKey;
+  final ChangePasswordPageParams params;
 
   @override
   ConsumerState<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -53,7 +57,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                   boxColor: AppColors.primary,
                   borderColor: AppColors.primary,
                   textColor: Colors.white,
-                  paddingVertical: 6,
+                  paddingVertical: 10,
                   textStyle: context.body.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
@@ -207,10 +211,15 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
   }
 
   Future<void> _submitChangePassword({required String newPassword}) async {
+    if (widget.params.isLoginGateReset) {
+      await _submitLoginGateResetPassword(newPassword: newPassword);
+      return;
+    }
+
     final response = await ref
         .read(changePasswordViewModelProvider.notifier)
         .patchChangePassword(
-          identityKey: widget.identityKey ?? '',
+          identityKey: widget.params.identityKey ?? '',
           newPassword: newPassword,
         );
 
@@ -236,6 +245,53 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
       title: '오류',
       isSuccess: false,
       message: response.message.isEmpty ? '비밀번호 변경에 실패했습니다.' : response.message,
+    );
+  }
+
+  Future<void> _submitLoginGateResetPassword({
+    required String newPassword,
+  }) async {
+    final response = await ref
+        .read(changePasswordViewModelProvider.notifier)
+        .verifyIdentityAndResetPassword(
+          identityVerificationKey: widget.params.identityKey ?? '',
+          newPassword: newPassword,
+        );
+
+    if (!mounted) return;
+
+    final token = response.token;
+    if (response.success && token != null) {
+      await ref
+          .read(tokenStorageProvider)
+          .saveTokens(
+            accessToken: token.accessToken,
+            refreshToken: token.refreshToken,
+          );
+      await ref.read(tokenStorageProvider).clearLoginGateResetPending();
+      resetAppViewModels(ref);
+      if (!mounted) return;
+      context.go('/main');
+      return;
+    }
+
+    if (response.code == 'DUPLICATE_RESOURCE') {
+      await ref.read(tokenStorageProvider).clearLoginGateResetPending();
+    }
+
+    await CommonDialog.show(
+      context,
+      title: '오류',
+      isSuccess: false,
+      message: response.message.isNotEmpty
+          ? response.message
+          : '비밀번호 재설정에 실패했습니다.',
+      onPressed: response.code == 'DUPLICATE_RESOURCE'
+          ? () {
+              if (!mounted) return;
+              context.go('/main');
+            }
+          : null,
     );
   }
 }

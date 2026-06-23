@@ -3,7 +3,7 @@ import 'package:moding_application/features/cart/domain/entities/cart/cart_respo
 /// 장바구니 금액·배송비 계산 (화면 표시용).
 abstract final class CartPricing {
   static int lineProductTotal(CartItemDto item) =>
-      item.options.fold<int>(0, (sum, o) => sum + o.totalPrice);
+      (item.options ?? []).fold<int>(0, (sum, o) => sum + o.totalPrice);
 
   /// 옵션 합계가 무료배송 기준 이상이면 0, 아니면 shippingFee.
   static int lineShippingFee(CartItemDto item) {
@@ -12,13 +12,13 @@ abstract final class CartPricing {
     if (threshold != null && lineTotal >= threshold) {
       return 0;
     }
-    return item.shippingFee;
+    return item.shippingFee ?? 0;
   }
 
   /// 무료배송까지 남은 금액 (없거나 이미 무료이면 null).
   static int? amountUntilFreeShipping(CartItemDto item) {
     final threshold = item.freeShippingThreshold;
-    if (threshold == null || item.shippingFee <= 0) return null;
+    if (threshold == null || (item.shippingFee ?? 0) <= 0) return null;
     final lineTotal = lineProductTotal(item);
     if (lineTotal >= threshold) return null;
     return threshold - lineTotal;

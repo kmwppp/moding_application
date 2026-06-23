@@ -14,6 +14,8 @@ import '../../../../../core/presentation/widgets/custom_button.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../../cart/presentation/providers/cart/cart_viewmodel.dart';
 import '../../../../order/domain/entities/order_request_dto.dart';
+import '../../../../order/data/repositories/order_repository_impl.dart';
+import '../../../../../router/entities/order_page_params.dart';
 
 class ProductBottomBar extends ConsumerWidget {
   const ProductBottomBar({super.key, required this.productId});
@@ -141,19 +143,45 @@ class ProductBottomBar extends ConsumerWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: GestureDetector(
-                  onTap: () {
-                    if (state.selectProductCount != 0) {
+                  onTap: () async {
+                    if (state.selectProductCount == 0) return;
+
+                    final accessToken = await ref
+                        .read(tokenStorageProvider)
+                        .getAccessToken();
+                    if (!context.mounted) return;
+
+                    if (accessToken == null || accessToken.trim().isEmpty) {
+                      final loginResult = await context.push<bool>('/login');
+                      if (!context.mounted || loginResult != true) return;
+                    }
+
+                    try {
+                      final pgProvider = await ref
+                          .read(orderRepositoryProvider)
+                          .getPaymentProvider();
+                      if (!context.mounted) return;
+
                       context.push(
                         '/order',
-                        extra: OrderRequestDto(
-                          items: [
-                            OrderItemRequestDto(
-                              productId: productId,
-                              productOptionId: state.selectedOption!.id ?? 0,
-                              quantity: state.selectProductCount,
-                            ),
-                          ],
+                        extra: OrderPageParams(
+                          pgProvider: pgProvider,
+                          requestDto: OrderRequestDto(
+                            items: [
+                              OrderItemRequestDto(
+                                productId: productId,
+                                productOptionId: state.selectedOption!.id ?? 0,
+                                quantity: state.selectProductCount,
+                              ),
+                            ],
+                          ),
                         ),
+                      );
+                    } catch (_) {
+                      if (!context.mounted) return;
+                      AppBottomSheet.show(
+                        context: context,
+                        child: const Text('결제 수단 정보를 불러오지 못했습니다.'),
                       );
                     }
                   },

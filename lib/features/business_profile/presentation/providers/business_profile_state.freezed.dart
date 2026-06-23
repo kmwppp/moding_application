@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BusinessProfileState {
 
- bool get isLoading; BusinessProfileResponseWrapper? get businessProfile; ChangeRequestBusinessProfileResponseWrapper? get changeRequestBusinessProfile; bool get requestFormLoading; bool get requestFormSubmitting; String get requestBusinessPhone; List<CategoryRequestModel> get mainCategories; List<CategoryRequestModel> get subCategories; CategoryRequestModel? get selectedMainCategory; CategoryRequestModel? get selectedSubCategory; String? get businessLicensePath;
+ bool get isLoading; BusinessProfileResponseWrapper? get businessProfile; ChangeRequestBusinessProfileResponseWrapper? get changeRequestBusinessProfile; bool get requestFormLoading; bool get requestFormSubmitting; List<CategoryRequestModel> get mainCategories; List<CategoryRequestModel> get subCategories; CategoryRequestModel? get selectedMainCategory; CategoryRequestModel? get selectedSubCategory; String? get businessLicensePath;
 /// Create a copy of BusinessProfileState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $BusinessProfileStateCopyWith<BusinessProfileState> get copyWith => _$BusinessPr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BusinessProfileState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.changeRequestBusinessProfile, changeRequestBusinessProfile) || other.changeRequestBusinessProfile == changeRequestBusinessProfile)&&(identical(other.requestFormLoading, requestFormLoading) || other.requestFormLoading == requestFormLoading)&&(identical(other.requestFormSubmitting, requestFormSubmitting) || other.requestFormSubmitting == requestFormSubmitting)&&(identical(other.requestBusinessPhone, requestBusinessPhone) || other.requestBusinessPhone == requestBusinessPhone)&&const DeepCollectionEquality().equals(other.mainCategories, mainCategories)&&const DeepCollectionEquality().equals(other.subCategories, subCategories)&&(identical(other.selectedMainCategory, selectedMainCategory) || other.selectedMainCategory == selectedMainCategory)&&(identical(other.selectedSubCategory, selectedSubCategory) || other.selectedSubCategory == selectedSubCategory)&&(identical(other.businessLicensePath, businessLicensePath) || other.businessLicensePath == businessLicensePath));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BusinessProfileState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.changeRequestBusinessProfile, changeRequestBusinessProfile) || other.changeRequestBusinessProfile == changeRequestBusinessProfile)&&(identical(other.requestFormLoading, requestFormLoading) || other.requestFormLoading == requestFormLoading)&&(identical(other.requestFormSubmitting, requestFormSubmitting) || other.requestFormSubmitting == requestFormSubmitting)&&const DeepCollectionEquality().equals(other.mainCategories, mainCategories)&&const DeepCollectionEquality().equals(other.subCategories, subCategories)&&(identical(other.selectedMainCategory, selectedMainCategory) || other.selectedMainCategory == selectedMainCategory)&&(identical(other.selectedSubCategory, selectedSubCategory) || other.selectedSubCategory == selectedSubCategory)&&(identical(other.businessLicensePath, businessLicensePath) || other.businessLicensePath == businessLicensePath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,businessProfile,changeRequestBusinessProfile,requestFormLoading,requestFormSubmitting,requestBusinessPhone,const DeepCollectionEquality().hash(mainCategories),const DeepCollectionEquality().hash(subCategories),selectedMainCategory,selectedSubCategory,businessLicensePath);
+int get hashCode => Object.hash(runtimeType,isLoading,businessProfile,changeRequestBusinessProfile,requestFormLoading,requestFormSubmitting,const DeepCollectionEquality().hash(mainCategories),const DeepCollectionEquality().hash(subCategories),selectedMainCategory,selectedSubCategory,businessLicensePath);
 
 @override
 String toString() {
-  return 'BusinessProfileState(isLoading: $isLoading, businessProfile: $businessProfile, changeRequestBusinessProfile: $changeRequestBusinessProfile, requestFormLoading: $requestFormLoading, requestFormSubmitting: $requestFormSubmitting, requestBusinessPhone: $requestBusinessPhone, mainCategories: $mainCategories, subCategories: $subCategories, selectedMainCategory: $selectedMainCategory, selectedSubCategory: $selectedSubCategory, businessLicensePath: $businessLicensePath)';
+  return 'BusinessProfileState(isLoading: $isLoading, businessProfile: $businessProfile, changeRequestBusinessProfile: $changeRequestBusinessProfile, requestFormLoading: $requestFormLoading, requestFormSubmitting: $requestFormSubmitting, mainCategories: $mainCategories, subCategories: $subCategories, selectedMainCategory: $selectedMainCategory, selectedSubCategory: $selectedSubCategory, businessLicensePath: $businessLicensePath)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $BusinessProfileStateCopyWith<$Res>  {
   factory $BusinessProfileStateCopyWith(BusinessProfileState value, $Res Function(BusinessProfileState) _then) = _$BusinessProfileStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, BusinessProfileResponseWrapper? businessProfile, ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile, bool requestFormLoading, bool requestFormSubmitting, String requestBusinessPhone, List<CategoryRequestModel> mainCategories, List<CategoryRequestModel> subCategories, CategoryRequestModel? selectedMainCategory, CategoryRequestModel? selectedSubCategory, String? businessLicensePath
+ bool isLoading, BusinessProfileResponseWrapper? businessProfile, ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile, bool requestFormLoading, bool requestFormSubmitting, List<CategoryRequestModel> mainCategories, List<CategoryRequestModel> subCategories, CategoryRequestModel? selectedMainCategory, CategoryRequestModel? selectedSubCategory, String? businessLicensePath
 });
 
 
@@ -62,15 +62,14 @@ class _$BusinessProfileStateCopyWithImpl<$Res>
 
 /// Create a copy of BusinessProfileState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? businessProfile = freezed,Object? changeRequestBusinessProfile = freezed,Object? requestFormLoading = null,Object? requestFormSubmitting = null,Object? requestBusinessPhone = null,Object? mainCategories = null,Object? subCategories = null,Object? selectedMainCategory = freezed,Object? selectedSubCategory = freezed,Object? businessLicensePath = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? businessProfile = freezed,Object? changeRequestBusinessProfile = freezed,Object? requestFormLoading = null,Object? requestFormSubmitting = null,Object? mainCategories = null,Object? subCategories = null,Object? selectedMainCategory = freezed,Object? selectedSubCategory = freezed,Object? businessLicensePath = freezed,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,businessProfile: freezed == businessProfile ? _self.businessProfile : businessProfile // ignore: cast_nullable_to_non_nullable
 as BusinessProfileResponseWrapper?,changeRequestBusinessProfile: freezed == changeRequestBusinessProfile ? _self.changeRequestBusinessProfile : changeRequestBusinessProfile // ignore: cast_nullable_to_non_nullable
 as ChangeRequestBusinessProfileResponseWrapper?,requestFormLoading: null == requestFormLoading ? _self.requestFormLoading : requestFormLoading // ignore: cast_nullable_to_non_nullable
 as bool,requestFormSubmitting: null == requestFormSubmitting ? _self.requestFormSubmitting : requestFormSubmitting // ignore: cast_nullable_to_non_nullable
-as bool,requestBusinessPhone: null == requestBusinessPhone ? _self.requestBusinessPhone : requestBusinessPhone // ignore: cast_nullable_to_non_nullable
-as String,mainCategories: null == mainCategories ? _self.mainCategories : mainCategories // ignore: cast_nullable_to_non_nullable
+as bool,mainCategories: null == mainCategories ? _self.mainCategories : mainCategories // ignore: cast_nullable_to_non_nullable
 as List<CategoryRequestModel>,subCategories: null == subCategories ? _self.subCategories : subCategories // ignore: cast_nullable_to_non_nullable
 as List<CategoryRequestModel>,selectedMainCategory: freezed == selectedMainCategory ? _self.selectedMainCategory : selectedMainCategory // ignore: cast_nullable_to_non_nullable
 as CategoryRequestModel?,selectedSubCategory: freezed == selectedSubCategory ? _self.selectedSubCategory : selectedSubCategory // ignore: cast_nullable_to_non_nullable
@@ -184,10 +183,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  BusinessProfileResponseWrapper? businessProfile,  ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile,  bool requestFormLoading,  bool requestFormSubmitting,  String requestBusinessPhone,  List<CategoryRequestModel> mainCategories,  List<CategoryRequestModel> subCategories,  CategoryRequestModel? selectedMainCategory,  CategoryRequestModel? selectedSubCategory,  String? businessLicensePath)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  BusinessProfileResponseWrapper? businessProfile,  ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile,  bool requestFormLoading,  bool requestFormSubmitting,  List<CategoryRequestModel> mainCategories,  List<CategoryRequestModel> subCategories,  CategoryRequestModel? selectedMainCategory,  CategoryRequestModel? selectedSubCategory,  String? businessLicensePath)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BusinessProfileState() when $default != null:
-return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusinessProfile,_that.requestFormLoading,_that.requestFormSubmitting,_that.requestBusinessPhone,_that.mainCategories,_that.subCategories,_that.selectedMainCategory,_that.selectedSubCategory,_that.businessLicensePath);case _:
+return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusinessProfile,_that.requestFormLoading,_that.requestFormSubmitting,_that.mainCategories,_that.subCategories,_that.selectedMainCategory,_that.selectedSubCategory,_that.businessLicensePath);case _:
   return orElse();
 
 }
@@ -205,10 +204,10 @@ return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusines
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  BusinessProfileResponseWrapper? businessProfile,  ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile,  bool requestFormLoading,  bool requestFormSubmitting,  String requestBusinessPhone,  List<CategoryRequestModel> mainCategories,  List<CategoryRequestModel> subCategories,  CategoryRequestModel? selectedMainCategory,  CategoryRequestModel? selectedSubCategory,  String? businessLicensePath)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  BusinessProfileResponseWrapper? businessProfile,  ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile,  bool requestFormLoading,  bool requestFormSubmitting,  List<CategoryRequestModel> mainCategories,  List<CategoryRequestModel> subCategories,  CategoryRequestModel? selectedMainCategory,  CategoryRequestModel? selectedSubCategory,  String? businessLicensePath)  $default,) {final _that = this;
 switch (_that) {
 case _BusinessProfileState():
-return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusinessProfile,_that.requestFormLoading,_that.requestFormSubmitting,_that.requestBusinessPhone,_that.mainCategories,_that.subCategories,_that.selectedMainCategory,_that.selectedSubCategory,_that.businessLicensePath);case _:
+return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusinessProfile,_that.requestFormLoading,_that.requestFormSubmitting,_that.mainCategories,_that.subCategories,_that.selectedMainCategory,_that.selectedSubCategory,_that.businessLicensePath);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -225,10 +224,10 @@ return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusines
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  BusinessProfileResponseWrapper? businessProfile,  ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile,  bool requestFormLoading,  bool requestFormSubmitting,  String requestBusinessPhone,  List<CategoryRequestModel> mainCategories,  List<CategoryRequestModel> subCategories,  CategoryRequestModel? selectedMainCategory,  CategoryRequestModel? selectedSubCategory,  String? businessLicensePath)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  BusinessProfileResponseWrapper? businessProfile,  ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile,  bool requestFormLoading,  bool requestFormSubmitting,  List<CategoryRequestModel> mainCategories,  List<CategoryRequestModel> subCategories,  CategoryRequestModel? selectedMainCategory,  CategoryRequestModel? selectedSubCategory,  String? businessLicensePath)?  $default,) {final _that = this;
 switch (_that) {
 case _BusinessProfileState() when $default != null:
-return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusinessProfile,_that.requestFormLoading,_that.requestFormSubmitting,_that.requestBusinessPhone,_that.mainCategories,_that.subCategories,_that.selectedMainCategory,_that.selectedSubCategory,_that.businessLicensePath);case _:
+return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusinessProfile,_that.requestFormLoading,_that.requestFormSubmitting,_that.mainCategories,_that.subCategories,_that.selectedMainCategory,_that.selectedSubCategory,_that.businessLicensePath);case _:
   return null;
 
 }
@@ -240,7 +239,7 @@ return $default(_that.isLoading,_that.businessProfile,_that.changeRequestBusines
 
 
 class _BusinessProfileState extends BusinessProfileState {
-  const _BusinessProfileState({required this.isLoading, this.businessProfile, this.changeRequestBusinessProfile, this.requestFormLoading = true, this.requestFormSubmitting = false, this.requestBusinessPhone = '', final  List<CategoryRequestModel> mainCategories = const <CategoryRequestModel>[], final  List<CategoryRequestModel> subCategories = const <CategoryRequestModel>[], this.selectedMainCategory, this.selectedSubCategory, this.businessLicensePath}): _mainCategories = mainCategories,_subCategories = subCategories,super._();
+  const _BusinessProfileState({required this.isLoading, this.businessProfile, this.changeRequestBusinessProfile, this.requestFormLoading = true, this.requestFormSubmitting = false, final  List<CategoryRequestModel> mainCategories = const <CategoryRequestModel>[], final  List<CategoryRequestModel> subCategories = const <CategoryRequestModel>[], this.selectedMainCategory, this.selectedSubCategory, this.businessLicensePath}): _mainCategories = mainCategories,_subCategories = subCategories,super._();
   
 
 @override final  bool isLoading;
@@ -248,7 +247,6 @@ class _BusinessProfileState extends BusinessProfileState {
 @override final  ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile;
 @override@JsonKey() final  bool requestFormLoading;
 @override@JsonKey() final  bool requestFormSubmitting;
-@override@JsonKey() final  String requestBusinessPhone;
  final  List<CategoryRequestModel> _mainCategories;
 @override@JsonKey() List<CategoryRequestModel> get mainCategories {
   if (_mainCategories is EqualUnmodifiableListView) return _mainCategories;
@@ -277,16 +275,16 @@ _$BusinessProfileStateCopyWith<_BusinessProfileState> get copyWith => __$Busines
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BusinessProfileState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.changeRequestBusinessProfile, changeRequestBusinessProfile) || other.changeRequestBusinessProfile == changeRequestBusinessProfile)&&(identical(other.requestFormLoading, requestFormLoading) || other.requestFormLoading == requestFormLoading)&&(identical(other.requestFormSubmitting, requestFormSubmitting) || other.requestFormSubmitting == requestFormSubmitting)&&(identical(other.requestBusinessPhone, requestBusinessPhone) || other.requestBusinessPhone == requestBusinessPhone)&&const DeepCollectionEquality().equals(other._mainCategories, _mainCategories)&&const DeepCollectionEquality().equals(other._subCategories, _subCategories)&&(identical(other.selectedMainCategory, selectedMainCategory) || other.selectedMainCategory == selectedMainCategory)&&(identical(other.selectedSubCategory, selectedSubCategory) || other.selectedSubCategory == selectedSubCategory)&&(identical(other.businessLicensePath, businessLicensePath) || other.businessLicensePath == businessLicensePath));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BusinessProfileState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.businessProfile, businessProfile) || other.businessProfile == businessProfile)&&(identical(other.changeRequestBusinessProfile, changeRequestBusinessProfile) || other.changeRequestBusinessProfile == changeRequestBusinessProfile)&&(identical(other.requestFormLoading, requestFormLoading) || other.requestFormLoading == requestFormLoading)&&(identical(other.requestFormSubmitting, requestFormSubmitting) || other.requestFormSubmitting == requestFormSubmitting)&&const DeepCollectionEquality().equals(other._mainCategories, _mainCategories)&&const DeepCollectionEquality().equals(other._subCategories, _subCategories)&&(identical(other.selectedMainCategory, selectedMainCategory) || other.selectedMainCategory == selectedMainCategory)&&(identical(other.selectedSubCategory, selectedSubCategory) || other.selectedSubCategory == selectedSubCategory)&&(identical(other.businessLicensePath, businessLicensePath) || other.businessLicensePath == businessLicensePath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,businessProfile,changeRequestBusinessProfile,requestFormLoading,requestFormSubmitting,requestBusinessPhone,const DeepCollectionEquality().hash(_mainCategories),const DeepCollectionEquality().hash(_subCategories),selectedMainCategory,selectedSubCategory,businessLicensePath);
+int get hashCode => Object.hash(runtimeType,isLoading,businessProfile,changeRequestBusinessProfile,requestFormLoading,requestFormSubmitting,const DeepCollectionEquality().hash(_mainCategories),const DeepCollectionEquality().hash(_subCategories),selectedMainCategory,selectedSubCategory,businessLicensePath);
 
 @override
 String toString() {
-  return 'BusinessProfileState(isLoading: $isLoading, businessProfile: $businessProfile, changeRequestBusinessProfile: $changeRequestBusinessProfile, requestFormLoading: $requestFormLoading, requestFormSubmitting: $requestFormSubmitting, requestBusinessPhone: $requestBusinessPhone, mainCategories: $mainCategories, subCategories: $subCategories, selectedMainCategory: $selectedMainCategory, selectedSubCategory: $selectedSubCategory, businessLicensePath: $businessLicensePath)';
+  return 'BusinessProfileState(isLoading: $isLoading, businessProfile: $businessProfile, changeRequestBusinessProfile: $changeRequestBusinessProfile, requestFormLoading: $requestFormLoading, requestFormSubmitting: $requestFormSubmitting, mainCategories: $mainCategories, subCategories: $subCategories, selectedMainCategory: $selectedMainCategory, selectedSubCategory: $selectedSubCategory, businessLicensePath: $businessLicensePath)';
 }
 
 
@@ -297,7 +295,7 @@ abstract mixin class _$BusinessProfileStateCopyWith<$Res> implements $BusinessPr
   factory _$BusinessProfileStateCopyWith(_BusinessProfileState value, $Res Function(_BusinessProfileState) _then) = __$BusinessProfileStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, BusinessProfileResponseWrapper? businessProfile, ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile, bool requestFormLoading, bool requestFormSubmitting, String requestBusinessPhone, List<CategoryRequestModel> mainCategories, List<CategoryRequestModel> subCategories, CategoryRequestModel? selectedMainCategory, CategoryRequestModel? selectedSubCategory, String? businessLicensePath
+ bool isLoading, BusinessProfileResponseWrapper? businessProfile, ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile, bool requestFormLoading, bool requestFormSubmitting, List<CategoryRequestModel> mainCategories, List<CategoryRequestModel> subCategories, CategoryRequestModel? selectedMainCategory, CategoryRequestModel? selectedSubCategory, String? businessLicensePath
 });
 
 
@@ -314,15 +312,14 @@ class __$BusinessProfileStateCopyWithImpl<$Res>
 
 /// Create a copy of BusinessProfileState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? businessProfile = freezed,Object? changeRequestBusinessProfile = freezed,Object? requestFormLoading = null,Object? requestFormSubmitting = null,Object? requestBusinessPhone = null,Object? mainCategories = null,Object? subCategories = null,Object? selectedMainCategory = freezed,Object? selectedSubCategory = freezed,Object? businessLicensePath = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? businessProfile = freezed,Object? changeRequestBusinessProfile = freezed,Object? requestFormLoading = null,Object? requestFormSubmitting = null,Object? mainCategories = null,Object? subCategories = null,Object? selectedMainCategory = freezed,Object? selectedSubCategory = freezed,Object? businessLicensePath = freezed,}) {
   return _then(_BusinessProfileState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,businessProfile: freezed == businessProfile ? _self.businessProfile : businessProfile // ignore: cast_nullable_to_non_nullable
 as BusinessProfileResponseWrapper?,changeRequestBusinessProfile: freezed == changeRequestBusinessProfile ? _self.changeRequestBusinessProfile : changeRequestBusinessProfile // ignore: cast_nullable_to_non_nullable
 as ChangeRequestBusinessProfileResponseWrapper?,requestFormLoading: null == requestFormLoading ? _self.requestFormLoading : requestFormLoading // ignore: cast_nullable_to_non_nullable
 as bool,requestFormSubmitting: null == requestFormSubmitting ? _self.requestFormSubmitting : requestFormSubmitting // ignore: cast_nullable_to_non_nullable
-as bool,requestBusinessPhone: null == requestBusinessPhone ? _self.requestBusinessPhone : requestBusinessPhone // ignore: cast_nullable_to_non_nullable
-as String,mainCategories: null == mainCategories ? _self._mainCategories : mainCategories // ignore: cast_nullable_to_non_nullable
+as bool,mainCategories: null == mainCategories ? _self._mainCategories : mainCategories // ignore: cast_nullable_to_non_nullable
 as List<CategoryRequestModel>,subCategories: null == subCategories ? _self._subCategories : subCategories // ignore: cast_nullable_to_non_nullable
 as List<CategoryRequestModel>,selectedMainCategory: freezed == selectedMainCategory ? _self.selectedMainCategory : selectedMainCategory // ignore: cast_nullable_to_non_nullable
 as CategoryRequestModel?,selectedSubCategory: freezed == selectedSubCategory ? _self.selectedSubCategory : selectedSubCategory // ignore: cast_nullable_to_non_nullable

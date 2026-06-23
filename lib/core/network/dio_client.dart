@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:moding_application/core/constants/app_http_url.dart';
 import 'package:moding_application/core/services/token_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,11 +22,14 @@ Dio dio(Ref ref) {
     ),
   );
 
-  // 인터셉터 추가
-  dio.interceptors.addAll([
-    LogInterceptor(requestBody: true, responseBody: true), // 디버깅용 로그
-    AuthInterceptor(dio, tokenStorage), // 401/토큰 갱신 처리 인터셉터
-  ]);
+  if (kDebugMode) {
+    dio.interceptors.add(
+      LogInterceptor(requestBody: true, responseBody: true), // 디버깅용 로그
+    );
+  }
+
+  // 401/토큰 갱신 처리 인터셉터
+  dio.interceptors.add(AuthInterceptor(dio, tokenStorage));
 
   return dio;
 }

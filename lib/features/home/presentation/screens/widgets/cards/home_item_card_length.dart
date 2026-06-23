@@ -1,5 +1,9 @@
+import 'dart:math' as math;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:moding_application/core/constants/app_colors.dart';
+import 'package:moding_application/core/utils/string_util.dart';
 
 import '../../../../../../core/presentation/widgets/styles/card_style.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
@@ -12,6 +16,12 @@ class HomeItemCardLength extends StatelessWidget {
   final String thumbnailUrl;
   final int viewCount;
   final int reviewCount;
+  final bool isHaccpCertified;
+  final int? lowestPrice;
+  final int? lowestDiscountAmount;
+  final int? lowestDiscountRate;
+  final int? lowestSellingPrice;
+  final bool isLoggedIn;
 
   const HomeItemCardLength({
     super.key,
@@ -22,14 +32,39 @@ class HomeItemCardLength extends StatelessWidget {
     required this.thumbnailUrl,
     required this.viewCount,
     required this.reviewCount,
+    this.isHaccpCertified = false,
+    this.lowestPrice,
+    this.lowestDiscountAmount,
+    this.lowestDiscountRate,
+    this.lowestSellingPrice,
+    this.isLoggedIn = true,
   });
+
+  static double cardWidthFor(double screenWidth) {
+    return math.min((screenWidth / 2) - 50, 145);
+  }
+
+  static double estimatedHeightFor(
+    double screenWidth, {
+    bool isLoggedIn = true,
+  }) {
+    final cardWidth = cardWidthFor(screenWidth);
+
+    // 비로그인 시 가격 영역이 없으므로 더 낮은 높이 사용
+    if (!isLoggedIn) {
+      return cardWidth + 90;
+    }
+
+    // 정사각형 이미지 + 콘텐츠 + 안전 여백
+    return cardWidth + 128;
+  }
 
   Color get _resolvedColor =>
       CardStyle.colorByIndex(index, offset: randomStartIndex);
 
   @override
   Widget build(BuildContext context) {
-    final cardWidth = (MediaQuery.of(context).size.width / 2) - 50;
+    final cardWidth = cardWidthFor(MediaQuery.of(context).size.width);
     final gradientList = CardStyle.gradientFor(_resolvedColor);
     final textColor = CardStyle.textColorFor(_resolvedColor);
 
@@ -42,14 +77,19 @@ class HomeItemCardLength extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _imageBox(cardWidth, gradientList),
+          _imageBox(context, cardWidth, gradientList, textColor),
           _content(context, cardWidth, textColor),
         ],
       ),
     );
   }
 
-  Widget _imageBox(double width, List<Color> gradientList) {
+  Widget _imageBox(
+    BuildContext context,
+    double width,
+    List<Color> gradientList,
+    Color textColor,
+  ) {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
       child: Stack(
@@ -60,6 +100,17 @@ class HomeItemCardLength extends StatelessWidget {
             width: double.infinity,
             fit: BoxFit.cover,
           ),
+          if (isHaccpCertified)
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Image.asset(
+                "assets/images/icons/haccp_icon.png",
+                width: 30,
+                height: 30,
+              ),
+            ),
+
           Positioned(
             bottom: 0,
             left: 0,
@@ -75,21 +126,10 @@ class HomeItemCardLength extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _content(BuildContext context, double cardWidth, Color textColor) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 60),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
+          Positioned(
+            bottom: 6,
+            left: 4,
+            child: Container(
               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.22),
@@ -113,14 +153,12 @@ class HomeItemCardLength extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     "$viewCount",
-                    style: context
-                        .lengthCardContentDynamic(cardWidth)
-                        .copyWith(
-                          color: textColor == Colors.white
-                              ? Colors.white
-                              : Colors.black,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    style: context.caption.copyWith(
+                      color: textColor == Colors.white
+                          ? Colors.white
+                          : Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   const SizedBox(width: 4),
                   Image.asset(
@@ -133,18 +171,31 @@ class HomeItemCardLength extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     "$reviewCount",
-                    style: context
-                        .lengthCardContentDynamic(cardWidth)
-                        .copyWith(
-                          color: textColor == Colors.white
-                              ? Colors.white
-                              : Colors.black,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    style: context.caption.copyWith(
+                      color: textColor == Colors.white
+                          ? Colors.white
+                          : Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context, double cardWidth, Color textColor) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 60),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
             const SizedBox(height: 4),
             Text(
               name,
@@ -154,9 +205,49 @@ class HomeItemCardLength extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
+            if (isLoggedIn && lowestSellingPrice != null) ...[
+              const SizedBox(height: 8),
+              if (_hasDiscount)
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text:
+                            '${StringUtil.formatCurrency(lowestDiscountRate)}%',
+                        style: context.caption.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.pointColor,
+                        ),
+                      ),
+                      const TextSpan(text: '  '),
+                      TextSpan(
+                        text: '${StringUtil.formatCurrency(lowestPrice)}원',
+                        style: context.caption.copyWith(
+                          color: textColor,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              Text(
+                '${StringUtil.formatCurrency(_displayPrice)}원',
+                style: context.body.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ],
         ),
       ),
     );
   }
+
+  bool get _hasDiscount =>
+      (lowestDiscountAmount ?? 0) > 0 &&
+      (lowestDiscountRate ?? 0) > 0 &&
+      lowestPrice != null;
+
+  int get _displayPrice => lowestSellingPrice ?? lowestPrice ?? 0;
 }

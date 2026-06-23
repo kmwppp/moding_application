@@ -157,13 +157,17 @@ class CategoryViewModel extends _$CategoryViewModel {
         categoryIds: categoryIds,
       );
 
+      final hasNext =
+          productList.content.isNotEmpty && page < productList.totalPages - 1;
+
       state = state.copyWith(
         productList: productList,
         page: page,
-        hasNext: true,
+        hasNext: hasNext,
         isLoading: false,
       );
     } catch (e) {
+      state = state.copyWith(isLoading: false);
       debugPrint('$e');
     }
   }
@@ -184,13 +188,15 @@ class CategoryViewModel extends _$CategoryViewModel {
       );
 
       final currentList = state.productList?.content ?? [];
+      final hasNext =
+          response.content.isNotEmpty && nextPage < response.totalPages - 1;
 
       state = state.copyWith(
         productList: state.productList!.copyWith(
           content: [...currentList, ...response.content],
         ),
         page: nextPage,
-        hasNext: true, // 서버에서 last 내려준다고 가정
+        hasNext: hasNext,
         isFetchingMore: false,
       );
     } catch (e) {

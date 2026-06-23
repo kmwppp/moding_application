@@ -51,6 +51,14 @@ _ClaimCheckResponseDto _$ClaimCheckResponseDtoFromJson(
   reshipShippedAt: const NullableLocalDateTimeConverter().fromJson(
     json['reshipShippedAt'] as String?,
   ),
+  reshipTrackingEvents:
+      (json['reshipTrackingEvents'] as List<dynamic>?)
+          ?.map(
+            (e) =>
+                ClaimCheckTrackingEventDto.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
   statusHistories: (json['statusHistories'] as List<dynamic>)
       .map(
         (e) => ClaimCheckStatusHistoryDto.fromJson(e as Map<String, dynamic>),
@@ -93,6 +101,7 @@ Map<String, dynamic> _$ClaimCheckResponseDtoToJson(
   'reshipShippedAt': const NullableLocalDateTimeConverter().toJson(
     instance.reshipShippedAt,
   ),
+  'reshipTrackingEvents': instance.reshipTrackingEvents,
   'statusHistories': instance.statusHistories,
   'deliveredAt': const NullableLocalDateTimeConverter().toJson(
     instance.deliveredAt,
@@ -144,4 +153,22 @@ Map<String, dynamic> _$ClaimCheckStatusHistoryDtoToJson(
   'status': ClaimStatus.toJson(instance.status),
   'memo': instance.memo,
   'createdAt': const LocalDateTimeConverter().toJson(instance.createdAt),
+};
+
+_ClaimCheckTrackingEventDto _$ClaimCheckTrackingEventDtoFromJson(
+  Map<String, dynamic> json,
+) => _ClaimCheckTrackingEventDto(
+  timeString: json['timeString'] as String,
+  where: json['where'] as String,
+  kind: json['kind'] as String,
+  level: (json['level'] as num).toInt(),
+);
+
+Map<String, dynamic> _$ClaimCheckTrackingEventDtoToJson(
+  _ClaimCheckTrackingEventDto instance,
+) => <String, dynamic>{
+  'timeString': instance.timeString,
+  'where': instance.where,
+  'kind': instance.kind,
+  'level': instance.level,
 };

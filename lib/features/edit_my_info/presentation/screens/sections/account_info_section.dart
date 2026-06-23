@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/features/edit_my_info/presentation/providers/edit_my_info_viewmodel.dart';
 import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_page_params.dart';
@@ -35,17 +36,19 @@ class AccountInfoSection extends ConsumerWidget {
               InkWell(
                 onTap: () async {
                   // 나이스 본인인증 먼저
-                  final niceResult =
-                      await context.push<NiceIdentityVerificationResult>(
-                    '/nice_identity_verification',
-                    extra: const NiceIdentityVerificationPageParams(
-                      type: NiceIdentityVerificationType.accountMatch,
-                      source: NiceVerificationSource.editInfo,
-                    ),
-                  );
-                  if (!context.mounted ||
-                      niceResult == null ||
-                      !niceResult.success) {
+                  final niceResult = await context
+                      .push<NiceIdentityVerificationResult>(
+                        '/nice_identity_verification',
+                        extra: const NiceIdentityVerificationPageParams(
+                          type: NiceIdentityVerificationType.accountMatch,
+                          source: NiceVerificationSource.editInfo,
+                        ),
+                      );
+                  if (!context.mounted || niceResult == null) {
+                    return;
+                  }
+                  if (!niceResult.success) {
+                    await _showNiceFailureDialog(context, niceResult);
                     return;
                   }
                   // 인증 성공 → 계정 정보 변경 페이지로 이동
@@ -78,18 +81,22 @@ class AccountInfoSection extends ConsumerWidget {
           SizedBox(height: 10),
           InkWell(
             onTap: () async {
-              final niceResult =
-                  await context.push<NiceIdentityVerificationResult>(
-                '/nice_identity_verification',
-                extra: const NiceIdentityVerificationPageParams(
-                  type: NiceIdentityVerificationType.accountMatch,
-                  source: NiceVerificationSource.editInfo,
-                ),
-              );
-              if (!context.mounted ||
-                  niceResult == null ||
-                  !niceResult.success ||
-                  niceResult.key == null) {
+              final niceResult = await context
+                  .push<NiceIdentityVerificationResult>(
+                    '/nice_identity_verification',
+                    extra: const NiceIdentityVerificationPageParams(
+                      type: NiceIdentityVerificationType.accountMatch,
+                      source: NiceVerificationSource.editInfo,
+                    ),
+                  );
+              if (!context.mounted || niceResult == null) {
+                return;
+              }
+              if (!niceResult.success) {
+                await _showNiceFailureDialog(context, niceResult);
+                return;
+              }
+              if (niceResult.key == null) {
                 return;
               }
               context.push('/change_password', extra: niceResult.key!);
@@ -105,6 +112,24 @@ class AccountInfoSection extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _showNiceFailureDialog(
+    BuildContext context,
+    NiceIdentityVerificationResult result,
+  ) {
+    final message = switch (result.error) {
+      'IDENTITY_MISMATCH' => '명의가 일치하지 않습니다.',
+      'SERVER_ERROR' => '알 수 없는 오류가 발생했습니다.',
+      _ => '본인인증이 취소되었습니다.',
+    };
+
+    return CommonDialog.show(
+      context,
+      title: '오류',
+      isSuccess: false,
+      message: message,
     );
   }
 }

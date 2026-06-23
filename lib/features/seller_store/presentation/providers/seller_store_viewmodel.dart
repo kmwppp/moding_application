@@ -6,7 +6,7 @@ import 'seller_store_state.dart';
 
 part 'seller_store_viewmodel.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod()
 class SellerStoreViewModel extends _$SellerStoreViewModel {
   @override
   SellerStoreState build({required int sellerProfileId}) {
@@ -18,7 +18,7 @@ class SellerStoreViewModel extends _$SellerStoreViewModel {
     await _fetch(sellerProfileId: sellerProfileId, page: 0, isFirst: true);
   }
 
-  int _getSize(int page) => page == 0 ? 10 : 20;
+  int _getSize(int page) => 20;
 
   Future<void> _fetch({
     required int sellerProfileId,
@@ -37,10 +37,14 @@ class SellerStoreViewModel extends _$SellerStoreViewModel {
         page: page,
         size: _getSize(page),
       );
+      debugPrint(
+        '[SellerStore] response.content.length=${response.content.length}, page=$page, totalPages=${response.totalPages}, totalElements=${response.totalElements}',
+      );
 
       final newList = isFirst
           ? response.content
           : [...state.productList, ...response.content];
+      debugPrint('[SellerStore] state.productList.length -> ${newList.length}');
 
       state = state.copyWith(
         isLoading: false,

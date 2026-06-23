@@ -15,7 +15,6 @@ abstract class BusinessProfileState with _$BusinessProfileState {
     ChangeRequestBusinessProfileResponseWrapper? changeRequestBusinessProfile,
     @Default(true) bool requestFormLoading,
     @Default(false) bool requestFormSubmitting,
-    @Default('') String requestBusinessPhone,
     @Default(<CategoryRequestModel>[])
     List<CategoryRequestModel> mainCategories,
     @Default(<CategoryRequestModel>[]) List<CategoryRequestModel> subCategories,

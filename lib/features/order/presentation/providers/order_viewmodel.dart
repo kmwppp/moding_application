@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
+import 'package:moding_application/core/network/exceptions/api_code_exception.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/order/data/repositories/order_repository_impl.dart';
 import 'package:moding_application/features/order/domain/entities/address_dto.dart';
 import 'package:moding_application/features/order/domain/entities/create_order_request_dto.dart';
@@ -15,6 +17,7 @@ import '../../domain/entities/order_response_dto.dart' hide OrderItemDto;
 import '../../domain/enums/delivery_request_type.dart';
 import '../../domain/enums/easy_payments_method.dart';
 import '../../domain/enums/payments_method.dart';
+import '../../domain/enums/pg_provider.dart';
 
 part 'order_viewmodel.g.dart';
 
@@ -47,11 +50,12 @@ class OrderViewModel extends _$OrderViewModel {
     );
   }
 
-  void updateAddress(String address, String zipCode) {
+  void updateAddress(String address, String zipCode, String sigunguCode) {
     state = state.copyWith(
       selectedAddress: state.selectedAddress!.copyWith(
         address: address,
         zipCode: zipCode,
+        sigunguCode: sigunguCode,
       ),
     );
   }
@@ -64,6 +68,7 @@ class OrderViewModel extends _$OrderViewModel {
         name: '',
         recipientName: '',
         zipCode: '',
+        sigunguCode: '',
         address: '주소를 검색해주세요.',
         addressDetail: '',
         phone: '',
@@ -106,6 +111,7 @@ class OrderViewModel extends _$OrderViewModel {
   }
 
   Future<void> getOrderInfo(OrderRequestDto requestDto) async {
+    state = state.copyWith(isLoading: true);
     try {
       final repository = ref.read(orderRepositoryProvider);
       final orderInfo = await repository.getOrderInfo(requestDto);
@@ -114,7 +120,11 @@ class OrderViewModel extends _$OrderViewModel {
         isLoading: false,
         selectedAddress: orderInfo.deliveryAddress,
       );
+    } on ApiCodeException {
+      state = state.copyWith(isLoading: false);
+      rethrow;
     } catch (e) {
+      state = state.copyWith(isLoading: false);
       debugPrint('$e');
     }
   }
@@ -157,6 +167,7 @@ class OrderViewModel extends _$OrderViewModel {
         isDefault: state.selectedAddress?.isDefault ?? false,
         recipientName: state.selectedAddress?.recipientName ?? "",
         zipCode: state.selectedAddress?.zipCode ?? "",
+        sigunguCode: state.selectedAddress?.sigunguCode ?? "",
       );
 
       final result = await repository.putAddress(addressId, requestDto);
@@ -184,6 +195,7 @@ class OrderViewModel extends _$OrderViewModel {
         isDefault: state.selectedAddress?.isDefault ?? false,
         recipientName: state.selectedAddress?.recipientName ?? "",
         zipCode: state.selectedAddress?.zipCode ?? "",
+        sigunguCode: state.selectedAddress?.sigunguCode ?? "",
       );
 
       final result = await repository.postAddress(requestDto);
@@ -225,8 +237,23 @@ class OrderViewModel extends _$OrderViewModel {
     }
   }
 
+  Future<ResponseModel> patchDefaultAddress(int addressId) async {
+    try {
+      final repository = ref.read(orderRepositoryProvider);
+      final result = await repository.patchDefaultAddress(addressId);
+      if (result.success) {
+        await getAddressList();
+      }
+      return result;
+    } catch (e) {
+      debugPrint('$e');
+      return ResponseModel(success: false, message: "기본 배송지 설정 중 오류가 발생했습니다.");
+    }
+  }
+
   Future<CreateOrderResponseWrapper> postCreateOrder({
     required String idempotencyKey,
+    required PgProvider pgProvider,
   }) async {
     try {
       final repository = ref.read(orderRepositoryProvider);
@@ -238,6 +265,7 @@ class OrderViewModel extends _$OrderViewModel {
           state.selectedRequest,
           state.deliveryRequestText,
         ),
+        pgProvider: pgProvider,
         items: [
           OrderItemDto(
             productId: state.orderInfo?.productId ?? 0,
@@ -250,6 +278,8 @@ class OrderViewModel extends _$OrderViewModel {
       final result = await repository.postCreateOrder(requestDto);
       debugPrint('$result');
       return result;
+    } on ApiCodeException {
+      rethrow;
     } catch (e) {
       debugPrint('$e');
       return CreateOrderResponseWrapper(success: false, data: null);
@@ -262,16 +292,23 @@ class OrderViewModel extends _$OrderViewModel {
     required int amount,
   }) async {
     try {
+      appLog(
+        '[PaymentsConfirm] viewmodel request -> paymentKey=$paymentKey, paymentCode=$paymentCode, amount=$amount',
+      );
       final repository = ref.read(orderRepositoryProvider);
-      return await repository.postPaymentsConfirm(
+      final response = await repository.postPaymentsConfirm(
         PaymentsConfirmRequestDto(
           paymentKey: paymentKey,
           paymentCode: paymentCode,
           amount: amount,
         ),
       );
+      appLog(
+        '[PaymentsConfirm] viewmodel success -> paymentId=${response.data.paymentId}',
+      );
+      return response;
     } catch (e) {
-      debugPrint('$e');
+      appLog('[PaymentsConfirm] viewmodel error -> $e');
       return null;
     }
   }

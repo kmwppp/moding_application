@@ -1,16 +1,20 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moding_application/core/services/token_storage.dart';
 import 'package:moding_application/core/utils/log_util.dart';
 
 import '../../../../../../core/constants/app_colors.dart';
+import '../../../../../../core/presentation/widgets/card/card_item_width.dart';
 import '../../../../../../core/presentation/widgets/styles/card_style.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
 import '../../../../../../router/entities/product_list_page_params.dart';
 import '../../../../../product/domain/enums/product_recommand_type.dart';
 import '../../../../domain/entities/home_basic_item_model.dart';
 import '../builders/product_card_builder.dart';
+import '../cards/home_item_card_length.dart';
 
 class ProductSection extends StatelessWidget {
   const ProductSection({super.key, required this.section});
@@ -90,7 +94,7 @@ class ProductSection extends StatelessWidget {
   }
 }
 
-class ProductHorizontalList extends StatefulWidget {
+class ProductHorizontalList extends ConsumerStatefulWidget {
   const ProductHorizontalList({
     super.key,
     required this.products,
@@ -103,24 +107,39 @@ class ProductHorizontalList extends StatefulWidget {
   final int sectionId;
 
   @override
-  State<ProductHorizontalList> createState() => _ProductHorizontalListState();
+  ConsumerState<ProductHorizontalList> createState() =>
+      _ProductHorizontalListState();
 }
 
-class _ProductHorizontalListState extends State<ProductHorizontalList> {
+class _ProductHorizontalListState extends ConsumerState<ProductHorizontalList> {
   late final int _colorStartIndex;
+  bool _isLoggedIn = true;
 
   @override
   void initState() {
     super.initState();
     _colorStartIndex = Random().nextInt(CardStyle.cardColors.length);
+    _checkLoginState();
+  }
+
+  Future<void> _checkLoginState() async {
+    final accessToken = await ref.read(tokenStorageProvider).getAccessToken();
+    if (!mounted) return;
+    final isLoggedIn = (accessToken ?? '').trim().isNotEmpty;
+    if (isLoggedIn != _isLoggedIn) {
+      setState(() => _isLoggedIn = isLoggedIn);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final listHeight = widget.sectionType == ProductRecommendType.newProduct
-        ? ((screenWidth / 3) + 50) / 2.1 + 52
-        : ((screenWidth / 2) - 50) + 92;
+        ? CardItemWidth.estimatedHeightFor(screenWidth, isMain: true) + 0
+        : HomeItemCardLength.estimatedHeightFor(
+            screenWidth,
+            isLoggedIn: _isLoggedIn,
+          );
 
     return SizedBox(
       height: listHeight,
@@ -140,6 +159,7 @@ class _ProductHorizontalListState extends State<ProductHorizontalList> {
               product: product,
               sectionType: widget.sectionType,
               randomStartIndex: _colorStartIndex,
+              isLoggedIn: _isLoggedIn,
             ),
           );
         },

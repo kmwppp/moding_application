@@ -26,9 +26,14 @@ class TermsNotifier extends _$TermsNotifier {
   List<TermsItemDto> get footerTerms =>
       getByTypes([TermsType.service, TermsType.privacyPolicy]);
 
+  /// 주문 페이지용
   List<TermsItemDto> get orderTerms =>
-      getByTypes([TermsType.service, TermsType.privacyPolicy]);
+      getByTypes([TermsType.service, TermsType.buyer, TermsType.privacyPolicy]);
 
   /// 회원가입용
   List<TermsItemDto> get signupTerms => getByTypes([TermsType.buyer]);
+
+  /// 판매자 전환 신청용
+  List<TermsItemDto> get sellerConversionTerms =>
+      getByTypes([TermsType.seller, TermsType.settlementServiceAgreement]);
 }

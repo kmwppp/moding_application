@@ -17,39 +17,48 @@ Map<String, dynamic> _$CartResponseDtoToJson(_CartResponseDto instance) =>
     <String, dynamic>{'data': instance.data};
 
 _CartItemDto _$CartItemDtoFromJson(Map<String, dynamic> json) => _CartItemDto(
-  cartItemId: (json['cartItemId'] as num).toInt(),
-  productId: (json['productId'] as num).toInt(),
-  productName: json['productName'] as String,
-  thumbnailUrl: json['thumbnailUrl'] as String,
-  sellerProfileId: (json['sellerProfileId'] as num).toInt(),
-  storageMethod: json['storageMethod'] as String,
-  deliveryDays: (json['deliveryDays'] as num).toInt(),
-  shippingFee: (json['shippingFee'] as num).toInt(),
+  cartItemId: (json['cartItemId'] as num?)?.toInt(),
+  productId: (json['productId'] as num?)?.toInt(),
+  productName: json['productName'] as String?,
+  thumbnailUrl: json['thumbnailUrl'] as String?,
+  sellerProfileId: (json['sellerProfileId'] as num?)?.toInt(),
+  storageMethod: json['storageMethod'] as String?,
+  deliveryDays: (json['deliveryDays'] as num?)?.toInt(),
+  shippingFee: (json['shippingFee'] as num?)?.toInt(),
   freeShippingThreshold: (json['freeShippingThreshold'] as num?)?.toInt(),
-  createdAt: const LocalDateTimeConverter().fromJson(
-    json['createdAt'] as String,
+  createdAt: const NullableLocalDateTimeConverter().fromJson(
+    json['createdAt'] as String?,
   ),
-  options: (json['options'] as List<dynamic>)
-      .map((e) => CartItemOptionDto.fromJson(e as Map<String, dynamic>))
+  options: (json['options'] as List<dynamic>?)
+      ?.map((e) => CartItemOptionDto.fromJson(e as Map<String, dynamic>))
       .toList(),
-  productTotalPrice: (json['productTotalPrice'] as num).toInt(),
+  productTotalPrice: (json['productTotalPrice'] as num?)?.toInt(),
+  isAvailable: json['isAvailable'] as bool?,
+  unavailableReason: CartUnavailableReason.fromJson(
+    json['unavailableReason'] as String?,
+  ),
 );
 
-Map<String, dynamic> _$CartItemDtoToJson(_CartItemDto instance) =>
-    <String, dynamic>{
-      'cartItemId': instance.cartItemId,
-      'productId': instance.productId,
-      'productName': instance.productName,
-      'thumbnailUrl': instance.thumbnailUrl,
-      'sellerProfileId': instance.sellerProfileId,
-      'storageMethod': instance.storageMethod,
-      'deliveryDays': instance.deliveryDays,
-      'shippingFee': instance.shippingFee,
-      'freeShippingThreshold': instance.freeShippingThreshold,
-      'createdAt': const LocalDateTimeConverter().toJson(instance.createdAt),
-      'options': instance.options,
-      'productTotalPrice': instance.productTotalPrice,
-    };
+Map<String, dynamic> _$CartItemDtoToJson(
+  _CartItemDto instance,
+) => <String, dynamic>{
+  'cartItemId': instance.cartItemId,
+  'productId': instance.productId,
+  'productName': instance.productName,
+  'thumbnailUrl': instance.thumbnailUrl,
+  'sellerProfileId': instance.sellerProfileId,
+  'storageMethod': instance.storageMethod,
+  'deliveryDays': instance.deliveryDays,
+  'shippingFee': instance.shippingFee,
+  'freeShippingThreshold': instance.freeShippingThreshold,
+  'createdAt': const NullableLocalDateTimeConverter().toJson(
+    instance.createdAt,
+  ),
+  'options': instance.options,
+  'productTotalPrice': instance.productTotalPrice,
+  'isAvailable': instance.isAvailable,
+  'unavailableReason': CartUnavailableReason.toJson(instance.unavailableReason),
+};
 
 _CartItemOptionDto _$CartItemOptionDtoFromJson(Map<String, dynamic> json) =>
     _CartItemOptionDto(

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moding_application/core/presentation/widgets/app_badge_icon.dart';
 import 'package:moding_application/features/product/domain/enums/product_recommand_type.dart';
+import 'package:moding_application/features/search/domain/entities/search_sort.dart';
 import 'package:moding_application/features/search/presentation/providers/search_viewmodel.dart';
 import 'package:moding_application/features/search/presentation/screens/widgets/search_history_section.dart';
 import 'package:moding_application/features/search/presentation/screens/widgets/search_masonry_list.dart';
@@ -130,7 +131,15 @@ class _SearchPageMainState extends ConsumerState<SearchPageMain> {
                 ),
               )
             else ...[
-            /// 리스트
+              SliverToBoxAdapter(
+                child: _buildSortFilter(
+                  context: context,
+                  selectedSort: state.searchSort,
+                  onSelected: notifier.changeSearchSort,
+                ),
+              ),
+
+              /// 리스트
               if (state.searchList?.isNotEmpty ?? false)
                 SearchMasonrySliver(items: state.searchList!),
 
@@ -142,7 +151,6 @@ class _SearchPageMainState extends ConsumerState<SearchPageMain> {
                     child: Center(child: CircularProgressIndicator()),
                   ),
                 ),
-              
 
               /// 빈 상태
               if ((state.searchList?.isEmpty ?? true) &&
@@ -277,5 +285,51 @@ class _SearchPageMainState extends ConsumerState<SearchPageMain> {
     notifier.changeSearchWord("");
     _searchController.clear();
     notifier.changeListView(false);
+  }
+
+  Widget _buildSortFilter({
+    required BuildContext context,
+    required SearchSort selectedSort,
+    required Future<void> Function(SearchSort sort) onSelected,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 6),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: SearchSort.values.map((sort) {
+            final isSelected = selectedSort == sort;
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: GestureDetector(
+                onTap: () => onSelected(sort),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isSelected ? AppColors.primary : Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.dividerGrey,
+                    ),
+                  ),
+                  child: Text(
+                    sort.label,
+                    style: context.bodySmall.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: isSelected ? Colors.white : AppColors.darkGrey,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
   }
 }

@@ -11,14 +11,19 @@ import 'package:moding_application/core/presentation/widgets/app_divider.dart';
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/core/theme/app_input_decoration.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
+import 'package:moding_application/core/utils/pdf_util.dart';
 import 'package:moding_application/features/meta/domain/entities/meta_option_dto.dart';
 import 'package:moding_application/features/meta/presentation/providers/meta_provider.dart';
 import 'package:moding_application/features/seller_conversion/domain/enums/seller_tax_type.dart';
 import 'package:moding_application/features/seller_conversion/presentation/providers/seller_conversion_viewmodel.dart';
 import 'package:moding_application/features/seller_conversion/presentation/screens/widgets/seller_conversion_sliver_appbar.dart';
+import 'package:moding_application/features/terms/domain/enums/terms_type.dart';
+import 'package:moding_application/features/terms/presentation/providers/terms_provider.dart';
 
 class SellerConversionPage extends ConsumerStatefulWidget {
-  const SellerConversionPage({super.key});
+  const SellerConversionPage({super.key, this.goMainOnSuccess = false});
+
+  final bool goMainOnSuccess;
 
   @override
   ConsumerState<SellerConversionPage> createState() =>
@@ -40,6 +45,7 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
     final bankCodes =
         ref.watch(bankCodesProvider).value ?? const <MetaOptionDto>[];
     final notifier = ref.read(sellerConversionViewModelProvider.notifier);
+    final termsAsync = ref.watch(termsProvider);
 
     return Scaffold(
       bottomNavigationBar: SafeArea(
@@ -132,7 +138,7 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
                       SizedBox(height: 20),
                       const AppDivider(height: 4),
                       _SingleImageSection(
-                        title: '통장사본',
+                        title: '통장사본 (필수)',
                         imagePath: state.bankbookImagePath,
                         onAddTap: () => _showSingleImageSourceSheet(
                           context,
@@ -144,41 +150,63 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
                         onRemoveTap: notifier.removeBankbookImage,
                       ),
                       const AppDivider(height: 4),
-                      _SingleImageSection(
-                        title: '영업허가증',
-                        imagePath: state.businessPermitImagePath,
-                        onAddTap: () => _showSingleImageSourceSheet(
+                      _MultiImageSection(
+                        title: '영업허가증 (필수)',
+                        imagePaths: state.businessPermitImagePaths,
+                        onAddTap: () => _showMultiImageSourceSheet(
                           context,
-                          onGalleryTap: () => notifier.pickBusinessPermitImage(
-                            ImageSource.gallery,
-                          ),
-                          onCameraTap: () => notifier.pickBusinessPermitImage(
-                            ImageSource.camera,
-                          ),
+                          onGalleryTap:
+                              notifier.pickBusinessPermitImagesFromGallery,
+                          onCameraTap:
+                              notifier.pickBusinessPermitImageFromCamera,
                         ),
                         onRemoveTap: notifier.removeBusinessPermitImage,
                       ),
                       const AppDivider(height: 4),
-                      _SingleImageSection(
-                        title: '판매허가증',
-                        imagePath: state.salesPermitImagePath,
-                        onAddTap: () => _showSingleImageSourceSheet(
+                      _MultiImageSection(
+                        title: '통신판매업신고증 (선택)',
+                        imagePaths: state.salesPermitImagePaths,
+                        onAddTap: () => _showMultiImageSourceSheet(
                           context,
-                          onGalleryTap: () => notifier.pickSalesPermitImage(
-                            ImageSource.gallery,
-                          ),
-                          onCameraTap: () =>
-                              notifier.pickSalesPermitImage(ImageSource.camera),
+                          onGalleryTap:
+                              notifier.pickSalesPermitImagesFromGallery,
+                          onCameraTap: notifier.pickSalesPermitImageFromCamera,
                         ),
                         onRemoveTap: notifier.removeSalesPermitImage,
                       ),
                       const AppDivider(height: 4),
                       _MultiImageSection(
-                        title: '기타 서류 파일',
+                        title: 'HACCP 인증서 (선택)',
+                        caption:
+                            'HACCP 인증 대상이 아니거나 허위·만료된 인증서를 제출할 경우 판매 제한, 정산 보류 및 법적 책임이 발생할 수 있습니다.',
+                        imagePaths: state.haccpCertificateImagePaths,
+                        onAddTap: () => _showMultiImageSourceSheet(
+                          context,
+                          onGalleryTap:
+                              notifier.pickHaccpCertificateImagesFromGallery,
+                          onCameraTap:
+                              notifier.pickHaccpCertificateImageFromCamera,
+                        ),
+                        onRemoveTap: notifier.removeHaccpCertificateImage,
+                      ),
+                      const AppDivider(height: 4),
+                      _MultiImageSection(
+                        title: '기타증빙서류',
+                        caption:
+                            '수입식품, 주류면허, 중매인, 도소매허가 등 취급 상품의 판매 자격을 증빙할 수 있는 서류를 첨부해 주세요.',
                         imagePaths: state.otherFilePaths,
                         onAddTap: () =>
                             _showOtherFilesSourceSheet(context, notifier),
                         onRemoveTap: notifier.removeOtherFile,
+                      ),
+                      const AppDivider(height: 4),
+                      _SellerConversionTermsSection(
+                        termsAsync: termsAsync,
+                        agreedSellerTerms: state.agreedSellerTerms,
+                        agreedSettlementTerms: state.agreedSettlementTerms,
+                        onToggleAll: notifier.toggleAllRequiredTerms,
+                        onToggleSellerTerms: notifier.toggleSellerTerms,
+                        onToggleSettlementTerms: notifier.toggleSettlementTerms,
                       ),
                       const SizedBox(height: 96),
                     ],
@@ -304,7 +332,7 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
       return;
     }
 
-    if (state.businessPermitImagePath == null) {
+    if (state.businessPermitImagePaths.isEmpty) {
       await CommonDialog.show(
         context,
         title: '확인',
@@ -314,12 +342,12 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
       return;
     }
 
-    if (state.salesPermitImagePath == null) {
+    if (!state.agreedSellerTerms || !state.agreedSettlementTerms) {
       await CommonDialog.show(
         context,
         title: '확인',
         isSuccess: false,
-        message: '판매허가증 이미지를 첨부해주세요.',
+        message: '약관에 동의해주세요.',
       );
       return;
     }
@@ -345,6 +373,10 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
         title: '확인',
         message: '판매자 전환 신청이 완료되었습니다.',
         onPressed: () {
+          if (widget.goMainOnSuccess) {
+            context.go('/main');
+            return;
+          }
           context.pop(true);
         },
       );
@@ -525,6 +557,18 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
     BuildContext context,
     SellerConversionViewModel notifier,
   ) {
+    _showMultiImageSourceSheet(
+      context,
+      onGalleryTap: notifier.pickOtherFilesFromGallery,
+      onCameraTap: notifier.pickOtherFileFromCamera,
+    );
+  }
+
+  void _showMultiImageSourceSheet(
+    BuildContext context, {
+    required VoidCallback onGalleryTap,
+    required VoidCallback onCameraTap,
+  }) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
@@ -540,7 +584,7 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
                   title: const Text('갤러리에서 선택'),
                   onTap: () {
                     Navigator.of(bottomSheetContext).pop();
-                    notifier.pickOtherFilesFromGallery();
+                    onGalleryTap();
                   },
                 ),
                 ListTile(
@@ -548,7 +592,7 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
                   title: const Text('사진 촬영'),
                   onTap: () {
                     Navigator.of(bottomSheetContext).pop();
-                    notifier.pickOtherFileFromCamera();
+                    onCameraTap();
                   },
                 ),
               ],
@@ -562,6 +606,124 @@ class _SellerConversionPageState extends ConsumerState<SellerConversionPage> {
   bool _isValidEmail(String email) {
     final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
     return emailRegex.hasMatch(email);
+  }
+}
+
+class _SellerConversionTermsSection extends ConsumerWidget {
+  const _SellerConversionTermsSection({
+    required this.termsAsync,
+    required this.agreedSellerTerms,
+    required this.agreedSettlementTerms,
+    required this.onToggleAll,
+    required this.onToggleSellerTerms,
+    required this.onToggleSettlementTerms,
+  });
+
+  final AsyncValue<dynamic> termsAsync;
+  final bool agreedSellerTerms;
+  final bool agreedSettlementTerms;
+  final ValueChanged<bool> onToggleAll;
+  final ValueChanged<bool> onToggleSellerTerms;
+  final ValueChanged<bool> onToggleSettlementTerms;
+
+  bool get agreedAll => agreedSellerTerms && agreedSettlementTerms;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 20, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () => onToggleAll(!agreedAll),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: agreedAll,
+                  onChanged: (value) => onToggleAll(value ?? false),
+                  activeColor: AppColors.primary,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                ),
+                Text(
+                  '전체 동의',
+                  style: context.title.copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          termsAsync.when(
+            loading: () => const SizedBox.shrink(),
+            error: (_, _) => const SizedBox.shrink(),
+            data: (_) {
+              final items = ref
+                  .read(termsProvider.notifier)
+                  .sellerConversionTerms;
+
+              return Column(
+                children: items.map((item) {
+                  final checked = switch (item.type) {
+                    TermsType.seller => agreedSellerTerms,
+                    TermsType.settlementServiceAgreement =>
+                      agreedSettlementTerms,
+                    _ => false,
+                  };
+
+                  final onChanged = switch (item.type) {
+                    TermsType.seller => onToggleSellerTerms,
+                    TermsType.settlementServiceAgreement =>
+                      onToggleSettlementTerms,
+                    _ => (_) {},
+                  };
+
+                  return InkWell(
+                    onTap: () => onChanged(!checked),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: checked,
+                            onChanged: (value) => onChanged(value ?? false),
+                            activeColor: AppColors.primary,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            visualDensity: VisualDensity.compact,
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${item.typeLabel}(필수)',
+                              style: context.body.copyWith(
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => PdfUtil.openPdf(
+                              context,
+                              item.pdfUrl,
+                              item.typeLabel,
+                            ),
+                            child: Text(
+                              '[보기]',
+                              style: context.body.copyWith(
+                                color: AppColors.darkGrey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -631,7 +793,7 @@ class _SelectField extends StatelessWidget {
           child: TextField(
             decoration: AppInputDecoration.focusDecoration(hintText).copyWith(
               hintText: value ?? hintText,
-              hintStyle: context.body.copyWith(
+              hintStyle: context.bodySmall.copyWith(
                 color: value == null ? AppColors.darkGrey : Colors.black,
               ),
               suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
@@ -668,6 +830,7 @@ class _SingleImageSection extends StatelessWidget {
             style: context.bodyLarge.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 10),
+
           if (imagePath == null)
             _UploadCard(onTap: onAddTap, title: '사진 업로드')
           else
@@ -685,12 +848,14 @@ class _SingleImageSection extends StatelessWidget {
 class _MultiImageSection extends StatelessWidget {
   const _MultiImageSection({
     required this.title,
+    this.caption = '',
     required this.imagePaths,
     required this.onAddTap,
     required this.onRemoveTap,
   });
 
   final String title;
+  final String caption;
   final List<String> imagePaths;
   final VoidCallback onAddTap;
   final ValueChanged<String> onRemoveTap;
@@ -706,6 +871,13 @@ class _MultiImageSection extends StatelessWidget {
             title,
             style: context.bodyLarge.copyWith(fontWeight: FontWeight.w600),
           ),
+          if (caption.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text(
+              caption,
+              style: context.bodySmall.copyWith(color: AppColors.pointColor),
+            ),
+          ],
           const SizedBox(height: 10),
           SizedBox(
             height: 120,

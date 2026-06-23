@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/services/storage_service.dart';
 import '../../../product/domain/enums/product_recommand_type.dart';
+import '../../domain/entities/search_sort.dart';
 
 part 'search_viewmodel.g.dart';
 
@@ -54,11 +55,34 @@ class SearchViewModel extends _$SearchViewModel {
       searchPage: 0,
       searchHasNext: true,
       searchList: isList ? [] : [],
+      searchSort: isList ? state.searchSort : SearchSort.relevance,
     );
 
     if (isList) {
-      await _fetchSearch(keyword: state.searchWord, page: 0, isFirst: true);
+      await _fetchSearch(
+        keyword: state.searchWord,
+        page: 0,
+        isFirst: true,
+        sort: state.searchSort,
+      );
     }
+  }
+
+  Future<void> changeSearchSort(SearchSort sort) async {
+    if (state.searchSort == sort) return;
+
+    state = state.copyWith(searchSort: sort);
+
+    if (!state.isList || state.searchWord.trim().isEmpty) {
+      return;
+    }
+
+    await _fetchSearch(
+      keyword: state.searchWord,
+      page: 0,
+      isFirst: true,
+      sort: sort,
+    );
   }
 
   Future<void> submitSearchWord(String value) async {
@@ -146,12 +170,17 @@ class SearchViewModel extends _$SearchViewModel {
   }
 
   void searchLoadNext({required String keyword}) {
-    _fetchSearch(keyword: keyword, page: state.searchPage + 1);
+    _fetchSearch(
+      keyword: keyword,
+      page: state.searchPage + 1,
+      sort: state.searchSort,
+    );
   }
 
   Future<void> _fetchSearch({
     required String keyword,
     required int page,
+    required SearchSort sort,
     bool isFirst = false,
   }) async {
     if (isFirst) {
@@ -176,6 +205,7 @@ class SearchViewModel extends _$SearchViewModel {
         keyword: keyword,
         page: page,
         size: _getSearchSize(page),
+        sort: sort,
       );
 
       final current = state.searchList ?? [];
@@ -188,6 +218,7 @@ class SearchViewModel extends _$SearchViewModel {
 
       state = state.copyWith(
         searchList: newList,
+        searchSort: sort,
         searchPage: page,
         searchHasNext: hasNext,
         searchIsLoading: false,

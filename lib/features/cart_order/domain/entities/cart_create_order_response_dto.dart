@@ -20,6 +20,7 @@ abstract class CartCreateOrderResponseWrapper
 abstract class CartCreateOrderResponseDto with _$CartCreateOrderResponseDto {
   const factory CartCreateOrderResponseDto({
     required List<CartCreateOrderDto> orders,
+    CartCreateOrderPaymentDto? payment,
   }) = _CartCreateOrderResponseDto;
 
   factory CartCreateOrderResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -113,8 +114,10 @@ abstract class CartCreateOrderDeliveryDto with _$CartCreateOrderDeliveryDto {
 abstract class CartCreateOrderPaymentDto with _$CartCreateOrderPaymentDto {
   const factory CartCreateOrderPaymentDto({
     required String? paymentCode,
-    required String? paymentMethod,
-    required String? status,
+    String? paymentMethod,
+    String? status,
+    String? signature,
+    String? timestamp,
     @NullableLocalDateTimeConverter() DateTime? paidAt,
     int? cancelledAmount,
     int? netAmount,

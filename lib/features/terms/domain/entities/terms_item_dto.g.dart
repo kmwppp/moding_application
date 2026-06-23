@@ -10,7 +10,6 @@ _TermsItemDto _$TermsItemDtoFromJson(Map<String, dynamic> json) =>
     _TermsItemDto(
       id: (json['id'] as num).toInt(),
       type: $enumDecode(_$TermsTypeEnumMap, json['type']),
-      typeLabel: json['typeLabel'] as String,
       pdfUrl: json['pdfUrl'] as String,
       createdAt: const LocalDateTimeConverter().fromJson(
         json['createdAt'] as String,
@@ -21,7 +20,6 @@ Map<String, dynamic> _$TermsItemDtoToJson(_TermsItemDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$TermsTypeEnumMap[instance.type]!,
-      'typeLabel': instance.typeLabel,
       'pdfUrl': instance.pdfUrl,
       'createdAt': const LocalDateTimeConverter().toJson(instance.createdAt),
     };

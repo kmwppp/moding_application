@@ -22,10 +22,10 @@ class _Body extends StatelessWidget {
       children: [
         const SignupNewSectionTitle('사업자 정보 등록'),
         const SizedBox(height: 10),
-        Text('모딩은 사업자 회원 전용 서비스 입니다.', style: context.body),
+        Text('모딩은 사업자 회원 전용 서비스입니다.', style: context.body),
         const SizedBox(height: 4),
         Text(
-          '주문과 증빙 처리를 위해 사업자 정보를 등록해주세요.',
+          '주문, 배송 및 증빙 처리를 위해 사업자 정보를 등록해 주세요.',
           style: context.body.copyWith(color: AppColors.darkGrey),
         ),
       ],

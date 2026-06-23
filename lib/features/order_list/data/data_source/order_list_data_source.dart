@@ -63,11 +63,11 @@ class OrderListDataSource {
   }
 
   Future<Response<dynamic>> deletePaymentInfo(int paymentId) async {
-    return _dio.delete(AppHttpUrl.getPaymentInfo(paymentId));
+    return _dio.patch(AppHttpUrl.deletePayment(paymentId));
   }
 
   Future<Response<dynamic>> deleteOrderInfo(int orderId) async {
-    return _dio.delete(AppHttpUrl.getMyOrderInfo(orderId));
+    return _dio.patch(AppHttpUrl.deleteOrder(orderId));
   }
 
   Future<Map<String, dynamic>> getOrderTaxInvoiceUrl(int orderId) async {

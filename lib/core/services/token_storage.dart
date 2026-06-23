@@ -9,6 +9,7 @@ TokenStorage tokenStorage(Ref ref) {
 }
 
 class TokenStorage {
+  static const _loginGateResetPendingKey = 'login_gate_reset_pending';
   final _storage = const FlutterSecureStorage();
 
   // 토큰들 저장
@@ -31,6 +32,21 @@ class TokenStorage {
   Future<String?> getReauthKey() => _storage.read(key: 'reauth_key');
 
   Future<void> deleteReauthKey() => _storage.delete(key: 'reauth_key');
+
+  Future<void> setLoginGateResetPending(bool isPending) async {
+    await _storage.write(
+      key: _loginGateResetPendingKey,
+      value: isPending ? 'true' : 'false',
+    );
+  }
+
+  Future<bool> isLoginGateResetPending() async {
+    final value = await _storage.read(key: _loginGateResetPendingKey);
+    return value == 'true';
+  }
+
+  Future<void> clearLoginGateResetPending() =>
+      _storage.delete(key: _loginGateResetPendingKey);
 
   // 로그아웃 시 토큰 삭제
   Future<void> deleteAll() => _storage.deleteAll();

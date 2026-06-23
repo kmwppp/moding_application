@@ -9,7 +9,8 @@ part 'order_response_dto.g.dart';
 @freezed
 abstract class OrderResponseDto with _$OrderResponseDto {
   const factory OrderResponseDto({
-    String? tossCustomerKey,
+    String? customerKey,
+    String? customerName,
     required int productId,
     required String productName,
     required String thumbnailImageUrl,

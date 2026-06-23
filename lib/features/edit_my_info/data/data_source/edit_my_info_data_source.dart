@@ -20,6 +20,16 @@ class EditMyInfoDataSource {
     return response.data;
   }
 
+  Future<Map<String, dynamic>> getAlcoholBuyerStatus() async {
+    final response = await _dio.get(AppHttpUrl.getAlcoholBuyerStatus);
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> postAlcoholBuyerApply() async {
+    final response = await _dio.post(AppHttpUrl.postAlcoholBuyerApply);
+    return response.data;
+  }
+
   Future<Map<String, dynamic>> getNotificationSettings() async {
     final response = await _dio.get(AppHttpUrl.patchNotificationSettings);
     return response.data;

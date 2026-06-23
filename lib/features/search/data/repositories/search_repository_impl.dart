@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../product/domain/entities/product_recommand_dto.dart';
 import '../../../product/domain/enums/product_recommand_type.dart';
+import '../../domain/entities/search_sort.dart';
 import '../../domain/repositories/search_repository.dart';
 import '../data_source/search_data_source.dart';
 
@@ -40,12 +41,14 @@ class SearchRepositoryImpl implements SearchRepository {
     required String keyword,
     required int page,
     required int size,
+    required SearchSort sort,
     int? productId,
   }) async {
     final response = await _dataSource.getSearchProductList(
       keyword: keyword,
       page: page,
       size: size,
+      sort: sort,
     );
     final data = response['data'];
     return ProductRecommandDto.fromJson(data);

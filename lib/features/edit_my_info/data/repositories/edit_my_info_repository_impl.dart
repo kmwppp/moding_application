@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
 import 'package:moding_application/features/edit_my_info/data/data_source/edit_my_info_data_source.dart';
+import 'package:moding_application/features/edit_my_info/domain/entities/alcohol_buyer_status_response_dto.dart';
 import 'package:moding_application/features/edit_my_info/domain/entities/notification_settings_response_dto.dart';
 import 'package:moding_application/features/edit_my_info/domain/entities/user_info_masking_response_dto.dart';
 import 'package:moding_application/features/edit_my_info/domain/repositories/edit_my_info_repository.dart';
@@ -26,9 +27,40 @@ class EditMyInfoRepositoryImpl implements EditMyInfoRepository {
   }
 
   @override
+  Future<AlcoholBuyerStatusResponseWrapper> getAlcoholBuyerStatus() async {
+    final response = await _dataSource.getAlcoholBuyerStatus();
+    return AlcoholBuyerStatusResponseWrapper.fromJson(response);
+  }
+
+  @override
   Future<NotificationSettingsResponseWrapper> getNotificationSettings() async {
     final response = await _dataSource.getNotificationSettings();
     return NotificationSettingsResponseWrapper.fromJson(response);
+  }
+
+  @override
+  Future<ResponseModel> postAlcoholBuyerApply() async {
+    try {
+      final response = await _dataSource.postAlcoholBuyerApply();
+      return ResponseModel.fromJson(response);
+    } on DioException catch (e) {
+      if (e.response?.data is Map<String, dynamic>) {
+        try {
+          return ResponseModel.fromJson(e.response!.data);
+        } catch (_) {
+          return const ResponseModel(success: false, message: '서버 응답 형식 오류');
+        }
+      }
+      return const ResponseModel(
+        success: false,
+        message: '주류 구매자격 신청에 실패했습니다.',
+      );
+    } catch (_) {
+      return const ResponseModel(
+        success: false,
+        message: '주류 구매자격 신청에 실패했습니다.',
+      );
+    }
   }
 
   @override
@@ -56,7 +88,20 @@ class EditMyInfoRepositoryImpl implements EditMyInfoRepository {
 
   @override
   Future<ResponseModel> deleteUser() async {
-    final response = await _dataSource.deleteUser();
-    return ResponseModel.fromJson(response);
+    try {
+      final response = await _dataSource.deleteUser();
+      return ResponseModel.fromJson(response);
+    } on DioException catch (e) {
+      if (e.response?.data is Map<String, dynamic>) {
+        try {
+          return ResponseModel.fromJson(e.response!.data);
+        } catch (_) {
+          return const ResponseModel(success: false, message: '서버 응답 형식 오류');
+        }
+      }
+      return const ResponseModel(success: false, message: '회원탈퇴에 실패했습니다.');
+    } catch (_) {
+      return const ResponseModel(success: false, message: '회원탈퇴에 실패했습니다.');
+    }
   }
 }

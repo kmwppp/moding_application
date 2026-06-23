@@ -90,6 +90,8 @@ abstract class CreateOrderPaymentDto with _$CreateOrderPaymentDto {
     required String? paymentCode,
     required String? paymentMethod,
     required String? status,
+    String? signature,
+    String? timestamp,
     @NullableLocalDateTimeConverter() DateTime? paidAt,
     int? cancelledAmount,
     int? netAmount,

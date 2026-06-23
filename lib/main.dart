@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'core/navigation/nice_deeplink_interceptor.dart';
 import 'core/services/storage_service.dart';
+import 'core/services/token_storage.dart';
 import 'core/utils/log_util.dart';
 
 const FirebaseOptions _androidFirebaseOptions = FirebaseOptions(
@@ -51,10 +50,13 @@ void main() async {
     ),
   );
 
-  testNetwork();
-
   //앱 시작시 딱 한번 호출
   await StorageService.init();
+
+  final tokenStorage = TokenStorage();
+  if (await tokenStorage.isLoginGateResetPending()) {
+    await tokenStorage.deleteAll();
+  }
 
   // 플러터가 첫 화면(커스텀 스플래시)을 그릴 때까지 네이티브 스플래시를 유지합니다.
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -68,15 +70,4 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(const ProviderScope(child: App()));
-}
-
-Future<void> testNetwork() async {
-  appLog('URL = http://moding.iiiii.info:8081');
-
-  try {
-    final result = await InternetAddress.lookup('moding.iiiii.info');
-    appLog('DNS OK: $result');
-  } catch (e) {
-    appLog('DNS FAIL: $e');
-  }
 }

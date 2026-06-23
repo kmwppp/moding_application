@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:moding_application/core/constants/app_http_url.dart';
 import 'package:moding_application/core/network/dio_client.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/order/domain/entities/address_request_dto.dart';
 import 'package:moding_application/features/order/domain/entities/create_order_request_dto.dart';
 import 'package:moding_application/features/order/domain/entities/payments/payments_confirm_request_dto.dart';
@@ -63,6 +64,7 @@ class OrderDataSource {
             isDefault: request.isDefault,
             recipientName: request.recipientName,
             zipCode: request.zipCode,
+            sigunguCode: request.sigunguCode,
           ).toJson(),
         );
       case AddressControl.delete:
@@ -90,9 +92,17 @@ class OrderDataSource {
         isDefault: request.isDefault,
         recipientName: request.recipientName,
         zipCode: request.zipCode,
+        sigunguCode: request.sigunguCode,
       ).toJson(),
     );
 
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> patchDefaultAddress(int addressId) async {
+    final response = await _dio.patch(
+      AppHttpUrl.patchDefaultAddress(addressId),
+    );
     return response.data;
   }
 
@@ -107,14 +117,32 @@ class OrderDataSource {
     return response.data;
   }
 
+  Future<Map<String, dynamic>> getPaymentProvider() async {
+    final response = await _dio.get(AppHttpUrl.getPaymentsProvider);
+    return response.data;
+  }
+
   Future<Map<String, dynamic>> postPaymentConfirm({
     required PaymentsConfirmRequestDto request,
   }) async {
-    final response = await _dio.post(
-      AppHttpUrl.postPaymentsConfirm,
-      data: request.toJson(),
-    );
-    return response.data;
+    appLog('[PaymentsConfirm] request -> ${request.toJson()}');
+
+    try {
+      final response = await _dio.post(
+        AppHttpUrl.postPaymentsTossConfirm,
+        data: request.toJson(),
+      );
+
+      appLog('[PaymentsConfirm] response -> ${response.data}');
+      return response.data;
+    } on DioException catch (e) {
+      appLog('[PaymentsConfirm] dio error status -> ${e.response?.statusCode}');
+      appLog('[PaymentsConfirm] dio error data -> ${e.response?.data}');
+      rethrow;
+    } catch (e) {
+      appLog('[PaymentsConfirm] unknown error -> $e');
+      rethrow;
+    }
   }
 
   Future<Map<String, dynamic>> postPaymentFail({

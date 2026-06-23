@@ -34,6 +34,7 @@ class ProfilePageMain extends ConsumerWidget {
             SliverToBoxAdapter(child: AppDivider()),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
             const SliverToBoxAdapter(child: MyInfoManagementSection()),
+            const SliverToBoxAdapter(child: SizedBox(height: 10)),
             SliverToBoxAdapter(child: AppDivider()),
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
             SliverToBoxAdapter(child: SupportSection()),

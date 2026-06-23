@@ -8,7 +8,7 @@ extension TextStyleExt on BuildContext {
   TextStyle get title => AppTextStyles.titleLarge;
 
   TextStyle get titleMedium => AppTextStyles.titleMedium;
-  
+
   TextStyle get titleSmall => AppTextStyles.titleMedium;
 
   TextStyle get bodyLarge => AppTextStyles.bodyLarge;
@@ -18,6 +18,8 @@ extension TextStyleExt on BuildContext {
   TextStyle get bodySmall => AppTextStyles.bodySmall;
 
   TextStyle get caption => AppTextStyles.caption;
+
+  TextStyle get captionSmall => AppTextStyles.captionSmall;
 
   TextStyle listTitleDynamic(double cardWidth) {
     double size = (cardWidth * 0.11).clamp(13.0, 24.0);
@@ -149,6 +151,13 @@ class AppTextStyles {
   static const caption = TextStyle(
     fontFamily: 'Pretendard',
     fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textColor,
+  ); // 기존 homeCategoryTitle, productItemCupnote
+
+  static const captionSmall = TextStyle(
+    fontFamily: 'Pretendard',
+    fontSize: 8,
     fontWeight: FontWeight.w400,
     color: AppColors.textColor,
   ); // 기존 homeCategoryTitle, productItemCupnote

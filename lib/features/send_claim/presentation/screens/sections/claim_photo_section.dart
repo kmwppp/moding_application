@@ -34,11 +34,7 @@ class ClaimPhotoSection extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "상품 도착 지연 외 사유로 신청시 사진은 필수로 첨부해야합니다.",
-                      style: context.bodySmall,
-                    ),
-                    Text(
-                      "사진 미첨부 시 클레임이 반려 될 수 있습니다.",
+                      "정확한 확인을 위해 외박스, 운송장, 상품 전체, 문제 부위 사진을 함께 첨부해 주세요.",
                       style: context.bodySmall,
                     ),
                   ],

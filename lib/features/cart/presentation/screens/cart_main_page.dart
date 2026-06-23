@@ -3,11 +3,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
+import 'package:moding_application/core/presentation/widgets/modal/app_bottom_sheet.dart';
 import 'package:moding_application/features/cart/domain/cart_pricing.dart';
 import 'package:moding_application/features/cart/presentation/providers/cart/cart_tab_jump_provider.dart';
 import 'package:moding_application/features/cart/presentation/providers/cart/cart_viewmodel.dart';
 import 'package:moding_application/features/cart/presentation/providers/wish_list/wish_list_viewmodel.dart';
 import 'package:moding_application/features/cart/presentation/screens/wish_list/wish_list_page.dart';
+import 'package:moding_application/features/order/data/repositories/order_repository_impl.dart';
+import 'package:moding_application/router/entities/cart_order_page_params.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/presentation/widgets/custom_button.dart';
@@ -91,6 +95,13 @@ class _CartMainPageState extends ConsumerState<CartMainPage>
 
     final items = cartState.cartData?.data ?? [];
     final selectedIds = cartState.selectedCartItemIds;
+    final hasSelectedUnavailableItems = items.any(
+      (item) =>
+          item.cartItemId != null &&
+          selectedIds.contains(item.cartItemId) &&
+          (item.isAvailable != true ||
+              (item.options ?? const []).any((option) => option.isUnavailable)),
+    );
     final selectedProduct = CartPricing.sumProductAmountSelected(
       items,
       selectedIds,
@@ -210,11 +221,40 @@ class _CartMainPageState extends ConsumerState<CartMainPage>
                                 GestureDetector(
                                   onTap: selectedIds.isEmpty
                                       ? null
-                                      : () {
-                                          context.push(
-                                            '/cart_order',
-                                            extra: selectedIds.toList(),
-                                          );
+                                      : () async {
+                                          if (hasSelectedUnavailableItems) {
+                                            await CommonDialog.show(
+                                              context,
+                                              title: '확인',
+                                              isSuccess: false,
+                                              message: '품절 상품이 포함되어 있습니다.',
+                                            );
+                                            return;
+                                          }
+
+                                          try {
+                                            final pgProvider = await ref
+                                                .read(orderRepositoryProvider)
+                                                .getPaymentProvider();
+                                            if (!mounted) return;
+
+                                            context.push(
+                                              '/cart_order',
+                                              extra: CartOrderPageParams(
+                                                cartItemIds: selectedIds
+                                                    .toList(),
+                                                pgProvider: pgProvider,
+                                              ),
+                                            );
+                                          } catch (_) {
+                                            if (!mounted) return;
+                                            AppBottomSheet.show(
+                                              context: context,
+                                              child: const Text(
+                                                '결제 수단 정보를 불러오지 못했습니다.',
+                                              ),
+                                            );
+                                          }
                                         },
                                   child: Opacity(
                                     opacity: selectedIds.isEmpty ? 0.45 : 1,

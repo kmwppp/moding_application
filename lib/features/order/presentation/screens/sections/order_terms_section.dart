@@ -12,7 +12,7 @@ class OrderTermsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -68,7 +68,7 @@ class _TermRow extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Text(
-            "보기",
+            "[보기]",
             style: context.caption.copyWith(color: AppColors.darkGrey),
           ),
         ),

@@ -54,6 +54,17 @@ class _MainPageState extends ConsumerState<MainPage> {
       });
     }
 
+    // 로그인 등으로 /main 전체 리셋 신호가 오면 로컬 상태를 초기화한다.
+    ref.listen<int>(mainResetTickProvider, (previous, next) {
+      if (previous == next) return;
+      setState(() {
+        _loadedPageIndexes
+          ..clear()
+          ..add(0);
+      });
+    });
+    final resetTick = ref.watch(mainResetTickProvider);
+
     final state = ref.watch(mainViewModelProvider);
     final currentIndex = state.currentTab.index;
     final visiblePageIndexes = {..._loadedPageIndexes, currentIndex};
@@ -90,13 +101,16 @@ class _MainPageState extends ConsumerState<MainPage> {
           statusBarBrightness: Brightness.light,
         ),
         child: Scaffold(
-          body: IndexedStack(
-            index: currentIndex,
-            children: List.generate(
-              _navItems.length,
-              (index) => visiblePageIndexes.contains(index)
-                  ? _buildPage(index)
-                  : const SizedBox.shrink(),
+          body: KeyedSubtree(
+            key: ValueKey(resetTick),
+            child: IndexedStack(
+              index: currentIndex,
+              children: List.generate(
+                _navItems.length,
+                (index) => visiblePageIndexes.contains(index)
+                    ? _buildPage(index)
+                    : const SizedBox.shrink(),
+              ),
             ),
           ),
 

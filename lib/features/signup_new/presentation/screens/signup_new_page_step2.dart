@@ -5,6 +5,7 @@ import 'package:moding_application/core/presentation/dialog/common_dialog.dart';
 import 'package:moding_application/core/presentation/providers/app_viewmodel_reset.dart';
 import 'package:moding_application/core/presentation/widgets/appbar_profile.dart';
 import 'package:moding_application/core/presentation/widgets/confirm_button.dart';
+import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/profile/presentation/providers/profile_viewmodel.dart';
 import 'package:moding_application/features/signup_new/presentation/providers/signup_new_state.dart';
 import 'package:moding_application/features/signup_new/presentation/providers/signup_new_viewmodel.dart';
@@ -13,6 +14,8 @@ import 'package:moding_application/features/signup_new/presentation/screens/sect
 import 'package:moding_application/features/signup_new/presentation/screens/sections/signup_new_business_license_upload_section.dart';
 import 'package:moding_application/features/signup_new/presentation/screens/sections/signup_new_tax_invoice_email_section.dart';
 import 'package:moding_application/features/signup_new/presentation/screens/widgets/signup_new_common_widgets.dart';
+
+import '../../../../core/constants/app_colors.dart';
 
 class SignupNewPageStep2 extends ConsumerWidget {
   const SignupNewPageStep2({super.key});
@@ -101,20 +104,43 @@ class SignupNewPageStep2 extends ConsumerWidget {
             children: [
               SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(14, 10, 14, 100),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SignupNewStepHeader(step: SignupNewStep.businessInfo),
-                    SizedBox(height: 16),
+                    const SignupNewStepHeader(step: SignupNewStep.businessInfo),
+                    const SizedBox(height: 16),
                     // SignupNewBusinessRegistrationLookupSection(),
                     // SizedBox(height: 16),
-                    SignupNewBusinessInfoFormSection(),
-                    SizedBox(height: 16),
-                    SignupNewTaxInvoiceEmailSection(),
-                    SizedBox(height: 16),
-                    SignupNewBusinessCategorySection(),
-                    SizedBox(height: 16),
-                    SignupNewBusinessLicenseUploadSection(),
+                    const SignupNewBusinessInfoFormSection(),
+                    const SizedBox(height: 16),
+                    const SignupNewTaxInvoiceEmailSection(),
+                    const SizedBox(height: 16),
+                    const SignupNewBusinessCategorySection(),
+                    const SizedBox(height: 16),
+                    const SignupNewBusinessLicenseUploadSection(),
+                    const SizedBox(height: 16),
+
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SignupNewCheckboxRow(
+                          value: state.isAlcoholBuyer,
+                          title: '주류 구매자격 신청',
+                          onTap: () {
+                            notifier.updateIsAlcoholBuyer(
+                              !state.isAlcoholBuyer,
+                            );
+                          },
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "주류 상품 구매는 별도 신청 및 승인 후 가능하며, 승인까지 영업일 기준 1~2일이 소요될 수 있습니다.",
+                          style: context.caption.copyWith(
+                            color: AppColors.darkGrey,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

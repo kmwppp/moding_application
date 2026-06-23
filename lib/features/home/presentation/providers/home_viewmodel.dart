@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:moding_application/features/home/data/repositories/home_repository_impl.dart';
+import 'package:moding_application/features/home/domain/entities/home_basic_item_model.dart';
+import 'package:moding_application/features/home/domain/repositories/home_repository.dart';
 import 'package:moding_application/features/home/presentation/providers/home_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,28 +12,62 @@ part 'home_viewmodel.g.dart';
 
 @Riverpod(keepAlive: true)
 class HomeViewModel extends _$HomeViewModel {
+  static const _sectionBatchSize = 2;
+
   @override
   FutureOr<HomeState> build() async {
     final repository = ref.read(homeRepositoryProvider);
 
-    // 1. 섹션 리스트 먼저 호출
     final sections = await repository.getHomeSectionList();
-
-    // 2. 각 섹션별 상품 리스트를 가져오는 Future들을 리스트로 생성
-    final productFutures = sections
-        .map((section) => repository.getHomeProductList(section.id))
+    final initialSections = sections
+        .map((section) => section.copyWith(productList: const []))
         .toList();
 
-    // 3. 병렬 처리 실행
-    final productsPerSection = await Future.wait(productFutures);
+    unawaited(_loadSectionProducts(initialSections, repository));
 
-    // 4. 기존 sections 리스트를 순회하며 productList가 채워진 새 모델 리스트 생성
-    final updatedSections = List<HomeSectionModel>.generate(
-      sections.length,
-      (i) => sections[i].copyWith(productList: productsPerSection[i]),
-    );
+    return HomeState.initial().copyWith(sectionList: initialSections);
+  }
 
-    // 5. 최종 상태 반환
-    return HomeState.initial().copyWith(sectionList: updatedSections);
+  Future<void> _loadSectionProducts(
+    List<HomeSectionModel> sections,
+    HomeRepository repository,
+  ) async {
+    for (var start = 0; start < sections.length; start += _sectionBatchSize) {
+      final end = (start + _sectionBatchSize > sections.length)
+          ? sections.length
+          : start + _sectionBatchSize;
+      final batch = sections.sublist(start, end);
+
+      final results = await Future.wait(
+        batch.map((section) async {
+          try {
+            final products = await repository.getHomeProductList(section.id);
+            return MapEntry<int, List<HomeBasicItemModel>>(section.id, products);
+          } catch (_) {
+            return const MapEntry<int, List<HomeBasicItemModel>>(0, []);
+          }
+        }),
+      );
+
+      if (!ref.mounted) return;
+
+      final currentState = state.asData?.value;
+      if (currentState == null) return;
+
+      final productMap = <int, List<HomeBasicItemModel>>{
+        for (final result in results)
+          if (result.key != 0) result.key: result.value,
+      };
+
+      final updatedSections = currentState.sectionList
+          .map(
+            (section) => productMap.containsKey(section.id)
+                ? section.copyWith(productList: productMap[section.id]!)
+                : section,
+          )
+          .toList();
+
+      state = AsyncData(currentState.copyWith(sectionList: updatedSections));
+    }
   }
 }

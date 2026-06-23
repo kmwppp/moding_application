@@ -1,9 +1,11 @@
+import '../config/app_config.dart';
+
 class AppHttpUrl {
   /// API 메인 주소
-  static final mainServerUrl = "http://moding.iiiii.info:8080";
+  static String get mainServerUrl => AppConfig.apiBaseUrl; // 8080 / 80
 
   /// 판매자 사이트 메인 주소
-  static final sellerPageUrl = "http://moding.iiiii.info:8000";
+  static String get sellerPageUrl => AppConfig.sellerWebUrl;
 
   /// Login
   static final login = "/api/v1/auth/login";
@@ -11,6 +13,7 @@ class AppHttpUrl {
 
   static final reAuth = "/api/v1/auth/reauth";
   static final postIdentityVerification = "/api/v1/auth/identity-verification";
+  static final postIdentityVerify = "/api/v1/auth/identity/verify";
   static final postFindId = "/api/v1/auth/find-id";
   static final patchFindPassword = "/api/v1/auth/password";
 
@@ -69,8 +72,8 @@ class AppHttpUrl {
   static String shoppingCartControl = "/api/v1/cart/items";
 
   /// 리뷰 리스트
-  static String getReviewList(int productId, int pageNum, int size) {
-    return "/api/v1/products/$productId/reviews?pageNum=$pageNum&size=$size";
+  static String getReviewList(int productId, int page, int size) {
+    return "/api/v1/products/$productId/reviews?page=$page&size=$size";
   }
 
   /// 최근 주문 상품 목록
@@ -103,6 +106,11 @@ class AppHttpUrl {
     return "/api/v1/delivery-addresses/$addressId";
   }
 
+  /// 기본 배송지 설정
+  static String patchDefaultAddress(int addressId) {
+    return "/api/v1/delivery-addresses/$addressId/default";
+  }
+
   /// 배송지 등록
   static String postAddAddress() {
     return "/api/v1/delivery-addresses";
@@ -115,6 +123,10 @@ class AppHttpUrl {
 
   /// 내 사업자 정보 조회 / 변경 신청
   static String putMyBusinessProfileInfo = "/api/v1/business-profiles/me";
+  static String getAlcoholBuyerStatus =
+      "/api/v1/business-profiles/me/alcohol-buyer";
+  static String postAlcoholBuyerApply =
+      "/api/v1/business-profiles/me/alcohol-buyer";
 
   /// 판매자 조회
   static String getWishList(int page) {
@@ -143,8 +155,16 @@ class AppHttpUrl {
     return "/api/v1/payments/$paymentId";
   }
 
-  /// 결제 승인
-  static String postPaymentsConfirm = "/api/v1/payments/confirm";
+  /// 결제 취소
+  static String deletePayment(int paymentId) {
+    return "/api/v1/payments/$paymentId/cancel";
+  }
+
+  /// 토스 결제 승인
+  static String postPaymentsTossConfirm = "/api/v1/payments/toss/confirm";
+
+  /// 결제 PG 조회
+  static String getPaymentsProvider = "/api/v1/payments/provider";
 
   /// 결제 실패
   static String postPaymentsFail = "/api/v1/payments/fail";
@@ -179,6 +199,11 @@ class AppHttpUrl {
   /// 주문 상세 정보
   static String getMyOrderInfo(int orderId) {
     return "/api/v1/orders/$orderId";
+  }
+
+  /// 주문 단건 삭제
+  static String deleteOrder(int orderId) {
+    return "/api/v1/orders/$orderId/cancel";
   }
 
   /// 주문 배송 추적 상세 조회

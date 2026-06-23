@@ -28,6 +28,8 @@ class LoginRepositoryImpl implements LoginRepository {
       accessToken: data['accessToken'],
       refreshToken: data['refreshToken'],
       role: data['role'],
+      identityVerificationRequired:
+          data['identityVerificationRequired'] as bool? ?? false,
     );
   }
 

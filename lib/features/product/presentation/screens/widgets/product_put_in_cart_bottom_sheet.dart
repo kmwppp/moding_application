@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -50,16 +51,15 @@ class ProductPutInCartBottomSheet extends ConsumerWidget {
                       child: SizedBox(
                         width: 60,
                         height: 60,
-                        child: Image.network(
-                          state.productInfo?.thumbnailImageUrl ?? "",
+                        child: CachedNetworkImage(
+                          imageUrl: Uri.encodeFull(
+                            state.productInfo?.thumbnailImageUrl ?? "",
+                          ),
                           fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) {
                             return Container(
                               color: Colors.grey[200],
                               child: const Center(

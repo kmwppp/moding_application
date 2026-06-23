@@ -31,7 +31,7 @@ class SelectProductInfo extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "택배 수령 시간으로 부터 48시간 이내에 신청이 가능합니다.",
+                      "상품 이상, 파손, 누락, 오배송, 변질 등 문제가 있는 경우 배송완료 후 48시간 이내에 증빙 사진과 함께 접수해 주세요.",
                       style: context.bodySmall,
                     ),
                   ],

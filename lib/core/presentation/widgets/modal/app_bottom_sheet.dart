@@ -11,10 +11,14 @@ class AppBottomSheet {
     String? title,
     bool isScrollControlled = true,
     bool showDragHandle = true,
+    bool isDismissible = true,
+    bool enableDrag = true,
   }) {
     return showModalBottomSheet<T>(
       context: context,
       isScrollControlled: isScrollControlled,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
       backgroundColor: Colors.white,
       builder: (context) => AnimatedPadding(
         duration: const Duration(milliseconds: 200),

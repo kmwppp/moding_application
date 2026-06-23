@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:moding_application/fcm_initializer.dart';
 import 'package:moding_application/features/nice_identity_verification/domain/entities/nice_identity_verification_result.dart';
 import 'package:moding_application/features/nice_identity_verification/presentation/providers/nice_callback_result_provider.dart';
+import 'package:moding_application/features/order/presentation/providers/inicis_callback_result_provider.dart';
 import 'package:moding_application/router/router.dart';
 
 import 'core/constants/app_colors.dart';
@@ -30,15 +31,28 @@ class _AppState extends ConsumerState<App> {
   }
 
   void _onDeepLink(Uri uri) {
+    if (uri.scheme == 'modingapp' &&
+        uri.host == 'payment' &&
+        uri.path == '/result') {
+      ref.read(inicisCallbackResultProvider.notifier).set(uri);
+      return;
+    }
+
     if (uri.scheme != 'moding' || uri.host != 'auth' || uri.path != '/nice') {
       return;
     }
 
     final error = uri.queryParameters['error'];
+    final resultCode = uri.queryParameters['result'];
     final NiceIdentityVerificationResult result;
 
     if (error != null && error.isNotEmpty) {
       result = NiceIdentityVerificationResult(success: false, error: error);
+    } else if (resultCode != null && resultCode.isNotEmpty) {
+      result = NiceIdentityVerificationResult(
+        success: true,
+        result: resultCode,
+      );
     } else {
       result = NiceIdentityVerificationResult(
         success: true,

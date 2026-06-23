@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moding_application/features/order/presentation/providers/order_viewmodel.dart';
-
 import '../../../../../core/theme/app_input_decoration.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../../order/domain/enums/delivery_request_type.dart';
@@ -14,7 +12,12 @@ class CartOrderDeliveryRequestSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(cartOrderViewModelProvider);
+    final selectedRequest = ref.watch(
+      cartOrderViewModelProvider.select((state) => state.selectedRequest),
+    );
+    final deliveryRequestList = ref.watch(
+      cartOrderViewModelProvider.select((state) => state.deliveryRequestList),
+    );
     final notifier = ref.read(cartOrderViewModelProvider.notifier);
 
     return CartOrderCommonBox(
@@ -33,7 +36,7 @@ class CartOrderDeliveryRequestSection extends ConsumerWidget {
                     padding: const EdgeInsets.only(right: 10),
                     child: Icon(Icons.arrow_drop_down, size: 20),
                   ),
-                  value: state.selectedRequest,
+                  value: selectedRequest,
                   dropdownColor: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   decoration: AppInputDecoration.inputDecoration.copyWith(
@@ -43,7 +46,7 @@ class CartOrderDeliveryRequestSection extends ConsumerWidget {
                     ),
                   ),
 
-                  items: state.deliveryRequestList.map((type) {
+                  items: deliveryRequestList.map((type) {
                     return DropdownMenuItem(
                       value: type,
                       child: Text(
@@ -60,7 +63,7 @@ class CartOrderDeliveryRequestSection extends ConsumerWidget {
                   },
                 ),
 
-                if (state.selectedRequest == DeliveryRequestType.etc) ...[
+                if (selectedRequest == DeliveryRequestType.etc) ...[
                   SizedBox(height: 10),
                   TextField(
                     style: context.body,

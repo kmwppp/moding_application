@@ -10,7 +10,6 @@ import 'package:moding_application/core/presentation/widgets/app_sliver_appbar.d
 import 'package:moding_application/core/presentation/widgets/custom_button.dart';
 import 'package:moding_application/core/presentation/widgets/modal/app_bottom_sheet.dart';
 import 'package:moding_application/core/theme/app_box_styles.dart';
-import 'package:moding_application/core/theme/app_input_decoration.dart';
 import 'package:moding_application/core/theme/app_text_styles.dart';
 import 'package:moding_application/features/business_profile/presentation/providers/business_profile_viewmodel.dart';
 import 'package:moding_application/features/payment_complete/presentation/screens/widgets/payment_complete_common_box.dart';
@@ -26,32 +25,9 @@ class RequestChangeBusinessProfilePage extends ConsumerStatefulWidget {
 
 class _RequestChangeBusinessProfilePageState
     extends ConsumerState<RequestChangeBusinessProfilePage> {
-  final _businessPhoneController = TextEditingController();
-  ProviderSubscription? _formSubscription;
-
   @override
   void initState() {
     super.initState();
-    _businessPhoneController.addListener(() {
-      ref
-          .read(businessProfileViewModelProvider.notifier)
-          .updateRequestBusinessPhone(_businessPhoneController.text);
-    });
-
-    _formSubscription = ref.listenManual(businessProfileViewModelProvider, (
-      previous,
-      next,
-    ) {
-      if (_businessPhoneController.text != next.requestBusinessPhone) {
-        _businessPhoneController.value = TextEditingValue(
-          text: next.requestBusinessPhone,
-          selection: TextSelection.collapsed(
-            offset: next.requestBusinessPhone.length,
-          ),
-        );
-      }
-    });
-
     Future.microtask(
       () => ref
           .read(businessProfileViewModelProvider.notifier)
@@ -60,11 +36,7 @@ class _RequestChangeBusinessProfilePageState
   }
 
   @override
-  void dispose() {
-    _formSubscription?.close();
-    _businessPhoneController.dispose();
-    super.dispose();
-  }
+  void dispose() => super.dispose();
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +60,7 @@ class _RequestChangeBusinessProfilePageState
                         boxColor: AppColors.primary,
                         borderColor: AppColors.primary,
                         textColor: Colors.white,
-                        paddingVertical: 6,
+                        paddingVertical: 10,
                         textStyle: context.body.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -121,21 +93,6 @@ class _RequestChangeBusinessProfilePageState
                             '사업자 정보 변경',
                             style: context.bodyLarge.copyWith(
                               fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            '사업자 전화번호',
-                            style: context.body.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextField(
-                            controller: _businessPhoneController,
-                            keyboardType: TextInputType.phone,
-                            decoration: AppInputDecoration.focusDecoration(
-                              "사업자 전화번호를 입력해주세요.",
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -295,15 +252,21 @@ class _RequestChangeBusinessProfilePageState
     required CategoryRequestModel? selected,
     required ValueChanged<CategoryRequestModel> onSelected,
   }) {
+    final maxSheetHeight = (MediaQuery.sizeOf(context).height * 0.6) - 45;
+
     AppBottomSheet.show(
       context: context,
       title: title,
       child: Builder(
-        builder: (sheetContext) => Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: categories.map((category) {
+        builder: (sheetContext) => SizedBox(
+          height: maxSheetHeight,
+          child: ListView.builder(
+            padding: const EdgeInsets.all(20),
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              final category = categories[index];
               final isSelected = selected?.id == category.id;
+
               return InkWell(
                 onTap: () {
                   onSelected(category);
@@ -343,7 +306,7 @@ class _RequestChangeBusinessProfilePageState
                   ),
                 ),
               );
-            }).toList(),
+            },
           ),
         ),
       ),
@@ -395,19 +358,6 @@ class _RequestChangeBusinessProfilePageState
   }
 
   Future<void> _showSubmitDialog(BuildContext context) async {
-    final state = ref.read(businessProfileViewModelProvider);
-    final businessPhone = state.requestBusinessPhone.trim();
-
-    if (businessPhone.isEmpty) {
-      await CommonDialog.show(
-        context,
-        title: '확인',
-        isSuccess: false,
-        message: '사업자 전화번호를 입력해주세요.',
-      );
-      return;
-    }
-
     await showDialog<void>(
       context: context,
       builder: (dialogContext) {

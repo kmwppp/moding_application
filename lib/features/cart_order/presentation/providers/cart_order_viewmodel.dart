@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:moding_application/core/network/entities/response_model.dart';
+import 'package:moding_application/core/network/exceptions/api_code_exception.dart';
+import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/cart_order/domain/entities/cart_create_order_request_dto.dart';
 import 'package:moding_application/features/cart_order/domain/entities/cart_create_order_response_dto.dart';
 import 'package:moding_application/features/cart_order/presentation/providers/cart_order_state.dart';
@@ -14,6 +16,7 @@ import '../../../order/domain/entities/address_request_dto.dart';
 import '../../../order/domain/enums/delivery_request_type.dart';
 import '../../../order/domain/enums/easy_payments_method.dart';
 import '../../../order/domain/enums/payments_method.dart';
+import '../../../order/domain/enums/pg_provider.dart';
 import '../../data/repositories/cart_order_repository_impl.dart';
 import '../../domain/entities/cart_order_response_dto.dart';
 
@@ -60,11 +63,12 @@ class CartOrderViewModel extends _$CartOrderViewModel {
     //state.cartOrderInfo.data.copyWith(deliveryAddress: dto),
   }
 
-  void updateAddress(String address, String zipCode) {
+  void updateAddress(String address, String zipCode, String sigunguCode) {
     state = state.copyWith(
       selectedAddress: state.selectedAddress!.copyWith(
         address: address,
         zipCode: zipCode,
+        sigunguCode: sigunguCode,
       ),
     );
   }
@@ -77,6 +81,7 @@ class CartOrderViewModel extends _$CartOrderViewModel {
         name: '',
         recipientName: '',
         zipCode: '',
+        sigunguCode: '',
         address: '주소를 검색해주세요.',
         addressDetail: '',
         phone: '',
@@ -114,16 +119,23 @@ class CartOrderViewModel extends _$CartOrderViewModel {
     );
   }
 
-  Future<void> getCartOrderInfo(List<int> cartItemIds) async {
+  Future<void> getCartOrderInfo(
+    List<int> cartItemIds, {
+    PgProvider? pgProvider,
+  }) async {
     state = state.copyWith(isLoading: true);
     try {
       final repository = ref.read(cartOrderRepositoryProvider);
-      final cartOrderInfo = await repository.getCartOrderInfo(cartItemIds);
+      final cartOrderInfo = await repository.getCartOrderInfo(
+        cartItemIds,
+        pgProvider: pgProvider,
+      );
       final addressDto = AddressDto(
         id: cartOrderInfo.data.deliveryAddress.id,
         name: cartOrderInfo.data.deliveryAddress.name,
         recipientName: cartOrderInfo.data.deliveryAddress.recipientName,
         zipCode: cartOrderInfo.data.deliveryAddress.zipCode,
+        sigunguCode: '',
         address: cartOrderInfo.data.deliveryAddress.address,
         addressDetail: cartOrderInfo.data.deliveryAddress.addressDetail,
         phone: cartOrderInfo.data.deliveryAddress.phone,
@@ -133,6 +145,9 @@ class CartOrderViewModel extends _$CartOrderViewModel {
         cartOrderInfo: cartOrderInfo,
         selectedAddress: addressDto,
       );
+    } on ApiCodeException {
+      state = state.copyWith(isLoading: false);
+      rethrow;
     } catch (e) {
       state = state.copyWith(isLoading: false);
       // ignore: avoid_print
@@ -178,6 +193,7 @@ class CartOrderViewModel extends _$CartOrderViewModel {
         isDefault: state.selectedAddress?.isDefault ?? false,
         recipientName: state.selectedAddress?.recipientName ?? "",
         zipCode: state.selectedAddress?.zipCode ?? "",
+        sigunguCode: state.selectedAddress?.sigunguCode ?? "",
       );
 
       final result = await repository.putAddress(addressId, requestDto);
@@ -218,6 +234,7 @@ class CartOrderViewModel extends _$CartOrderViewModel {
         isDefault: state.selectedAddress?.isDefault ?? false,
         recipientName: state.selectedAddress?.recipientName ?? "",
         zipCode: state.selectedAddress?.zipCode ?? "",
+        sigunguCode: state.selectedAddress?.sigunguCode ?? "",
       );
 
       final result = await repository.postAddress(requestDto);
@@ -259,9 +276,24 @@ class CartOrderViewModel extends _$CartOrderViewModel {
     }
   }
 
+  Future<ResponseModel> patchDefaultAddress(int addressId) async {
+    try {
+      final repository = ref.read(orderRepositoryProvider);
+      final result = await repository.patchDefaultAddress(addressId);
+      if (result.success) {
+        await getAddressList();
+      }
+      return result;
+    } catch (e) {
+      debugPrint('$e');
+      return ResponseModel(success: false, message: "기본 배송지 설정 중 오류가 발생했습니다.");
+    }
+  }
+
   Future<CartCreateOrderResponseWrapper> postCreateCartOrder({
     required String idempotencyKey,
     required List<int> cartItemIds,
+    PgProvider? pgProvider,
   }) async {
     try {
       final repository = ref.read(cartOrderRepositoryProvider);
@@ -273,10 +305,13 @@ class CartOrderViewModel extends _$CartOrderViewModel {
           state.selectedRequest,
           state.deliveryRequestText,
         ),
+        pgProvider: pgProvider,
       );
 
       final result = await repository.postCreateCartOrder(requestDto);
       return result;
+    } on ApiCodeException {
+      rethrow;
     } catch (e) {
       debugPrint('$e');
 
@@ -290,16 +325,23 @@ class CartOrderViewModel extends _$CartOrderViewModel {
     required int amount,
   }) async {
     try {
+      appLog(
+        '[PaymentsConfirm] cart viewmodel request -> paymentKey=$paymentKey, paymentCode=$paymentCode, amount=$amount',
+      );
       final repository = ref.read(orderRepositoryProvider);
-      return await repository.postPaymentsConfirm(
+      final response = await repository.postPaymentsConfirm(
         PaymentsConfirmRequestDto(
           paymentKey: paymentKey,
           paymentCode: paymentCode,
           amount: amount,
         ),
       );
+      appLog(
+        '[PaymentsConfirm] cart viewmodel success -> paymentId=${response.data.paymentId}',
+      );
+      return response;
     } catch (e) {
-      debugPrint('$e');
+      appLog('[PaymentsConfirm] cart viewmodel error -> $e');
       return null;
     }
   }

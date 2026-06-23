@@ -20,9 +20,12 @@ abstract class SellerConversionState with _$SellerConversionState {
     @Default('') String bankAccountNumber,
     @Default('') String bankAccountHolder,
     String? bankbookImagePath,
-    String? businessPermitImagePath,
-    String? salesPermitImagePath,
+    @Default([]) List<String> businessPermitImagePaths,
+    @Default([]) List<String> salesPermitImagePaths,
+    @Default([]) List<String> haccpCertificateImagePaths,
     @Default([]) List<String> otherFilePaths,
+    @Default(false) bool agreedSellerTerms,
+    @Default(false) bool agreedSettlementTerms,
   }) = _SellerConversionState;
 
   factory SellerConversionState.initial() => SellerConversionState();

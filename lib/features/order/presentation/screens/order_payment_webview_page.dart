@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:moding_application/core/config/app_config.dart';
 import 'package:moding_application/core/constants/app_keys.dart';
 import 'package:moding_application/core/utils/log_util.dart';
 import 'package:moding_application/features/order/domain/enums/nice_payments_method.dart';
@@ -37,7 +38,7 @@ class _OrderPaymentWebviewPageState extends State<OrderPaymentWebviewPage> {
   void initState() {
     super.initState();
 
-    final uri = Uri.parse('http://moding.iiiii.info:8001/pg.html').replace(
+    final uri = Uri.parse(AppConfig.paymentWebUrl).replace(
       queryParameters: {
         'clientId': AppKeys.niceClientKey,
         'method': widget.method.name,

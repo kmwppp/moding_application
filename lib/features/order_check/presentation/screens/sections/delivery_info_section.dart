@@ -83,7 +83,7 @@ class DeliveryInfoSection extends ConsumerWidget {
             context,
             title: "주소",
             content:
-                "(${order?.zipCode}) ${order?.address} ${order?.addressDetail}",
+                "(${order?.zipCode}) ${order?.address} ${order?.addressDetail ?? ''}",
           ),
           SizedBox(height: 6),
           _deliveryInfoRow(
