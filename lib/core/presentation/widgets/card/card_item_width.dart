@@ -1,12 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../theme/app_text_styles.dart';
-import '../../../utils/string_util.dart';
 import '../styles/card_style.dart';
+import 'product_card_parts.dart';
 
 class CardItemWidth extends StatelessWidget {
   final int index;
@@ -81,43 +79,14 @@ class CardItemWidth extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-            child: SizedBox(
-              width: cardWidth,
-              height: imageHeight,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Positioned.fill(child: _imageBox(cardWidth, imageHeight)),
-                  if (isHaccpCertified)
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Image.asset(
-                        "assets/images/icons/haccp_icon.png",
-                        width: 30,
-                        height: 30,
-                      ),
-                    ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    height: cardWidth * 0.14,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: gradientList,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          ProductCardTopImage(
+            imageUrl: thumbnailUrl,
+            width: cardWidth,
+            height: imageHeight,
+            isHaccpCertified: isHaccpCertified,
+            gradientColors: gradientList,
+            gradientHeight: cardWidth * 0.14,
+            placeholderType: ProductCardPlaceholderType.shimmer,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -134,37 +103,19 @@ class CardItemWidth extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
-
-                // if (_hasDiscount)
-                //   RichText(
-                //     text: TextSpan(
-                //       children: [
-                //         TextSpan(
-                //           text:
-                //               '${StringUtil.formatCurrency(lowestDiscountRate)}%',
-                //           style: context.caption.copyWith(
-                //             fontWeight: FontWeight.bold,
-                //             color: AppColors.pointColor,
-                //           ),
-                //         ),
-                //         const TextSpan(text: '  '),
-                //         TextSpan(
-                //           text: '${StringUtil.formatCurrency(lowestPrice)}원',
-                //           style: context.caption.copyWith(
-                //             color: textColor,
-                //             decoration: TextDecoration.lineThrough,
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                if (isLoggedIn && lowestSellingPrice != null)
-                  Text(
-                    '${StringUtil.formatCurrency(_displayPrice)}원',
-                    style: context.bodySmall.copyWith(
+                if (isLoggedIn)
+                  ProductCardPriceSection(
+                    textColor: textColor,
+                    lowestPrice: lowestPrice,
+                    lowestDiscountAmount: lowestDiscountAmount,
+                    lowestDiscountRate: lowestDiscountRate,
+                    lowestSellingPrice: lowestSellingPrice,
+                    priceStyle: context.bodySmall.copyWith(
                       color: textColor,
                       fontWeight: FontWeight.bold,
                     ),
+                    topSpacing: 0,
+                    bottomSpacing: 0,
                   ),
               ],
             ),
@@ -173,35 +124,4 @@ class CardItemWidth extends StatelessWidget {
       ),
     );
   }
-
-  Widget _imageBox(double width, double imageHeight) {
-    final encodedUrl = Uri.encodeFull(thumbnailUrl);
-
-    return SizedBox(
-      width: width,
-      height: imageHeight,
-      child: CachedNetworkImage(
-        imageUrl: encodedUrl,
-        cacheKey: encodedUrl,
-        fit: BoxFit.cover,
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(color: Colors.white),
-        ),
-        errorWidget: (context, url, error) {
-          debugPrint("❌ 이미지 로드 실패");
-          debugPrint("URL: $url");
-          debugPrint("ERROR: $error");
-
-          return Container(
-            color: Colors.grey[200],
-            child: const Icon(Icons.error_outline, color: Colors.grey),
-          );
-        },
-      ),
-    );
-  }
-
-  int get _displayPrice => lowestSellingPrice ?? lowestPrice ?? 0;
 }

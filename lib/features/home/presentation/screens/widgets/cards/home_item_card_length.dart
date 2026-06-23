@@ -1,10 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:moding_application/core/constants/app_colors.dart';
-import 'package:moding_application/core/utils/string_util.dart';
 
+import '../../../../../../core/presentation/widgets/card/product_card_parts.dart';
 import '../../../../../../core/presentation/widgets/styles/card_style.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
 
@@ -90,99 +89,64 @@ class HomeItemCardLength extends StatelessWidget {
     List<Color> gradientList,
     Color textColor,
   ) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-      child: Stack(
-        children: [
-          CachedNetworkImage(
-            imageUrl: thumbnailUrl,
-            height: width,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          if (isHaccpCertified)
-            Positioned(
-              top: 8,
-              right: 8,
-              child: Image.asset(
-                "assets/images/icons/haccp_icon.png",
-                width: 30,
-                height: 30,
-              ),
+    return ProductCardTopImage(
+      imageUrl: thumbnailUrl,
+      width: width,
+      height: width,
+      isHaccpCertified: isHaccpCertified,
+      gradientColors: gradientList,
+      gradientHeight: width * 0.3,
+      overlay: Positioned(
+        bottom: 6,
+        left: 4,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.22),
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.12),
+              width: 0.5,
             ),
-
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: width * 0.3,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: gradientList,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/icons/views.png',
+                width: 14,
+                color: textColor == Colors.white ? Colors.white : Colors.black,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                '$viewCount',
+                style: context.caption.copyWith(
+                  color: textColor == Colors.white
+                      ? Colors.white
+                      : Colors.black,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            bottom: 6,
-            left: 4,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.22),
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.12),
-                  width: 0.5,
+              const SizedBox(width: 4),
+              Image.asset(
+                'assets/images/icons/review.png',
+                width: 14,
+                color: textColor == Colors.white ? Colors.white : Colors.black,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                '$reviewCount',
+                style: context.caption.copyWith(
+                  color: textColor == Colors.white
+                      ? Colors.white
+                      : Colors.black,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    "assets/images/icons/views.png",
-                    width: 14,
-                    color: textColor == Colors.white
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    "$viewCount",
-                    style: context.caption.copyWith(
-                      color: textColor == Colors.white
-                          ? Colors.white
-                          : Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  Image.asset(
-                    "assets/images/icons/review.png",
-                    width: 14,
-                    color: textColor == Colors.white
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    "$reviewCount",
-                    style: context.caption.copyWith(
-                      color: textColor == Colors.white
-                          ? Colors.white
-                          : Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -205,49 +169,29 @@ class HomeItemCardLength extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            if (isLoggedIn && lowestSellingPrice != null) ...[
-              const SizedBox(height: 8),
-              if (_hasDiscount)
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text:
-                            '${StringUtil.formatCurrency(lowestDiscountRate)}%',
-                        style: context.caption.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.pointColor,
-                        ),
-                      ),
-                      const TextSpan(text: '  '),
-                      TextSpan(
-                        text: '${StringUtil.formatCurrency(lowestPrice)}원',
-                        style: context.caption.copyWith(
-                          color: textColor,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              Text(
-                '${StringUtil.formatCurrency(_displayPrice)}원',
-                style: context.body.copyWith(
+            if (isLoggedIn)
+              ProductCardPriceSection(
+                textColor: textColor,
+                lowestPrice: lowestPrice,
+                lowestDiscountAmount: lowestDiscountAmount,
+                lowestDiscountRate: lowestDiscountRate,
+                lowestSellingPrice: lowestSellingPrice,
+                priceStyle: context.body.copyWith(
                   color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
+                discountStyle: context.caption.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.pointColor,
+                ),
+                originalPriceStyle: context.caption.copyWith(
+                  color: textColor,
+                  decoration: TextDecoration.lineThrough,
+                ),
               ),
-            ],
           ],
         ),
       ),
     );
   }
-
-  bool get _hasDiscount =>
-      (lowestDiscountAmount ?? 0) > 0 &&
-      (lowestDiscountRate ?? 0) > 0 &&
-      lowestPrice != null;
-
-  int get _displayPrice => lowestSellingPrice ?? lowestPrice ?? 0;
 }

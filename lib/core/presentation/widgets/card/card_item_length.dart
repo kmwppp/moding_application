@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:moding_application/core/constants/app_colors.dart';
-import 'package:moding_application/core/utils/string_util.dart';
-
 import '../../../theme/app_text_styles.dart';
 import '../styles/card_style.dart';
+import 'product_card_parts.dart';
 
 class CardItemLength extends StatelessWidget {
   final String imageUrl;
@@ -53,61 +50,38 @@ class CardItemLength extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-            child: Stack(
-              children: [
-                _imageBox(cardWidth),
-                if (isHaccpCertified)
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Image.asset(
-                      "assets/images/icons/haccp_icon.png",
-                      width: 30,
-                      height: 30,
-                    ),
-                  ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  height: (cardWidth + 30) * 0.3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: gradientList,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 6,
-                  left: 4,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 4,
-                        runSpacing: 4,
-                        children: tags
-                            .take(3)
-                            .map(
-                              (tag) => _buildTagItem(
-                                context,
-                                tag,
-                                cardWidth,
-                                textColor,
-                              ),
+          ProductCardTopImage(
+            imageUrl: imageUrl,
+            width: cardWidth,
+            height: cardWidth,
+            isHaccpCertified: isHaccpCertified,
+            gradientColors: gradientList,
+            gradientHeight: (cardWidth + 30) * 0.3,
+            overlay: Positioned(
+              bottom: 6,
+              left: 4,
+              child: Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: tags
+                    .take(3)
+                    .map(
+                      (tag) => ProductCardTagChip(
+                        tag: tag,
+                        style: context
+                            .lengthCardContentDynamic(
+                              isMain ? cardWidth : cardWidth - 20,
                             )
-                            .toList(),
+                            .copyWith(
+                              color: textColor == Colors.white
+                                  ? Colors.white
+                                  : Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
-                    ],
-                  ),
-                ),
-              ],
+                    )
+                    .toList(),
+              ),
             ),
           ),
           Padding(
@@ -128,103 +102,18 @@ class CardItemLength extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  if (lowestSellingPrice != null) ...[
-                    if (_hasDiscount) ...[
-                      const SizedBox(height: 8),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text:
-                                  '${StringUtil.formatCurrency(lowestDiscountRate)}%',
-                              style: context.bodySmall.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.pointColor,
-                              ),
-                            ),
-                            const TextSpan(text: '  '),
-                            TextSpan(
-                              text: '${StringUtil.formatCurrency(lowestPrice)}원',
-                              style: context.bodySmall.copyWith(
-                                color: textColor,
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: 4),
-                    Text(
-                      '${StringUtil.formatCurrency(_displayPrice)}원',
-                      style: context.body.copyWith(
-                        color: textColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                  ProductCardPriceSection(
+                    textColor: textColor,
+                    lowestPrice: lowestPrice,
+                    lowestDiscountAmount: lowestDiscountAmount,
+                    lowestDiscountRate: lowestDiscountRate,
+                    lowestSellingPrice: lowestSellingPrice,
+                  ),
                 ],
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  bool get _hasDiscount =>
-      (lowestDiscountAmount ?? 0) > 0 &&
-      (lowestDiscountRate ?? 0) > 0 &&
-      lowestPrice != null;
-
-  int get _displayPrice => lowestSellingPrice ?? lowestPrice ?? 0;
-
-  Widget _imageBox(double width) {
-    final encodedUrl = Uri.encodeFull(imageUrl);
-
-    return SizedBox(
-      width: double.infinity,
-      height: width,
-      child: CachedNetworkImage(
-        imageUrl: encodedUrl,
-        cacheKey: encodedUrl,
-        fit: BoxFit.cover,
-        placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
-        errorWidget: (context, url, error) {
-          return Container(
-            color: Colors.grey[200],
-            child: const Center(child: Icon(Icons.broken_image)),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildTagItem(
-    BuildContext context,
-    String tag,
-    double cardWidth,
-    Color textColor,
-  ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.26),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.16),
-          width: 0.5,
-        ),
-      ),
-      child: Text(
-        tag,
-        style: context
-            .lengthCardContentDynamic(isMain ? cardWidth : cardWidth - 20)
-            .copyWith(
-              color: textColor == Colors.white ? Colors.white : Colors.black,
-              fontWeight: FontWeight.w600,
-            ),
       ),
     );
   }
